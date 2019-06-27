@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+	<th:block layout:fragment="customHead">
+		<meta charset="UTF-8">
+		<title>Single Switche 스타일 적용</title>
+		<th:block th:include="layout/customHead"></th:block>
+		<!-- head에 들어가는 스타일시트 or 스크립트는 여기에 삽입 -->
+		<!-- Single Switche 사용하기 위한 css-->
+		<link rel="stylesheet" th:href="@{plugins/select2/dist/css/select2.min.css}">
+		<link rel="stylesheet" th:href="@{plugins/summernote/dist/summernote-bs4.css}">
+        <link rel="stylesheet" th:href="@{plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.css}">
+        <link rel="stylesheet" th:href="@{plugins/mohithg-switchery/dist/switchery.min.css}">
+	</th:block>
+	
+	<th:block layout:fragment="customBody">
+		<h2>본문 제목</h2><br/>
+		<div>본문 내용</div><br/>
+		<!-- Single Switche 소스 적용 -->
+		<div>
+			<h5 class="sub-title">Single Switche</h5>
+			<input type="checkbox" class="js-single" checked />
+		</div>
+	</th:block>
+	
+	
+	<th:block layout:fragment="customJquery">
+		<th:block th:include="layout/customJquery"></th:block>
+		<!-- 스크립트가 길어서  로딩 시간이 오래걸릴 경우 여기에 삽입 -->
+		 <!-- Single Switche 사용하기 위한 js-->
+        <script src="plugins/select2/dist/js/select2.min.js"></script>
+        <script src="plugins/summernote/dist/summernote-bs4.min.js"></script>
+        <script src="plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+        <script src="plugins/jquery.repeater/jquery.repeater.min.js"></script>
+        <script src="plugins/mohithg-switchery/dist/switchery.min.js"></script>
+        <script src="js/form-advanced.js"></script>
+    </th:block>
+</html>

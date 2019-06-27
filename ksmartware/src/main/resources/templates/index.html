@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+	<th:block layout:fragment="customHead">
+		<meta charset="UTF-8">
+		<title>메인 페이지</title>
+		<th:block th:include="layout/customHead"></th:block>
+	</th:block>
+	
+	<th:block layout:fragment="customBody">
+		<h2>INDEX</h2><br/>
+		<div>템플릿 레이아웃 나눈 규칙은 다음을 참고
+			<a href="https://elfinlas.github.io/2018/02/16/thymeleaf-layout-dialect_exam">
+				: Thymeleaf에서 템플릿 형식으로 사용하기(With thymeleaf-layout-dialect)
+			</a>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="customJquery">
+		<th:block th:include="layout/customJquery"></th:block>
+    </th:block>
+</html>
