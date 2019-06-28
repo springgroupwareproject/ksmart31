@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+	
+	<th:block layout:fragment="customHead">
+		<meta charset="UTF-8">
+		<title>휴가신청서</title>
+		<th:block th:include="layout/customHead"></th:block>
+	</th:block>
+	
+	<th:block layout:fragment="customBody">
+		<body>
+			<div class="container">
+				<h1>휴가신청서</h1>
+				<form>
+					<div>
+						<table style="width:100%">
+							<tr>
+								<td>문서양식명</td>
+							<td>
+									<a th:value="달러">
+										<th:block th:text="달러"></th:block>
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>부서</td>
+								<td>
+									<a th:value="달러">
+										<th:block th:text="달러"></th:block>
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>직위/직책</td>
+								<td>
+									<a th:value="달러">
+										<th:block th:text="달러"></th:block>
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>신청자명</td>
+								<td>
+									<a th:value="달러">
+										<th:block th:text="달러"></th:block>
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>기안일</td>
+								<td>
+									<a th:value="달러">
+										<th:block th:text="달러"></th:block>
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>휴가일수 합계</td>
+								<td>
+									<a th:value="달러">
+										<th:block th:text="달러"></th:block>
+									</a>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</form>
+			</div>
+		</body>
+	</th:block>
+	
+	<th:block layout:fragment="customJquery">
+		<th:block th:include="layout/customJquery"></th:block>
+	</th:block>
+	
+</html>

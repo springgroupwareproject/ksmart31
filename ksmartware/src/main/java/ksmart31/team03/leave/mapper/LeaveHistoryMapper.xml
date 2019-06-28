@@ -1,0 +1,109 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ksmart31.team03.leave.mapper.LeaveHistoryMapper">
+	<!-- 조직원 아이디별 휴가 내역 조회 -->
+	<resultMap type="ksmart31.team03.leave.domain.LeaveHistory" id="selectLeaveHistoryByMemberId">
+		<result column="leave_history_code" property="LeaveHistoryCode"/>
+		<result column="leave_category_sort" property="leaveCategorySort"/>
+		<result column="leave_category_code" property="leaveCategoryCode"/>
+		<result column="leave_history_grant_hour" property="leaveHistoryGrantHour"/>
+		<result column="leave_history_grant_day" property="leaveHistoryGrantDay"/>
+		<result column="leave_history_used_hour" property="leaveHistoryUsedHour"/>
+		<result column="leave_history_used_day" property="leaveHistoryUsedDay"/>
+		<result column="leave_history_remaining_hour" property="leaveHistoryRemainingHour"/>
+		<result column="leave_history_remaining_day" property="leaveHistoryRemainingDay"/>
+	</resultMap>
+	<select id="selectLeaveHistoryByMemberId" parameterType="String" resultMap="selectLeaveHistoryByMemberId">
+		SELECT 
+			leave_history_code,
+			leave_category_sort,
+			leave_category_code,
+			leave_history_grant_hour,
+			leave_history_grant_day,
+			leave_history_used_hour,
+			leave_history_used_day,
+			leave_history_remaining_hour,
+			leave_history_remaining_day
+		FROM leave_history
+		WHERE member_id = #{memberID}
+		ORDER BY(SUBSTRING_INDEX(leave_category_code,'_',-1)+0)
+	</select>
+	
+	<!-- 재귀함수와 쿼리를 이용하여 조직도를 보여준다 -->
+	<select id="selectDepartmentList" resultType="ksmart31.team01.department.domain.Department">
+		SELECT  CONCAT(REPEAT('-', level - 1), hi.department_name) AS departmentName		
+		FROM    (
+		        SELECT  hierarchy_connect_by_parentIdx_eq_prior_idx(idx) AS idx, @level AS level
+		        FROM    (
+		                SELECT  @start_with := 0,
+		                        @idx := @start_with,
+		                        @level := 0
+		                ) vars, department
+		        WHERE   @idx IS NOT NULL
+		        ) ho
+		JOIN    department AS hi
+		ON      hi.idx = ho.idx
+		ORDER BY hi.department_category_code ASC
+	</select>
+	
+	<!-- department부서명과 member조직원 기본정보를 departmentName으로 조인해서 가져온다 -->	
+	<select id="selectDepartmentJoinMemberListForLeaveHistory" parameterType="java.util.Map" resultType="String" >
+		SELECT
+			m.member_id
+		FROM department d
+		INNER JOIN member m				
+		<!-- choose if else처럼 쓸수있다  -->		
+		<choose>
+			<when test="departmentNumber == 1">	
+				ON d.department_name = m.department_division_name	
+			</when>	
+			<when test="departmentNumber == 2">	
+				ON d.department_name = m.department_section_name	
+			</when>	
+			<when test="departmentNumber == 0">	
+				ON d.department_name = m.department_category_name	
+			</when>	
+		</choose>
+			WHERE d.department_name = #{departmentName}
+	</select>
+	<!-- 조직원 아이디별 휴가 내역 조회 -->
+	<resultMap type="ksmart31.team03.leave.domain.LeaveHistory" id="selectLeaveHistoryByMemberList">
+		<result column="leave_history_code" property="LeaveHistoryCode"/>
+		<result column="leave_category_sort" property="leaveCategorySort"/>
+		<result column="leave_category_code" property="leaveCategoryCode"/>
+		<result column="leave_history_grant_hour" property="leaveHistoryGrantHour"/>
+		<result column="leave_history_grant_day" property="leaveHistoryGrantDay"/>
+		<result column="leave_history_used_hour" property="leaveHistoryUsedHour"/>
+		<result column="leave_history_used_day" property="leaveHistoryUsedDay"/>
+		<result column="leave_history_remaining_hour" property="leaveHistoryRemainingHour"/>
+		<result column="leave_history_remaining_day" property="leaveHistoryRemainingDay"/>
+		<result column="member_name" property="memberName"/>
+		<result column="member_employee_code" property="memberEmployeeCode"/>
+		<result column="member_position_name" property="memberPositionName"/>
+		<result column="member_join_day" property="memberJoinDay"/>
+	</resultMap>
+	<select id="selectLeaveHistoryByMemberList" parameterType="java.util.Map" resultMap="selectLeaveHistoryByMemberList">
+		SELECT 
+			leave_history_code,
+			leave_category_sort,
+			leave_category_code,
+			leave_history_grant_hour,
+			leave_history_grant_day,
+			leave_history_used_hour,
+			leave_history_used_day,
+			leave_history_remaining_hour,
+			leave_history_remaining_day,
+			member_name,
+			member_employee_code,
+			member_position_name,
+			member_join_day
+		FROM 
+			leave_history
+		WHERE 
+			member_id IN
+			<foreach collection="memberIdList" item="item" index="index" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		ORDER BY(SUBSTRING_INDEX(leave_category_code,'_',-1)+0)
+		AND member_name
+	</select>
+</mapper>

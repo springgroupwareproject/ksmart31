@@ -1,0 +1,79 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <!-- 조직도 재귀쿼리 -->
+<mapper namespace="ksmart31.team01.department.mapper.DepartmentMapper">
+	<!-- 재귀함수와 쿼리를 이용하여 조직도를 보여준다 -->
+	<select id="selectDepartmentList" resultType="ksmart31.team01.department.domain.Department">
+		SELECT  CONCAT(REPEAT('-', level - 1), hi.department_name) AS departmentName		
+		FROM    (
+		        SELECT  hierarchy_connect_by_parentIdx_eq_prior_idx(idx) AS idx, @level AS level
+		        FROM    (
+		                SELECT  @start_with := 0,
+		                        @idx := @start_with,
+		                        @level := 0
+		                ) vars, department
+		        WHERE   @idx IS NOT NULL
+		        ) ho
+		JOIN    department AS hi
+		ON      hi.idx = ho.idx
+		ORDER BY hi.department_category_code ASC
+	</select>
+	
+	<!-- department부서명과 member조직원 기본정보를 departmentName으로 조인해서 가져온다 -->	
+	<resultMap type="ksmart31.team01.department.domain.DepartmentJoinMember" id="selectDepartmentJoinMemberList">
+		<result column="member_name" property="memberName"/>
+		<result column="member_level_title" property="memberLevelTitle"/>
+		<result column="department_category_name" property="departmentCategoryName"/>
+		<result column="department_division_name" property="departmentDivisionName"/>
+		<result column="department_section_name" property="departmentSectionName"/>
+		<result column="member_position_name" property="memberPositionName"/>
+		<result column="member_id" property="memberId"/>
+		<result column="member_phone" property="memberPhone"/>
+		<result column="member_mobile" property="memberMobile"/>
+		<result column="member_join_day" property="memberJoinDay"/>
+		<result column="member_address" property="memberAddress"/>
+		<result column="department_number" property="departmentNumber"/>		
+	</resultMap>	
+	<select id="selectDepartmentJoinMemberList" resultType="ksmart31.team01.department.domain.DepartmentJoinMember" parameterType="java.util.Map" resultMap="selectDepartmentJoinMemberList">
+		SELECT
+			m.member_name
+			,m.member_level_title
+			,m.department_category_name
+			,m.department_division_name
+			,m.department_section_name
+			,m.member_position_name
+			,m.member_id
+			,m.member_phone
+			,m.member_mobile
+			,m.member_join_day
+			,m.member_address
+		FROM department d
+		INNER JOIN member m				
+		<!-- choose if else처럼 쓸수있다  -->		
+		<choose>
+			<when test="departmentNumber == 1">	
+				ON d.department_name = m.department_division_name	
+			</when>	
+			<when test="departmentNumber == 2">	
+				ON d.department_name = m.department_section_name	
+			</when>	
+			<when test="departmentNumber == 0">	
+				ON d.department_name = m.department_category_name	
+			</when>	
+		</choose>
+			WHERE d.department_name = #{departmentName}
+	</select>			 
+</mapper>			
+		<!-- 조건문 if문 -->
+	<!-- 	<if test="departmentNumber == 1">
+			ON d.department_name = m.department_division_name
+		</if>
+		<if test="departmentNumber == 2">
+			ON d.department_name = m.department_section_name
+		</if>
+		<if test="departmentNumber == 0">
+			ON d.department_name = m.department_category_name
+		</if>
+			WHERE d.department_name = #{departmentName}	
+	</select> -->

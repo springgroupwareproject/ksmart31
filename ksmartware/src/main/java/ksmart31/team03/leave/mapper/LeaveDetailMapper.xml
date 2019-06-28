@@ -1,0 +1,53 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ksmart31.team03.leave.mapper.LeaveDetailMapper">
+	<!-- 카테고리 코드별 상세 휴가 리스트 조회 -->
+	<resultMap type="ksmart31.team03.leave.domain.LeaveDetail" id="selectLeaveDetailList">
+		<result column="leave_detail_code" property="leaveDetailCode"/>
+		<result column="leave_detail_sort" property="leaveDetailSort"/>
+		<result column="leave_detail_hour" property="leaveDetailHour"/>
+		<result column="leave_detail_day" property="leaveDetailDay"/>
+		<result column="leave_detail_use_or_not" property="leaveDetailUseOrNot"/>
+		<result column="leave_detail_minimum_hour" property="leaveDetailMinimumHour"/>
+		<result column="leave_detail_minimum_day" property="leaveDetailMinimumDay"/>
+		<result column="leave_detail_maximum_hour" property="leaveDetailMaximumHour"/>
+		<result column="leave_detail_maximum_day" property="leaveDetailMaximumDay"/>
+	</resultMap>
+	<select id="selectLeaveDetailList" parameterType="String" resultMap="selectLeaveDetailList">
+		SELECT 
+			leave_detail_code,
+			leave_detail_sort,
+			leave_detail_hour,
+			leave_detail_day,
+			leave_detail_use_or_not,
+			leave_detail_minimum_hour,
+			leave_detail_minimum_day,
+			leave_detail_maximum_hour,
+			leave_detail_maximum_day
+		FROM leave_detail
+		WHERE leave_category_code = #{leaveCategoryCode}
+	</select>
+	<!-- 디테일 코드별 상세 휴가 데이터 조회 -->
+	<resultMap type="ksmart31.team03.leave.domain.LeaveDetail" id="selectLeaveDetail">
+		<result column="leave_detail_sort" property="leaveDetailSort"/>
+		<result column="leave_detail_hour" property="leaveDetailHour"/>
+		<result column="leave_detail_day" property="leaveDetailDay"/>
+		<result column="leave_detail_use_or_not" property="leaveDetailUseOrNot"/>
+		<result column="leave_detail_minimum_hour" property="leaveDetailMinimumHour"/>
+		<result column="leave_detail_minimum_day" property="leaveDetailMinimumDay"/>
+		<result column="leave_detail_maximum_hour" property="leaveDetailMaximumHour"/>
+		<result column="leave_detail_maximum_day" property="leaveDetailMaximumDay"/>
+	</resultMap>
+	<select id="selectLeaveDetail" parameterType="String" resultMap="selectLeaveDetail">
+		SELECT
+			leave_detail_sort,
+			leave_detail_hour,
+			leave_detail_day,
+			leave_detail_use_or_not,
+			leave_detail_minimum_hour,
+			leave_detail_minimum_day,
+			leave_detail_maximum_hour,
+			leave_detail_maximum_day
+		FROM leave_detail
+		WHERE leave_detail_code = #{leaveDetailCode}
+	</select>
+</mapper>

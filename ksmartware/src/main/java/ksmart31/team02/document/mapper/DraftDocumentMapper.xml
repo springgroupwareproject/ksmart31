@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="ksmart31.team02.document.mapper.DraftDocumentMapper">
+	<!-- 최근 승인 문서 목록-->
+	<select id="selectLastestApprovalDocumentList"
+			parameterType="Integer"
+			resultType="ksmart31.team02.document.domain.ApprovalDocument">
+	SELECT approval_document_code AS approvalDocumentCode
+		, draft_document_code AS draftDocumentCode
+		, document_date AS documentDate
+		, approval_document_file_save_name AS approvalDocumentFileSaveName
+	FROM approval_document
+	WHERE draft_document_status='승인'
+	ORDER BY document_date DESC
+	</select>
+
+	<!-- 임시저장문서 목록 -->
+	<select id="selectTemporaryDocumentList"
+			parameterType="String"
+			resultType="ksmart31.team02.document.domain.DraftDocument">
+		SELECT draft_document_code AS draftDocumentCode
+		, document_form_code AS documentFormCode
+		, draft_document_member_name AS draftDocumentMemberName
+		, draft_document_file_save_name AS draftDocumentFileSaveName
+		, draft_document_date AS draftDocumentDate
+		FROM draft_document
+		WHERE draft_document_status='임시저장'
+		ORDER BY draft_document_date DESC
+	</select>
+</mapper>
