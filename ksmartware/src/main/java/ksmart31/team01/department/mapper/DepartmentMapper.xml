@@ -63,6 +63,7 @@
 			</when>	
 		</choose>
 			WHERE d.department_name = #{departmentName}
+
 	</select>
 	
 	<resultMap type="ksmart31.team01.department.domain.DepartmentJoinMember" id="selectDepartmentJoinMemberListByMemberId">
@@ -98,6 +99,7 @@
 	</select>		
 	
 				 
+
 </mapper>			
 		<!-- 조건문 if문 -->
 	<!-- 	<if test="departmentNumber == 1">
