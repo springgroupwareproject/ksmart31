@@ -66,28 +66,29 @@
 			<div class="col-10" style="padding-right:20px; border-right: 1px solid #ccc;">
 				<div class="card">
 					<div class="card-header">
-						<div>프로젝트 정보</div> 
+						<div>나의 학력 정보</div> 
 						<div style="padding:10px; text-align:right"><button >추가</button></div>
 					</div>
 					<div class="card-body" >
-						<div  th:each="myProject : ${myProject}">	
+						<div  th:each="myEducation : ${myEducation}">	
 							<div class="input-group">
-								<div th:text="|기간 - ${myProject.memberProjectStartDay}|"></div>
-								<div th:if="${myProject.memberProjectEndDay != ''}" th:text="|&nbsp; ~ ${myProject.memberProjectEndDay}|"></div>
+								<div th:text="|기간 - ${myEducation.memberEducationStartDay}|"></div>
+								<div th:if="${myEducation.memberEducationEndDay != ''}" th:text="|&nbsp; ~ ${myEducation.memberEducationEndDay}|"></div>
 							</div>	
-							<div th:text="|프로젝트 명 : ${myProject.memberProjectName}|"></div>
-							<div th:text="|수행처 : ${myProject.memberProjectPlace}|"></div>
-							<div>프로젝트 URL : <a th:href="${myProject.memberProjectUrl}">주소</a></div>
-							<div th:text="|프로젝트 설명 : ${myProject.memberProjectDesc}|"></div>
+							<div th:text="|학교 명 : ${myEducation.memberEducationInstitution}|"></div>
+							<div th:text="|재학여부 : ${myEducation.memberEducationNow}|"></div>
+							<div th:text="|학위 : ${myEducation.memberEducationDegree}|"></div>
+							<div th:text="|전공 : ${myEducation.memberEducationMajor}|"></div>
+							<div th:text="|학점 : ${myEducation.memberFilesOriginName}|"></div>
 							<!-- if 조건 데이터가 공백이면 파일없음 -->
-							<div th:if="${myProject.memberFilesSaveName == '' }">
+							<div th:if="${myEducation.memberFilesSaveName == '' }">
 								<div>첨부파일 : 파일없음</div>
 							</div>
 							<!-- else 조건 -->
-							<div th:unless="${myProject.memberFilesSaveName == ''}">
+							<div th:unless="${myEducation.memberFilesSaveName == ''}">
 								<div class="input-group">
 									<div>첨부파일 : </div>
-									<a href="#" th:text="|&nbsp; ${myProject.memberFilesSaveName}|"></a>
+									<a href="#" th:text="|&nbsp; ${myEducation.memberFilesSaveName}|"></a>
 								</div>
 							</div>
 							
