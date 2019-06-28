@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+	
+<th:block layout:fragment="customHead">
+	<meta charset="UTF-8">
+	<title>leaveHistoryManagement</title>
+	<th:block th:include="layout/customHead"></th:block>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			// 조직도 버튼 클릭 이벤트
+			$('.departmentNameButton').click(function(){
+				console.log('조직도 버튼 테스트 value : '+$(this).attr('value'));
+				// departmentName 별로 부서명을 조회하기 위해 이름 값을 담는 변수  
+				let departmentName = $(this).attr('value');
+				console.log('departmentName val : '+departmentName);	
+				$.ajax({
+					url : '/leave/leaveHistoryByMemberIdList',
+					type : 'get',
+					data : {
+						departmentName:departmentName
+					},
+					success : function(data){
+						
+					},	
+					error : function(error){
+						console.log(error);
+					}
+				});
+			});
+		});
+	</script>
+	<style>
+		.test tr th{
+		    text-align: center;
+		    min-width: 150px;
+		    position: relative;
+		}
+	</style>	
+</th:block>
+<th:block layout:fragment="customBody">
+<div class="row">
+	<!-- 왼쪽 카드 영역 시작 -->
+	<div class="col-3">
+		<div class="card" style="min-height: 100%;">
+			<!-- 왼쪽 카드 제목 -->
+			<div class="card-header">조직도</div>
+			<!-- 왼쪽 카드 내용 -->
+			<div class="card-body">
+				<div th:each="recursiveList: ${recursiveList}">
+					<button class="departmentNameButton btn btn-outline-dark"
+						th:text="${recursiveList.departmentName}"
+						th:value="${recursiveList.departmentName}">
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 왼쪽 카드 영역 종료 -->
+	<!-- 오른쪽 카드 영역 시작 -->
+	<div class="col-9">
+		<!-- 오른쪽 카드 제목 -->
+		<div class="card" style="min-height: 100%;">
+			<div class="card-header">
+				휴가 기준 : 회계연도&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;검색 연도 : 2019 년
+			</div>
+			<div class="card-body">
+				<!-- 전체 조직원 휴가 내역 테이블 -->
+				<div style="width:100%; height:440px; overflow:auto">
+					<div class="container">
+						<div class="table-responsive">
+							<table class="table table-bordered test">
+								<thead>
+									<tr>
+										<th rowspan="2">이름</th>
+										<th rowspan="2">직위/직책</th>
+										<th rowspan="2">입사일</th>
+										<th rowspan="2">사번</th>
+										<p th:each="categoryList : ${leaveCategoryList}">
+											<th colspan="3" th:text="${categoryList.leaveCategorySort}"></th>
+										</p>
+									</tr>
+							        <tr>
+							        	<p th:each="categoryList : ${leaveCategoryList}">
+											<th>부여 일수</th>
+											<th>사용 일수</th>
+											<th>잔여 일수</th>
+										</p>
+							        </tr>
+								</thead>
+								<tbody>
+								<!-- <tr th:each="historyList : ${leaveHistoryByMemberList}">
+									이름
+									<td th:text="${historyList.memberName}"></td>
+									직위/직책
+									<td th:text="${historyList.memberPositionName}"></td>
+									입사일
+									<td th:text="${historyList.memberJoinDay}"></td>
+									사번
+									<td th:text="${historyList.memberEmployeeCode}"></td>
+									부여일
+									<td class="text-primary">
+										<th:block th:text="|${historyList.leaveHistoryGrantDay}일 |"/>
+										<br/>
+										시간 값이 0이 아닐 경우 출력
+										<th:block th:if="${historyList.leaveHistoryGrantHour != 0}" th:text="|${historyList.leaveHistoryGrantHour}시간 |"/>
+									</td>
+									사용일
+									<td class="text-danger">
+										<th:block th:text="|${historyList.leaveHistoryUsedDay}일|"/>
+										<br/>
+										시간 값이 0이 아닐 경우 출력
+										<th:block th:if="${historyList.leaveHistoryUsedHour != 0}" th:text="|${historyList.leaveHistoryUsedHour}시간 |"/>
+									</td>
+									잔여일
+									<td>
+										<th:block th:text="|${historyList.leaveHistoryRemainingDay}일|"/>
+										<br/>
+										시간 값이 0이 아닐 경우 출력
+										<th:block th:if="${historyList.leaveHistoryRemainingHour != 0}" th:text="|${historyList.leaveHistoryRemainingHour}시간 |"/>
+									</td>
+								</tr> -->
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>										
+				<!-- <div class="container">						  
+					<div class="card">							
+						<div class="card-body" th:each="departmentJoinMemberList:${departmentJoinMemberList}">
+							<span th:text="${departmentJoinMemberList.memberName}"></span>
+							<span th:text="${departmentJoinMemberList.memberLevelTitle}"></span> 
+							<br>
+							<span th:text="${departmentJoinMemberList.departmentCategoryName}"></span>
+							<span th:text="${departmentJoinMemberList.departmentDivisionName}"></span>
+							<span th:text="${departmentJoinMemberList.departmentSectionName}"></span>
+							<br>
+							<span th:text="${departmentJoinMemberList.memberPositionName}"></span>
+							<span th:text="${departmentJoinMemberList.memberId}"></span>
+							<br>
+							<span th:text="${departmentJoinMemberList.memberPhone}"></span>
+							<span th:text="${departmentJoinMemberList.memberMobile}"></span>
+							<br>
+							<span th:text="${departmentJoinMemberList.memberJoinDay}"></span>
+							<span th:text="${departmentJoinMemberList.memberAddress}"></span>
+							<hr>
+						</div>																		
+					</div>
+				</div> -->					
+			</div>
+		</div>
+	</div>
+	<!-- 오른쪽 카드 영역 종료 -->
+</div>
+</th:block>
+
+<th:block layout:fragment="customJquery">
+	<th:block th:include="layout/customJquery"></th:block>
+</th:block>
+	
+</html>
