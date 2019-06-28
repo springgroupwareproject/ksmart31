@@ -1,0 +1,46 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="ksmart31.team01.admin.mapper.PersonnelSetUpMapper">
+	
+	<resultMap type="ksmart31.team01.member.domain.AdminLevel" id="adminLevel">
+				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+		<result column="member_level_title" property="memberLevelTitle"/>
+		<result column="admin_name" property="adminName"/>
+		<result column="department_name" property="departmentName"/>
+		<result column="admin_level_management" property="adminLevelManagement"/>	<!-- 조직관리 -->
+		<result column="admin_level_personnel" property="adminLevelPersonnel"/>	<!-- 인사관리  -->
+		<result column="admin_level_finance" property="adminLevelFinance"/> <!-- 재무관리  -->
+		<result column="admin_level_workflow" property="adminLevelWorkflow"/> <!-- 워크플로우 관리 -->
+		<result column="admin_level_data" property="adminLevelData"/> <!-- 데이터관리  -->
+		<result column="admin_level_cooperation" property="adminLevelCooperation"/> <!-- 협업관리  -->
+		<result column="admin_level_security" property="adminLevelSecurity"/> <!-- 요금 결제 관리  -->
+		<result column="admin_level_approval_process" property="adminLevelApprovalProcess"/> <!-- 보안관리  -->
+	</resultMap>
+	<select id="adminLevel" resultMap="adminLevel" >
+		SELECT 
+			member_level_title,
+			admin_name,
+			department_name,
+			admin_level_management,
+			admin_level_personnel,
+			admin_level_finance,
+			admin_level_workflow,
+			admin_level_data,
+			admin_level_cooperation,
+			admin_level_security,
+			admin_level_approval_process
+		FROM
+		admin_level
+	</select>
+	
+</mapper> 
+
+
+
+
+
+
+
+
+
+
