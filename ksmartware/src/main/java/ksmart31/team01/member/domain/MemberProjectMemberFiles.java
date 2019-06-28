@@ -1,6 +1,6 @@
 package ksmart31.team01.member.domain;
 
-public class MemberProject {
+public class MemberProjectMemberFiles {
 
 	private String memberProjectCode;
 	private String memberId;
@@ -16,7 +16,9 @@ public class MemberProject {
 	private String memberName;
 	private String departmentName;
 	private String memberPositionName;
-	private String memberFileCode;
+	private String memberFilesCode;
+	private String memberFilesOriginName;
+	private String memberFilesSaveName;
 	
 	public String getMemberProjectCode() {
 		return memberProjectCode;
@@ -102,21 +104,34 @@ public class MemberProject {
 	public void setMemberPositionName(String memberPositionName) {
 		this.memberPositionName = memberPositionName;
 	}
-	public String getMemberFileCode() {
-		return memberFileCode;
+	public String getMemberFilesCode() {
+		return memberFilesCode;
 	}
-	public void setMemberFileCode(String memberFileCode) {
-		this.memberFileCode = memberFileCode;
+	public void setMemberFilesCode(String memberFilesCode) {
+		this.memberFilesCode = memberFilesCode;
+	}
+	public String getMemberFilesOriginName() {
+		return memberFilesOriginName;
+	}
+	public void setMemberFilesOriginName(String memberFilesOriginName) {
+		this.memberFilesOriginName = memberFilesOriginName;
+	}
+	public String getMemberFilesSaveName() {
+		return memberFilesSaveName;
+	}
+	public void setMemberFilesSaveName(String memberFilesSaveName) {
+		this.memberFilesSaveName = memberFilesSaveName;
 	}
 	@Override
 	public String toString() {
-		return "MemberProject [memberProjectCode=" + memberProjectCode + ", memberId=" + memberId
+		return "MemberProjectMemberFiles [memberProjectCode=" + memberProjectCode + ", memberId=" + memberId
 				+ ", memberProjectName=" + memberProjectName + ", memberProjectPlace=" + memberProjectPlace
 				+ ", memberProjectStartDay=" + memberProjectStartDay + ", memberProjectEndDay=" + memberProjectEndDay
 				+ ", memberProjectResult=" + memberProjectResult + ", memberProjectDesc=" + memberProjectDesc
 				+ ", memberProjectUrl=" + memberProjectUrl + ", memberProjectDate=" + memberProjectDate
 				+ ", memberEmployeeCode=" + memberEmployeeCode + ", memberName=" + memberName + ", departmentName="
-				+ departmentName + ", memberPositionName=" + memberPositionName + ", memberFileCode=" + memberFileCode
+				+ departmentName + ", memberPositionName=" + memberPositionName + ", memberFilesCode=" + memberFilesCode
+				+ ", memberFilesOriginName=" + memberFilesOriginName + ", memberFilesSaveName=" + memberFilesSaveName
 				+ "]";
 	}
 	

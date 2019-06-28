@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import ksmart31.team01.member.domain.Member;
 import ksmart31.team01.member.domain.MemberCareer;
-import ksmart31.team01.member.service.MemberCareerService;
+import ksmart31.team01.member.service.MemberMyCareerService;
 
 @Controller
-public class MemberCareerController {
+public class MemberMyCareerController {
 
-	@Autowired private MemberCareerService memberCareerService;
+	@Autowired private MemberMyCareerService memberMyCareerService;
 
 	@GetMapping("/member/memberMyProfile/myCareer")
 	public String memberCareer(HttpSession session, Model model) {
@@ -31,7 +31,7 @@ public class MemberCareerController {
 		System.out.println(member.getMemberName()+"님 확인");
 		String memberId = member.getMemberId(); 
 		
-		List<MemberCareer> myCareer = memberCareerService.myCareer(memberId);
+		List<MemberCareer> myCareer = memberMyCareerService.myCareer(memberId);
 		model.addAttribute("myCareer", myCareer);
 		
 		return "member/memberMyProfile/myCareer";

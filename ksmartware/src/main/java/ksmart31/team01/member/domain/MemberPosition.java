@@ -8,6 +8,8 @@ public class MemberPosition {
 	private String personnelStandardFinalModifierId;
 	private String personnelStandardFinalModifierName;
 	private String personnelStandardFinalModifyDate;
+	
+	
 	public String getMemberPositionCode() {
 		return memberPositionCode;
 	}

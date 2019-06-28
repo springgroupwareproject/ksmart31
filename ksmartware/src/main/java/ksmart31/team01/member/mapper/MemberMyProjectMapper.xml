@@ -1,0 +1,57 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ksmart31.team01.member.mapper.MemberMyProjectMapper">
+	
+	<!-- myProfile 개인정보 -->
+	<select id="memberFilesCode" resultType="String">
+		SELECT 
+			member_file_code AS memberFileCode
+		FROM 
+			member_project
+		WHERE 
+			member_id = #{memberId}
+
+
+	</select>
+
+
+	<!-- myProfile 개인정보 -->
+	<resultMap type="ksmart31.team01.member.domain.MemberProjectMemberFiles" id="myProject">	
+				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+		<result column="member_project_start_day" property="memberProjectStartDay"/>
+		<result column="member_project_end_day" property="memberProjectEndDay"/>
+		<result column="member_project_name" property="memberProjectName"/>
+		<result column="member_project_place" property="memberProjectPlace"/>
+		<result column="member_project_desc" property="memberProjectDesc"/>
+		<result column="member_project_url" property="memberProjectUrl"/>
+		<result column="member_files_code" property="memberFilesCode"/>
+		<result column="member_files_origin_name" property="memberFilesOriginName"/>
+		<result column="member_files_save_name" property="memberFilesSaveName"/>
+	</resultMap>
+	
+	<select id="myProject" resultMap="myProject" parameterType="java.util.Map">
+		SELECT 
+			member_project_start_day,
+			member_project_end_day,
+			member_project_name,
+			member_project_place,
+			member_project_desc,
+			member_project_url,
+			member_files_code,
+			member_files_origin_name,
+			member_files_save_name
+			
+		FROM 
+			member_project mp
+		INNER JOIN
+			member_files mf
+		ON 
+			mp.member_file_code = mf.member_files_code
+			
+		WHERE
+			mp.member_id = #{memberId}
+		AND
+			mp.member_file_code = #{memberFileCode}
+	</select>
+	
+
+</mapper>

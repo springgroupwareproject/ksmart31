@@ -93,7 +93,18 @@ public class MemberFiles {
 	public void setMemberPositionName(String memberPositionName) {
 		this.memberPositionName = memberPositionName;
 	}
+	@Override
+	public String toString() {
+		return "MemberFiles [memberFilesCode=" + memberFilesCode + ", memberId=" + memberId + ", memberFilesInfo="
+				+ memberFilesInfo + ", memberFilesOriginName=" + memberFilesOriginName + ", memberFilesSaveName="
+				+ memberFilesSaveName + ", memberFilesExt=" + memberFilesExt + ", memberFilesType=" + memberFilesType
+				+ ", memberFilesSize=" + memberFilesSize + ", memberFilesDate=" + memberFilesDate
+				+ ", memberEmployeeCode=" + memberEmployeeCode + ", memberName=" + memberName + ", departmentName="
+				+ departmentName + ", memberPositionName=" + memberPositionName + "]";
+	}
 	
+
+
 	
 	
 }

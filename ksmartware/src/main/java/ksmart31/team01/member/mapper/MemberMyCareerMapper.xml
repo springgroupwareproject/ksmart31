@@ -1,5 +1,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ksmart31.team01.member.mapper.MemberCareerMapper">
+<mapper namespace="ksmart31.team01.member.mapper.MemberMyCareerMapper">
 
 	<!-- myProfile 개인정보 -->
 	<resultMap type="ksmart31.team01.member.domain.MemberCareer" id="myCareer">	

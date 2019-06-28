@@ -1,0 +1,50 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ksmart31.team01.member.mapper.MemberMyEducationMapper">
+	
+	<!-- myProfile 개인정보 -->
+	<select id="memberFilesCode" resultType="String">
+		SELECT 
+			member_file_code AS memberFileCode
+		FROM 
+			member_education
+		WHERE 
+			member_id = #{memberId}
+
+	</select>
+
+	<!-- myProfile 개인정보 -->
+	<resultMap type="ksmart31.team01.member.domain.MemberEducation" id="myEducation">	
+				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+		<result column="member_education_start_day" property="memberEducationStartDay"/>
+		<result column="member_education_end_day" property="memberEducationEndDay"/>
+		<result column="member_education_institution" property="memberEducationInstitution"/>
+		<result column="member_education_now" property="memberEducationNow"/>
+		<result column="member_education_degree" property="memberEducationDegree"/>
+		<result column="member_education_major" property="memberEducationMajor"/>
+		<result column="member_files_origin_name" property="memberFilesOriginName"/>
+		<result column="member_files_save_name" property="memberFilesSaveName"/>
+	</resultMap>
+	<select id="myEducation" resultMap="myEducation">
+		SELECT 
+			member_education_start_day,
+			member_education_end_day,
+			member_education_institution,
+			member_education_now,
+			member_education_degree,
+			member_education_major,
+			member_files_origin_name,
+			member_files_save_name
+		FROM 
+			member_education me
+		INNER JOIN
+			member_files mf
+		ON 
+			me.member_file_code = mf.member_files_code
+		WHERE
+			me.member_id = #{memberId}
+		AND
+			me.member_file_code = #{memberFileCode}	
+	</select>
+	
+
+</mapper>
