@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+	
+	<!-- jquery head 부분 넣는곳 -->
+	<th:block layout:fragment="customHead">
+		<meta charset="UTF-8">
+		<title>Sample</title>
+		<th:block th:include="layout/customHead"></th:block>
+				
+		<meta http-equiv="Content-Type" content="text/html</td> charset=UTF-8" />
+		<title>leaveCategoryList.html</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		
+	</th:block>
+	
+	<!-- 본문 -->
+	<th:block layout:fragment="customBody">
+		<h2>나의 정보 - 나의 인사 정보</h2>
+		<br/>
+		
+		<div class="row">
+			<div class="col-2" style="padding-left:50px; border-right: 1px solid #ccc;">
+				<div class="card">
+					<div class="card-header">MyProfile</div>
+					<div class="card-body">
+						<div>
+							<a href="/member/memberMyProfile/myProfile">개인 정보</a>
+						</div>
+						<hr>
+						<div>
+							<a href="/member/memberMyProfile/myInfo">인사 정보</a>
+						</div>
+						<hr>
+						<div>
+							<a href="/member/memberMyProfile/myCareer">경력 정보</a>
+						</div>
+						<hr>
+						<div>
+							<a href="/member/memberMyProfile/myProject">프로젝트 정보</a>
+						</div>
+						<hr>
+						<div>
+							<a href="/member/memberMyProfile/myEducation">학력 정보</a>
+						</div>
+						<hr>
+						<div>
+							<a href="/member/memberMyProfile/myAcademy">교육 이력 정보</a>
+						</div>
+						<hr>
+						<div>
+							<a href="/member/memberMyProfile/myLicense">자격증 정보</a>
+						</div>
+						<hr>
+						<div>
+							<a href="/member/memberMyProfile/myAwards">수상 경력 정보</a>
+						</div>
+					
+					</div>
+				</div>
+			</div>	
+				
+	<!-- 	<table>
+			    <tr data-th-each="user : ${users}">
+			        <td data-th-text="${user.login}">...</td>
+			        <td data-th-text="${user.name}">...</td>
+			    </tr>
+			</table> -->
+			
+			
+			<div class="col-10" style="padding-right:20px; border-right: 1px solid #ccc;">
+				<div class="card">
+					<div class="card-header">개인 정보</div>
+					<div class="card-body" >
+						
+						<div>전화번호</div>
+						<input type="text" style="width:200px" class="form-control" th:value="${memberProfile.memberPhone}">										
+						<hr>
+						
+						<div>휴대전화</div>
+							<input type="text" style="width:200px" class="form-control" th:value="${memberProfile.memberMobile}">
+						<div>
+						<hr>
+						
+						<div>주소</div>
+						<textarea style="width:700px;" class="form-control" th:placeholder="|현재 주소 : ${memberProfile.memberAddress}|" ></textarea>
+						<hr>
+						
+						<div>
+							<div>생년월일</div>
+							<input type="text" style="width:200px" class="form-control" th:value="${memberProfile.memberBirth}">
+							<hr>
+						</div>
+						
+						<div>
+							<div>성별</div>
+							<!-- th:if="${memberProfile.memberGender}"  -->
+							<select style="width:65px" class="form-control">
+								<option>남</option>
+								<option>여</option>
+							</select>
+						</div>
+						
+					</div>
+					<br>
+					<div>
+						<button>저장</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+			
+		
+	</th:block>
+	
+	<th:block layout:fragment="customJquery">
+		<th:block th:include="layout/customJquery"></th:block>
+	</th:block>
+	
+</html>

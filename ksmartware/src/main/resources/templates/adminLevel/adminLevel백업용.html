@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+	<th:block layout:fragment="customHead">
+		<meta charset="UTF-8">
+		<title>관리자 권한 관리</title>
+		<th:block th:include="layout/customHead"></th:block>
+		<!-- head에 들어가는 스타일시트 or 스크립트는 여기에 삽입 -->
+		<!-- Single Switche 사용하기 위한 css-->
+		<link rel="stylesheet" th:href="@{dist/css/custom.css}"> <!-- w3 적용 -->
+		<script>
+		/* $("input:checkbox:checked").length; 체크된 갯수 확인 */
+		$(document).ready(function() {
+			$('#checkBoxBtn').click(function() {
+				let count = $('.ttt').length;
+				console.log('count : ' + count);
+				
+				let send_array = new Array();
+				let send_cnt = {};
+				let a = new Array();
+				let b = new Array();
+				let c = new Array();
+				let d = new Array();
+				
+				for (var i = 0; i < count; i++) {
+					let td = $('.ttt['+i+']').children();
+					a[i] = td.eq(0).val();
+					b[i] = td.eq(1).val();
+					c[i] = td.eq(2).val();
+					d[i] = td.eq(3).val();
+				}
+				console.log('a : ' + a);
+				console.log('b : ' + b);
+				console.log('c : ' + c);
+				console.log('d : ' + d);
+				
+				for (let i = 0; i < count; i++) {
+			        send_cnt = {a:a[i] , b:b[i] , c:c[i] , d:d[i]}
+			        send_array[i] = send_cnt;
+				}
+				console.log('send_array : '+send_array);
+			});
+		});
+		</script>
+	</th:block>
+	
+	<th:block layout:fragment="customBody">
+		<h2>보안 관리 - 관리자 권한관리</h2><br/>
+		<!-- Single Switche 소스 적용 -->
+		<h5>관리자 권한관리</h5>
+		
+	<!-- test -->
+	<!--<div class="border-checkbox-section">
+		    <div class="border-checkbox-group border-checkbox-group-primary">
+		        <input class="border-checkbox" type="checkbox" id="checkbox1">
+		        <label class="border-checkbox-label" for="checkbox1">Primary</label>
+		    </div>
+		</div> -->		
+	           
+	
+	<div class="row">
+		<div class="col-md-12">
+		<!-- 부트스트립 적용 -->
+		<div class="card">
+	        <div class="card-header d-block">
+	            <h3>관리자 권한 관리</h3>
+	            <span>이곳은 <code>관리자권한</code>을 부여관리 하는곳입니다.</span>
+	        </div>
+	        <div class="card-body p-0 table-border-style">
+	            <div class="table-responsive">
+	                <table class="table table-hover">
+	                    <thead>
+	                        <tr>
+				   				<td>분류</td>	
+				   				<td>이름</td>
+				   				<td>부서</td>
+				   				<td>조직 관리</td>
+				   				<td>인사관리</td>
+				   				<td>재무 관리</td>
+				   				<td>워크플로우 관리</td>
+				   				<td>데이터 관리</td>
+				   				<td>협업 관리</td>
+				   				<td>요금 결제 관리</td>
+				   				<td>보안 관리</td>	
+				   			</tr>
+	                    </thead>
+	                    <tbody>
+							<tr th:each="adminLevel : ${adminLevel}" class="ttt">
+								<!-- 관리자계급 -->
+								<td th:text="${adminLevel.memberLevelTitle}"></td>
+								<!-- 관리자이름 -->
+								<td th:text="${adminLevel.adminName}"></td> 
+								<!-- 조직원부서 -->
+								<td th:text="${adminLevel.departmentName}"></td>
+							<!-- <td> 조직 관리 체크박스						
+									<div class="border-checkbox-section">
+			                		<div class="border-checkbox-group border-checkbox-group-primary">
+										<input class="border-checkbox" th:if="${adminLevel.adminLevelManagement == 'Y'}" type="checkbox" id="checkbox1" checked="checked">
+										<input class="border-checkbox" th:if="${adminLevel.adminLevelManagement == 'N'}" type="checkbox" id="checkbox1">
+				                    	<label class="border-checkbox-label" for="checkbox1">Disabled</label>
+			                    	</div> 
+			                    	</div>
+								</td> -->
+								
+								<!-- 조직 관리 체크박스 -->
+								<td>
+									<label class="container">
+										<input th:if="${adminLevel.adminLevelManagement == 'Y'}" type="checkbox" id="checkbox1" checked="checked" th:value="${adminLevel.adminLevelManagement}" name="box[]" th:class="checkSelect">
+										<input th:if="${adminLevel.adminLevelManagement == 'N'}" type="checkbox" id="checkbox1" th:value="${adminLevel.adminLevelManagement}" name="box[]" th:class="checkSelect">
+										<span class="checkmark"></span>
+									</label>				
+								</td>
+								
+								<!-- 인사 관리 체크박스 -->	
+								<td>
+									<label class="container">
+										<input th:if="${adminLevel.adminLevelPersonnel == 'Y'}" type="checkbox" id="checkbox2" checked="checked" th:value="${adminLevel.adminLevelPersonnel}" name="box[]" th:class="checkSelect">
+										<input th:if="${adminLevel.adminLevelPersonnel == 'N'}" type="checkbox" id="checkbox2" th:value="${adminLevel.adminLevelPersonnel}" name="box[]" th:class="checkSelect">
+										<span class="checkmark"></span>
+									</label>									
+								</td>
+								
+								<!-- 재무 관리 체크박스 -->	
+								<td>	
+			                    	<label class="container">
+										<input th:if="${adminLevel.adminLevelFinance == 'Y'}" type="checkbox" id="checkbox3" checked="checked" th:value="${adminLevel.adminLevelFinance}" name="box[]" th:class="checkSelect">
+										<input th:if="${adminLevel.adminLevelFinance == 'N'}" type="checkbox" id="checkbox3" th:value="${adminLevel.adminLevelFinance}" name="box[]" th:class="checkSelect">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								
+								<!-- 워크플로우 관리 체크박스 -->	
+								<td>
+			                    	 <label class="container">
+										<input th:if="${adminLevel.adminLevelWorkflow == 'Y'}" type="checkbox" id="checkbox4" checked="checked" th:value="${adminLevel.adminLevelWorkflow}" name="box[]" th:class="checkSelect">
+										<input th:if="${adminLevel.adminLevelWorkflow == 'N'}" type="checkbox" id="checkbox4" th:value="${adminLevel.adminLevelWorkflow}" name="box[]" th:class="checkSelect">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								
+								<!-- 데이터 관리 체크박스 -->	
+								<td>	
+			                    	 <label class="container">
+										<input th:if="${adminLevel.adminLevelData == 'Y'}" type="checkbox" id="checkbox5" checked="checked" th:value="${adminLevel.adminLevelData}" name="box[]" th:class="checkSelect">
+										<input th:if="${adminLevel.adminLevelData == 'N'}" type="checkbox" id="checkbox5" th:value="${adminLevel.adminLevelData}" name="box[]" th:class="checkSelect">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								
+								<!-- 협업 관리 체크박스 -->	
+								<td>	
+			                    	 <label class="container">
+										<input th:if="${adminLevel.adminLevelCooperation == 'Y'}" type="checkbox" id="checkbox6" checked="checked" th:value="${adminLevel.adminLevelCooperation}" name="box[]" th:class="checkSelect">
+										<input th:if="${adminLevel.adminLevelCooperation == 'N'}" type="checkbox" id="checkbox6" th:value="${adminLevel.adminLevelCooperation}" name="box[]" th:class="checkSelect">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								
+								<!-- 요금 결제관리 체크박스 -->	
+								<td>
+									<label class="container">
+										<input class="border-checkbox" th:if="${adminLevel.adminLevelSecurity == 'Y'}" type="checkbox" id="checkbox7" checked="checked" th:value="${adminLevel.adminLevelSecurity}" name="box[]" th:class="checkSelect">
+									<input class="border-checkbox" th:if="${adminLevel.adminLevelSecurity == 'N'}" type="checkbox" id="checkbox7" th:value="${adminLevel.adminLevelSecurity}" name="box[]" th:class="checkSelect">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								
+								<!-- 보안 관리 체크박스 -->	
+								<td>
+									<label class="container">
+										<input class="border-checkbox" th:if="${adminLevel.adminLevelApprovalProcess == 'Y'}" type="checkbox" id="checkbox8" checked="checked" th:value="${adminLevel.adminLevelApprovalProcess}" name="box[]" th:class="checkSelect">
+										<input class="border-checkbox" th:if="${adminLevel.adminLevelApprovalProcess == 'N'}" type="checkbox" id="checkbox8" th:value="${adminLevel.adminLevelApprovalProcess}" name="box[]" th:class="checkSelect">
+										<span class="checkmark"></span>
+									</label>
+								</td>							
+							</tr>
+							<tr>
+								<td>
+									<button id="checkBoxBtn">저장</button>
+								</td>
+							</tr>
+	                    </tbody>
+	                </table>
+	            </div>
+	        </div>
+	    </div>
+		</div>
+	</div>
+		
+	</th:block>
+	
+	
+	<th:block layout:fragment="customJquery">
+		<th:block th:include="layout/customJquery"></th:block>
+		<!-- 스크립트가 길어서  로딩 시간이 오래걸릴 경우 여기에 삽입 -->
+		 <!-- Single Switche 사용하기 위한 js-->
+        <script src="plugins/select2/dist/js/select2.min.js"></script>
+        <script src="plugins/summernote/dist/summernote-bs4.min.js"></script>
+        <script src="plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+        <script src="plugins/jquery.repeater/jquery.repeater.min.js"></script>
+        <script src="plugins/mohithg-switchery/dist/switchery.min.js"></script>
+        <script src="js/form-advanced.js"></script>
+    </th:block>
+</html>
