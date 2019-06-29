@@ -21,6 +21,7 @@ public class MemberMyProjectService {
 		public List<MemberProjectMemberFiles> myProject (String memberId) {
 			System.out.println("MemberMyProjectService.myProject 실행");
 			
+			//19-06-29 리스트로 받아야됨
 			String memberFileCode = memberMyProjectMapper.memberFilesCode(memberId);
 			
 			Map<Object, String> map = new HashMap<Object, String>();

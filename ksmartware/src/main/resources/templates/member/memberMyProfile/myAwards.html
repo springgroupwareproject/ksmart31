@@ -66,42 +66,32 @@
 			<div class="col-10" style="padding-right:20px; border-right: 1px solid #ccc;">
 				<div class="card">
 					<div class="card-header">
-						<div>나의 학력 정보</div> 
+						<div>나의 자격증 정보</div> 
 						<div style="padding:10px; text-align:right"><button >추가</button></div>
 					</div>
 					<div class="card-body" >
-						<div  th:each="myEducation : ${myEducation}">	
-							<div class="input-group">
-								<div th:text="|기간 - ${myEducation.memberEducationStartDay}|"></div>
-								<div th:if="${myEducation.memberEducationEndDay != ''}" th:text="|&nbsp; ~ ${myEducation.memberEducationEndDay}|"></div>
-							</div>
-							<div th:text="|학교 명 : ${myEducation.memberEducationInstitution}|"></div>
-							<div th:text="|재학여부 : ${myEducation.memberEducationNow}|"></div>
-							<div th:text="|학위 : ${myEducation.memberEducationDegree}|"></div>
-							<div th:text="|전공 : ${myEducation.memberEducationMajor}|"></div>
-							<div th:text="|학점 : ${myEducation.memberFilesOriginName}|"></div>
+						<div  th:each="myAwards : ${myAwards}">	
+						
+							<!-- 수상 이력 날짜 -->
+							<div th:text="|수상일 : ${myAwards.memberAwardsDay}|"></div>
+							<div th:text="|상훈 명 : ${myAwards.memberAwardsName}|"></div>
+							<div th:text="|발급기관 : ${myAwards.memberAwardsInstitution}|"></div>	
+							<div th:text="|설명 : ${myAwards.memberAwardsDesc}|"></div>
+							
 							<!-- if 조건 데이터가 공백이면 파일없음 -->
-							<div th:if="${myEducation.memberFilesSaveName == '' }">
+							<div th:if="${myAwards.memberFilesSaveName == ''}">
 								<div>첨부파일 : 파일없음</div>
 							</div>
 							<!-- else 조건 -->
-							<div th:unless="${myEducation.memberFilesSaveName == ''}">
+							<div th:unless="${myAwards.memberFilesSaveName == ''}">
 								<div class="input-group">
 									<div>첨부파일 : </div>
-									<a href="#" th:text="|&nbsp; ${myEducation.memberFilesSaveName}|"></a>
+									<a href="#" th:text="|&nbsp; ${myAwards.memberFilesSaveName}|"></a>
 								</div>
 							</div>
 							
 							<div  align="right" style="height: 100px; padding:20px"><button>수정</button> <button>삭제</button></div>
 								<hr>
-							
-							<!-- 
-							시작								종료					퇴사회사					직급
-							member_career_start_day ~ member_career_end_day member_career_company	member_position_name
-							
-							퇴사사유
-							member_career_out_reason
-							 -->
 						</div>	 
 					</div>
 				</div>

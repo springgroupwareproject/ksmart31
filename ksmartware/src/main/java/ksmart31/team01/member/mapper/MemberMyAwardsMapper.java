@@ -5,13 +5,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import ksmart31.team01.member.domain.MemberLicense;
+import ksmart31.team01.member.domain.MemberAwards;
 
 @Mapper
-public interface MemberMyLicenseMapper {
+public interface MemberMyAwardsMapper {
 
 	public String memberFilesCode(String memberId);
 	
-	public List<MemberLicense> myLicense(Map<Object, String> map);
+	public List<MemberAwards> myAwards(Map<Object, String> map);
 	
 }

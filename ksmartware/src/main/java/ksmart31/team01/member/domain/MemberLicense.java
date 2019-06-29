@@ -16,7 +16,10 @@ public class MemberLicense {
 	private String memberName;
 	private String departmentName;
 	private String memberPositionName;
-	private String memberFilesCode;
+	private String memberFileCode;
+	private String memberFilesOriginName;
+	private String memberFilesSaveName;
+	
 	public String getMemberLicenseCode() {
 		return memberLicenseCode;
 	}
@@ -101,12 +104,39 @@ public class MemberLicense {
 	public void setMemberPositionName(String memberPositionName) {
 		this.memberPositionName = memberPositionName;
 	}
-	public String getMemberFilesCode() {
-		return memberFilesCode;
+	public String getMemberFileCode() {
+		return memberFileCode;
 	}
-	public void setMemberFilesCode(String memberFilesCode) {
-		this.memberFilesCode = memberFilesCode;
+	public void setMemberFileCode(String memberFileCode) {
+		this.memberFileCode = memberFileCode;
 	}
+	public String getMemberFilesOriginName() {
+		return memberFilesOriginName;
+	}
+	public void setMemberFilesOriginName(String memberFilesOriginName) {
+		this.memberFilesOriginName = memberFilesOriginName;
+	}
+	public String getMemberFilesSaveName() {
+		return memberFilesSaveName;
+	}
+	public void setMemberFilesSaveName(String memberFilesSaveName) {
+		this.memberFilesSaveName = memberFilesSaveName;
+	}
+	@Override
+	public String toString() {
+		return "MemberLicense [memberLicenseCode=" + memberLicenseCode + ", memberId=" + memberId
+				+ ", memberLicenseName=" + memberLicenseName + ", memberLicenseAuthentication="
+				+ memberLicenseAuthentication + ", memberLicenseNumber=" + memberLicenseNumber
+				+ ", memberLicenseStartDay=" + memberLicenseStartDay + ", memberLicenseEndDay=" + memberLicenseEndDay
+				+ ", memberLicenseExpiration=" + memberLicenseExpiration + ", memberLicenseUrl=" + memberLicenseUrl
+				+ ", memberLicenseDate=" + memberLicenseDate + ", memberEmployeeCode=" + memberEmployeeCode
+				+ ", memberName=" + memberName + ", departmentName=" + departmentName + ", memberPositionName="
+				+ memberPositionName + ", memberFileCode=" + memberFileCode + ", memberFilesOriginName="
+				+ memberFilesOriginName + ", memberFilesSaveName=" + memberFilesSaveName + "]";
+	}
+	
+	
+	
 	
 	
 	

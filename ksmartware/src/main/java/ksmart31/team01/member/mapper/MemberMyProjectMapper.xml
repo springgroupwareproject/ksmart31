@@ -10,7 +10,6 @@
 		WHERE 
 			member_id = #{memberId}
 
-
 	</select>
 
 
@@ -29,6 +28,8 @@
 	</resultMap>
 	
 	<select id="myProject" resultMap="myProject" parameterType="java.util.Map">
+		
+		<!-- 19-06-30 동적쿼리 반복문사용해야됨 -->
 		SELECT 
 			member_project_start_day,
 			member_project_end_day,
@@ -39,7 +40,6 @@
 			member_files_code,
 			member_files_origin_name,
 			member_files_save_name
-			
 		FROM 
 			member_project mp
 		INNER JOIN
@@ -51,6 +51,7 @@
 			mp.member_id = #{memberId}
 		AND
 			mp.member_file_code = #{memberFileCode}
+			
 	</select>
 	
 
