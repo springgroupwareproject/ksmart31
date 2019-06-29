@@ -18,7 +18,10 @@ public class MemberAcademy {
 	private String memberName;
 	private String departmentName;
 	private String memberPositionName;
-	private String memberFilesCode;
+	private String memberFileCode;
+	private String memberFilesOriginName;
+	private String memberFilesSaveName;
+	
 	public String getMemberAcademyCode() {
 		return memberAcademyCode;
 	}
@@ -115,12 +118,38 @@ public class MemberAcademy {
 	public void setMemberPositionName(String memberPositionName) {
 		this.memberPositionName = memberPositionName;
 	}
-	public String getMemberFilesCode() {
-		return memberFilesCode;
+	public String getMemberFileCode() {
+		return memberFileCode;
 	}
-	public void setMemberFilesCode(String memberFilesCode) {
-		this.memberFilesCode = memberFilesCode;
+	public void setMemberFileCode(String memberFileCode) {
+		this.memberFileCode = memberFileCode;
 	}
+	public String getMemberFilesOriginName() {
+		return memberFilesOriginName;
+	}
+	public void setMemberFilesOriginName(String memberFilesOriginName) {
+		this.memberFilesOriginName = memberFilesOriginName;
+	}
+	public String getMemberFilesSaveName() {
+		return memberFilesSaveName;
+	}
+	public void setMemberFilesSaveName(String memberFilesSaveName) {
+		this.memberFilesSaveName = memberFilesSaveName;
+	}
+	@Override
+	public String toString() {
+		return "MemberAcademy [memberAcademyCode=" + memberAcademyCode + ", memberId=" + memberId
+				+ ", memberAcademyName=" + memberAcademyName + ", memberAcademyStartDay=" + memberAcademyStartDay
+				+ ", memberAcademyEndDay=" + memberAcademyEndDay + ", memberAcademyComplete=" + memberAcademyComplete
+				+ ", memberAcademyInstitution=" + memberAcademyInstitution + ", memberAcademyCost=" + memberAcademyCost
+				+ ", memberAcademyPlace=" + memberAcademyPlace + ", memberAcademyPurpose=" + memberAcademyPurpose
+				+ ", memberAcademyDesc=" + memberAcademyDesc + ", memberAcademyDate=" + memberAcademyDate
+				+ ", memberEmployeeCode=" + memberEmployeeCode + ", memberName=" + memberName + ", departmentName="
+				+ departmentName + ", memberPositionName=" + memberPositionName + ", memberFileCode=" + memberFileCode
+				+ ", memberFilesOriginName=" + memberFilesOriginName + ", memberFilesSaveName=" + memberFilesSaveName
+				+ "]";
+	}
+	
 	
 	
 }

@@ -13,7 +13,11 @@ public class MemberAwards {
 	public String memberName;
 	public String departmentName;
 	public String memberPositionName;
-	public String memberFilesCode;
+	private String memberFileCode;
+	private String memberFilesOriginName;
+	private String memberFilesSaveName;
+	
+	
 	public String getMemberAwardsCode() {
 		return memberAwardsCode;
 	}
@@ -80,12 +84,36 @@ public class MemberAwards {
 	public void setMemberPositionName(String memberPositionName) {
 		this.memberPositionName = memberPositionName;
 	}
-	public String getMemberFilesCode() {
-		return memberFilesCode;
+	public String getMemberFileCode() {
+		return memberFileCode;
 	}
-	public void setMemberFilesCode(String memberFilesCode) {
-		this.memberFilesCode = memberFilesCode;
+	public void setMemberFileCode(String memberFileCode) {
+		this.memberFileCode = memberFileCode;
 	}
+	public String getMemberFilesOriginName() {
+		return memberFilesOriginName;
+	}
+	public void setMemberFilesOriginName(String memberFilesOriginName) {
+		this.memberFilesOriginName = memberFilesOriginName;
+	}
+	public String getMemberFilesSaveName() {
+		return memberFilesSaveName;
+	}
+	public void setMemberFilesSaveName(String memberFilesSaveName) {
+		this.memberFilesSaveName = memberFilesSaveName;
+	}
+	
+	@Override
+	public String toString() {
+		return "MemberAwards [memberAwardsCode=" + memberAwardsCode + ", memberId=" + memberId + ", memberAwardsName="
+				+ memberAwardsName + ", memberAwardsInstitution=" + memberAwardsInstitution + ", memberAwardsDay="
+				+ memberAwardsDay + ", memberAwardsDesc=" + memberAwardsDesc + ", memberAwardsDate=" + memberAwardsDate
+				+ ", memberEmployeeCode=" + memberEmployeeCode + ", memberName=" + memberName + ", departmentName="
+				+ departmentName + ", memberPositionName=" + memberPositionName + ", memberFileCode=" + memberFileCode
+				+ ", memberFilesOriginName=" + memberFilesOriginName + ", memberFilesSaveName=" + memberFilesSaveName
+				+ "]";
+	}
+	
 	
 	
 }

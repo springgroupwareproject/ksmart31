@@ -31,6 +31,8 @@ public class MemberMyEducationController {
 		String memberId = member.getMemberId(); 
 		
 		List<MemberEducation> myEducation = memberMyEducaService.myEducation(memberId);	
+		System.out.println("MemberMyEducationController myEducation : " + myEducation);
+		
 		model.addAttribute("myEducation", myEducation);
 	
 		return "member/memberMyProfile/myEducation";

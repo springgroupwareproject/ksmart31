@@ -24,7 +24,7 @@
 		<result column="member_files_origin_name" property="memberFilesOriginName"/>
 		<result column="member_files_save_name" property="memberFilesSaveName"/>
 	</resultMap>
-	<select id="myEducation" resultMap="myEducation">
+	<select id="myEducation" resultMap="myEducation" parameterType="java.util.Map">
 		SELECT 
 			member_education_start_day,
 			member_education_end_day,
