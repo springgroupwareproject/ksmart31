@@ -14,16 +14,21 @@
 		$(document).ready(function(){
 			// 조직도 버튼 클릭 이벤트
 			$('.departmentNameButton').click(function(){
+				
 				console.log('조직도 버튼 테스트 value : '+$(this).attr('value'));
 				// departmentName 별로 부서명을 조회하기 위해 이름 값을 담는 변수  
 				let departmentName = $(this).attr('value');
 				console.log('departmentName val : '+departmentName);
-				// 조직원 이름들을 담을 배열
-				let memberName = new Array();
-				// 한 사람의 휴가 내역을 담는 배열
-				let leaveHistory = {};
-				// 전체 조직원의 휴가 내역을 담는 배열
-				let leaveHistoryList = new Array();
+				// 변수 이름에 해당하는 값이 저장되어 있는 문자열을 각각의 값으로 분리시켜 담기위한 배열 
+				let grantHour = new Array();
+				let grantDay = new Array();
+				let usedHour = new Array();
+				let usedDay = new Array();
+				let remainingHour = new Array();
+				let remainingDay = new Array();
+				// 생성될 테이블 내용을 담을 변수
+				let contents = '';
+				// 비동기 요청
 				$.ajax({
 					url : '/leave/leaveHistoryByMemberIdList',
 					type : 'get',
@@ -31,35 +36,49 @@
 						departmentName:departmentName
 					},
 					success : function(data){
-						// 조직원 이름을 담는다(중복 값 존재)
-						$(data).each(function(i, item){
-							memberName[i] = item.memberName;
-						});
-						// 조직원 이름 중복 값 제거
-						let memberNameResult = memberName.reduce((a, b) => {
-							if(a.indexOf(b) < 0) a.push(b);
-							return a;
-						}, []) ;
-						console.log('조직원 이름 : '+memberNameResult);
+						$('#historyTable tbody').empty();
+						// 리턴 값 확인
 						console.log(data);
-						
 						$(data).each(function(i, item){
-							if(memberName[0] == item.memberName){
-								console.log('실행 확인');
-								leaveHistory = {
-										leaveHistoryGrantDay : item.leaveHistoryGrantDay,
-										leaveHistoryGrantHour : item.leaveHistoryGrantHour,
-										leaveHistoryUsedDay : item.leaveHistoryUsedDay,
-										leaveHistoryUsedHour : item.leaveHistoryUsedHour,
-										leaveHistoryRemainingDay : item.leaveHistoryRemainingDay,
-										leaveHistoryRemainingHour : item.leaveHistoryRemainingHour,
-								};
-								console.log('휴가 내역 : '+leaveHistory);
-								leaveHistoryList[i] = leaveHistory;
+							// 하나의 문자열로 연결되어 있는 값을 구분자(,)를 이용해 각각의 값으로 분리해서 배열에 저장한다 
+							// 예) "1,10,0,0,0,0" -> ["1", "10", "0", "0", "0", "0"]
+							grantHour = item.leaveHistoryGrantHour.split(',');
+							grantDay = item.leaveHistoryGrantDay.split(',');
+							usedHour = item.leaveHistoryUsedHour.split(',');
+							usedDay = item.leaveHistoryUsedDay.split(',');
+							remainingHour = item.leaveHistoryRemainingHour.split(',');
+							remainingDay = item.leaveHistoryRemainingDay.split(',');
+							// 테이블 생성
+							contents += '<tr>';
+							contents += '<td>'+item.memberName+'</td>';			// 이름
+							contents += '<td>'+item.memberPositionName+'</td>';	// 직위/직책
+							contents += '<td>'+item.memberJoinDay+'</td>';		// 입사일
+							contents += '<td>'+item.memberEmployeeCode+'</td>';	// 사번
+							for (var i = 0; i < item.leaveCategoryNumber; i++) {
+								contents += '<td class="text-primary">'; // 부여일
+								contents += ''+grantDay[i]+'일 ';
+								if (grantHour[i] != 0) {
+									contents += '<br>'+grantHour[i]+'시간';
+								}
+								contents += '</td>';
+								contents += '<td class="text-danger">';	// 사용일
+								contents += ''+usedDay[i]+'일 ';
+								if (usedHour[i] != 0) {
+									contents += '<br>'+usedHour[i]+'시간';
+								}
+								contents += '</td>';
+								contents += '<td>';	// 잔여일
+								contents += ''+remainingDay[i]+'일 ';
+								if (remainingHour[i] != 0) {
+									contents += '<br>'+remainingHour[i]+'시간';
+								}								
+								contents += '</td>';
 							}
+							contents += '</tr>';
+							console.log('contents : '+contents);
+							// contents 변수에 담긴 내용을 historyTable 테이블 바디에 추가
+							$('#historyTable tbody').append(contents);
 						});
-						console.log('휴가 내역 : '+leaveHistoryList);
-						
 					},	
 					error : function(error){
 						console.log(error);
@@ -102,10 +121,10 @@
 			<div class="card-header">
 				휴가 기준 : 회계연도&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;검색 연도 : 2019 년
 			</div>
-			<div class="card-body">
+			<div class="card-body" style="padding:0px;">
 				<!-- 전체 조직원 휴가 내역 테이블 -->
-				<div style="width:100%; height:440px; overflow:auto">
-					<div class="container">
+				<div style="width:100%; height:480px; overflow:auto;">
+					<div class="container" style="padding:0px;">
 						<div class="table-responsive">
 							<table class="table table-bordered test" id="historyTable">
 								<thead>
@@ -127,64 +146,11 @@
 							        </tr>
 								</thead>
 								<tbody>
-								<!-- <tr th:each="historyList : ${leaveHistoryByMemberList}">
-									이름
-									<td th:text="${historyList.memberName}"></td>
-									직위/직책
-									<td th:text="${historyList.memberPositionName}"></td>
-									입사일
-									<td th:text="${historyList.memberJoinDay}"></td>
-									사번
-									<td th:text="${historyList.memberEmployeeCode}"></td>
-									부여일
-									<td class="text-primary">
-										<th:block th:text="|${historyList.leaveHistoryGrantDay}일 |"/>
-										<br/>
-										시간 값이 0이 아닐 경우 출력
-										<th:block th:if="${historyList.leaveHistoryGrantHour != 0}" th:text="|${historyList.leaveHistoryGrantHour}시간 |"/>
-									</td>
-									사용일
-									<td class="text-danger">
-										<th:block th:text="|${historyList.leaveHistoryUsedDay}일|"/>
-										<br/>
-										시간 값이 0이 아닐 경우 출력
-										<th:block th:if="${historyList.leaveHistoryUsedHour != 0}" th:text="|${historyList.leaveHistoryUsedHour}시간 |"/>
-									</td>
-									잔여일
-									<td>
-										<th:block th:text="|${historyList.leaveHistoryRemainingDay}일|"/>
-										<br/>
-										시간 값이 0이 아닐 경우 출력
-										<th:block th:if="${historyList.leaveHistoryRemainingHour != 0}" th:text="|${historyList.leaveHistoryRemainingHour}시간 |"/>
-									</td>
-								</tr> -->
 								</tbody>
 							</table>
 						</div>
 					</div>
 				</div>										
-				<!-- <div class="container">						  
-					<div class="card">							
-						<div class="card-body" th:each="departmentJoinMemberList:${departmentJoinMemberList}">
-							<span th:text="${departmentJoinMemberList.memberName}"></span>
-							<span th:text="${departmentJoinMemberList.memberLevelTitle}"></span> 
-							<br>
-							<span th:text="${departmentJoinMemberList.departmentCategoryName}"></span>
-							<span th:text="${departmentJoinMemberList.departmentDivisionName}"></span>
-							<span th:text="${departmentJoinMemberList.departmentSectionName}"></span>
-							<br>
-							<span th:text="${departmentJoinMemberList.memberPositionName}"></span>
-							<span th:text="${departmentJoinMemberList.memberId}"></span>
-							<br>
-							<span th:text="${departmentJoinMemberList.memberPhone}"></span>
-							<span th:text="${departmentJoinMemberList.memberMobile}"></span>
-							<br>
-							<span th:text="${departmentJoinMemberList.memberJoinDay}"></span>
-							<span th:text="${departmentJoinMemberList.memberAddress}"></span>
-							<hr>
-						</div>																		
-					</div>
-				</div> -->					
 			</div>
 		</div>
 	</div>
