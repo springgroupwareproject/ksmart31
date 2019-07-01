@@ -5,19 +5,20 @@
 <mapper
 	namespace="ksmart31.team02lsj.document.mapper.DocumentManagementMapper">
 	<!-- 관리자 문서관리 전체리스트 -->
-	<select id="selectDocuemntApprovalList"
-		resultType="ksmart31.team02lsj.document.domain.ApprovalDocument">
+	<select id="selectDraftDocumentList"
+		resultType="ksmart31.team02lsj.document.domain.DraftDocument">
 		SELECT
+		draft_document_code AS draftDocumentCode,
 		draft_document_status AS draftDocumentStatus,
-		approval_document_file_save_name AS approvalDocumentFileSaveName,
-		member_name AS memberName,
-		document_date AS documentDate,
-		final_approval_member_name AS finalApprovalMemberName,
-		final_approval_date AS finalApprovalDate,
+		draft_document_file_save_name AS draftDocumentFileSaveName,
+		draft_document_member_name AS draftDocumentMemberName,
+		draft_document_date AS draftDocumentDate,
+		draft_document_final_approval_member_name AS draftDocumentFinalApprovalMemberName,
+		draft_document_final_approval_date AS draftDocumentFinalApprovalDate,
 		document_opinion_count AS documentOpinionCount,
 		document_attatch_file_count AS documentAttatchFileCount
-		FROM approval_document 
-		ORDER BY document_date DESC
+		FROM draft_document
+		ORDER BY draft_document_date DESC
 	</select>
 	
 	<!-- 관리자 문서관리 상세정보 확인을위한 문서양식 select -->

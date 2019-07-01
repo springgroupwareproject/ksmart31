@@ -13,6 +13,7 @@ import ksmart31.team02lsj.document.domain.ApprovalMember;
 import ksmart31.team02lsj.document.domain.DisbursementDocument;
 import ksmart31.team02lsj.document.domain.DocumentAttachedFile;
 import ksmart31.team02lsj.document.domain.DocumentOpinion;
+import ksmart31.team02lsj.document.domain.DraftDocument;
 import ksmart31.team02lsj.document.domain.LeaveApplication;
 import ksmart31.team02lsj.document.domain.ProjectDisbursement;
 import ksmart31.team02lsj.document.domain.ProjectReport;
@@ -25,13 +26,13 @@ public class DocumentManagementService {
 	@Autowired
 	DocumentManagementMapper documentManagementMapper;
 	// 관리자 문서통합 관리(리스트)
-	public List<ApprovalDocument> documentApprovalList() {
-		List<ApprovalDocument> documentApprovalList = documentManagementMapper.selectDocuemntApprovalList();
+	public List<DraftDocument> draftDocumentList() {
+		List<DraftDocument> documentApprovalList = documentManagementMapper.selectDraftDocumentList();
 		return documentApprovalList; 
 	
 	}
 	// 문서통합  관리 -> 문서별 상세 데이터 확인(모든양식)
-		public Map<String, Object> documentApprovalDetail(String approvalDocumentCode) {			
+		public Map<String, Object> documentManagementDetail(String approvalDocumentCode) {			
 			//문서입력 데이터
 			Map<String, Object> approvalDocumentDetailMap = new HashMap<String, Object>();
 			

@@ -5,6 +5,8 @@ public class DraftDocument {
 	private String draftDocumentStatus;
 	private String draftDocumentMemberName;
 	private String draftDocumentFileSaveName;
+	private String draftDocumentFinalApprovalMemberName;
+	private String draftDocumentFinalApprovalDate;
 	private int documentOpinionCount;
 	private int documentAttatchFileCount;
 	private String draftDocumentDate;
@@ -32,6 +34,18 @@ public class DraftDocument {
 	public void setDraftDocumentFileSaveName(String draftDocumentFileSaveName) {
 		this.draftDocumentFileSaveName = draftDocumentFileSaveName;
 	}
+	public String getDraftDocumentFinalApprovalMemberName() {
+		return draftDocumentFinalApprovalMemberName;
+	}
+	public void setDraftDocumentFinalApprovalMemberName(String draftDocumentFinalApprovalMemberName) {
+		this.draftDocumentFinalApprovalMemberName = draftDocumentFinalApprovalMemberName;
+	}
+	public String getDraftDocumentFinalApprovalDate() {
+		return draftDocumentFinalApprovalDate;
+	}
+	public void setDraftDocumentFinalApprovalDate(String draftDocumentFinalApprovalDate) {
+		this.draftDocumentFinalApprovalDate = draftDocumentFinalApprovalDate;
+	}
 	public int getDocumentOpinionCount() {
 		return documentOpinionCount;
 	}
@@ -54,7 +68,9 @@ public class DraftDocument {
 	public String toString() {
 		return "DraftDocument [draftDocumentCode=" + draftDocumentCode + ", draftDocumentStatus=" + draftDocumentStatus
 				+ ", draftDocumentMemberName=" + draftDocumentMemberName + ", draftDocumentFileSaveName="
-				+ draftDocumentFileSaveName + ", documentOpinionCount=" + documentOpinionCount
+				+ draftDocumentFileSaveName + ", draftDocumentFinalApprovalMemberName="
+				+ draftDocumentFinalApprovalMemberName + ", draftDocumentFinalApprovalDate="
+				+ draftDocumentFinalApprovalDate + ", documentOpinionCount=" + documentOpinionCount
 				+ ", documentAttatchFileCount=" + documentAttatchFileCount + ", draftDocumentDate=" + draftDocumentDate
 				+ "]";
 	}

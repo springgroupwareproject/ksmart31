@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main">
+
+<th:block layout:fragment="customHead">
+	<meta charset="UTF-8">
+	<title>documentApprovalManagement</title>
+	<th:block th:include="layout/customHead"></th:block>
+	<script>
+		function checkAll() {
+			if ($("#checkAll").is(':checked')) {
+				$("input[type=checkbox]").prop("checked", true);
+			} else {
+				$("input[type=checkbox]").prop("checked", false);
+			}
+		};
+	</script>
+</th:block>
+
+<th:block layout:fragment="customBody">
+	<h2>문서통합관리</h2>
+	<br />
+	<div class="col-md-12">
+		<div class="card table-card">
+			<div class="card-header">
+				<h3>문서관리</h3>
+				<div class="card-header-right">
+					<button type="button" class="btn btn-secondary">
+						<i class="ik ik-clipboard"></i>삭제
+					</button>
+				</div>
+			</div>
+			<div class="card-block">
+				<div class="table-responsive">
+
+					<table class="table table-hover mb-0">
+						<thead>
+							<tr>
+								<th><div class="custom-control custom-checkbox mb-3">
+										<input type="checkbox" class="custom-control-input"
+											id="checkAll" name="example1" onclick="checkAll();">
+										<label class="custom-control-label" for="checkAll"> </label>
+									</div></th>
+								<th>상태</th>
+								<th>문서명</th>
+								<th><i class="ik ik-paperclip"></i><i
+									class="ik ik-message-square"></i></th>
+								<!-- 첨부파일&댓글 -->
+								<th>기안자</th>
+								<th>기안일</th>
+								<th>최종승인자</th>
+								<th>최종승인일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="list : ${documentManagementList}">
+								<td>
+<!-- 									<div class="custom-control custom-checkbox mb-3">
+										<input type="checkbox" class="custom-control-input" id="c1"	name="example1">
+										<label class="custom-control-label"	for="c1"> </label>
+									</div> -->
+								</td>
+								<td>
+									<div th:switch="${list.draftDocumentStatus}">
+										<label th:case="'결재중'" class="badge badge-primary"> <span
+											th:text="${list.draftDocumentStatus}"></span></label> <label
+											th:case="'승인'" class="badge badge-success"> <span
+											th:text="${list.draftDocumentStatus}"></span></label> <label
+											th:case="'반려'" class="badge badge-danger"> <span
+											th:text="${list.draftDocumentStatus}"></span></label> <label
+											th:case="'임시저장'" class="badge badge-secondary"> <span
+											th:text="${list.draftDocumentStatus}"></span></label>
+									</div>
+								</td>
+								<td><span th:text="${list.draftDocumentFileSaveName}"></span></td>
+								<td>
+									<i class="ik ik-paperclip">
+										<span th:text="${list.documentAttatchFileCount}"></span>
+									</i>
+									<i class="ik ik-message-square">
+										<span th:text="${list.documentOpinionCount}"></span>
+									</i>
+								</td>
+								<td><span th:text="${list.draftDocumentMemberName}"></span></td>
+								<td><span th:text="${list.draftDocumentDate}"></span></td>
+								<td><span th:text="${list.draftDocumentFinalApprovalMemberName}"></span></td>
+								<td><span th:text="${list.draftDocumentFinalApprovalDate}"></span></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+<th:block layout:fragment="customJquery">
+	<th:block th:include="layout/customJquery"></th:block>
+</th:block>
+
+</html>
