@@ -78,6 +78,8 @@
 							console.log('contents : '+contents);
 							// contents 변수에 담긴 내용을 historyTable 테이블 바디에 추가
 							$('#historyTable tbody').append(contents);
+							// 변수 값 초기화
+							contents = "";
 						});
 					},	
 					error : function(error){
