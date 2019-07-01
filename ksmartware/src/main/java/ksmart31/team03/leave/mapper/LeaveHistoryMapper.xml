@@ -76,6 +76,7 @@
 		<result column="leave_history_used_day" property="leaveHistoryUsedDay"/>
 		<result column="leave_history_remaining_hour" property="leaveHistoryRemainingHour"/>
 		<result column="leave_history_remaining_day" property="leaveHistoryRemainingDay"/>
+		<result column="member_id" property="memberId"/>
 		<result column="member_name" property="memberName"/>
 		<result column="member_employee_code" property="memberEmployeeCode"/>
 		<result column="member_position_name" property="memberPositionName"/>

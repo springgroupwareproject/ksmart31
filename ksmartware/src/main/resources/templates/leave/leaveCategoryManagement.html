@@ -146,9 +146,11 @@
 					<div class="card">
 						<div class="card-header">휴가 종류</div>
 						<div class="card-body">
-							<div th:each="list : ${leaveCategoryList}">
-								<button class="leaveCategoryButton btn btn-outline-dark" th:id="${list.leaveCategoryCode}" th:text="${list.leaveCategorySort}" th:value="${list.leaveCategoryCode}"></button>
-							</div>
+							<ul class="nav flex-column">
+								<li class="nav-item" th:each="list : ${leaveCategoryList}">
+									<a class="nav-link leaveCategoryButton" href="#" th:text="${list.leaveCategorySort}" th:value="${list.leaveCategoryCode}"></a>
+								</li>	
+							</ul>
 						</div>
 					</div>
 							

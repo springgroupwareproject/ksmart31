@@ -12,9 +12,12 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<script>
 		$(document).ready(function(){
+			// 상세 휴가 내역에서 비동기 요청 시 필요한 값이기 때문에 전역변수로 설정 
+			let memberId;
+			let leaveCategorySort = '';
+			
 			// 조직도 버튼 클릭 이벤트
 			$('.departmentNameButton').click(function(){
-				
 				console.log('조직도 버튼 테스트 value : '+$(this).attr('value'));
 				// departmentName 별로 부서명을 조회하기 위해 이름 값을 담는 변수  
 				let departmentName = $(this).attr('value');
@@ -48,9 +51,9 @@
 							usedDay = item.leaveHistoryUsedDay.split(',');
 							remainingHour = item.leaveHistoryRemainingHour.split(',');
 							remainingDay = item.leaveHistoryRemainingDay.split(',');
-							// 테이블 생성
+							// 생성할 테이블 내용
 							contents += '<tr>';
-							contents += '<td>'+item.memberName+'</td>';			// 이름
+							contents += '<td><a class="memberName" value="'+item.memberId+'" href="#" data-toggle="modal" data-target="#detailModal">'+item.memberName+'</a></td>';			// 이름
 							contents += '<td>'+item.memberPositionName+'</td>';	// 직위/직책
 							contents += '<td>'+item.memberJoinDay+'</td>';		// 입사일
 							contents += '<td>'+item.memberEmployeeCode+'</td>';	// 사번
@@ -88,6 +91,111 @@
 					}
 				});
 			});
+			// 상세 휴가 내역 조회
+			$(document).on('click','.memberName',function(){
+				console.log('memberName 클릭 이벤트 확인');
+				// 부여, 사용 내역 테이블 바디 초기화
+				$('#grantTable tbody').empty();
+				$('#usedTable tbody').empty();
+				memberId = $(this).attr('value');
+				console.log('memberId val : '+memberId);
+				$.ajax({
+					url : '/leave/leaveHistoryByMemberId',
+					type : 'get',
+					data : {
+						leaveCategorySort:leaveCategorySort,
+						memberId:memberId
+					},
+					success : function(data){
+						console.log(data);
+						// 부여 내역 리스트
+						$(data.leaveGrantList).each(function(i, item){
+							$('#grantTable tbody').append('<tr>');
+							$('#grantTable tbody').append('<td>'+item.leaveCategorySort+'</td>');
+							$('#grantTable tbody').append('<td>'+item.leaveGrantDate+'</td>');
+							$('#grantTable tbody').append('<td>'+item.leaveGrantDay+'일 '+item.leaveGrantHour+'시간</td>');
+							$('#grantTable tbody').append('<td>'+item.leaveGrantReason+'</td>');
+							$('#grantTable tbody').append('</tr>');
+						});
+						// 사용 내역 리스트
+						$(data.leaveUsedList).each(function(i, item){
+							$('#usedTable tbody').append('<tr>');
+							$('#usedTable tbody').append('<td>'+item.leaveCategorySort+'</td>');
+							$('#usedTable tbody').append('<td>'+item.leaveDetailSort+'</td>');
+							$('#usedTable tbody').append('<td>'+item.leaveUsedStartDay+' - '+item.leaveUsedEndDay+'</td>');
+							$('#usedTable tbody').append('<td>'+item.leaveUsedDay+'일 '+item.leaveUsedHour+'시간</td>');
+							$('#usedTable tbody').append('<td>'+item.leaveUsedReason+'</td>');
+							$('#usedTable tbody').append('</tr>');
+						});
+						// 부여, 사용, 총 휴가일 
+						$(data.totalLeaveGrantAndUsed).each(function(i, item){
+							$('#totalGrant').html(''+item.leaveTotalGrantDay+'일 '+item.leaveTotalGrantHour+'시간');
+							$('#totalUsed').html(''+item.leaveTotalUsedDay+'일 '+item.leaveTotalUsedHour+'시간');
+							$('#total').html(''+item.leaveTotalDay+'일 '+item.leaveTotalHour+'시간');
+						});
+					},	
+					error : function(error){
+						console.log(error);
+					}
+				});
+				
+			});
+			// 휴가 종류 선택 이벤트
+			$(document).on('change','#categoryList',function(){
+				console.log('셀렉트 박스 체인지 테스트');
+				// 부여, 사용 내역 테이블 바디 초기화
+				$('#grantTable tbody').empty();
+				$('#usedTable tbody').empty();
+				// 선택된 옵션 값을 담는 변수
+				leaveCategorySort = $("#categoryList option:selected").val();
+				console.log('셀렉트 박스 val : '+leaveCategorySort);
+				// memberId 값 확인
+				console.log('memberId val : '+memberId);
+				// 비동기 요청
+				$.ajax({
+					url : '/leave/leaveHistoryByMemberId',
+					type : 'get',
+					data : {
+						leaveCategorySort:leaveCategorySort,
+						memberId:memberId
+					},
+					success : function(data){
+						console.log(data);
+						// 부여, 사용 내역 테이블 바디 초기화
+						$('#grantTable tbody').empty();
+						$('#usedTable tbody').empty();
+						// 부여 내역 리스트
+						$(data.leaveGrantList).each(function(i, item){
+							$('#grantTable tbody').append('<tr>');
+							$('#grantTable tbody').append('<td>'+item.leaveCategorySort+'</td>');
+							$('#grantTable tbody').append('<td>'+item.leaveGrantDate+'</td>');
+							$('#grantTable tbody').append('<td>'+item.leaveGrantDay+'일 '+item.leaveGrantHour+'시간</td>');
+							$('#grantTable tbody').append('<td>'+item.leaveGrantReason+'</td>');
+							$('#grantTable tbody').append('</tr>');
+						});
+						// 사용 내역 리스트
+						$(data.leaveUsedList).each(function(i, item){
+							$('#usedTable tbody').append('<tr>');
+							$('#usedTable tbody').append('<td>'+item.leaveCategorySort+'</td>');
+							$('#usedTable tbody').append('<td>'+item.leaveDetailSort+'</td>');
+							$('#usedTable tbody').append('<td>'+item.leaveUsedStartDay+' - '+item.leaveUsedEndDay+'</td>');
+							$('#usedTable tbody').append('<td>'+item.leaveUsedDay+'일 '+item.leaveUsedHour+'시간</td>');
+							$('#usedTable tbody').append('<td>'+item.leaveUsedReason+'</td>');
+							$('#usedTable tbody').append('</tr>');
+						});
+						// 부여, 사용, 총 휴가일 
+						$(data.totalLeaveGrantAndUsed).each(function(i, item){
+							$('#totalGrant').html(''+item.leaveTotalGrantDay+'일 '+item.leaveTotalGrantHour+'시간');
+							$('#totalUsed').html(''+item.leaveTotalUsedDay+'일 '+item.leaveTotalUsedHour+'시간');
+							$('#total').html(''+item.leaveTotalDay+'일 '+item.leaveTotalHour+'시간');
+						});
+					},	
+					error : function(error){
+						console.log(error);
+					}
+				});
+			});
+			$('#categoryList').val('').trigger('change');
 		});
 	</script>
 	<style>
@@ -107,12 +215,11 @@
 			<div class="card-header">조직도</div>
 			<!-- 왼쪽 카드 내용 -->
 			<div class="card-body">
-				<div th:each="recursiveList: ${recursiveList}">
-					<button class="departmentNameButton btn btn-outline-dark"
-						th:text="${recursiveList.departmentName}"
-						th:value="${recursiveList.departmentName}">
-					</button>
-				</div>
+				<ul class="nav flex-column">
+					<li class="nav-item" th:each="recursiveList: ${recursiveList}">
+						<a class="nav-link departmentNameButton" href="#" th:text="${recursiveList.departmentName}" th:value="${recursiveList.departmentName}"></a>
+					</li>	
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -158,6 +265,106 @@
 		</div>
 	</div>
 	<!-- 오른쪽 카드 영역 종료 -->
+</div>
+<!-- 상세 휴가 내역 팝업 -->
+<div class="modal" id="detailModal">
+	<div class="modal-dialog modal-dialog-scrollable modal-dialog" style="max-width: 100%; width: auto; display: table;">
+		<div class="modal-content">
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h2 class="modal-title">휴가 상세 내역</h2>
+				<button type="button" class="close" data-dismiss="modal">×</button>
+			</div>
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="row">
+					<!-- 휴가 종류 셀렉트 박스 -->
+					<div class="col-12" style="border: 1px solid #ccc; height:50px; padding-top:7px">	
+						<div class="form-group row">
+							<label for="exampleInputUsername2" class="col-sm-1 col-form-label">휴가 종류</label>
+							<select class="form-control col-1" id="categoryList">
+								<option value="">전체</option>
+								<option th:each="categoryList : ${leaveCategoryList}" 
+									th:value="${categoryList.leaveCategorySort}" 
+									th:utext="${categoryList.leaveCategorySort}"/>
+							</select>
+						</div>
+					</div>
+					<!-- 부여 내역 설정 -->
+					<div class="col-6" style="border: 1px solid #ccc; height:50px; padding-top:15px;">
+						<span>휴가일수 부여 내역</span>
+					</div>
+					<!-- 사용 내역 설정 -->
+					<div class="col-6" style="border: 1px solid #ccc; height:50px; padding-top:15px;">
+						<span>휴가일수 사용(차감) 내역</span>
+					</div>
+					<!-- 부여 내역 리스트 -->
+					<div class="col-6" style="border: 1px solid #ccc; padding:0px;">
+						<div class="table-responsive">
+							<table class="table table-bordered" id="grantTable">
+								<thead>
+									<tr>
+										<th>휴가 종류</th>
+										<th>부여일</th>
+										<th>부여 휴가 일수</th>
+										<th>부여 사유</th>
+									</tr>
+								</thead>	
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- 사용 내역 리스트 -->
+					<div class="col-6" style="border: 1px solid #ccc; padding:0px;">
+						<div class="table-responsive">
+							<table class="table table-bordered" id="usedTable">
+								<thead>
+									<tr>
+										<th>휴가 종류</th>
+										<th>휴가 세부 종류</th>
+										<th>휴가 기간</th>
+										<th>휴가 일수</th>
+										<th>휴가 사유</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- 휴가 부여일수 합계 -->
+					<div class="col-3" style="border: 1px solid #ccc; height:50px; padding:15px; text-align:center;">
+						<span>휴가 부여일수 합계</span>
+					</div>
+					<!-- 휴가 부여일수 합계 -->
+					<div class="col-3 text-primary" style="border: 1px solid #ccc; height:50px; padding:15px; text-align:center;">
+						<span id="totalGrant"></span>
+					</div>
+					<!-- 휴가 사용일수 합계 -->
+					<div class="col-3" style="border: 1px solid #ccc; height:50px; padding:15px; text-align:center;">
+						<span>휴가 사용일수 합계</span>
+					</div>
+					<!-- 휴가 사용일수 합계 -->
+					<div class="col-3 text-danger" style="border: 1px solid #ccc; height:50px; padding:15px; text-align:center;">
+						<span id="totalUsed"></span>
+					</div>
+					<!-- 휴가 일수 합계 -->
+					<div class="col-6" style="border: 1px solid #ccc; height:50px; padding:15px; text-align:center;">
+						<span>휴가 일수 합계</span>
+					</div>
+					<!-- 휴가 일수 합계 -->
+					<div class="col-6" style="border: 1px solid #ccc; height:50px; padding:15px; text-align:center;">
+						<span id="total"></span>
+					</div>
+				</div>
+			</div>
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-light" data-dismiss="modal">닫기</button>
+			</div>
+		</div>
+	</div>
 </div>
 </th:block>
 
