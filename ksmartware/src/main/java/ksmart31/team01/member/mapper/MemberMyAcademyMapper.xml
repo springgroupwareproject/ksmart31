@@ -2,16 +2,6 @@
 <mapper namespace="ksmart31.team01.member.mapper.MemberMyAcademyMapper">
 	
 	<!-- myProfile 개인정보 -->
-	<select id="memberFilesCode" resultType="String">
-		SELECT 
-			member_file_code AS memberFileCode
-		FROM 
-			member_academy
-		WHERE 
-			member_id = #{memberId}
-	</select>
-
-	<!-- myProfile 개인정보 -->
 	<resultMap type="ksmart31.team01.member.domain.MemberAcademy" id="myAcademy">	
 				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
 		<result column="member_academy_start_day" property="memberAcademyStartDay"/>
@@ -28,7 +18,7 @@
 		<result column="member_files_save_name" property="memberFilesSaveName"/>
 	</resultMap>
 	
-	<select id="myAcademy" resultMap="myAcademy" parameterType="java.util.Map">
+	<select id="myAcademy" resultMap="myAcademy">
 		SELECT 
 			member_academy_start_day,
 			member_academy_end_day,
@@ -51,8 +41,6 @@
 			ma.member_file_code = mf.member_files_code
 		WHERE
 			ma.member_id = #{memberId}
-		AND
-			ma.member_file_code = #{memberFileCode}	
 	</select>
 	
 
