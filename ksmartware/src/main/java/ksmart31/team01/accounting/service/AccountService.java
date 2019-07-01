@@ -4,9 +4,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import ksmart31.team01.accounting.mapper.AccountMapper;
-import ksmart31.team01.member.domain.Member;
 import ksmart31.team01.accounting.domain.Account;
 
 @Service
@@ -42,11 +40,5 @@ public class AccountService {
 	//account 입력
 	public int addAccount(Account account){
 		return accountMapper.insertAccount(account);
-	}
-	//memberId 리스트
-	public List<Member> getMemberIdList(){
-		List<Member> memberIdList = accountMapper.selectMemberIdList();
-		System.out.println(memberIdList + "AccountService getAccountList memberIdList");
-		return memberIdList;
 	}	
 }
