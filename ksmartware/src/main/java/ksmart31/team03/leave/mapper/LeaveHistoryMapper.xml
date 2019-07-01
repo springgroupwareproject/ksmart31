@@ -65,7 +65,7 @@
 		</choose>
 			WHERE d.department_name = #{departmentName}
 	</select>
-	<!-- 조직원 아이디별 휴가 내역 조회 -->
+	<!-- 특정 부서에 해당하는 조직원  휴가 내역 조회 -->
 	<resultMap type="ksmart31.team03.leave.domain.LeaveHistory" id="selectLeaveHistoryByMemberList">
 		<result column="leave_history_code" property="LeaveHistoryCode"/>
 		<result column="leave_category_sort" property="leaveCategorySort"/>
@@ -76,26 +76,27 @@
 		<result column="leave_history_used_day" property="leaveHistoryUsedDay"/>
 		<result column="leave_history_remaining_hour" property="leaveHistoryRemainingHour"/>
 		<result column="leave_history_remaining_day" property="leaveHistoryRemainingDay"/>
+		<result column="member_id" property="memberId"/>
 		<result column="member_name" property="memberName"/>
 		<result column="member_employee_code" property="memberEmployeeCode"/>
 		<result column="member_position_name" property="memberPositionName"/>
 		<result column="member_join_day" property="memberJoinDay"/>
+		<result column="leave_category_number" property="leaveCategoryNumber"/>
 	</resultMap>
 	<select id="selectLeaveHistoryByMemberList" parameterType="java.util.Map" resultMap="selectLeaveHistoryByMemberList">
-		SELECT 
-			leave_history_code,
-			leave_category_sort,
-			leave_category_code,
-			leave_history_grant_hour,
-			leave_history_grant_day,
-			leave_history_used_hour,
-			leave_history_used_day,
-			leave_history_remaining_hour,
-			leave_history_remaining_day,
+		SELECT DISTINCT 
+			member_id, 
 			member_name,
-			member_employee_code,
 			member_position_name,
-			member_join_day
+			member_join_day,
+			member_employee_code, 
+			GROUP_CONCAT(leave_history_grant_hour ORDER BY(SUBSTRING_INDEX(leave_category_code,'_',-1)))leave_history_grant_hour,
+			GROUP_CONCAT(leave_history_grant_day ORDER BY(SUBSTRING_INDEX(leave_category_code,'_',-1)))leave_history_grant_day,
+			GROUP_CONCAT(leave_history_used_hour ORDER BY(SUBSTRING_INDEX(leave_category_code,'_',-1)))leave_history_used_hour,
+			GROUP_CONCAT(leave_history_used_day ORDER BY(SUBSTRING_INDEX(leave_category_code,'_',-1)))leave_history_used_day,
+			GROUP_CONCAT(leave_history_remaining_hour ORDER BY(SUBSTRING_INDEX(leave_category_code,'_',-1)))leave_history_remaining_hour,
+			GROUP_CONCAT(leave_history_remaining_day ORDER BY(SUBSTRING_INDEX(leave_category_code,'_',-1)))leave_history_remaining_day,
+			COUNT(*)leave_category_number		
 		FROM 
 			leave_history
 		WHERE 
@@ -103,7 +104,9 @@
 			<foreach collection="memberIdList" item="item" index="index" open="(" close=")" separator=",">
 				#{item}
 			</foreach>
-		ORDER BY(SUBSTRING_INDEX(leave_category_code,'_',-1)+0)
-		AND member_name
+		GROUP BY 
+			member_id
+		ORDER BY 
+			member_name
 	</select>
 </mapper>
