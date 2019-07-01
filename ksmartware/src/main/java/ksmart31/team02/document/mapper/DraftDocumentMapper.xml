@@ -4,17 +4,27 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="ksmart31.team02.document.mapper.DraftDocumentMapper">
+	<!-- 문서양식폼에 보여줄 정보 -->
+	<select id="selectDraftDocument"
+			resultType="ksmart31.team02.document.domain.DraftDocument">
+		SELECT draft_document_code AS draftDocumentCode
+			, document_form_code AS documentFormCode
+			, document_form_category_code AS documentFormCategoryCode
+			, draft_document_date AS draftDocumentDate
+		FROM draft_document
+	</select>
+	
 	<!-- 최근 승인 문서 목록-->
 	<select id="selectLastestApprovalDocumentList"
 			parameterType="Integer"
 			resultType="ksmart31.team02.document.domain.ApprovalDocument">
-	SELECT approval_document_code AS approvalDocumentCode
-		, draft_document_code AS draftDocumentCode
-		, document_date AS documentDate
-		, approval_document_file_save_name AS approvalDocumentFileSaveName
-	FROM approval_document
-	WHERE draft_document_status='승인'
-	ORDER BY document_date DESC
+		SELECT approval_document_code AS approvalDocumentCode
+			, draft_document_code AS draftDocumentCode
+			, document_date AS documentDate
+			, approval_document_file_save_name AS approvalDocumentFileSaveName
+		FROM approval_document
+		WHERE draft_document_status='승인'
+		ORDER BY document_date DESC
 	</select>
 
 	<!-- 임시저장문서 목록 -->

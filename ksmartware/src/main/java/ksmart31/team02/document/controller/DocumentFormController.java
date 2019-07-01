@@ -9,16 +9,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import ksmart31.team01.common.service.MemberLoginService;
 import ksmart31.team01.member.domain.Member;
 import ksmart31.team02.document.domain.DocumentFormCategory;
+import ksmart31.team02.document.domain.DraftDocument;
 import ksmart31.team02.document.mapper.DocumentFormMapper;
+import ksmart31.team02.document.service.DocumentFormService;
+import ksmart31.team03.leave.domain.LeaveCategory;
+import ksmart31.team03.leave.domain.LeaveHistory;
 
 @Controller
 public class DocumentFormController {
 	@Autowired private DocumentFormMapper documentFormMapper;
-	@Autowired private MemberLoginService memberLoginService;
-
+	@Autowired private DocumentFormService documentFormService;
+	
 	// 구매요청서 작성폼
 	@GetMapping("/purchaseRequisitionForm")
 	public String addPurchaseRequisitionForm() {
@@ -49,11 +52,24 @@ public class DocumentFormController {
 	
 	// 휴가신청서 작성폼
 	@GetMapping("/leaveApplicationForm")
-	public String getLeaveApplicationForm(HttpSession session, Member member, Model model) {
+	public String getLeaveApplicationForm(HttpSession session, Model model) {
 		System.out.println("[DocumentFormController] getLeaveApplicationForm() 실행");
-		Member loginMember = memberLoginService.getMemberForLogin(member);
-		System.out.println("[DocumentFormController] loginMember :"+loginMember);
-		return "member/documentForm/leaveApplicationForm";
+		
+		// 로그인된 아이디에서 직원 정보 조회
+		Member loginMember = (Member) session.getAttribute("loginMember");
+		System.out.println("[DocumentFormController] loginMember : "+loginMember);
+		
+		if(loginMember == null) {
+			return "redirect:"+"/login";
+		}else {
+			// 기안일 조회
+			List<DraftDocument> draftDocumentList = documentFormService.getLeaveApplicationForm();
+			System.out.println("[DocumentFormController] draftDocumentList:"+draftDocumentList);
+			
+			model.addAttribute("draftDocumentList", draftDocumentList);
+			model.addAttribute("loginMember", loginMember);
+			return "member/documentForm/leaveApplicationForm";
+		}
 	}
 	
 	// 공통양식 카테고리 목록

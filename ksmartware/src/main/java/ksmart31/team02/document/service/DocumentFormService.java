@@ -1,23 +1,24 @@
 package ksmart31.team02.document.service;
 
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-//import ksmart31.team01.member.mapper.MemberLoginMapper;
-import ksmart31.team02.document.mapper.DocumentFormMapper;
+import ksmart31.team02.document.domain.DraftDocument;
+import ksmart31.team02.document.mapper.DraftDocumentMapper;
 
 @Service
 public class DocumentFormService {
-	@Autowired private DocumentFormMapper documentFormMapper;
-	//@Autowired private MemberLoginMapper memberLoginMapper;
-	
+	@Autowired private DraftDocumentMapper draftDocumentMapper;
+
 	// 휴가신청서 작성폼
-	public Map<String, Object> getLeaveApplicationForm() {
-		System.out.println("(S) getLeaveApplicationForm() 실행");
+	public List<DraftDocument> getLeaveApplicationForm() {
+		System.out.println("[DocumentFormService] getLeaveApplicationForm() 실행");
+
+		List<DraftDocument> list = draftDocumentMapper.selectDraftDocument();
+		System.out.println("[DocumentFormService] list:"+list);
 		
-		// select 문서양식 이름 
-		return null;
+		return list;
 	}
 }
