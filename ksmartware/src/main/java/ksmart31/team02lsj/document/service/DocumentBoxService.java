@@ -1,14 +1,11 @@
 package ksmart31.team02lsj.document.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ksmart31.team01.member.domain.Member;
 import ksmart31.team02lsj.document.domain.DocumentAttachedFile;
 import ksmart31.team02lsj.document.domain.DraftDocument;
 import ksmart31.team02lsj.document.mapper.DocumentBoxMapper;
