@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+	
+	<th:block layout:fragment="customHead">
+		<meta charset="UTF-8">
+		<title>임시저장문서 목록</title>
+		<th:block th:include="layout/customHead"></th:block>
+		<script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js}"></script>
+		<script>
+			$(document).ready(function() {
+				$('.ck').change(function(){
+					if($(this).is(":checked") == true){
+			            console.log('#checkbox 클릭');
+			            $('#btnRemove').show(); // 체크박스가 체크되면 삭제버튼 보이기
+			            
+			            /* 
+			    		// 기안문서삭제
+			    		$('#btnRemove').on('click',function() {
+			    			console.log('삭제버튼 클릭');
+			    			let ck = new Array();
+			    			console.log('ck:'+ck);
+			    			$('.ck:checked').each(function(i, item) {
+			    				ck.push($(item).val());
+			    				console.log('ck:'+ck);
+			    			}); 
+			    			
+			    			// 비동기요청
+			    			$.ajax({
+			    				url:'/removeDraftDocument'
+			    				, type:'POST'
+			    	           	, data:{'ck':ck}
+			    				, success : function() {
+			    					console.log('삭제 성공');
+			    					location.reload();	    					
+			    				}
+			    			});
+			    		}); */
+		
+			        }else{
+			        	console.log('#checkbox 클릭해제');
+			        	$('#btnRemove').hide(); // 체크박스가 해제되면삭제버튼 숨기기
+			        }
+					
+				});
+			});
+		</script>
+	</th:block>
+	
+	<th:block layout:fragment="customBody">
+		<div class="col-xl-8 col-md-6">
+			<div class="card table-card">
+				<div class="card-header">
+					<h3>임시저장문서</h3>
+				</div>
+				<div class="card-block">
+					<div class="table-responsive">
+						<button type="button" id="btnRemove" hidden="hidden">삭제</button>
+						<table class="table table-hover mb-0">
+							<thead>
+								<tr>
+									<td></td>
+									<td>문서명</td>
+									<td>기안자</td>
+									<td>기안일</td>
+									<td></td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="list : ${list}">
+									<td><input type="checkbox" class="ck" th:value="${list.draftDocumentCode}"></td>
+									<td>
+										<a th:href="@{/removeDraftDocument(draftDocumentCode = ${list.draftDocumentCode})}">
+											<th:block th:text="${list.draftDocumentFileSaveName}"></th:block>
+										</a>
+									</td>
+									<td th:text="${list.draftDocumentMemberName}"></td>
+									<td th:text="${list.draftDocumentDate}"></td>
+									<td>
+										<a href="#!"><i class="ik ik-trash-2 f-16 text-red"></i></a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="customJquery">
+		<th:block th:include="layout/customJquery"></th:block>
+	</th:block>
+	
+</html>
