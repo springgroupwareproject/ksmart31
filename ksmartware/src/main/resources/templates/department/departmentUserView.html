@@ -7,6 +7,9 @@
 	<meta charset="UTF-8">
 	<title>Sample</title>
 	<th:block th:include="layout/customHead"></th:block>	
+	<style>
+	#departmentJoinMemberByMemberIdList{text-align:center;}	
+	</style>
 	<script>
 		$(document).ready(function(){
 			// 조직도 버튼 클릭 이벤트
@@ -62,12 +65,14 @@
 <th:block layout:fragment="customBody">
 <div class="row">
 	<div class="col-md-4">
-		<div class="card" style="min-height: 650px;">
-			<div class="card-header">
-				<h3>조직도</h3>								
+		<div class="card" style="min-height: 575px;">
+			<div class="card-header" style="text-align:center;">
+				<h3>조직도</h3>
+				<button type="button" class="departmentNameButton btn btn-outline-dark" value="fullView" >전체 보기</button>							
 			</div>
 			<div class="card-body">				
-				<button type="button" class="departmentNameButton" value="fullView">전체 보기</button>	
+					
+				
 				<div th:each="recursiveList: ${recursiveList}">				
 					<button class="departmentNameButton btn btn-outline-dark"
 						th:text="${recursiveList.departmentName}"
@@ -86,7 +91,7 @@
 				<div class="container">						  
 					<div class="card">					
 						<span class="card-body" th:each="departmentJoinMemberList:${departmentJoinMemberList}">
-							<button type="button" class="departmentJoinMemberByMemberIdButton" th:value="${departmentJoinMemberList.memberId}" data-toggle="modal" data-target="#detailModal">
+							<button type="button" class="departmentJoinMemberByMemberIdButton badge badge-light mb-1" th:value="${departmentJoinMemberList.memberId}" data-toggle="modal" data-target="#detailModal">
 							<span th:text="${departmentJoinMemberList.memberName}"></span>
 							</button>
 							<span th:text="${departmentJoinMemberList.memberLevelTitle}"></span> 
@@ -112,7 +117,7 @@
 		
 		<!-- 상세 휴가 설정 팝업 -->
 			<div class="modal" id="detailModal">
-				<div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">
+				<div class="modal-dialog modal-sm mt-0 mb-0">
 					<div class="modal-content">
 						<!-- Modal Header -->
 						<div class="modal-header">
