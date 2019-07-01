@@ -4,69 +4,92 @@
 	<th:block layout:fragment="customHead">
 		<meta charset="UTF-8">
 		<title>휴가신청서</title>
+		<style type="text/css">
+.my-box { border:0.5px solid gray; padding:10px; }
+</style>
 		<th:block th:include="layout/customHead"></th:block>
 	</th:block>
 	
 	<th:block layout:fragment="customBody">
-		<body>
-			<div class="container">
-				<h1>휴가신청서</h1>
-				<form>
-					<div>
-						<table style="width:100%">
-							<tr>
-								<td>문서양식명</td>
-							<td>
-									<a th:value="달러">
-										<th:block th:text="달러"></th:block>
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>부서</td>
-								<td>
-									<a th:value="달러">
-										<th:block th:text="달러"></th:block>
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>직위/직책</td>
-								<td>
-									<a th:value="달러">
-										<th:block th:text="달러"></th:block>
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>신청자명</td>
-								<td>
-									<a th:value="달러">
-										<th:block th:text="달러"></th:block>
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>기안일</td>
-								<td>
-									<a th:value="달러">
-										<th:block th:text="달러"></th:block>
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>휴가일수 합계</td>
-								<td>
-									<a th:value="달러">
-										<th:block th:text="달러"></th:block>
-									</a>
-								</td>
-							</tr>
-						</table>
-					</div>
-				</form>
-			</div>
-		</body>
+			<div class="col-md-9">
+				<div class="card" style="min-height: 484px;">
+			        <div class="card-header"><h3>휴가신청서</h3></div>
+			            <div class="card-body">
+			                <form class="forms-sample">
+			                    <div class="form-group row">
+			                        <label for="departmentName" class="col-sm-3 col-form-label">부서</label>
+			                        <div class="col-sm-9">
+			                            <input type="text" class="form-control" id="departmentName" th:value="">
+			                        </div>
+			                    </div>
+			                    <div class="form-group row">
+			                        <label for="memberPositionName" class="col-sm-3 col-form-label">직위/직책</label>
+			                        <div class="col-sm-9">
+			                            <input type="text" class="form-control" id="memberPositionName">
+			                        </div>
+			                    </div>
+			                    <div class="form-group row">
+			                        <label for="memberName" class="col-sm-3 col-form-label">신청자명</label>
+			                        <div class="col-sm-9">
+			                            <input type="text" class="form-control" id="memberName">
+			                        </div>
+			                    </div>
+			                    <div class="form-group row">
+			                        <label for="exampleInputMobile" class="col-sm-3 col-form-label">기안일</label>
+			                        <div class="col-sm-9">
+			                            <input type="text" class="form-control" id="exampleInputMobile" placeholder="직위/직책">
+			                        </div>
+			                    </div>
+			                    <div class="form-group row">
+			                        <label for="exampleInputMobile" class="col-sm-3 col-form-label">휴가일수 합계</label>
+			                        <div class="col-sm-9">
+			                            <input type="text" class="form-control" id="exampleInputMobile" placeholder="직위/직책">
+			                        </div>
+			                    </div>
+			    <!-- 두 번째 테이블 -->
+			    <div class="form-control form-txt-inverse" style="padding:10px;">
+			    
+			    <div class="row">
+                                <div class="col-md-4" style="text-align:center">
+                             <div class="form-group">
+                                 <label for="exampleInputEmail3">휴가종류</label>
+                                 <select class="form-control" id="exampleSelectGender">
+                                     <option>Male</option>
+                                     <option>Female</option>
+                                 </select>
+                             </div>
+                         </div>
+                         <div class="col-md-4" style="text-align:center">
+                             <div class="form-group">
+                                 <label for="exampleSelectGender">휴가기간</label>
+                                 <input type="email" class="form-control" id="exampleInputEmail3" placeholder="휴가기간">
+                             </div>
+                         </div>
+                         <div class="col-md-4" style="text-align:center">
+                                 <label for="exampleSelectGender">휴가일수</label>
+                                 <div class="row">
+                                 	<div>
+		                            <input type="email" class="form-control" id="exampleInputEmail3" placeholder="휴가일수">
+	                             	일
+	                             	</div>
+	                             	<div>
+	                             	<select class="form-control" id="exampleSelectGender">
+	                                     <option>Male</option>
+	                                     <option>Female</option>
+	                                </select>
+	                                <span>시간</span>
+                                	</div>
+                                </div>
+                         </div>
+			    </div>
+			    </div>
+			                </form>
+			                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+			                    <button class="btn btn-light">Cancel</button>
+			            </div>
+			        </div>
+			    </div>
+			    
 	</th:block>
 	
 	<th:block layout:fragment="customJquery">
