@@ -25,14 +25,15 @@
 
 <th:block layout:fragment="customBody">
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-3">
 		<div class="card" style="min-height: 650px;">
 			<div class="card-header">
 				<h3>조직도</h3>
-				<button type="button" >부서 추가</button>	
+				<button type="button" class="departmentNameButton btn btn-outline-dark" value="fullView">전체 보기</button>
+				<button type="button" class="btn btn-outline-dark" >부서 추가</button>	
+				
 			</div>
-			<div class="card-body">
-				<button type="button" class="departmentNameButton" value="fullView">전체 보기</button>	
+			<div class="card-body">				
 				<div th:each="recursiveList: ${recursiveList}">
 					<button class="departmentNameButton btn btn-outline-dark"
 						th:text="${recursiveList.departmentName}"
@@ -41,8 +42,13 @@
 			</div>
 		</div>
 	</div>
-
-	<div class="col-md-8">
+	<div class="col-9">		
+		<div class="card">
+			<div class="card-header">
+			
+			</div>
+		</div>
+				
 		<div class="card" style="min-height: 650px;">
 			<div class="card-header">
 				<h3>조직도 상세보기</h3>
