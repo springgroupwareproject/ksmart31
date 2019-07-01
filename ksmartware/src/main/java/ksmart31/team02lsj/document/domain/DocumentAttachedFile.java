@@ -6,6 +6,7 @@ public class DocumentAttachedFile {
 	private String documentAttachedFileOriginName;
 	private String approvalFileSaveName;
 	private String memberId;
+	private String documentAttachedFileMemberId;
 	private String approvalFileDate;
 	public String getDocumentAttachedFileCode() {
 		return documentAttachedFileCode;
@@ -31,6 +32,12 @@ public class DocumentAttachedFile {
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
+	public String getDocumentAttachedFileMemberId() {
+		return documentAttachedFileMemberId;
+	}
+	public void setDocumentAttachedFileMemberId(String documentAttachedFileMemberId) {
+		this.documentAttachedFileMemberId = documentAttachedFileMemberId;
+	}
 	public String getApprovalFileDate() {
 		return approvalFileDate;
 	}
@@ -41,11 +48,9 @@ public class DocumentAttachedFile {
 	public String toString() {
 		return "DocumentAttachedFile [documentAttachedFileCode=" + documentAttachedFileCode
 				+ ", documentAttachedFileOriginName=" + documentAttachedFileOriginName + ", approvalFileSaveName="
-				+ approvalFileSaveName + ", memberId=" + memberId + ", approvalFileDate=" + approvalFileDate + "]";
+				+ approvalFileSaveName + ", memberId=" + memberId + ", documentAttachedFileMemberId="
+				+ documentAttachedFileMemberId + ", approvalFileDate=" + approvalFileDate + "]";
 	}
-	
-	
-	
 	
 	
 }

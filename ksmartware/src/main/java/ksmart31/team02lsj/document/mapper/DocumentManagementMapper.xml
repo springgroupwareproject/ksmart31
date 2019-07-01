@@ -38,12 +38,12 @@
 		pr.member_position_name AS memberPositionName,
 		pr.purchase_requisition_date AS purchaseRequisitionDate, 
 		pr.purchase_requisition_pay_day AS purchaseRequisitionPayDay,
-		pr.purchase_requisition_total_price ASpurchaseRequisitionTotalPrice,
+		pr.purchase_requisition_total_price AS purchaseRequisitionTotalPrice,
 		pr.purchase_requisition_item_category AS purchaseRequisitionItemCategory,
 		pr.purchase_requisition_item AS purchaseRequisitionItem,
 		pr.purchase_requisition_item_unit AS purchaseRequisitionItemUnit,
 		pr.purchase_requisition_item_count AS purchaseRequisitionItemCount,
-		pr.purchase_requisition_item_price ASpurchaseRequisitionItemPrice,
+		pr.purchase_requisition_item_price AS purchaseRequisitionItemPrice,
 		pr.purchase_requisition_etc AS purchaseRequisitionEtc
 		FROM purchase_requisition AS pr
 		JOIN  approval_document AS ad

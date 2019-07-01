@@ -17,7 +17,7 @@
 			draft_document_date AS draftDocumentDate
 			FROM draft_document
 			WHERE draft_document_member_id = #{memberId}
-			ORDER BY draft_document_final_approval_date DESC
+			ORDER BY draft_document_date DESC
 	</select>
 		<!-- 결재완료문서함 리스트출력 -->
 	<select id="selectApprovedDocumentListByMember"
@@ -32,88 +32,65 @@
 			document_attatch_file_count AS documentAttatchFileCount,
 			draft_document_date AS draftDocumentDate
 			FROM draft_document
-			WHERE draft_document_member_id = #{memberId}
-			ORDER BY draft_document_final_approval_date DESC
+			WHERE draft_document_member_id = #{memberId} AND
+			draft_document_status = #{documentStatus}
+			ORDER BY draft_document_date DESC
 	</select>
-		<!-- 기안문서함 리스트출력 -->
-	<select id="selectDraftDocumentListByMember"
-			parameterType="String"
-			resultType="ksmart31.team02lsj.document.domain.DraftDocument">
-			SELECT
-			draft_document_code AS draftDocumentCode,
-			draft_document_status AS draftDocumentStatus,
-			draft_document_member_name AS draftDocumentMemberName,
-			draft_document_file_save_name AS draftDocumentFileSaveName,
-			document_opinion_count AS documentOpinionCount,
-			document_attatch_file_count AS documentAttatchFileCount,
-			draft_document_date AS draftDocumentDate
-			FROM draft_document
-			WHERE draft_document_member_id = #{memberId}
-			ORDER BY draft_document_final_approval_date DESC
-	</select>
+
 		<!-- 수신문서함 리스트출력 -->
-	<select id="selectDraftDocumentListByMember"
+	<select id="selectRecievedDocumentListByMember"
 			parameterType="String"
 			resultType="ksmart31.team02lsj.document.domain.DraftDocument">
 			SELECT
-			draft_document_code AS draftDocumentCode,
-			draft_document_status AS draftDocumentStatus,
-			draft_document_member_name AS draftDocumentMemberName,
-			draft_document_file_save_name AS draftDocumentFileSaveName,
-			document_opinion_count AS documentOpinionCount,
-			document_attatch_file_count AS documentAttatchFileCount,
-			draft_document_date AS draftDocumentDate
-			FROM draft_document
-			WHERE draft_document_member_id = #{memberId}
-			ORDER BY draft_document_final_approval_date DESC
+			dd.draft_document_code AS draftDocumentCode,
+			dd.draft_document_status AS draftDocumentStatus,
+			dd.draft_document_member_name AS draftDocumentMemberName,
+			dd.draft_document_file_save_name AS draftDocumentFileSaveName,
+			dd.document_opinion_count AS documentOpinionCount,
+			dd.document_attatch_file_count AS documentAttatchFileCount,
+			dd.draft_document_date AS draftDocumentDate
+			FROM approval_member_receive AS amr
+			JOIN draft_document AS dd
+			ON amr.draft_document_code = dd.draft_document_code
+			WHERE member_id = #{memberId} AND document_status = #{documentStatus}
+			ORDER BY dd.draft_document_date DESC
 	</select>
 		<!-- 회람문서함 리스트출력 -->
-	<select id="selectDraftDocumentListByMember"
+	<select id="selectCirculationDocumentListByMember"
 			parameterType="String"
 			resultType="ksmart31.team02lsj.document.domain.DraftDocument">
 			SELECT
-			draft_document_code AS draftDocumentCode,
-			draft_document_status AS draftDocumentStatus,
-			draft_document_member_name AS draftDocumentMemberName,
-			draft_document_file_save_name AS draftDocumentFileSaveName,
-			document_opinion_count AS documentOpinionCount,
-			document_attatch_file_count AS documentAttatchFileCount,
-			draft_document_date AS draftDocumentDate
-			FROM draft_document
-			WHERE draft_document_member_id = #{memberId}
-			ORDER BY draft_document_final_approval_date DESC
+			dd.draft_document_code AS draftDocumentCode,
+			dd.draft_document_status AS draftDocumentStatus,
+			dd.draft_document_member_name AS draftDocumentMemberName,
+			dd.draft_document_file_save_name AS draftDocumentFileSaveName,
+			dd.document_opinion_count AS documentOpinionCount,
+			dd.document_attatch_file_count AS documentAttatchFileCount,
+			dd.draft_document_date AS draftDocumentDate
+			FROM approval_member_circulation AS amc
+			JOIN draft_document AS dd
+			ON amc.draft_document_code = dd.draft_document_code
+			WHERE member_id = #{memberId} 
+			ORDER BY dd.draft_document_date DESC
 	</select>
 			<!-- 전결문서함 리스트출력 -->
-	<select id="selectDraftDocumentListByMember"
+	<select id="selectfinalApprovalDocumentListByMember"
 			parameterType="String"
 			resultType="ksmart31.team02lsj.document.domain.DraftDocument">
-			SELECT
-			draft_document_code AS draftDocumentCode,
-			draft_document_status AS draftDocumentStatus,
-			draft_document_member_name AS draftDocumentMemberName,
-			draft_document_file_save_name AS draftDocumentFileSaveName,
-			document_opinion_count AS documentOpinionCount,
-			document_attatch_file_count AS documentAttatchFileCount,
-			draft_document_date AS draftDocumentDate
-			FROM draft_document
-			WHERE draft_document_member_id = #{memberId}
-			ORDER BY draft_document_final_approval_date DESC
 	</select>
 				<!-- 첨부파일문서함 리스트출력 -->
-	<select id="selectDraftDocumentListByMember"
+	<select id="selectAttachedFileListByMember"
 			parameterType="String"
-			resultType="ksmart31.team02lsj.document.domain.DraftDocument">
+			resultType="ksmart31.team02lsj.document.domain.DocumentAttachedFile">
 			SELECT
-			draft_document_code AS draftDocumentCode,
-			draft_document_status AS draftDocumentStatus,
-			draft_document_member_name AS draftDocumentMemberName,
-			draft_document_file_save_name AS draftDocumentFileSaveName,
-			document_opinion_count AS documentOpinionCount,
-			document_attatch_file_count AS documentAttatchFileCount,
-			draft_document_date AS draftDocumentDate
-			FROM draft_document
-			WHERE draft_document_member_id = #{memberId}
-			ORDER BY draft_document_final_approval_date DESC
+			document_attached_file_code AS documentAttachedFileCode,
+			document_attached_file_origin_name AS documentAttachedFileOriginName,
+			document_attached_file_save_name AS approvalFileSaveName,
+			document_attached_file_member_id AS documentAttachedFileMemberId,
+			document_attached_file_date AS approvalFileDate
+			FROM document_attached_file
+			WHERE document_attached_file_member_id = #{memberId}
+			ORDER BY document_attached_file_date DESC
 	</select>
 	
 </mapper>
