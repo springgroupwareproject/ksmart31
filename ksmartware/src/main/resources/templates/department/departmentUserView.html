@@ -10,6 +10,7 @@
 	<script>
 		$(document).ready(function(){
 			// 조직도 버튼 클릭 이벤트
+						
 			$('.departmentNameButton').click(function(){
 				console.log('조직도 버튼 테스트 value : '+$(this).attr('value'));
 				// departmentName 별로 부서명을 조회하기 위해 이름 값을 담는 변수  
@@ -18,7 +19,7 @@
 				location.href='/department/departmentUserView?departmentName='+$(this).attr('value');
 			});
 			
-			$('#departmentJoinMemberByMemberIdButton').click(function(){
+			$('.departmentJoinMemberByMemberIdButton').click(function(){
 				console.log('상세 정보 버튼 value : '+$(this).attr('value'));
 				// 해당 코드별로 휴가 상세 데이터 조회
 				let memberId = $(this).attr('value');
@@ -63,14 +64,15 @@
 	<div class="col-md-4">
 		<div class="card" style="min-height: 650px;">
 			<div class="card-header">
-				<h3>조직도</h3>
+				<h3>조직도</h3>								
 			</div>
-			<div class="card-body">
-				<div th:each="recursiveList: ${recursiveList}">
-			<button class="departmentNameButton btn btn-outline-dark"
-				th:text="${recursiveList.departmentName}"
-				th:value="${recursiveList.departmentName}"></button>
-		</div>
+			<div class="card-body">				
+				<button type="button" class="departmentNameButton" value="fullView">전체 보기</button>	
+				<div th:each="recursiveList: ${recursiveList}">				
+					<button class="departmentNameButton btn btn-outline-dark"
+						th:text="${recursiveList.departmentName}"
+						th:value="${recursiveList.departmentName}"></button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -82,9 +84,9 @@
 			</div>
 			<div class="card-body">									
 				<div class="container">						  
-					<div class="card">							
+					<div class="card">					
 						<span class="card-body" th:each="departmentJoinMemberList:${departmentJoinMemberList}">
-							<button type="button" id="departmentJoinMemberByMemberIdButton" th:value="${departmentJoinMemberList.memberId}" data-toggle="modal" data-target="#detailModal">
+							<button type="button" class="departmentJoinMemberByMemberIdButton" th:value="${departmentJoinMemberList.memberId}" data-toggle="modal" data-target="#detailModal">
 							<span th:text="${departmentJoinMemberList.memberName}"></span>
 							</button>
 							<span th:text="${departmentJoinMemberList.memberLevelTitle}"></span> 

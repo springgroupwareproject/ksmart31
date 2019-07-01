@@ -14,12 +14,7 @@ public interface DepartmentMapper {
 	public List<Department> selectDepartmentList();
 	//department부서명과 member조직원 기본정보를 조인
 	public List<DepartmentJoinMember> selectDepartmentJoinMemberList(Map<String, Object> map);
-
 	// memberId 로 조인 조회
 	public List<DepartmentJoinMember> selectDepartmentJoinMemberListByMemberId(String memberId);	
-
 	
-	
-	
-
-}
+}	

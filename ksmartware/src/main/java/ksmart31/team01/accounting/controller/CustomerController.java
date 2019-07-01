@@ -1,6 +1,9 @@
 package ksmart31.team01.accounting.controller;
 
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import ksmart31.team01.accounting.domain.Customer;
 import ksmart31.team01.accounting.service.CustomerService;
+import ksmart31.team01.member.domain.Member;
 
 
 @Controller
@@ -16,9 +20,11 @@ public class CustomerController {
 	private CustomerService customerService;
 	//customer 리스트
 	@GetMapping(value="/accounting/customerListView")
-	public String getCustomerList(Model model){
+	public String getCustomerList(Model model,HttpSession session){
 		List<Customer> customerList = customerService.getCustomerList();
 		System.out.println(customerList + "CustomerController getCustomerList [get] customerList");
+		Member loginMember = (Member) session.getAttribute("loginMember");
+		model.addAttribute("memberId", loginMember.getMemberId());
 		model.addAttribute("customerList", customerList);
 		return "/accounting/customerListView";		
 	}	

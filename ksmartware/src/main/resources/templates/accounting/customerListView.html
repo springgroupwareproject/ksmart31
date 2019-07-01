@@ -7,14 +7,10 @@
 		<th:block th:include="layout/customHead"></th:block>
 		<script>
 		$(document).ready(function(){
-			// customer 버튼 클릭 이벤트
-							
-			$('#hide').click(function(){
-				$('#customerAddList').hide();
-			});
-			$('#show').click(function(){
-				$('#customerAddList').show();
-			});			
+			let memberId = '[[${memberId}]]';				
+			$('#customerMemberId').val(memberId);
+			console.log("memberId :" + memberId);							
+					
 			// customer insert
 			$('#customerAddButton').click(function(){
 				console.log('거래처 insert 버튼 테스트');
@@ -25,7 +21,7 @@
             	let customerBank = $('#customerBank').val();
             	let customerAccountHolder = $('#customerAccountHolder').val();
             	let customerAccountNumber = $('#customerAccountNumber').val();
-            	let memberId = $('#memberId').val();            	
+            	let memberId = $('#customerMemberId').val();            	
 				
 				$.ajax({
 					url : '/addCustomer'
@@ -68,10 +64,10 @@
 					});							
 				});
 				
-				$('#hide').trigger('click');
+				
 				
 				//memberId 리스트 조회
-				$('#customerMemberId').click(function(){
+				/* $('#customerMemberId').click(function(){
 					console.log('memberId 클릭 테스트');
 					
 					$.ajax({
@@ -85,7 +81,7 @@
 	               			});
        					}                 
 					});
-				});	
+				});	 */
 			});
 		</script>		
 	</th:block>
@@ -117,14 +113,10 @@
 								<td><input type="text" id="customerBank"></td>
 								<td><input type="text" id="customerAccountHolder"></td>
 								<td><input type="text" id="customerAccountNumber"></td>								
-								<td>
-									<select id="customerMemberId"></select>
-								</td>
+								<td><input type="text" id="customerMemberId"></td>
 							</tr>
 						</tbody>
-					</table>
-					<button id="show">Show</button>
-					<button id="hide">Hide</button>					
+					</table>									
 					<button type="button" id="customerAddButton">add</button>								
 					<button type="button" id="customerListButton">List</button>					
 				</div>

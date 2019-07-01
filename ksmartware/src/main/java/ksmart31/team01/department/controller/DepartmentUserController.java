@@ -19,7 +19,7 @@ public class DepartmentUserController {
 		Map<String,Object> returnMap = departmentService.getDepartmentList(departmentName);	
 		// 데이터를 html로 뿌려주기 위해 model로 묶는다
 		model.addAttribute("recursiveList", returnMap.get("recursiveList"));		
-		model.addAttribute("departmentJoinMemberList", returnMap.get("departmentJoinMemberList"));
+		model.addAttribute("departmentJoinMemberList", returnMap.get("departmentJoinMemberList"));		
 		return "/department/departmentUserView";		
 	}	
 }

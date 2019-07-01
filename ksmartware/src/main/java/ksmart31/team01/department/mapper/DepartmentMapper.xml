@@ -37,6 +37,9 @@
 	</resultMap>	
 	<select id="selectDepartmentJoinMemberList" resultType="ksmart31.team01.department.domain.DepartmentJoinMember" parameterType="java.util.Map" resultMap="selectDepartmentJoinMemberList">
 		SELECT
+		<if test="departmentName == 'fullView'">
+			DISTINCT
+		</if>
 			m.member_name
 			,m.member_level_title
 			,m.department_category_name
@@ -51,19 +54,19 @@
 		FROM department d
 		INNER JOIN member m				
 		<!-- choose if else처럼 쓸수있다  -->		
-		<choose>
-			<when test="departmentNumber == 1">	
-				ON d.department_name = m.department_division_name	
-			</when>	
-			<when test="departmentNumber == 2">	
-				ON d.department_name = m.department_section_name	
-			</when>	
-			<when test="departmentNumber == 0">	
-				ON d.department_name = m.department_category_name	
-			</when>	
-		</choose>
-			WHERE d.department_name = #{departmentName}
-
+		<if test="departmentName != 'fullView'">
+			<if test="departmentNumber == 1">
+				ON d.department_name = m.department_division_name
+			</if>
+			<if test="departmentNumber == 2">
+				ON d.department_name = m.department_section_name
+			</if>
+			
+			<if test="departmentNumber == 0">
+				ON d.department_name = m.department_category_name
+			</if>
+				WHERE d.department_name = #{departmentName}	
+		</if>
 	</select>
 	
 	<resultMap type="ksmart31.team01.department.domain.DepartmentJoinMember" id="selectDepartmentJoinMemberListByMemberId">
@@ -96,10 +99,7 @@
 		INNER JOIN member m		
 		ON d.department_name = m.department_name	
 		WHERE m.member_id = #{memberId}				
-	</select>		
-	
-				 
-
+	</select>
 </mapper>			
 		<!-- 조건문 if문 -->
 	<!-- 	<if test="departmentNumber == 1">
