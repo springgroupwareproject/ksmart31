@@ -1,0 +1,40 @@
+<html>
+<script>
+let db =[
+        ["zoro","x", 1]
+        ,["zoro","y", 2]
+        ,["nami","x", 4]
+        ,["nami","y", 5]
+    ];
+ 
+let r1 = "";
+for(let e of db) {
+    r1 += e[0] + e[1] + e[2] + "\n";
+}
+console.log(r1);
+ 
+let r2 = "";
+let name1 = "";
+let name2 = "";
+for(let e of db) {
+    if(name2 =="") {
+        name1 = e[0];
+        name2 = e[0];
+        r2 += name2 + e[2];
+    } else {
+        name2 = e[0];
+        if(name1 == name2) {
+            r2 += e[2]
+        } else {
+            name1 = e[0];
+            r2 += "\n"+e[0]+e[2];
+        }
+    }
+    
+}
+console.log(r2);
+ 
+ 
+ 
+</script>
+</html>

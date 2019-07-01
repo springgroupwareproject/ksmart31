@@ -1,0 +1,47 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ksmart31.team03.leave.mapper.LeaveUsedMapper">
+	<!-- 조직원 아이디별 휴가 사용 내역 조회 -->
+	<resultMap type="ksmart31.team03.leave.domain.LeaveUsed" id="selectLeaveUsedByMemberId">
+		<result column="leave_category_sort" property="leaveCategorySort"/>
+		<result column="leave_detail_sort" property="leaveDetailSort"/>
+		<result column="leave_used_hour" property="leaveUsedHour"/>
+		<result column="leave_used_day" property="leaveUsedDay"/>
+		<result column="leave_used_reason" property="leaveUsedReason"/>
+		<result column="leave_used_start_day" property="leaveUsedStartDay"/>
+		<result column="leave_used_end_day" property="leaveUsedEndDay"/>
+	</resultMap>
+	<select id="selectLeaveUsedByMemberId" parameterType="java.util.Map" resultMap="selectLeaveUsedByMemberId">
+		SELECT 
+			leave_category_sort,
+			leave_detail_sort,
+			leave_used_hour,
+			leave_used_day,
+			leave_used_reason,
+			leave_used_start_day,
+			leave_used_end_day
+		FROM leave_uesd
+		WHERE member_id = #{memberId}
+		<!-- leaveCategorySort 선택 값의 동적 쿼리-->
+		<!-- 전체 선택 시 밸류값이 공백 -->
+		<if test="leaveCategorySort != ''">
+			AND leave_category_sort = #{leaveCategorySort}
+		</if>
+	</select>
+	<!-- 조직원 아이디별 휴가 사용일 합산 조회 -->
+	<resultMap type="ksmart31.team03.leave.domain.LeaveGrantAndUsed" id="selectTotalLeaveUsedByMemberId">
+		<result column="SUM(leave_used_hour)" property="leaveTotalUsedHour"/>
+		<result column="SUM(leave_used_day)" property="leaveTotalUsedDay"/>
+	</resultMap>
+	<select id="selectTotalLeaveUsedByMemberId" parameterType="java.util.Map" resultMap="selectTotalLeaveUsedByMemberId">
+		SELECT 
+			SUM(leave_used_hour),
+			SUM(leave_used_day)
+		FROM leave_uesd
+		WHERE member_id = #{memberId}
+		<!-- leaveCategorySort 선택 값의 동적 쿼리-->
+		<!-- 전체 선택 시 밸류값이 공백 -->
+		<if test="leaveCategorySort != ''">
+			AND leave_category_sort = #{leaveCategorySort}
+		</if>
+	</select>
+</mapper>
