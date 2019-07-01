@@ -6,15 +6,10 @@
 		<title>Sample</title>
 		<th:block th:include="layout/customHead"></th:block>
 		<script>
-			$(document).ready(function(){				
-				// account 버튼 클릭 이벤트
-				$('#hide').click(function(){
-					$('#accountAddList').hide();
-				});
-				$('#show').click(function(){
-					$('#accountAddList').show();
-				});
-				
+			$(document).ready(function(){		
+				let memberId = '[[${memberId}]]';				
+				$('#accountMemberId').val(memberId);
+				console.log("memberId :" + memberId);
 				// account 리스트 버튼 클릭 이벤트
 				let currentPage;
     			let lastPage;
@@ -79,13 +74,8 @@
 	               			$('#accountListButton').trigger('click');	               			
        					}                 
 					});	
-				});
-				
-				//$('#accountListButton').trigger('click');
-				$('#hide').trigger('click');
-				
-				//memberId 리스트 조회
-				
+				});			
+				/* //memberId 리스트 조회				
 				$('#accountMemberId').click(function(){
 					console.log('memberId 클릭 테스트');
 					
@@ -100,7 +90,7 @@
 	               			});
        					}                 
 					});	
-				});
+				}); */
 			});				
 		</script>
 	</th:block>
@@ -119,15 +109,10 @@
 				        <tbody>
 							<tr>
 								<td><input type="text" id="accountName"></td>								
-								<td>
-									<select id="accountMemberId"></select>
-								</td>				                
-				                
+								<td><input type="text" id="accountMemberId"></td>												                
 							</tr>
 						</tbody>
-					</table>
-					<button id="show">Show</button>
-					<button id="hide">Hide</button>					
+					</table>									
 					<button type="button" id="accountAddButton">add</button>							
 					<button type="button" id="accountListButton">List</button>					
 			</div>
@@ -142,13 +127,7 @@
 							</tr>
 						</thead>
 						<tbody id="accountList">
-							<!-- <tr th:each="accountList:${accountList}">				
-								<td th:text="${accountList.accountName}"></td>				
-								<td th:text="${accountList.accountDate}"></td>
-								<td th:text="${accountList.memberId}"></td>
-								<td><button type="button" id="accountModifyButton">Modify</button></td>
-								<td><button type="button" id="accountDeleteButton">Delete</button></td>				
-							</tr> -->												
+																		
 						</tbody>						
 					</table>
 					<div class="paging">

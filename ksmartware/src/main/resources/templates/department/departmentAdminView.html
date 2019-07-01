@@ -31,11 +31,12 @@
 				<h3>조직도</h3>
 			</div>
 			<div class="card-body">
+				<button type="button" class="departmentNameButton" value="fullView">전체 보기</button>	
 				<div th:each="recursiveList: ${recursiveList}">
-			<button class="departmentNameButton btn btn-outline-dark"
-				th:text="${recursiveList.departmentName}"
-				th:value="${recursiveList.departmentName}"></button>
-		</div>
+					<button class="departmentNameButton btn btn-outline-dark"
+						th:text="${recursiveList.departmentName}"
+						th:value="${recursiveList.departmentName}"></button>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -20,6 +20,7 @@ public class DepartmentAdminController {
 		// 데이터를 html로 뿌려주기 위해 model로 묶는다
 		model.addAttribute("recursiveList", returnMap.get("recursiveList"));		
 		model.addAttribute("departmentJoinMemberList", returnMap.get("departmentJoinMemberList"));
+		model.addAttribute("departmentJoinMemberAllList", returnMap.get("departmentJoinMemberAllList"));
 		return "/department/departmentAdminView";		
 	}	
 }
