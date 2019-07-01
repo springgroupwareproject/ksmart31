@@ -5,11 +5,12 @@
 		<meta charset="UTF-8">
 		<title>Sample</title>
 		<th:block th:include="layout/customHead"></th:block>
-		<script>
-			$(document).ready(function(){		
-				let memberId = '[[${memberId}]]';				
-				$('#accountMemberId').val(memberId);
-				console.log("memberId :" + memberId);
+		<script>			
+			$(document).ready(function(){				
+				let memberId = '[[${memberId}]]';
+				$('#memberId').val(memberId);
+				console.log("memberId = " + memberId ); 
+							
 				// account 리스트 버튼 클릭 이벤트
 				let currentPage;
     			let lastPage;
@@ -63,7 +64,7 @@
 				$('#accountAddButton').click(function(){				
 					console.log('계정과목 insert 테스트');
 					let accountName = $('#accountName').val();      		
-            		let memberId = $('#accountMemberId').val();
+            		let memberId = $('#memberId').val();
 	            		
             		$.ajax({
 	               		url : '/addAccount'
@@ -74,23 +75,7 @@
 	               			$('#accountListButton').trigger('click');	               			
        					}                 
 					});	
-				});			
-				/* //memberId 리스트 조회				
-				$('#accountMemberId').click(function(){
-					console.log('memberId 클릭 테스트');
-					
-					$.ajax({
-	               		url : '/getMemberId'
-	               		,type : 'get'
-	               		,success : function(data){
-	               			console.log(data);
-	               			$('#accountMemberId').empty();
-	               			$(data).each(function(index,item){
-	               				$('#accountMemberId').append('<option value="'+item.memberId+'">'+item.memberId+'</option>');
-	               			});
-       					}                 
-					});	
-				}); */
+				});				
 			});				
 		</script>
 	</th:block>
@@ -109,8 +94,8 @@
 				        <tbody>
 							<tr>
 								<td><input type="text" id="accountName"></td>								
-								<td><input type="text" id="accountMemberId"></td>												                
-							</tr>
+								<td><input type="text" id="memberId"></td>			                
+				            </tr>
 						</tbody>
 					</table>									
 					<button type="button" id="accountAddButton">add</button>							
@@ -127,7 +112,7 @@
 							</tr>
 						</thead>
 						<tbody id="accountList">
-																		
+																			
 						</tbody>						
 					</table>
 					<div class="paging">

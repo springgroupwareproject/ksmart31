@@ -7,145 +7,152 @@
 		<th:block th:include="layout/customHead"></th:block>
 		<script>
 		$(document).ready(function(){
-			let memberId = '[[${memberId}]]';				
-			$('#customerMemberId').val(memberId);
-			console.log("memberId :" + memberId);							
-					
-			// customer insert
-			$('#customerAddButton').click(function(){
-				console.log('거래처 insert 버튼 테스트');
-				let customerName = $('#customerName').val();      		
-            	let customerPhone = $('#customerPhone').val();
-            	let customerCorporateRegistrationNumber = $('#customerCorporateRegistrationNumber').val();
-            	let customerAddress = $('#customerAddress').val();
-            	let customerBank = $('#customerBank').val();
-            	let customerAccountHolder = $('#customerAccountHolder').val();
-            	let customerAccountNumber = $('#customerAccountNumber').val();
-            	let memberId = $('#customerMemberId').val();            	
+			
+			let registrationMemberId = '[[${memberId}]]';
+			let memberEmployeeCode = '[[${memberEmployeeCode}]]';
+			let departmentName = '[[${departmentName}]]';
+			let memberPositionName = '[[${memberPositionName}]]';
+			$('#registrationMemberId').val(registrationMemberId);
+			$('#memberEmployeeCode').val(memberEmployeeCode);
+			$('#departmentName').val(departmentName);
+			$('#memberPositionName').val(memberPositionName);
+			console.log("registrationMemberId : " + registrationMemberId);
+			console.log("memberEmployeeCode : " + memberEmployeeCode);
+			console.log("departmentName : " + departmentName);
+			console.log("memberPositionName : " + memberPositionName);			
+			
+			//memberId 리스트
+			$.ajax({
+				url : '/getMemberId'
+				,type : 'get'
+				,success : function(data){
+					console.log(data);
+					$('#memberAccountMemberId').empty();
+					$(data).each(function(index,item){
+						$('#memberAccountMemberId').append('<option value="'+item.memberId+'">'+item.memberId+'</option>');
+					});
+				}                 
+			});	
+			
+			// memberAccount insert
+			$('#memberAccountAddButton').click(function(){
+				console.log('조직원계좌 insert 버튼 테스트');
+				let memberName = $('#memberName').val();      		
+            	let memberId = $('#memberAccountMemberId').val();
+            	let memberAccountBank = $('#memberAccountBank').val();
+            	let memberAccountNumber = $('#memberAccountNumber').val();
+            	let registrationMemberId = $('#registrationMemberId').val();
+            	let memberEmployeeCode = $('#memberEmployeeCode').val();
+            	let departmentName = $('#departmentName').val();
+            	let memberPositionName = $('#memberPositionName').val();
 				
 				$.ajax({
-					url : '/addCustomer'
+					url : '/addMemberAccount'
 					,type : 'post'
-					,data : {'customerName':customerName,'customerPhone':customerPhone,
-						'customerCorporateRegistrationNumber':customerCorporateRegistrationNumber,
-						'customerAddress':customerAddress,'customerBank':customerBank,
-						'customerAccountHolder':customerAccountHolder,
-						'customerAccountNumber':customerAccountNumber,'memberId':memberId}
-					,success : function(){
-						console.log('#accountAddButton click');
-	               		$('#customerListButton').trigger('click');
+					,data : {'memberName':memberName,'memberId':memberId,
+						'memberAccountBank':memberAccountBank,
+						'memberAccountNumber':memberAccountNumber,'registrationMemberId':registrationMemberId,
+						'memberEmployeeCode':memberEmployeeCode,
+						'departmentName':departmentName,
+						'memberPositionName':memberPositionName}
+					,success : function(data){
+						console.log('#memberAccountAddButton click');
+						$('#memberAccountListButton').trigger('click');
+	               		
 					}	
 				});
 			});
 			
-			// customer 리스트 			
-			$('#customerListButton').click(function(){
-				console.log('거래처 리스트버튼 테스트');	
+			
+			// memberAccount 리스트 			
+			$('#memberAccountListButton').click(function(){
+				console.log('조직원 계좌 리스트버튼 테스트');	
 					
 					$.ajax({
-			    		url : '/getCustomer'
+			    		url : '/getMemberAccount'
 			    		,type : 'get'			    								
 			    		,success:function(data){			    			
-							$('#customerList').empty();							
+							$('#memberAccountList').empty();							
 							$(data).each(function(index,item){
-								$('#customerList').append('<tr>');
-								$('#customerList').append('<td>'+item.customerName+'</td>');
-								$('#customerList').append('<td>'+item.customerPhone+'</td>');
-								$('#customerList').append('<td>'+item.customerCorporateRegistrationNumber+'</td>');
-								$('#customerList').append('<td>'+item.customerAddress+'</td>');
-								$('#customerList').append('<td>'+item.customerBank+'</td>');
-								$('#customerList').append('<td>'+item.customerAccountHolder+'</td>');
-								$('#customerList').append('<td>'+item.customerAccountNumber+'</td>');
-								$('#customerList').append('<td>'+item.customerDate+'</td>');
-								$('#customerList').append('<td>'+item.memberId+'</td>');
-								$('#customerList').append('</tr>');
+								$('#memberAccountList').append('<tr>');
+								$('#memberAccountList').append('<td>'+item.memberName+'</td>');
+								$('#memberAccountList').append('<td>'+item.memberId+'</td>');
+								$('#memberAccountList').append('<td>'+item.memberAccountBank+'</td>');
+								$('#memberAccountList').append('<td>'+item.memberAccountNumber+'</td>');
+								$('#memberAccountList').append('<td>'+item.memberAccountDate+'</td>');
+								$('#memberAccountList').append('<td>'+item.registrationMemberId+'</td>');
+								$('#memberAccountList').append('<td>'+item.memberEmployeeCode+'</td>');
+								$('#memberAccountList').append('<td>'+item.departmentName+'</td>');
+								$('#memberAccountList').append('<td>'+item.memberPositionName+'</td>');
+								$('#memberAccountList').append('</tr>');
 							});	
 			    		}
 					});							
-				});
-				
-				
-				
-				//memberId 리스트 조회
-				/* $('#customerMemberId').click(function(){
-					console.log('memberId 클릭 테스트');
-					
-					$.ajax({
-	               		url : '/getMemberId'
-	               		,type : 'get'
-	               		,success : function(data){
-	               			console.log(data);
-	               			$('#customerMemberId').empty();
-	               			$(data).each(function(index,item){
-	               				$('#customerMemberId').append('<option value="'+item.memberId+'">'+item.memberId+'</option>');
-	               			});
-       					}                 
-					});
-				});	 */
+				});			
 			});
 		</script>		
 	</th:block>
 	
-	<th:block layout:fragment="customBody">				
+	<th:block layout:fragment="customBody">		
 		
-		<div class="card-body p-0 table-border-style">
-				<div class="table-responsive">
+		<div class="card" style="min-height: 650px;">
+			<div class="table-responsive">
 					<h3>거래처</h3>
 					<table class="table table-hover" id="customerAddList">			
 						<thead>
 							<tr>								
-								<th>customerName</th>								
-								<th>customerPhone</th>
-								<th>customerCorporateRegistrationNumber</th>
-								<th>customerAddress</th>
-								<th>customerBank</th>
-								<th>customerAccountHolder</th>
-								<th>customerAccountNumber</th>								
-								<th>memberId</th>									
+								<th>조직원 명</th>								
+								<th>조직원 아이디</th>
+								<th>은행 명</th>
+								<th>계좌번호</th>
+								<th>등록자 아이디</th>
+								<th>사번</th>
+								<th>부서명</th>								
+								<th>직위/직책</th>									
 							</tr>
 						</thead>
 				        <tbody>
 							<tr>
-								<td><input type="text" id="customerName"></td>								
-								<td><input type="text" id="customerPhone"></td>
-								<td><input type="text" id="customerCorporateRegistrationNumber"></td>
-								<td><input type="text" id="customerAddress"></td>
-								<td><input type="text" id="customerBank"></td>
-								<td><input type="text" id="customerAccountHolder"></td>
-								<td><input type="text" id="customerAccountNumber"></td>								
-								<td><input type="text" id="customerMemberId"></td>
+								<td><input type="text" id="memberName"></td>								
+								<td>
+								<select id="memberAccountMemberId"></select>
+								</td>
+								<td><input type="text" id="memberAccountBank"></td>
+								<td><input type="text" id="memberAccountNumber"></td>
+								<td><input type="text" id="registrationMemberId"></td>
+								<td><input type="text" id="memberEmployeeCode"></td>
+								<td><input type="text" id="departmentName"></td>								
+								<td><input type="text" id="memberPositionName"></td>
 							</tr>
 						</tbody>
 					</table>									
-					<button type="button" id="customerAddButton">add</button>								
-					<button type="button" id="customerListButton">List</button>					
+					<button type="button" id="memberAccountAddButton">add</button>								
+					<button type="button" id="memberAccountListButton">List</button>					
 				</div>
 			<div class="card-body p-0 table-border-style">
 				<div class="table-responsive">
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>customerName</th>								
-								<th>customerPhone</th>
-								<th>customerCorporateRegistrationNumber</th>
-								<th>customerAddress</th>
-								<th>customerBank</th>
-								<th>customerAccountHolder</th>
-								<th>customerAccountNumber</th>
-								<th>customerDate</th>
-								<th>memberId</th>								
+								<th>조직원 명</th>
+								<th>조직원 아이디</th>
+								<th>은행 명</th>
+								<th>계좌번호</th>
+								<th>등록일</th>
+								<th>등록자 아이디</th>
+								<th>사번</th>
+								<th>부서명</th>
+								<th>직위/직책</th>
 							</tr>
 						</thead>
-						<tbody id="customerList">
-																			
-						</tbody>						
+						<tbody id="memberAccountList">
+							 		 
+						</tbody>
 					</table>
-					<div class="paging">
-    	
-   					</div>				
 				</div>
 			</div>
 		</div>		
+		
 	</th:block>
 	
 	<th:block layout:fragment="customJquery">

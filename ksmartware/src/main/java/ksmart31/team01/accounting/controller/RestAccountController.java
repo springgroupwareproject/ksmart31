@@ -28,11 +28,5 @@ public class RestAccountController {
 		System.out.println("/addAccount 요청");
 		System.out.println(account + "RestAccountController addAccount account");
 		accountService.addAccount(account);
-	}
-	//memberId 리스트
-	@GetMapping(value="/getMemberId")
-	public List<Member> getMemberIdList(){
-		List<Member> memberIdList = accountService.getMemberIdList();
-		return memberIdList;
-	}	
+	}		
 }
