@@ -18,7 +18,7 @@ public class MemberMyAcademyRestController {
 
 	@Autowired private MemberMyAcademyService memberAcademyService;
 	
-	@GetMapping("/member/memberMyProfile/myAcademy")
+	@GetMapping("/member/memberMyProfile/myAcademy2")
 	public String myAcademy (HttpSession session, Model model) {
 		System.out.println("controller 교육 이력 정보 실행");
 		
