@@ -66,7 +66,7 @@
 			<div class="col-10" style="padding-right:20px; border-right: 1px solid #ccc;">
 				<div class="card">
 					<div class="card-header">
-						<div>교육 이력 정보</div> 
+						<div>나의 교육 이력 정보</div> 
 						<div style="padding:10px; text-align:right"><button >추가</button></div>
 					</div>
 					<div class="card-body" >
@@ -99,7 +99,7 @@
 							<div th:text="|기타 내용 : ${myAcatemy.memberAcademyDesc}|"></div>
 							
 							<!-- if 조건 데이터가 공백이면 파일없음 -->
-							<div th:if="${myAcatemy.memberFilesSaveName == '' }">
+							<div th:if="${myAcatemy.memberFilesSaveName == ''}">
 								<div>첨부파일 : 파일없음</div>
 							</div>
 							<!-- else 조건 -->

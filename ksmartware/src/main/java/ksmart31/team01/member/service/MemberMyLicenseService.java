@@ -19,15 +19,8 @@ public class MemberMyLicenseService {
 	
 	public List<MemberLicense> myLicense(String memberId) {
 		System.out.println("MemberMyLicenseService memberId : " + memberId);
-		
-		String memberFileCode = memberMyLicenseMapper.memberFilesCode(memberId);
-		
-		Map<Object, String> map = new HashMap<Object, String>();
-		map.put("memberId", memberId);
-		map.put("memberFileCode", memberFileCode);
-		
-		System.out.println("MemberMyEducationService - map : " + map);
-		List<MemberLicense> myLicense = memberMyLicenseMapper.myLicense(map);
+			
+		List<MemberLicense> myLicense = memberMyLicenseMapper.myLicense(memberId);
 		System.out.println("MemberMyEducationService - myEducation : " + myLicense);
 		
 		return myLicense;	

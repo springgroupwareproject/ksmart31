@@ -2,18 +2,7 @@
 <mapper namespace="ksmart31.team01.member.mapper.MemberMyLicenseMapper">
 	
 	<!-- myProfile 개인정보 -->
-	<select id="memberFilesCode" resultType="String">
-		SELECT 
-			member_file_code AS memberFileCode
-		FROM 
-			member_license
-		WHERE 
-			member_id = #{memberId}
-	</select>
-
-	<!-- myProfile 개인정보 -->
 	<resultMap type="ksmart31.team01.member.domain.MemberLicense" id="myLicense">
-	
 				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
 		<result column="member_license_start_day" property="memberLicenseStartDay"/>
 		<result column="member_license_end_day" property="memberLicenseEndDay"/>
@@ -24,7 +13,6 @@
 		<result column="member_file_code" property="memberFileCode"/>
 		<result column="member_files_origin_name" property="memberFilesOriginName"/>
 		<result column="member_files_save_name" property="memberFilesSaveName"/>
-
 	</resultMap>
 	
 	<select id="myLicense" resultMap="myLicense" parameterType="java.util.Map">
@@ -46,8 +34,6 @@
 			ml.member_file_code = mf.member_files_code
 		WHERE
 			ml.member_id = #{memberId}
-		AND
-			ml.member_file_code = #{memberFileCode}
 	</select>
 	
 

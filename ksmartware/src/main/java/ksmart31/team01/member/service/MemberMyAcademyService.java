@@ -1,8 +1,6 @@
 package ksmart31.team01.member.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,15 +17,9 @@ public class MemberMyAcademyService {
 	
 	
 	public List<MemberAcademy> myAcatemy(String memberId) {
+		System.out.println("MemberMyAcademyService memberId : " + memberId);
 		
-		String memberFileCode = memberMyAcademyMapper.memberFilesCode(memberId);
-		
-		Map<Object, String> map = new HashMap<Object, String>();
-		map.put("memberId", memberId);
-		map.put("memberFileCode", memberFileCode);
-		
-		System.out.println("MemberMyEducationService - map : " + map);
-		List<MemberAcademy> myAcatemy = memberMyAcademyMapper.myAcademy(map);
+		List<MemberAcademy> myAcatemy = memberMyAcademyMapper.myAcademy(memberId);
 		System.out.println("MemberMyEducationService - myEducation : " + myAcatemy);
 		
 		return myAcatemy;

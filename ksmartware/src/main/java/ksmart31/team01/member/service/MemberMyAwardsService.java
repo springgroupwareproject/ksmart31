@@ -20,14 +20,7 @@ public class MemberMyAwardsService {
 	public List<MemberAwards> myAwards(String memberId) {
 		System.out.println("MemberMyAwardsService memberId : " + memberId);
 		
-		String memberFileCode = memberMyAwardsMapper.memberFilesCode(memberId);
-		
-		Map<Object, String> map = new HashMap<Object, String>();
-		map.put("memberId", memberId);
-		map.put("memberFileCode", memberFileCode);
-		
-		System.out.println("MemberMyAwardsService - map : " + map);
-		List<MemberAwards> myAwards = memberMyAwardsMapper.myAwards(map);
+		List<MemberAwards> myAwards = memberMyAwardsMapper.myAwards(memberId);
 		System.out.println("MemberMyAwardsService - myEducation : " + myAwards);
 		
 		return myAwards;	

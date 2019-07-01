@@ -20,16 +20,8 @@ public class MemberMyEducationService {
 	
 	public List<MemberEducation> myEducation(String memberId) {
 	
-		String memberFileCode = memberMyEducationMapper.memberFilesCode(memberId);
-		
-		Map<Object, String> map = new HashMap<Object, String>();
-		map.put("memberId", memberId);
-		map.put("memberFileCode", memberFileCode);
-		
-		System.out.println("MemberMyEducationService - map : " + map);
-		List<MemberEducation> myEducation = memberMyEducationMapper.myEducation(map);
+		List<MemberEducation> myEducation = memberMyEducationMapper.myEducation(memberId);
 		System.out.println("MemberMyEducationService - myEducation : " + myEducation);
-		
 		
 		return myEducation;
 	}
