@@ -6,6 +6,7 @@ public class DocumentAttachedFile {
 	private String documentAttachedFileOriginName;
 	private String approvalFileSaveName;
 	private String memberId;
+
 	private String documentAttachedFileMemberId;
 	private String approvalFileDate;
 	public String getDocumentAttachedFileCode() {
@@ -50,7 +51,6 @@ public class DocumentAttachedFile {
 				+ ", documentAttachedFileOriginName=" + documentAttachedFileOriginName + ", approvalFileSaveName="
 				+ approvalFileSaveName + ", memberId=" + memberId + ", documentAttachedFileMemberId="
 				+ documentAttachedFileMemberId + ", approvalFileDate=" + approvalFileDate + "]";
-	}
-	
+	}	
 	
 }
