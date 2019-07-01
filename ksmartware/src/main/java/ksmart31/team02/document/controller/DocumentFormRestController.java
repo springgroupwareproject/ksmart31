@@ -16,7 +16,7 @@ public class DocumentFormRestController {
 	
 	/*
 	// 휴가신청서 작성폼
-	@GetMapping("/leaveApplicationForm")
+	@GetMapping("member/documentForm/leaveApplicationForm")
 	public String getLeaveApplicationForm(String documentFormCode) {
 		System.out.println("(C) getLeaveApplicationForm() 실행");
 		System.out.println("(C) getLeaveApplicationForm() documentFormCode:"+documentFormCode);
@@ -27,10 +27,10 @@ public class DocumentFormRestController {
 	// 전체 문서양식 목록
 	@GetMapping("/member/getDocumentForm")
 	public List<DocumentForm> getDocumentFormList() {
-		System.out.println("(C) getDocumentFormList() 실행");
+		System.out.println("[DocumentFormRestController] getDocumentFormList() 실행");
 		
 		List<DocumentForm> documentFormList = documentFormMapper.selectDocumentForm();
-		System.out.println("(C) getDocumentFormList() documentFormList:"+documentFormList);
+		System.out.println("[DocumentFormRestController] getDocumentFormList() documentFormList:"+documentFormList);
 		
 		return documentFormList;
 	}
@@ -38,10 +38,10 @@ public class DocumentFormRestController {
 	// 카테고리별 문서양식 목록
 	@GetMapping("/member/getDocumentFormByCategory")
 	public List<DocumentForm> getDocumentFormByCategory(@RequestParam(required = false) String documentFormCategoryCode) {
-		System.out.println("(C) getDocumentFormByCategory() 실행");
+		System.out.println("[DocumentFormRestController] getDocumentFormByCategory() 실행");
 		
 		List<DocumentForm> documentFormByCategoryList = documentFormMapper.selectDocumentFormByCategory(documentFormCategoryCode);
-		System.out.println("(C) getDocumentFormByCategory() documentFormByCategoryList:"+documentFormByCategoryList);
+		System.out.println("[DocumentFormRestController] getDocumentFormByCategory() documentFormByCategoryList:"+documentFormByCategoryList);
 		
 		return documentFormByCategoryList;
 	}
