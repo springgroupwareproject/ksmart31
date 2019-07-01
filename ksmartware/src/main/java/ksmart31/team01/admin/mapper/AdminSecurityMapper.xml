@@ -1,6 +1,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
-<mapper namespace="ksmart31.team01.admin.mapper.PersonnelSetUpMapper">
+<mapper namespace="ksmart31.team01.admin.mapper.AdminSecurityMapper">
 	
 	<resultMap type="ksmart31.team01.member.domain.AdminLevel" id="adminLevel">
 				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->

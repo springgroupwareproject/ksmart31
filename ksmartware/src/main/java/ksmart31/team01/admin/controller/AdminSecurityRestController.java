@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ksmart31.team01.admin.service.PersonnelSetUpService;
+import ksmart31.team01.admin.service.AdminSecurityService;
 import ksmart31.team01.member.domain.AdminLevel;
 
 @RestController
-public class PersonnelSetUpRestController {
+public class AdminSecurityRestController {
 	
 	
-	@Autowired PersonnelSetUpService personnelSetUpService;
+	@Autowired AdminSecurityService personnelSetUpService;
 	
 	/* 관리자 권한부여 저장 매서드 */
 	@GetMapping("/adminLevelSave")

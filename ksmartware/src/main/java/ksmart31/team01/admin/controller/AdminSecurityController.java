@@ -9,26 +9,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import ksmart31.team01.admin.service.PersonnelSetUpService;
+import ksmart31.team01.admin.service.AdminSecurityService;
 import ksmart31.team01.member.domain.AdminLevel;
 import ksmart31.team01.member.domain.Member;
 
 @Controller
-public class PersonnelSetUpController {
+public class AdminSecurityController {
 	
 	// 리베이스 테스트
 	
-	@Autowired PersonnelSetUpService personnelSetUpService;
+	@Autowired AdminSecurityService AdminSecurityService;
 	
 	/* 관리자 권한부여 매서드 */
-	@GetMapping("/adminLevel/adminLevel")
+	@GetMapping("/admin/adminSecurity/adminSecurity")
 	public String adminLevel(HttpSession session, Model model) {
 		System.out.println("관리자별 권한부여 실행");
 		
 		System.out.println("맴버객체생성시작");
 		Member member = (Member) session.getAttribute("loginMember"); //세션에담긴값 맴버vo로 담음
 		if(member == null) { // 미로그인시 세션없으므로 로그인페이지 이동
-			System.out.println("PersonnelSetUpController.memberLevel session=null");
+			System.out.println("AdminSecurityController.memberLevel session=null");
 			return "redirect:"+"/login";
 		}
 		String memberLevelTitle = member.getMemberLevelTitle(); // 맴버vo내부 전역변수값을 get메서드로 불러와서 변수에담음 
@@ -42,10 +42,10 @@ public class PersonnelSetUpController {
 				System.out.println("슈퍼관리자님을 확인하였습니다. 어서오세요.");
 			}
 			
-			List<AdminLevel> adminLevel = personnelSetUpService.adminLevel();
+			List<AdminLevel> adminLevel = AdminSecurityService.adminLevel();
 			model.addAttribute("adminLevel", adminLevel);
 			
-				return "adminLevel/adminLevel";
+				return "admin/adminSecurity/adminSecurity";
 		}			
 		
 		System.out.println("마스터or슈퍼관리자가 아닙니다.");

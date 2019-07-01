@@ -24,7 +24,7 @@
 		<dependency>
 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 			<artifactId>thymeleaf-layout-dialect</artifactId>
-			<!-- <version>2.3.0</version> -->
+			<version>2.3.0</version>
 		</dependency>
 		<!-- StringUtils.countMatches()함수 사용 -->
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
