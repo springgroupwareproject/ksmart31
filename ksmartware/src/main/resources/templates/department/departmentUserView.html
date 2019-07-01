@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main">
+
+<th:block layout:fragment="customHead">
+	<meta charset="UTF-8">
+	<title>Sample</title>
+	<th:block th:include="layout/customHead"></th:block>	
+	<script>
+		$(document).ready(function(){
+			// 조직도 버튼 클릭 이벤트
+			$('.departmentNameButton').click(function(){
+				console.log('조직도 버튼 테스트 value : '+$(this).attr('value'));
+				// departmentName 별로 부서명을 조회하기 위해 이름 값을 담는 변수  
+				let departmentName = $(this).attr('value');				
+				console.log('departmentName 확인');	
+				location.href='/department/departmentUserView?departmentName='+$(this).attr('value');
+			});
+			
+			$('#departmentJoinMemberByMemberIdButton').click(function(){
+				console.log('상세 정보 버튼 value : '+$(this).attr('value'));
+				// 해당 코드별로 휴가 상세 데이터 조회
+				let memberId = $(this).attr('value');
+				console.log("memberId 확인");
+				
+				// 비동기 요청
+				
+				$.ajax({
+						url : '/getDepartmentJoinMemberListByMemberId',
+						type : 'get',
+						data : {
+							'memberId':memberId
+						},
+						success : function(data){
+							console.log(data);
+							$('#departmentJoinMemberByMemberIdList').empty();							
+							$(data).each(function(index,item){								
+								$('#departmentJoinMemberByMemberIdList').append('<div>'+item.memberName+'</div>');
+								$('#departmentJoinMemberByMemberIdList').append('<div>'+item.memberLevelTitle+'</div>');
+								$('#departmentJoinMemberByMemberIdList').append('<div>'+item.departmentCategoryName+'</div>');
+								$('#departmentJoinMemberByMemberIdList').append('<div>'+item.departmentDivisionName+'</div>');
+								$('#departmentJoinMemberByMemberIdList').append('<div>'+item.departmentSectionName+'</div>');
+								$('#departmentJoinMemberByMemberIdList').append('<div>'+item.memberPositionName+'</div>');
+								$('#departmentJoinMemberByMemberIdList').append('<div>'+item.memberId+'</div>');
+								$('#departmentJoinMemberByMemberIdList').append('<div>'+item.memberPhone+'</div>');
+								$('#departmentJoinMemberByMemberIdList').append('<div>'+item.memberMobile+'</div>');
+								$('#departmentJoinMemberByMemberIdList').append('<div>'+item.memberJoinDay+'</div>');
+								$('#departmentJoinMemberByMemberIdList').append('<div>'+item.memberAddress+'</div>');								
+									
+							});	
+						}
+					});	
+				});	
+		});
+</script>
+
+</th:block>
+
+
+<th:block layout:fragment="customBody">
+<div class="row">
+	<div class="col-md-4">
+		<div class="card" style="min-height: 650px;">
+			<div class="card-header">
+				<h3>조직도</h3>
+			</div>
+			<div class="card-body">
+				<div th:each="recursiveList: ${recursiveList}">
+			<button class="departmentNameButton btn btn-outline-dark"
+				th:text="${recursiveList.departmentName}"
+				th:value="${recursiveList.departmentName}"></button>
+		</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-8">
+		<div class="card" style="min-height: 650px;">
+			<div class="card-header">
+				<h3>조직도 상세보기</h3>
+			</div>
+			<div class="card-body">									
+				<div class="container">						  
+					<div class="card">							
+						<span class="card-body" th:each="departmentJoinMemberList:${departmentJoinMemberList}">
+							<button type="button" id="departmentJoinMemberByMemberIdButton" th:value="${departmentJoinMemberList.memberId}" data-toggle="modal" data-target="#detailModal">
+							<span th:text="${departmentJoinMemberList.memberName}"></span>
+							</button>
+							<span th:text="${departmentJoinMemberList.memberLevelTitle}"></span> 
+							<br>
+							<span th:text="${departmentJoinMemberList.departmentCategoryName}"></span>
+							<span th:text="${departmentJoinMemberList.departmentDivisionName}"></span>
+							<span th:text="${departmentJoinMemberList.departmentSectionName}"></span>
+							<br>
+							<span th:text="${departmentJoinMemberList.memberPositionName}"></span>
+							<span th:text="${departmentJoinMemberList.memberId}"></span>
+							<br>
+							<span th:text="${departmentJoinMemberList.memberPhone}"></span>
+							<span th:text="${departmentJoinMemberList.memberMobile}"></span>
+							<br>
+							<span th:text="${departmentJoinMemberList.memberJoinDay}"></span>
+							<span th:text="${departmentJoinMemberList.memberAddress}"></span>
+							<hr>
+						</span>																				
+					</div>
+				</div>					
+			</div>		
+		</div>
+		
+		<!-- 상세 휴가 설정 팝업 -->
+			<div class="modal" id="detailModal">
+				<div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">
+					<div class="modal-content">
+						<!-- Modal Header -->
+						<div class="modal-header">
+							<h2 class="modal-title">상세보기</h2>
+							<button type="button" class="close" data-dismiss="modal">×</button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body" id="departmentJoinMemberByMemberIdList">
+							
+						</div>	
+					</div>
+				</div>
+			</div>		
+	</div>
+</div>
+
+</th:block>
+
+<th:block layout:fragment="customJquery">
+	<th:block th:include="layout/customJquery"></th:block>
+</th:block>
+
+</html>

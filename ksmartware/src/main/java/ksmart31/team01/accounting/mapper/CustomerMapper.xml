@@ -1,0 +1,72 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ksmart31.team01.accounting.mapper.CustomerMapper">
+	<!-- customer 리스트 -->
+	<resultMap type="ksmart31.team01.accounting.domain.Customer" id="selectCustomerList">
+		<result column="customer_code" property="customerCode"/>
+		<result column="customer_name" property="customerName"/>
+		<result column="customer_phone" property="customerPhone"/>
+		<result column="customer_corporate_registration_number" property="customerCorporateRegistrationNumber"/>
+		<result column="customer_address" property="customerAddress"/>
+		<result column="customer_bank" property="customerBank"/>
+		<result column="customer_account_holder" property="customerAccountHolder"/>
+		<result column="customer_account_number" property="customerAccountNumber"/>		
+		<result column="customer_date" property="customerDate"/>
+		<result column="member_id" property="memberId"/>
+	</resultMap>
+	<select id="selectCustomerList" resultType="ksmart31.team01.accounting.domain.Customer" resultMap="selectCustomerList">
+		select 
+			customer_code
+			,customer_name
+			,customer_phone
+			,customer_corporate_registration_number
+			,customer_address
+			,customer_bank
+			,customer_account_holder
+			,customer_account_number			
+			,customer_date
+			,member_id
+		from customer
+		order by customer_date desc
+	</select>
+	<!-- customer insert -->
+	<insert id="insertCustomer" parameterType="ksmart31.team01.accounting.domain.Customer">
+		insert into
+			customer
+			(customer_code
+			,customer_name
+			,customer_phone
+			,customer_corporate_registration_number
+			,customer_address
+			,customer_bank
+			,customer_account_holder
+			,customer_account_number			
+			,customer_date
+			,member_id
+			)
+			values
+			(#{customerCode}
+			,#{customerName}
+			,#{customerPhone}
+			,#{customerCorporateRegistrationNumber}
+			,#{customerAddress}
+			,#{customerBank}
+			,#{customerAccountHolder}
+			,#{customerAccountNumber}
+			,now()
+			,#{memberId})
+	</insert>
+	
+	<!-- member_id 리스트-->
+	<resultMap type="ksmart31.team01.member.domain.Member" id="selectMemberIdList">	
+		<result column="member_id" property="memberId"/>
+	</resultMap>
+	<select id="selectMemberIdList" resultMap="selectMemberIdList">
+		select
+			member_id
+		from member		
+	</select>
+	
+		
+</mapper>  

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+	
+	<th:block layout:fragment="customHead">
+		<meta charset="UTF-8">
+		<title>Sample</title>
+		<th:block th:include="layout/customHead"></th:block>
+		<script>
+		$(document).ready(function(){
+			// customer 버튼 클릭 이벤트
+							
+			$('#hide').click(function(){
+				$('#customerAddList').hide();
+			});
+			$('#show').click(function(){
+				$('#customerAddList').show();
+			});			
+			// customer insert
+			$('#customerAddButton').click(function(){
+				console.log('거래처 insert 버튼 테스트');
+				let customerName = $('#customerName').val();      		
+            	let customerPhone = $('#customerPhone').val();
+            	let customerCorporateRegistrationNumber = $('#customerCorporateRegistrationNumber').val();
+            	let customerAddress = $('#customerAddress').val();
+            	let customerBank = $('#customerBank').val();
+            	let customerAccountHolder = $('#customerAccountHolder').val();
+            	let customerAccountNumber = $('#customerAccountNumber').val();
+            	let memberId = $('#memberId').val();            	
+				
+				$.ajax({
+					url : '/addCustomer'
+					,type : 'post'
+					,data : {'customerName':customerName,'customerPhone':customerPhone,
+						'customerCorporateRegistrationNumber':customerCorporateRegistrationNumber,
+						'customerAddress':customerAddress,'customerBank':customerBank,
+						'customerAccountHolder':customerAccountHolder,
+						'customerAccountNumber':customerAccountNumber,'memberId':memberId}
+					,success : function(){
+						console.log('#accountAddButton click');
+	               		$('#customerListButton').trigger('click');
+					}	
+				});
+			});
+			
+			// customer 리스트 			
+			$('#customerListButton').click(function(){
+				console.log('거래처 리스트버튼 테스트');	
+					
+					$.ajax({
+			    		url : '/getCustomer'
+			    		,type : 'get'			    								
+			    		,success:function(data){			    			
+							$('#customerList').empty();							
+							$(data).each(function(index,item){
+								$('#customerList').append('<tr>');
+								$('#customerList').append('<td>'+item.customerName+'</td>');
+								$('#customerList').append('<td>'+item.customerPhone+'</td>');
+								$('#customerList').append('<td>'+item.customerCorporateRegistrationNumber+'</td>');
+								$('#customerList').append('<td>'+item.customerAddress+'</td>');
+								$('#customerList').append('<td>'+item.customerBank+'</td>');
+								$('#customerList').append('<td>'+item.customerAccountHolder+'</td>');
+								$('#customerList').append('<td>'+item.customerAccountNumber+'</td>');
+								$('#customerList').append('<td>'+item.customerDate+'</td>');
+								$('#customerList').append('<td>'+item.memberId+'</td>');
+								$('#customerList').append('</tr>');
+							});	
+			    		}
+					});							
+				});
+				
+				$('#hide').trigger('click');
+				
+				//memberId 리스트 조회
+				$('#customerMemberId').click(function(){
+					console.log('memberId 클릭 테스트');
+					
+					$.ajax({
+	               		url : '/getMemberId'
+	               		,type : 'get'
+	               		,success : function(data){
+	               			console.log(data);
+	               			$('#customerMemberId').empty();
+	               			$(data).each(function(index,item){
+	               				$('#customerMemberId').append('<option value="'+item.memberId+'">'+item.memberId+'</option>');
+	               			});
+       					}                 
+					});
+				});	
+			});
+		</script>		
+	</th:block>
+	
+	<th:block layout:fragment="customBody">				
+		
+		<div class="card-body p-0 table-border-style">
+				<div class="table-responsive">
+					<h3>거래처</h3>
+					<table class="table table-hover" id="customerAddList">			
+						<thead>
+							<tr>								
+								<th>customerName</th>								
+								<th>customerPhone</th>
+								<th>customerCorporateRegistrationNumber</th>
+								<th>customerAddress</th>
+								<th>customerBank</th>
+								<th>customerAccountHolder</th>
+								<th>customerAccountNumber</th>								
+								<th>memberId</th>									
+							</tr>
+						</thead>
+				        <tbody>
+							<tr>
+								<td><input type="text" id="customerName"></td>								
+								<td><input type="text" id="customerPhone"></td>
+								<td><input type="text" id="customerCorporateRegistrationNumber"></td>
+								<td><input type="text" id="customerAddress"></td>
+								<td><input type="text" id="customerBank"></td>
+								<td><input type="text" id="customerAccountHolder"></td>
+								<td><input type="text" id="customerAccountNumber"></td>								
+								<td>
+									<select id="customerMemberId"></select>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<button id="show">Show</button>
+					<button id="hide">Hide</button>					
+					<button type="button" id="customerAddButton">add</button>								
+					<button type="button" id="customerListButton">List</button>					
+				</div>
+			<div class="card-body p-0 table-border-style">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>customerName</th>								
+								<th>customerPhone</th>
+								<th>customerCorporateRegistrationNumber</th>
+								<th>customerAddress</th>
+								<th>customerBank</th>
+								<th>customerAccountHolder</th>
+								<th>customerAccountNumber</th>
+								<th>customerDate</th>
+								<th>memberId</th>								
+							</tr>
+						</thead>
+						<tbody id="customerList">
+																			
+						</tbody>						
+					</table>
+					<div class="paging">
+    	
+   					</div>				
+				</div>
+			</div>
+		</div>		
+	</th:block>
+	
+	<th:block layout:fragment="customJquery">
+		<th:block th:include="layout/customJquery"></th:block>
+	</th:block>
+	
+</html>

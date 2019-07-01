@@ -63,7 +63,41 @@
 			</when>	
 		</choose>
 			WHERE d.department_name = #{departmentName}
-	</select>			 
+	</select>
+	
+	<resultMap type="ksmart31.team01.department.domain.DepartmentJoinMember" id="selectDepartmentJoinMemberListByMemberId">
+		<result column="member_name" property="memberName"/>
+		<result column="member_level_title" property="memberLevelTitle"/>
+		<result column="department_category_name" property="departmentCategoryName"/>
+		<result column="department_division_name" property="departmentDivisionName"/>
+		<result column="department_section_name" property="departmentSectionName"/>
+		<result column="member_position_name" property="memberPositionName"/>
+		<result column="member_id" property="memberId"/>
+		<result column="member_phone" property="memberPhone"/>
+		<result column="member_mobile" property="memberMobile"/>
+		<result column="member_join_day" property="memberJoinDay"/>
+		<result column="member_address" property="memberAddress"/>		
+	</resultMap>
+	<select id="selectDepartmentJoinMemberListByMemberId" parameterType="String" resultMap="selectDepartmentJoinMemberListByMemberId">
+		SELECT
+			m.member_name
+			,m.member_level_title
+			,m.department_category_name
+			,m.department_division_name
+			,m.department_section_name
+			,m.member_position_name
+			,m.member_id
+			,m.member_phone
+			,m.member_mobile
+			,m.member_join_day
+			,m.member_address
+		FROM department d
+		INNER JOIN member m		
+		ON d.department_name = m.department_name	
+		WHERE m.member_id = #{memberId}				
+	</select>		
+	
+				 
 </mapper>			
 		<!-- 조건문 if문 -->
 	<!-- 	<if test="departmentNumber == 1">

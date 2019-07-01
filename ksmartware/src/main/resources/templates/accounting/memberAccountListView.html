@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+	
+	<th:block layout:fragment="customHead">
+		<meta charset="UTF-8">
+		<title>Sample</title>
+		<th:block th:include="layout/customHead"></th:block>
+		<script>
+		$(document).ready(function(){
+			// 조직원 계좌 버튼 클릭 이벤트
+			$('#membermemberAccountListButton').click(function(){
+				console.log('조직원 계좌 버튼 테스트');
+				location.href='/memberAccountListView';		
+			});	
+		});
+		</script>		
+	</th:block>
+	
+	<th:block layout:fragment="customBody">		
+		
+		<div class="card" style="min-height: 650px;">
+			<div class="card-header d-block">
+               <h3>계정과목</h3>          
+			</div>
+			<div class="card-body p-0 table-border-style">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>memberName</th>
+								<th>memberId</th>
+								<th>memberAccountBank</th>
+								<th>memberAccountNumber</th>
+								<th>memberAccountDate</th>
+								<th>registrationMemberId</th>
+								<th>memberEmployeeCode</th>
+								<th>departmentName</th>
+								<th>memberPositionName</th>
+							</tr>
+						</thead>
+						<tbody>
+							 <tr th:each="memberAccountList:${memberAccountList}">					
+								<td th:text="${memberAccountList.memberName}"></td>
+								<td th:text="${memberAccountList.memberId}"></td>
+								<td th:text="${memberAccountList.memberAccountBank}"></td>
+								<td th:text="${memberAccountList.memberAccountNumber}"></td>
+								<td th:text="${memberAccountList.memberAccountDate}"></td>	
+								<td th:text="${memberAccountList.registrationMemberId}"></td>	
+								<td th:text="${memberAccountList.memberEmployeeCode}"></td>	
+								<td th:text="${memberAccountList.departmentName}"></td>	
+								<td th:text="${memberAccountList.memberPositionName}"></td>					
+							</tr>		
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>		
+		
+	</th:block>
+	
+	<th:block layout:fragment="customJquery">
+		<th:block th:include="layout/customJquery"></th:block>
+	</th:block>
+	
+</html>

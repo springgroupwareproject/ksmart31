@@ -40,6 +40,11 @@ public class DepartmentService {
 		returnMap.put("recursiveList", recursiveList);		
 		returnMap.put("departmentJoinMemberList", departmentJoinMemberList);
 		return returnMap;
+	}
+	// memberId 로 조인 조회
+	public List<DepartmentJoinMember> getDepartmentJoinMemberListByMemberId(String memberId){
+		List<DepartmentJoinMember> list = departmentMapper.selectDepartmentJoinMemberListByMemberId(memberId);
+		System.out.println(list +"DepartmentService getDepartmentJoinMemberListByMemberId list");
+		return list;
 	}	
-	
 }	
