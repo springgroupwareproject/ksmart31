@@ -9,6 +9,9 @@ import ksmart31.team02.document.domain.DraftDocument;
 
 @Mapper
 public interface DraftDocumentMapper {
+	// 문서양식폼에 보여줄 정보
+	public List<DraftDocument> selectDraftDocument();
+	
 	// 최근 승인 문서 목록
 	public List<ApprovalDocument> selectLastestApprovalDocumentList();
 	
