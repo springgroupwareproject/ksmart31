@@ -1,0 +1,43 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ksmart31.team03.leave.mapper.LeavePolicyMapper">
+	<!-- 카테고리 코드별 휴가 정책 리스트 조회 -->
+	<resultMap type="ksmart31.team03.leave.domain.LeavePolicy" id="selectLeavePolicyList">
+		<result column="leave_policy_code" property="leavePolicyCode"/>
+		<result column="leave_policy_title" property="leavePolicyTitle"/>
+		<result column="leave_policy_standard" property="leavePolicyStandard"/>
+		<result column="leave_policy_start_point" property="leavePolicyStartPoint"/>
+		<result column="leave_policy_start_unit" property="leavePolicyStartUnit"/>
+		<result column="leave_policy_days" property="leavePolicyDays"/>
+	</resultMap>
+	<select id="selectLeavePolicyList" parameterType="String" resultMap="selectLeavePolicyList">
+		SELECT 
+			leave_policy_code,
+			leave_policy_title,
+			leave_policy_standard,
+			leave_policy_start_point,
+			leave_policy_start_unit,
+			leave_policy_days
+		FROM leave_policy
+		WHERE leave_category_code = #{leaveCategoryCode}
+		ORDER BY(SUBSTRING_INDEX(leave_policy_code,'_',-1)+0)
+	</select>
+	<!-- 휴가 코드별 휴가 정책 데이터 조회 -->
+	<resultMap type="ksmart31.team03.leave.domain.LeavePolicy" id="selectLeavePolicy">
+		<result column="leave_policy_title" property="leavePolicyTitle"/>
+		<result column="leave_policy_standard" property="leavePolicyStandard"/>
+		<result column="leave_policy_start_point" property="leavePolicyStartPoint"/>
+		<result column="leave_policy_start_unit" property="leavePolicyStartUnit"/>
+		<result column="leave_policy_days" property="leavePolicyDays"/>
+	</resultMap>
+	<select id="selectLeavePolicy" parameterType="String" resultMap="selectLeavePolicy">
+		SELECT 
+			leave_policy_title,
+			leave_policy_standard,
+			leave_policy_start_point,
+			leave_policy_start_unit,
+			leave_policy_days
+		FROM leave_policy
+		WHERE leave_policy_code = #{leavePolicyCode}
+	</select>
+
+</mapper>

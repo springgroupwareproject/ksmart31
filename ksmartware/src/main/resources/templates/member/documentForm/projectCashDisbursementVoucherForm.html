@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+	
+	<th:block layout:fragment="customHead">
+		<meta charset="UTF-8">
+		<title>프로젝트 지출결의서</title>
+		<style>
+			p    {color: powderblue;}
+		</style>
+		<th:block th:include="layout/customHead"></th:block>
+	</th:block>
+	
+	<th:block layout:fragment="customBody">
+		<body>
+			<div class="container">
+				<h1>프로젝트 지출결의서</h1>
+				<form>
+					<div>
+						<table style="width:100%">
+							<tr>
+								<td>문서양식명</td>
+								<td>
+									<a th:value="달러">
+										<th:block th:text="달러"></th:block>
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>부서</td>
+								<td>
+									<a th:value="달러">
+										<th:block th:text="달러"></th:block>
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>직위/직책</td>
+								<td>
+									<a th:value="달러">
+										<th:block th:text="달러"></th:block>
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>신청자명</td>
+								<td>
+									<a th:value="달러">
+										<th:block th:text="달러"></th:block>
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>기안일</td>
+								<td>
+									<a th:value="달러">
+										<th:block th:text="달러"></th:block>
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>프로젝트 명</td>
+								<td>
+									<select name="job">
+									    <option value="">직업선택</option>
+									    <option value="학생">학생</option>
+									    <option value="회사원">회사원</option>
+									    <option value="기타">기타</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>지출 항목</td>
+								<td>
+									<select name="job">
+									    <option value="">직업선택</option>
+									    <option value="학생">학생</option>
+									    <option value="회사원">회사원</option>
+									    <option value="기타">기타</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>지출금액</td>
+								<td>
+									<a th:value="달러">
+										<th:block th:text="달러"></th:block>
+									</a>
+								</td>
+							</tr>
+						</table>
+						<p>지출 증빙을 위한 영수증 등은 스캔이나 사진 촬영 후 첨부파일로 첨부하여 주시기 바랍니다.</p>
+					</div>
+				</form>
+			</div>
+		</body>
+	</th:block>
+	
+	<th:block layout:fragment="customJquery">
+		<th:block th:include="layout/customJquery"></th:block>
+	</th:block>
+	
+</html>
