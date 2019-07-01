@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main">
+
+<th:block layout:fragment="customHead">
+	<meta charset="UTF-8">
+	<title>attachedFile</title>
+	<th:block th:include="layout/customHead"></th:block>
+	<script>
+		function checkAll() {
+			if ($("#checkAll").is(':checked')) {
+				$("input[type=checkbox]").prop("checked", true);
+			} else {
+				$("input[type=checkbox]").prop("checked", false);
+			}
+		};
+	</script>
+</th:block>
+
+<th:block layout:fragment="customBody">
+	<h2>나의 문서함</h2>
+	<br />
+	<div class="col-md-12">
+		<div class="card table-card">
+			<div class="card-header">
+				<h3>결재완료문서</h3>
+				<div class="card-header-right"></div>
+			</div>
+			<div class="card-block">
+				<div class="table-responsive">
+					<table class="table table-hover mb-0">
+						<thead>
+							<tr>
+								<th>첨부파일명</th>
+								<th>문서명</th>
+								<th>첨부자명</th>
+								<th>첨부일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>★(최종)개정 근로기준법 설명자료 1년 미만 연차휴가 확대.pdf</td>
+								<td>ksmart31th-20190620-휴가신청서-ksmart31th,연구본부-이승진-(순번)</td>
+								<td>이승진</td>
+								<td>19. 6. 21 오전 11:46</td>
+
+							</tr>
+							<tr>
+								<td>testFile.txt</td>
+								<td>ksmart31th-20190610-구매요청서-경영본부-seongwoo</td>
+								<td>superAdmin</td>
+								<td>19. 6. 10 오후 11:55</td>
+							</tr>
+							<tr>
+								<td>Tulips.jpg</td>
+								<td>ksmart31th-20190610-구매요청서-경영본부-seongwoo</td>
+								<td>superAdmin</td>
+								<td>19. 6. 10 오후 4:54</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+<th:block layout:fragment="customJquery">
+	<th:block th:include="layout/customJquery"></th:block>
+</th:block>
+
+</html>
