@@ -1,0 +1,40 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ksmart31.team01.member.mapper.MemberMyLicenseMapper">
+	
+	<!-- myProfile 개인정보 -->
+	<resultMap type="ksmart31.team01.member.domain.MemberLicense" id="myLicense">
+				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+		<result column="member_license_start_day" property="memberLicenseStartDay"/>
+		<result column="member_license_end_day" property="memberLicenseEndDay"/>
+		<result column="member_license_name" property="memberLicenseName"/>
+		<result column="member_license_number" property="memberLicenseNumber"/>
+		<result column="member_license_url" property="memberLicenseUrl"/>
+		<result column="member_license_authentication" property="memberLicenseAuthentication"/>
+		<result column="member_file_code" property="memberFileCode"/>
+		<result column="member_files_origin_name" property="memberFilesOriginName"/>
+		<result column="member_files_save_name" property="memberFilesSaveName"/>
+	</resultMap>
+	
+	<select id="myLicense" resultMap="myLicense" parameterType="java.util.Map">
+		SELECT 
+			member_license_start_day,
+			member_license_end_day,
+			member_license_name,
+			member_license_number,
+			member_license_url,
+			member_license_authentication,
+			member_file_code,
+			member_files_origin_name,
+			member_files_save_name	
+		FROM 
+			member_license ml
+		INNER JOIN
+			member_files mf
+		ON 
+			ml.member_file_code = mf.member_files_code
+		WHERE
+			ml.member_id = #{memberId}
+	</select>
+	
+
+</mapper>
