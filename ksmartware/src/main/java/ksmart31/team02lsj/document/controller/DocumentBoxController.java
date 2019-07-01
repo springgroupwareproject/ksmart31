@@ -46,8 +46,9 @@ public class DocumentBoxController {
 		String documentBoxName = "결재완료문서";
 		draftDocumentList = documentBoxService.approvedDocumentListByMemberInfo(memberId);
 		model.addAttribute("draftDocumentList", draftDocumentList);
-		model.addAttribute("documentBoxName", documentBoxName); return
-		"/member/documentBox/documentHistoryForm"; }
+		model.addAttribute("documentBoxName", documentBoxName); 
+		return "/member/documentBox/documentHistoryForm"; 
+	}
 
 	// 수신문서함
 	@GetMapping("/documentBox/recievedDocument")
@@ -96,13 +97,13 @@ public class DocumentBoxController {
 	@GetMapping("/documentBox/attachedFile")
 	public String attachedFileBox(Model	  model, HttpSession session) {
 		System.out.println("(C) attachedFileBox");
-		List<DocumentAttachedFile> draftDocumentList = null;
+		List<DocumentAttachedFile> documentAttachFileList = null;
 		Member member = (Member) session.getAttribute("loginMember");
 		System.out.println("member : " + member);
 		String memberId = member.getMemberId();
 		String documentBoxName = "첨부파일";
-		draftDocumentList = documentBoxService.attachedFileListByMemberInfo(memberId);
-		model.addAttribute("draftDocumentList", draftDocumentList);
+		documentAttachFileList = documentBoxService.attachedFileListByMemberInfo(memberId);
+		model.addAttribute("documentAttachFileList", documentAttachFileList);
 		model.addAttribute("documentBoxName", documentBoxName);
 	    return "/member/documentBox/attachedFile.html"; }
 

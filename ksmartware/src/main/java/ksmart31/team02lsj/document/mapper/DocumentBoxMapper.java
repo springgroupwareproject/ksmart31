@@ -1,6 +1,7 @@
 package ksmart31.team02lsj.document.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,9 +14,9 @@ public interface DocumentBoxMapper {
 	//기안문서
 	public List<DraftDocument> selectDraftDocumentListByMember(String memberId);
 	//결재완료문서
-	public List<DraftDocument> selectApprovedDocumentListByMember(String memberId);
+	public List<DraftDocument> selectApprovedDocumentListByMember(String memberId, String documentStatus);
 	//수신문서
-	public List<DraftDocument> selectRecievedDocumentListByMember(String memberId);
+	public List<DraftDocument> selectRecievedDocumentListByMember(String memberId, String documentStatus);
 	//회람문서
 	public List<DraftDocument> selectCirculationDocumentListByMember(String memberId);
 	//전결문서
