@@ -13,17 +13,7 @@ import ksmart31.team02.document.mapper.DocumentFormMapper;
 @RestController
 public class DocumentFormRestController {
 	@Autowired private DocumentFormMapper documentFormMapper;
-	
-	/*
-	// 휴가신청서 작성폼
-	@GetMapping("member/documentForm/leaveApplicationForm")
-	public String getLeaveApplicationForm(String documentFormCode) {
-		System.out.println("(C) getLeaveApplicationForm() 실행");
-		System.out.println("(C) getLeaveApplicationForm() documentFormCode:"+documentFormCode);
-		return "member/documentForm/leaveApplicationForm";
-	}
-	*/
-	
+
 	// 전체 문서양식 목록
 	@GetMapping("/member/getDocumentForm")
 	public List<DocumentForm> getDocumentFormList() {
