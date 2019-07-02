@@ -52,5 +52,6 @@ public class DocumentAttachedFile {
 				+ documentAttachedFileMemberId + ", approvalFileDate=" + approvalFileDate + "]";
 	}
 	
+
 	
 }
