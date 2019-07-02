@@ -4,11 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="ksmart31.team02.document.mapper.DocumentFormMapper">
-	<!-- 문서양식 목록 페이징시 사용 -->
-	<select id="selectDocumentFormCount" resultType="int">
-        SELECT COUNT(*) FROM document_form
-    </select>
-    
     <!-- 전체 문서양식 목록 -->
     <select id="selectDocumentForm"
     		parameterType="Integer"
