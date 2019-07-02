@@ -1,20 +1,15 @@
 package ksmart31.team02.document.controller;
 
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import ksmart31.team01.member.domain.Member;
 import ksmart31.team02.document.domain.ApprovalDocument;
 import ksmart31.team02.document.domain.DraftDocument;
 import ksmart31.team02.document.mapper.DraftDocumentMapper;
-import ksmart31.team03.leave.domain.LeaveCategory;
 
 @Controller
 public class DraftDocumentController {

@@ -14,8 +14,6 @@ import ksmart31.team02.document.domain.DocumentFormCategory;
 import ksmart31.team02.document.domain.DraftDocument;
 import ksmart31.team02.document.mapper.DocumentFormMapper;
 import ksmart31.team02.document.service.DocumentFormService;
-import ksmart31.team03.leave.domain.LeaveCategory;
-import ksmart31.team03.leave.domain.LeaveHistory;
 
 @Controller
 public class DocumentFormController {

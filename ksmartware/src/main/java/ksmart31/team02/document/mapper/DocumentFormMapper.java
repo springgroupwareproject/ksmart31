@@ -9,9 +9,6 @@ import ksmart31.team02.document.domain.DocumentFormCategory;
 
 @Mapper
 public interface DocumentFormMapper {
-	// 문서양식 목록 페이징
-	// public int selectDocumentFormCount();
-	
 	// 전체 문서양식 목록
 	public List<DocumentForm> selectDocumentForm();
 	
