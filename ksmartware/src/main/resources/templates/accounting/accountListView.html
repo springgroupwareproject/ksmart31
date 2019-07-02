@@ -5,6 +5,11 @@
 		<meta charset="UTF-8">
 		<title>Sample</title>
 		<th:block th:include="layout/customHead"></th:block>
+		<th:block th:include="layout/customHead"></th:block>	
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 		<script>			
 			$(document).ready(function(){				
 				let memberId = '[[${memberId}]]';
@@ -41,11 +46,11 @@
 							
 							$('.paging').empty();
 							if(currentPage > firstPage){
-								$('.paging').append('<button type="button" id="beforePage">이전</button>');
-							}
+								$('.paging').append('<a class="ik ik-arrow-left-circle" href="#" id="beforePage"></a>');
+							}							
 							if(currentPage < lastPage){
-								$('.paging').append('<button type="button" id="nextPage">다음</button>');
-							}
+								$('.paging').append('<a class="ik ik-arrow-right-circle" href="#" id="nextPage"></a>');
+							}							
 							$('#beforePage').click(function(){
 								console.log('#beforePage click !!!');
 								currentPage--;
@@ -81,9 +86,12 @@
 	</th:block>
 	
 	<th:block layout:fragment="customBody">				
-		<div class="card" style="min-height: 550px;">
-			<div class="card-header d-block">
-				<h3>계정과목</h3>					
+		<div class="card-body p-0 table-border-style">
+			<div class="table-responsive">
+				<h3>계정과목
+					<a class="ik ik-plus-square" href="#" id="accountAddButton"></a>											
+					<a class="ik ik-clipboard" href="#" id="accountListButton"></a>	
+				</h3>					
 					<table class="table table-hover" id="accountAddList">
 						<thead>
 							<tr>								
@@ -92,14 +100,13 @@
 							</tr>
 						</thead>
 				        <tbody>
-							<tr>
-								<td><input type="text" id="accountName"></td>								
+							<tr>								
+							 	<td><input type="text" id="accountName"></td>							
 								<td><input type="text" id="memberId"></td>			                
 				            </tr>
 						</tbody>
 					</table>									
-					<button type="button" id="accountAddButton" class="badge badge-light mb-1">add</button>							
-					<button type="button" id="accountListButton" class="badge badge-light mb-1">List</button>					
+														
 			</div>
 			<div class="card-body p-0 table-border-style">
 				<div class="table-responsive">

@@ -5,6 +5,10 @@
 		<meta charset="UTF-8">
 		<title>Sample</title>
 		<th:block th:include="layout/customHead"></th:block>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 		<script>
 		$(document).ready(function(){
 			
@@ -95,9 +99,12 @@
 	
 	<th:block layout:fragment="customBody">		
 		
-		<div class="card" style="min-height: 650px;">
+		<div class="card-body p-0 table-border-style">
 			<div class="table-responsive">
-					<h3>거래처</h3>
+					<h3>조직원 계좌
+						<a class="ik ik-plus-square" href="#" id="memberAccountAddButton"></a>											
+						<a class="ik ik-clipboard" href="#" id="memberAccountListButton"></a>
+					</h3>
 					<table class="table table-hover" id="customerAddList">			
 						<thead>
 							<tr>								
@@ -125,9 +132,7 @@
 								<td><input type="text" id="memberPositionName"></td>
 							</tr>
 						</tbody>
-					</table>									
-					<button type="button" id="memberAccountAddButton" class="badge badge-light mb-1">add</button>								
-					<button type="button" id="memberAccountListButton" class="badge badge-light mb-1">List</button>					
+					</table>		
 				</div>
 			<div class="card-body p-0 table-border-style">
 				<div class="table-responsive">

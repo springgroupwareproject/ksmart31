@@ -7,8 +7,26 @@
 	<meta charset="UTF-8">
 	<title>Sample</title>
 	<th:block th:include="layout/customHead"></th:block>	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<style>
-	#departmentJoinMemberByMemberIdList{text-align:center;}	
+	#departmentJoinMemberByMemberIdList{text-align:center;}
+	
+    .icon-list-wrap .icon-list-item i {
+        float: left;
+        text-align: center;
+        border-radius: .1875rem;
+        margin-right: 1rem;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem; /* 글자크기 */
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        -moz-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+    
+		
 	</style>
 	<script>
 		$(document).ready(function(){
@@ -57,38 +75,56 @@
 					});	
 				});	
 		});
-</script>
-
+	</script>
 </th:block>
-
 
 <th:block layout:fragment="customBody">
 <div class="row">
 	<div class="col-3">
-		<div class="card" style="min-height: 575px;">
-			<div class="card-header" style="text-align:center;">
-				<h3>조직도</h3>
-				<button type="button" class="departmentNameButton btn btn-outline-dark" value="fullView" >전체 보기</button>							
-			</div>
-			<div class="card-body">				
-					
-				
-				<div th:each="recursiveList: ${recursiveList}">				
-					<button class="departmentNameButton btn btn-outline-dark"
-						th:text="${recursiveList.departmentName}"
-						th:value="${recursiveList.departmentName}"></button>
+		<div class="card" style="min-height: 100%;">
+			<!-- 왼쪽 카드 제목 -->
+			<div class="card-header justify-content-between" style="padding: 10px;">
+				<div>조직도</div>						
+				<div class="icon-list-wrap">
+					<div class="icon-list-item">																								
+						<a class="departmentNameButton btn pull-right" href="#" th:value="fullView" style="width: 30px; padding: 0;">
+							<i class="ik ik-clipboard"></i>
+						</a>
+					</div>
+				</div>						
+			</div>	
+			<!-- 왼쪽 카드 내용 -->
+			<div class="card-body">
+				<div class="row layout-wrap" id="layout-wrap">
+					<div class="col-12 list-item" th:each="recursiveList: ${recursiveList}">
+				        <div class="d-flex flex-grow-1 min-width-zero text-black-50">
+			                <a href="#" class="col-8 departmentNameButton" th:text="${recursiveList.departmentName}" th:value="${recursiveList.departmentName}"></a>
+				            <div class="list-actions col-5" >
+				                <a href="layout-edit-item.html"><i class="ik ik-edit-2"></i></a>
+				                <a href="#" class="list-delete"><i class="ik ik-trash-2"></i></a>
+				            </div>
+				        </div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
 	<div class="col-9">		
 		<div class="card">
 			<div class="card-header">
-				<div>
-					<input type="text" placeholder="검색어 입력">
-					<button type="button" class="btn btn-outline-dark">검색</button>
-				</div>				
+			
+				<div class="btn-group float-md-left mr-1 mb-1">
+                    <button class="btn btn-outline-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Order By 
+                        <i class="ik ik-chevron-down mr-0 align-middle"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                    </div>
+                </div>
+                
+
 			</div>
 		</div>
 		<div class="card" style="min-height: 650px;">
@@ -97,11 +133,9 @@
 			</div>
 			<div class="card-body">									
 				<div class="container">						  
-					<div class="card">					
+					<div class="card">																	
 						<span class="card-body" th:each="departmentJoinMemberList:${departmentJoinMemberList}">
-							<button type="button" class="departmentJoinMemberByMemberIdButton badge badge-light mb-1" th:value="${departmentJoinMemberList.memberId}" data-toggle="modal" data-target="#detailModal">
-							<span th:text="${departmentJoinMemberList.memberName}"></span>
-							</button>
+							<a class="departmentJoinMemberByMemberIdButton" href="#" th:value="${departmentJoinMemberList.memberId}" data-toggle="modal" data-target="#detailModal"><span th:text="${departmentJoinMemberList.memberName}"></span></a>														
 							<span th:text="${departmentJoinMemberList.memberLevelTitle}"></span> 
 							<br>
 							<span th:text="${departmentJoinMemberList.departmentCategoryName}"></span>
