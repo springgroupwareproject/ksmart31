@@ -5,19 +5,19 @@ public class LeaveHistory {
 	private String memberId;
 	private String leaveCategorySort;
 	private String leaveCategoryCode;
-	private int leaveHistoryGrantHour;
-	private int leaveHistoryGrantDay;
-	private int leaveHistoryUsedHour;
-	private int leaveHistoryUsedDay;
-	private int leaveHistoryRemainingHour;
-	private int leaveHistoryRemainingDay;
+	private String leaveHistoryGrantHour;
+	private String leaveHistoryGrantDay;
+	private String leaveHistoryUsedHour;
+	private String leaveHistoryUsedDay;
+	private String leaveHistoryRemainingHour;
+	private String leaveHistoryRemainingDay;
 	private String leaveHistoryDate;
 	private String memberEmployeeCode;
 	private String memberName;
 	private String departmentName;
 	private String memberPositionName;
 	private String memberJoinDay;
-	
+	private int leaveCategoryNumber;
 	public String getLeaveHistoryCode() {
 		return LeaveHistoryCode;
 	}
@@ -42,40 +42,40 @@ public class LeaveHistory {
 	public void setLeaveCategoryCode(String leaveCategoryCode) {
 		this.leaveCategoryCode = leaveCategoryCode;
 	}
-	public int getLeaveHistoryGrantHour() {
+	public String getLeaveHistoryGrantHour() {
 		return leaveHistoryGrantHour;
 	}
-	public void setLeaveHistoryGrantHour(int leaveHistoryGrantHour) {
+	public void setLeaveHistoryGrantHour(String leaveHistoryGrantHour) {
 		this.leaveHistoryGrantHour = leaveHistoryGrantHour;
 	}
-	public int getLeaveHistoryGrantDay() {
+	public String getLeaveHistoryGrantDay() {
 		return leaveHistoryGrantDay;
 	}
-	public void setLeaveHistoryGrantDay(int leaveHistoryGrantDay) {
+	public void setLeaveHistoryGrantDay(String leaveHistoryGrantDay) {
 		this.leaveHistoryGrantDay = leaveHistoryGrantDay;
 	}
-	public int getLeaveHistoryUsedHour() {
+	public String getLeaveHistoryUsedHour() {
 		return leaveHistoryUsedHour;
 	}
-	public void setLeaveHistoryUsedHour(int leaveHistoryUsedHour) {
+	public void setLeaveHistoryUsedHour(String leaveHistoryUsedHour) {
 		this.leaveHistoryUsedHour = leaveHistoryUsedHour;
 	}
-	public int getLeaveHistoryUsedDay() {
+	public String getLeaveHistoryUsedDay() {
 		return leaveHistoryUsedDay;
 	}
-	public void setLeaveHistoryUsedDay(int leaveHistoryUsedDay) {
+	public void setLeaveHistoryUsedDay(String leaveHistoryUsedDay) {
 		this.leaveHistoryUsedDay = leaveHistoryUsedDay;
 	}
-	public int getLeaveHistoryRemainingHour() {
+	public String getLeaveHistoryRemainingHour() {
 		return leaveHistoryRemainingHour;
 	}
-	public void setLeaveHistoryRemainingHour(int leaveHistoryRemainingHour) {
+	public void setLeaveHistoryRemainingHour(String leaveHistoryRemainingHour) {
 		this.leaveHistoryRemainingHour = leaveHistoryRemainingHour;
 	}
-	public int getLeaveHistoryRemainingDay() {
+	public String getLeaveHistoryRemainingDay() {
 		return leaveHistoryRemainingDay;
 	}
-	public void setLeaveHistoryRemainingDay(int leaveHistoryRemainingDay) {
+	public void setLeaveHistoryRemainingDay(String leaveHistoryRemainingDay) {
 		this.leaveHistoryRemainingDay = leaveHistoryRemainingDay;
 	}
 	public String getLeaveHistoryDate() {
@@ -114,6 +114,12 @@ public class LeaveHistory {
 	public void setMemberJoinDay(String memberJoinDay) {
 		this.memberJoinDay = memberJoinDay;
 	}
+	public int getLeaveCategoryNumber() {
+		return leaveCategoryNumber;
+	}
+	public void setLeaveCategoryNumber(int leaveCategoryNumber) {
+		this.leaveCategoryNumber = leaveCategoryNumber;
+	}
 	@Override
 	public String toString() {
 		return "LeaveHistory [LeaveHistoryCode=" + LeaveHistoryCode + ", memberId=" + memberId + ", leaveCategorySort="
@@ -123,6 +129,8 @@ public class LeaveHistory {
 				+ leaveHistoryRemainingHour + ", leaveHistoryRemainingDay=" + leaveHistoryRemainingDay
 				+ ", leaveHistoryDate=" + leaveHistoryDate + ", memberEmployeeCode=" + memberEmployeeCode
 				+ ", memberName=" + memberName + ", departmentName=" + departmentName + ", memberPositionName="
-				+ memberPositionName + ", memberJoinDay=" + memberJoinDay + "]";
+				+ memberPositionName + ", memberJoinDay=" + memberJoinDay + ", leaveCategoryNumber="
+				+ leaveCategoryNumber + "]";
 	}
+	
 }	

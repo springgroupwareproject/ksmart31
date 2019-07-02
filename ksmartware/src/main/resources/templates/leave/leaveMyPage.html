@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
-	
 	<th:block layout:fragment="customHead">
 		<meta charset="UTF-8">
 		<title>leaveMyPage</title>
@@ -79,45 +78,45 @@
 						<thead>
 							<tr>
 								<!-- 휴가 카테고리 종류만큼 반복 -->
-								<p th:each="categoryList : ${leaveCategoryList}">
+								<th:block th:each="categoryList : ${leaveCategoryList}">
 									<th colspan="3" th:text="${categoryList.leaveCategorySort}"></th>
-								</p>
+								</th:block>
 							</tr>
 					        <tr>
 					        	<!-- 휴가 카테고리 종류만큼 반복 -->
-					        	<p th:each="categoryList : ${leaveCategoryList}">
+					        	<th:block th:each="categoryList : ${leaveCategoryList}">
 									<th>부여 일수</th>
 									<th>사용 일수</th>
 									<th>잔여 일수</th>
-								</p>
+								</th:block>
 					        </tr>
 						</thead>
 						<tbody>
 							<tr>
 								<!-- 휴가 카테고리 종류만큼 반복 -->
-								<p th:each="historyList : ${leaveHistoryList}">			
+								<th:block th:each="historyList : ${leaveHistoryList}">			
 									<!-- 부여일 -->
 									<td class="text-primary">
 										<th:block th:text="|${historyList.leaveHistoryGrantDay}일 |"/>
 										<br/>
 										<!-- 시간 값이 0이 아닐 경우 출력 -->
-										<th:block th:if="${historyList.leaveHistoryGrantHour != 0}" th:text="|${historyList.leaveHistoryGrantHour}시간 |"/>
+										<th:block th:if="${historyList.leaveHistoryGrantHour != '0'}" th:text="|${historyList.leaveHistoryGrantHour}시간 |"/>
 									</td>
 									<!-- 사용일 -->
 									<td class="text-danger">
 										<th:block th:text="|${historyList.leaveHistoryUsedDay}일|"/>
 										<br/>
 										<!-- 시간 값이 0이 아닐 경우 출력 -->
-										<th:block th:if="${historyList.leaveHistoryUsedHour != 0}" th:text="|${historyList.leaveHistoryUsedHour}시간 |"/>
+										<th:block th:if="${historyList.leaveHistoryUsedHour != '0'}" th:text="|${historyList.leaveHistoryUsedHour}시간 |"/>
 									</td>
 									<!-- 잔여일 -->
 									<td>
 										<th:block th:text="|${historyList.leaveHistoryRemainingDay}일|"/>
 										<br/>
 										<!-- 시간 값이 0이 아닐 경우 출력 -->
-										<th:block th:if="${historyList.leaveHistoryRemainingHour != 0}" th:text="|${historyList.leaveHistoryRemainingHour}시간 |"/>
+										<th:block th:if="${historyList.leaveHistoryRemainingHour != '0'}" th:text="|${historyList.leaveHistoryRemainingHour}시간 |"/>
 									</td>
-								</p>
+								</th:block>
 							</tr>
 						</tbody>
 					</table>
