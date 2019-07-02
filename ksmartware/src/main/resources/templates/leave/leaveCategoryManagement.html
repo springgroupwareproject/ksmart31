@@ -137,7 +137,21 @@
 					$('.leavePolicyForm')[0].reset();
 				});
 			});
-			</script>
+		</script>
+		<style>
+			.icon-list-wrap .icon-list-item i {
+			    float: left;
+			    text-align: center;
+			    border-radius: .1875rem;
+			    margin-right: 1rem;
+			    margin-bottom: 1.5rem;
+			    font-size: 1.5rem;
+			    -webkit-transition: all .2s ease-in-out;
+			    -o-transition: all .2s ease-in-out;
+			    -moz-transition: all .2s ease-in-out;
+			    transition: all .2s ease-in-out;
+			}
+		</style>
 	</th:block>
 	
 	<th:block layout:fragment="customBody">
@@ -145,18 +159,33 @@
 		<div>
 			<div class="row">
 				<div class="col-3">
-					<!-- 휴가 카테고리 네비바 -->
 					<div class="card">
-						<div class="card-header">휴가 종류</div>
+						<!-- 왼쪽 카드 제목 -->
+						<div class="card-header justify-content-between" style="padding: 10px;">
+							<div>휴가 종류</div>
+						                      <div class="icon-list-wrap">
+								<div class="icon-list-item">
+									<a class="btn pull-right LeaveCategoryAddButton" data-toggle="modal" data-target="#categoryAddModal" style="padding: 0;">
+										<i class="ik ik-plus-square"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						<!-- 왼쪽 카드 내용 -->
 						<div class="card-body">
-							<ul class="nav flex-column">
-								<li class="nav-item" th:each="list : ${leaveCategoryList}">
-									<a class="nav-link leaveCategoryButton" href="#" th:text="${list.leaveCategorySort}" th:value="${list.leaveCategoryCode}"></a>
-								</li>	
-							</ul>
+							<div class="row layout-wrap" id="layout-wrap">
+								<div class="col-12 list-item" th:each="list : ${leaveCategoryList}" style="height:40px;">
+							        <div class="d-flex flex-grow-1 min-width-zero bgGrey">
+						                <a href="#" class="col-8 leaveCategoryButton" th:text="${list.leaveCategorySort}" th:value="${list.leaveCategoryCode}"></a>
+							            <div class="list-actions col-5">
+							                <a href="layout-edit-item.html"><i class="ik ik-edit-2"></i></a>
+							                <a href="#" class="list-delete"><i class="ik ik-trash-2"></i></a>
+							            </div>
+							        </div>
+								</div>
+							</div>
 						</div>
 					</div>
-							
 				</div>
 				<div class="col-9">
 					<!-- 휴가 카테고리 사용 유무 메뉴 -->
@@ -183,7 +212,7 @@
 							<div>수정 시 사용 휴가 종류를 선택하시면 상세 설정 팝업에서 기본 휴가일수, 최대 휴가일수, 최소 휴가일수 등을 설정하실 수 있습니다.</div><br>
 							<!-- 상세 휴가 추가 팝업-->
 							<div>
-								<button type="button" id="leaveDetailAddButton" class="btn btn-outline-primary btn-block" data-toggle="modal" data-target="#detailModal" >추가</button>
+								<button type="button" id="leaveDetailAddButton" class="btn btn-outline-primary btn-block" data-toggle="modal" data-target="#detailModal">추가</button>
 							</div>
 							<!-- 상세 휴가 리스트 출력 -->
 							<th:block th:if="${resultMap != null}">
@@ -399,6 +428,43 @@
 			        <!-- Modal footer -->
 			        <div class="modal-footer">
 			          <button type="button" class="btn btn-primary">확인</button>
+			          <button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
+			        </div>
+				</div>
+			</div>
+		</div>
+		<!-- 휴가 정책 설정 팝업 -->
+		<div class="modal" id="categoryAddModal">
+			<div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">
+				<div class="modal-content">
+					<!-- Modal Header -->
+			        <div class="modal-header">
+						<h4 class="modal-title">휴가 종류 설정</h4>
+						<button type="button" class="close" data-dismiss="modal">×</button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<div class="card">
+							<div class="card-header"><h3>휴가 종류 추가</h3></div>
+							<div class="card-body">
+								<div>휴가 종류의 이름을 정의합니다.</div><br>
+								<!-- 휴가 종류 이름 -->
+								<div><input type="text" id="AddleaveCategorySort" class="form-control"></div>
+								<br>
+								<!-- 휴가 종류 사용 유무 -->
+								<div class="checkbox-fade fade-in-primary">
+							    <label>
+							        <input type="checkbox" id="AddleaveCategoryUseOrNotCheckBox" checked="checked">
+							        <span class="cr"><i class="cr-icon ik ik-check txt-primary"></i></span>
+							        <span>휴가 종류 사용 유무</span>
+							    </label>
+							</div>
+							</div>
+						</div>
+					</div>
+			        <!-- Modal footer -->
+			        <div class="modal-footer">
+			          <button type="button" class="btn btn-primary AddleaveCategory">확인</button>
 			          <button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
 			        </div>
 				</div>
