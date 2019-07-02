@@ -8,9 +8,11 @@
 	</th:block>
 	
 	<th:block layout:fragment="customBody">
-		<div class="col-md-9">
-			<div class="card" style="min-height: 484px;">
-		        <div class="card-header"><h3>지출결의서</h3></div>
+		<div class="row">
+			<!-- 왼쪽칸 -->
+			<div class="col-7">
+				<div class="card" style="min-height: 484px;">
+			        <div class="card-header"><h3>지출결의서</h3></div>
 		            <div class="card-body">
 		                <form class="forms-sample">
 		                	<!-- 첫번째 테이블 -->
@@ -80,49 +82,49 @@
 	                        
 	                        <!-- 두번째 테이블 -->
 	                        <div class="form-group row">
-                                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">계정과목</label>
-                                <div class="col-sm-3">
-                                   	 <select class="form-control" id="exampleSelectGender">
-	                                     <option></option>
-										 <option>복리후생비</option>
-										 <option>여비교통비</option>
-										 <option>차량유지비</option>
-										 <option>사무용품비</option>
-										 <option>통신비</option>
-										 <option>운송비</option>
-										 <option>원재료</option>
-										 <option>상품</option>
-	                                 </select>
-                            	</div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="exampleInputEmail2" class="col-sm-3 col-form-label">지출일</label>
-                                <div class="col-sm-6">
-                                    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">지출내용</label>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="exampleInputUsername2" placeholder="">
-                            	</div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="exampleInputEmail2" class="col-sm-3 col-form-label">거래처</label>
-                                <div class="col-sm-6">
-                                    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">금액</label>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="exampleInputUsername2" placeholder="">
-                            	</div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="exampleInputEmail2" class="col-sm-3 col-form-label">결제수단</label>
-                                <div class="col-sm-3">
-                                   	 <select class="form-control" id="exampleSelectGender">
+	                        	<label for="exampleInputUsername2" class="col-sm-3 col-form-label">계정과목</label>
+	                               <div class="col-sm-3">
+                                   		<select class="form-control" id="exampleSelectGender">
+	                                     	 <option></option>
+											 <option>복리후생비</option>
+											 <option>여비교통비</option>
+											 <option>차량유지비</option>
+											 <option>사무용품비</option>
+											 <option>통신비</option>
+											 <option>운송비</option>
+											 <option>원재료</option>
+											 <option>상품</option>
+                                 		</select>
+	                           		</div>
+	                         </div>
+	                           <div class="form-group row">
+	                               <label for="exampleInputEmail2" class="col-sm-3 col-form-label">지출일</label>
+	                               <div class="col-sm-6">
+	                                   <input type="email" class="form-control" id="exampleInputEmail2" placeholder="">
+	                               </div>
+	                           </div>
+	                           <div class="form-group row">
+	                               <label for="exampleInputUsername2" class="col-sm-3 col-form-label">지출내용</label>
+	                               <div class="col-sm-6">
+	                                   <input type="text" class="form-control" id="exampleInputUsername2" placeholder="">
+	                           	</div>
+	                           </div>
+	                           <div class="form-group row">
+	                               <label for="exampleInputEmail2" class="col-sm-3 col-form-label">거래처</label>
+	                               <div class="col-sm-6">
+	                                   <input type="email" class="form-control" id="exampleInputEmail2" placeholder="">
+	                               </div>
+	                           </div>
+	                           <div class="form-group row">
+	                               <label for="exampleInputUsername2" class="col-sm-3 col-form-label">금액</label>
+	                               <div class="col-sm-6">
+	                                   <input type="text" class="form-control" id="exampleInputUsername2" placeholder="">
+	                           	</div>
+	                           </div>
+	                           <div class="form-group row">
+	                               <label for="exampleInputEmail2" class="col-sm-3 col-form-label">결제수단</label>
+	                               <div class="col-sm-3">
+	                                  	 <select class="form-control" id="exampleSelectGender">
 	                                     <option></option>
 										 <option>신용카드</option>
 										 <option>계좌이체</option>
@@ -131,24 +133,40 @@
 										 <option>법인 신용카드</option>
 										 <option>어음</option>
 	                                 </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">비고</label>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="exampleInputUsername2" placeholder="">
-                            	</div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="exampleInputEmail2" class="col-sm-3 col-form-label">증빙</label>
-                                <div class="col-sm-6">
-                                    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="">
-                                </div>
-                            </div>
+	                               </div>
+	                           </div>
+	                           <div class="form-group row">
+	                               <label for="exampleInputUsername2" class="col-sm-3 col-form-label">비고</label>
+	                               <div class="col-sm-6">
+	                                   <input type="text" class="form-control" id="exampleInputUsername2" placeholder="">
+	                           	</div>
+	                           </div>
+	                           <div class="form-group row">
+	                               <label for="exampleInputEmail2" class="col-sm-3 col-form-label">증빙</label>
+	                               <div class="col-sm-6">
+	                                   <input type="email" class="form-control" id="exampleInputEmail2" placeholder="">
+	                               </div>
+	                           </div>
 			        	</form>
 			            <button type="submit" class="btn btn-primary mr-2">Submit</button>
 			            <button class="btn btn-light">Cancel</button>
 			    </div>
+				</div>
+			</div>
+			
+			<!-- 오른쪽 칸 -->
+			<div class="col-5">
+				<div class="card" style="min-height: 484px;">
+					<div class="card-body">
+		                <form class="forms-sample">
+		                	<table>
+		                		<tr>
+		                			<td>뭐</td>
+		                		</tr>
+		                	</table>
+		               	</form>
+		            </div>
+				</div>
 			</div>
 		</div>
 	</th:block>
