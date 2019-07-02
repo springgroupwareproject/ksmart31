@@ -15,6 +15,8 @@ public class MemberFiles {
 	public String memberName;
 	public String departmentName;
 	public String memberPositionName;
+	
+	
 	public String getMemberFilesCode() {
 		return memberFilesCode;
 	}

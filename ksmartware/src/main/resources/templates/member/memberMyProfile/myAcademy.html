@@ -25,34 +25,44 @@
 					console.log('저장 버튼 테스트 ');
 					
 					
-					let academyName = $('#academyName').val();
-					let academyComplete = $('#academyComplete').val();
-					let academyCost = $('#academyCost').val();
-					let academyPlace = $('#academyPlace').val();
-					let academyStartDay = $('#startYear').val() + '-' + $('#tartMonth').val() + '-' + $('#startDay').val();
-					let academyEndDay = $('#endYear').val() + '-' + $('#endMonth').val() + '-' + $('#endDay').val();
+					let memberAcademyName = $('#academyName').val(); //교육명
+					let memberAcademyComplete = $('#academyComplete').val(); //이수현황 
+					let memberAcademyInstitution = $('#academyInstitution').val(); //교육기관
+					let memberAcademyCost = $('#academyCost').val(); //교육비
+					let memberAcademyPlace = $('#academyPlace').val(); //교육장소
+					let memberAcademyStartDay = $('#startYear').val() + '-' + $('#tartMonth').val() + '-' + $('#startDay').val(); //시작날
+					let memberAcademyEndDay = $('#endYear').val() + '-' + $('#endMonth').val() + '-' + $('#endDay').val(); //종료날
+					let memberAcademyPurpose = $('#academyPurpose').val(); //교육목적
+					let memberAcademyDesc = $('#academyDesc').val(); //기타내용
 
-					console.log('값출력 '+$('#academyName').val() + ' 변수값 확인 비교 : '+ academyName);
-					console.log('값출력 '+$('#academyComplete').val() + ' 변수값 확인 비교 : '+ academyComplete);
-					console.log('값출력 '+$('#academyCost').val() + ' 변수값 확인 비교 : '+ academyCost);
-					console.log('값출력 '+$('#academyPlace').val() + ' 변수값 확인 비교 : '+ academyPlace);
-					console.log("교육기간 시작날짜 : " + academyStartDay);
-					console.log("교육기간 종료날짜 : " + academyEndDay);
+					console.log('값출력 '+$('#academyName').val() + ' 변수값 확인 비교 : '+ memberAcademyName);
+					console.log('값출력 '+$('#academyComplete').val() + ' 변수값 확인 비교 : '+ memberAcademyComplete);
+					console.log('값출력 '+$('#academyInstitution').val() + ' 변수값 확인 비교 : '+ memberAcademyInstitution);
+					console.log('값출력 '+$('#academyCost').val() + ' 변수값 확인 비교 : '+ memberAcademyCost);
+					console.log('값출력 '+$('#academyPlace').val() + ' 변수값 확인 비교 : '+ memberAcademyPlace);
+					console.log("교육기간 시작날짜 : " + memberAcademyStartDay);
+					console.log("교육기간 종료날짜 : " + memberAcademyEndDay);
+					console.log('값출력 '+$('#academyPurpose').val() + ' 변수값 확인 비교 : '+ memberAcademyPurpose);
+					console.log('값출력 '+$('#academyDesc').val() + ' 변수값 확인 비교 : '+ memberAcademyDesc);
 					
 						$.ajax({
-							url : '/academy/addAcademy',
+							url : '/member/memberMyProfile/addmyAcademy',
 							type : 'get',
 							data : {
-								academyName:academyName
-								academyComplete:academyComplete
-								academyCost:academyCost
-								academyPlace:academyPlace
-								academyStartDay:academyStartDay
-								academyEndDay:academyEndDay
+								memberAcademyName:memberAcademyName,
+								memberAcademyComplete:memberAcademyComplete,
+								memberAcademyCost:memberAcademyCost,
+								memberAcademyInstitution:memberAcademyInstitution,
+								memberAcademyPlace:memberAcademyPlace,
+								memberAcademyStartDay:memberAcademyStartDay,
+								memberAcademyEndDay:memberAcademyEndDay,
+								memberAcademyPurpose:memberAcademyPurpose,
+								memberAcademyDesc:memberAcademyDesc
 							},
-							
-							success : function(data){
+							success : function(){
 								console.log('성공')
+								$('#closeBtn').trigger("click");  
+								
 							},
 							error : function(error){
 								console.log(error);
@@ -124,10 +134,12 @@
 					<div class="card-header">
 						<div>나의 교육 이력 정보</div> 
 						<!-- 팝업창 추가 버튼 -->
-						<div>
+						<div class="col-md-3 icon-list-item">
+							<i class="ik ik-plus-square"></i>
+							<div class="name">plus-square</div>
+							<div class="fontclass">.ik-plus-square</div>
 							<button style="text-align:right" type="button" id=addMyAcatemyBtn class="btn btn-outline-primary btn-block" data-toggle="modal" data-target="#detailModal" >추가</button>
 						</div>
-					</div>
 					<div class="card-body" >
 						<div  th:each="myAcatemy : ${myAcatemy}">	
 							<div class="input-group">
@@ -247,12 +259,22 @@
 												<input type="text" id="academyPlace" class="form-control">
 											</div>
 											<br>
+											<h3>교육 목적</h3>
+											<div>
+												<input type="text" id="academyPurpose" class="form-control">
+											</div>
+											<br>
+											<h3>기타내용</h3>
+											<div>
+												<input type="text" id="academyDesc" class="form-control">
+											</div>
+											<br>
 										</form>
 									</div>	
 									<!-- Modal footer -->
 									<div class="modal-footer">
 										<button id="saveBtn" type="button" class="btn btn-primary">저장</button>
-										<button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
+										<button id="closeBtn" type="button" class="btn btn-light" data-dismiss="modal">취소</button>
 									</div>
 								</div>
 							</div>

@@ -1,6 +1,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ksmart31.team01.member.mapper.MemberMyAcademyMapper">
 	
+	<insert id="insertMyacademy">
+		INSERT INTO (
+			
+		
+		
+		) VALUES (
+		
+		
+		
+		)
+	
+	
+	</insert>
+	
+	
 	<!-- myProfile 개인정보 -->
 	<resultMap type="ksmart31.team01.member.domain.MemberAcademy" id="myAcademy">	
 				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
