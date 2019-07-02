@@ -8,13 +8,44 @@
 	<title>documentApprovalManagement</title>
 	<th:block th:include="layout/customHead"></th:block>
 	<script>
-		function checkAll() {
+$(document).ready(function() {
+		
+		$('#btnDelete').click(function() { // 체크박스 삭제시
+			/* 유효성 검사 */
+			console.log('#btnRemove click.....');
+			console.log("$('.custom-control-input').is(':checked') return : " + $('.custom-control-input').is(':checked'));
+			if ($('.custom-control-input').is(':checked') == false) {
+				alert("삭제를 원하는 항목을 선택하세요");
+			} else {
+				let ck = new Array(); // let ck = [];
+				$('.custom-control-input:checked').each(function(index, item) {
+					ck.push($(item).val());
+				});	
+				// 비동기 요청
+				$.ajax({
+					url : '/documentManagement/delete',
+					type : 'POST',
+					data : {
+						'ck' : ck
+					},
+					success : function(data) {
+						location.reload();
+					}
+				});
+			}			
+		});		
+		$("#checkAll").click(function(){
 			if ($("#checkAll").is(':checked')) {
 				$("input[type=checkbox]").prop("checked", true);
 			} else {
 				$("input[type=checkbox]").prop("checked", false);
 			}
-		};
+		});		
+});
+
+
+		
+		
 	</script>
 </th:block>
 
@@ -26,9 +57,10 @@
 			<div class="card-header">
 				<h3>문서관리</h3>
 				<div class="card-header-right">
-					<button type="button" class="btn btn-secondary">
-						<i class="ik ik-clipboard"></i>삭제
+					<button type="button" class="btn btn-secondary" id="btnDelete">
+						<i class="ik ik-trash-2" id="btnDelete"></i>삭제
 					</button>
+					
 				</div>
 			</div>
 			<div class="card-block">
@@ -38,9 +70,8 @@
 						<thead>
 							<tr>
 								<th><div class="custom-control custom-checkbox mb-3">
-										<input type="checkbox" class="custom-control-input"
-											id="checkAll" name="example1" onclick="checkAll();">
-										<label class="custom-control-label" for="checkAll"> </label>
+										<input type="checkbox" class="custom-control-input"	id="checkAll" name="example1">
+										<label class="custom-control-label" for="checkAll"></label>
 									</div></th>
 								<th>상태</th>
 								<th>문서명</th>
@@ -56,10 +87,10 @@
 						<tbody>
 							<tr th:each="list : ${documentManagementList}">
 								<td>
-<!-- 									<div class="custom-control custom-checkbox mb-3">
-										<input type="checkbox" class="custom-control-input" id="c1"	name="example1">
-										<label class="custom-control-label"	for="c1"> </label>
-									</div> -->
+ 									<div class="custom-control custom-checkbox mb-3">
+	 									<input type="checkbox" class="custom-control-input" th:id="${list.draftDocumentCode}" name="documentCheckbox" th:value="${list.draftDocumentCode}">
+										<label class="custom-control-label"	th:for="${list.draftDocumentCode}"> </label>
+									</div> 
 								</td>
 								<td>
 									<div th:switch="${list.draftDocumentStatus}">
@@ -73,7 +104,7 @@
 											th:text="${list.draftDocumentStatus}"></span></label>
 									</div>
 								</td>
-								<td><span th:text="${list.draftDocumentFileSaveName}"></span></td>
+								<td><a th:href="@{/documentManagement/detail(draftDocumentCode=${list.draftDocumentCode})}"><span th:text="${list.draftDocumentFileSaveName}"></span></a></td>
 								<td>
 									<i class="ik ik-paperclip">
 										<span th:text="${list.documentAttatchFileCount}"></span>

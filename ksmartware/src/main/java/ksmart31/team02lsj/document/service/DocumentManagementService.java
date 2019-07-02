@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ksmart31.team02lsj.document.domain.ApprovalDocument;
 import ksmart31.team02lsj.document.domain.ApprovalMember;
 import ksmart31.team02lsj.document.domain.DisbursementDocument;
 import ksmart31.team02lsj.document.domain.DocumentAttachedFile;
@@ -30,6 +29,15 @@ public class DocumentManagementService {
 		List<DraftDocument> documentApprovalList = documentManagementMapper.selectDraftDocumentList();
 		return documentApprovalList; 
 	
+	}
+	// 관리자 문서삭제
+	public void removeDocument(String[] ckdocument) {
+		System.out.println("(S) removeDocument");
+		for(String id : ckdocument) {
+			DraftDocument draftDocumentCode = new DraftDocument();
+			draftDocumentCode.setDraftDocumentCode(id);
+			documentManagementMapper.deleteDraftDocumentByDraftDocumentCode(draftDocumentCode);
+		}
 	}
 	// 문서통합  관리 -> 문서별 상세 데이터 확인(모든양식)
 		public Map<String, Object> documentManagementDetail(String approvalDocumentCode) {			
