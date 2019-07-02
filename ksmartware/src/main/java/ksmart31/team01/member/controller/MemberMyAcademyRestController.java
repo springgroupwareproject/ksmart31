@@ -19,11 +19,10 @@ public class MemberMyAcademyRestController {
 	public void myAcademy (HttpSession session, MemberAcademy memberAcademy, MemberFiles memberFiles) {
 		System.out.println("교육 이력 정보 입력 실행");
 		System.out.println("memberAcademy : " + memberAcademy);
+		System.out.println("memberFiles : " + memberFiles);
 		
 		
-		
-		
-		memberAcademyService.insertMyacademy(session, memberAcademy);
+		memberAcademyService.insertMyacademy(session, memberAcademy, memberFiles);
 	}
 	
 	

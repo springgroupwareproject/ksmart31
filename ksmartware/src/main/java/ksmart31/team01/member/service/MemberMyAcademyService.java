@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ksmart31.team01.files.mapper.FilesMapper;
 import ksmart31.team01.member.domain.Member;
 import ksmart31.team01.member.domain.MemberAcademy;
+import ksmart31.team01.member.domain.MemberFiles;
 import ksmart31.team01.member.mapper.MemberMyAcademyMapper;
 
 @Service
@@ -17,14 +19,31 @@ import ksmart31.team01.member.mapper.MemberMyAcademyMapper;
 public class MemberMyAcademyService {
 
 	@Autowired private MemberMyAcademyMapper memberMyAcademyMapper;
+	@Autowired private FilesMapper filesMapper;
 	
-	public void insertMyacademy(HttpSession session, MemberAcademy memberAcademy) {
+	public void insertMyacademy(HttpSession session, MemberAcademy memberAcademy, MemberFiles memberFiles) {
 		System.out.println("나의 교육 이력 입력 실행");
-		
+
+
 		Member member = (Member) session.getAttribute("loginMember");  // member = 아이디,사번,조직원이름,부서명,직위직책,
 		
+		memberFiles.setMemberId(member.getMemberId());
+		memberFiles.setMemberEmployeeCode(member.getMemberEmployeeCode());
+		memberFiles.setMemberName(member.getMemberName());
+		memberFiles.setDepartmentName(member.getDepartmentName());
+		memberFiles.setMemberPositionName(member.getMemberPositionName());	
+			
+		System.out.println("파일테이블 입력값 출력 : " + memberFiles);
 		
-	
+		int returnResult = filesMapper.insertFiles(memberFiles);
+		if(returnResult == 0) {
+			System.out.println("ksmart31.team01.files.service.filesService 파일 첨부 실패 (쿼리문실패) 리턴int : " + returnResult);
+		} else {
+			System.out.println("ksmart31.team01.files.service.filesService 파일 첨부 성공 (쿼리문성공) 리턴int : " + returnResult);
+		}
+		
+		
+		
 	
 		memberMyAcademyMapper.insertMyacademy(memberAcademy);
 	}

@@ -1,5 +1,8 @@
 package ksmart31.team01.member.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
+
 public class MemberFiles {
 
 	public String memberFilesCode;
@@ -15,6 +18,7 @@ public class MemberFiles {
 	public String memberName;
 	public String departmentName;
 	public String memberPositionName;
+	public MultipartFile selectFile;
 	
 	
 	public String getMemberFilesCode() {
@@ -95,6 +99,14 @@ public class MemberFiles {
 	public void setMemberPositionName(String memberPositionName) {
 		this.memberPositionName = memberPositionName;
 	}
+	public MultipartFile getSelectFile() {
+		return selectFile;
+	}
+	public void setSelectFile(MultipartFile selectFile) {
+		this.selectFile = selectFile;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "MemberFiles [memberFilesCode=" + memberFilesCode + ", memberId=" + memberId + ", memberFilesInfo="
@@ -102,7 +114,7 @@ public class MemberFiles {
 				+ memberFilesSaveName + ", memberFilesExt=" + memberFilesExt + ", memberFilesType=" + memberFilesType
 				+ ", memberFilesSize=" + memberFilesSize + ", memberFilesDate=" + memberFilesDate
 				+ ", memberEmployeeCode=" + memberEmployeeCode + ", memberName=" + memberName + ", departmentName="
-				+ departmentName + ", memberPositionName=" + memberPositionName + "]";
+				+ departmentName + ", memberPositionName=" + memberPositionName + ", selectFile=" + selectFile + "]";
 	}
 	
 
