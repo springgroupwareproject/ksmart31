@@ -11,6 +11,9 @@ import ksmart31.team02.document.mapper.DraftDocumentMapper;
 @Service
 public class DocumentFormService {
 	@Autowired private DraftDocumentMapper draftDocumentMapper;
+	
+	// 지출결의서 작성폼
+	
 
 	// 휴가신청서 작성폼
 	public List<DraftDocument> getLeaveApplicationForm() {
