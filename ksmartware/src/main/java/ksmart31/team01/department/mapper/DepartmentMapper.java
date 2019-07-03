@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import ksmart31.team01.department.domain.Department;
 import ksmart31.team01.department.domain.DepartmentJoinMember;
+import ksmart31.team01.member.domain.Member;
 
 @Mapper
 public interface DepartmentMapper {
@@ -16,5 +17,16 @@ public interface DepartmentMapper {
 	public List<DepartmentJoinMember> selectDepartmentJoinMemberList(Map<String, Object> map);
 	// memberId 로 조인 조회
 	public List<DepartmentJoinMember> selectDepartmentJoinMemberListByMemberId(String memberId);	
-	
+	// member insert
+	public int insertMember(Member member);	
+	//departmentName selectList
+	public List<Department> selectDepartmentNameList(String departmentName);
+	//departmentName select
+	public List<Department> selectDepartmentName();
+	//department_category_name selectList
+	public List<Department> selectDepartmentCategoryName();
+	//department_division_name selectList
+	public List<Department> selectDepartmentDivisionName();
+	//department_section_name selectList
+	public List<Department> selectDepartmentSectionName();
 }	

@@ -100,16 +100,90 @@
 		ON d.department_name = m.department_name	
 		WHERE m.member_id = #{memberId}				
 	</select>
+	<insert id="insertMember" parameterType="ksmart31.team01.member.domain.Member">
+		insert into
+			member
+			(
+			member_code
+			,member_id
+			,member_name
+			,member_employee_code
+			,department_name
+			,department_category_name
+			,department_division_name
+			,department_section_name
+			,member_position_name
+			,member_level_title
+			,member_status
+			,member_join_day
+			,member_pw			
+			)
+			
+			SELECT CONCAT('member_code','_', (SELECT MAX(substring(member_code, 13)+1) FROM member))
+			,#{memberId}
+			,#{memberName}
+			,#{memberEmployeeCode}
+			,#{departmentName}
+			,#{departmentCategoryName}
+			,#{departmentDivisionName}
+			,#{departmentSectionName}
+			,#{memberPositionName}
+			,#{memberLevelTitle}
+			,#{memberStatus}
+			,now()
+			,#{memberPw}			
+	</insert>
+	<resultMap type="ksmart31.team01.department.domain.Department" id="selectDepartmentNameList">
+		<result column="department_name" property="departmentName"></result>
+		<result column="department_category_name" property="departmentSectionName"></result>
+		<result column="department_division_name" property="departmentDivisionName"></result>
+		<result column="department_section_name" property="departmentSectionName"></result>
+	</resultMap>
+	<select id="selectDepartmentNameList" resultMap="selectDepartmentNameList">
+		SELECT 
+			department_name
+			,department_category_name
+			,department_division_name
+			,department_section_name
+		FROM department	
+		WHERE department_name = #{departmentName}	
+	</select>
+	<!-- selectDepartmentName 리스트 -->
+	<resultMap type="ksmart31.team01.department.domain.Department" id="selectDepartmentName">
+		<result column="department_name" property="departmentName"></result>
+	</resultMap>
+	<select id="selectDepartmentName" resultMap="selectDepartmentName">
+		select
+			department_name
+		from department	
+	</select>
+	<!-- selectDepartmentCategoryName 리스트 -->
+	<resultMap type="ksmart31.team01.department.domain.Department" id="selectDepartmentCategoryName">
+		<result column="department_category_name" property="departmentCategoryName"></result>
+	</resultMap>
+	<select id="selectDepartmentCategoryName" resultMap="selectDepartmentCategoryName">
+		select distinct
+			department_category_name
+		from department	
+	</select>
+	<!-- selectDepartmentDivisionName 리스트 -->
+	<resultMap type="ksmart31.team01.department.domain.Department" id="selectDepartmentDivisionName">
+		<result column="department_division_name" property="departmentDivisionName"></result>
+	</resultMap>
+	<select id="selectDepartmentDivisionName" resultMap="selectDepartmentDivisionName">
+		select distinct
+			department_division_name
+		from department	
+	</select>
+	<!-- selectDepartmentSectionName 리스트 -->
+	<resultMap type="ksmart31.team01.department.domain.Department" id="selectDepartmentSectionName">
+		<result column="department_section_name" property="departmentSectionName"></result>
+	</resultMap>
+	<select id="selectDepartmentSectionName" resultMap="selectDepartmentSectionName">
+		select distinct
+			department_section_name
+		from department	
+	</select>
+	
 </mapper>			
-		<!-- 조건문 if문 -->
-	<!-- 	<if test="departmentNumber == 1">
-			ON d.department_name = m.department_division_name
-		</if>
-		<if test="departmentNumber == 2">
-			ON d.department_name = m.department_section_name
-		</if>
-		<if test="departmentNumber == 0">
-			ON d.department_name = m.department_category_name
-		</if>
-			WHERE d.department_name = #{departmentName}	
-	</select> -->
+		

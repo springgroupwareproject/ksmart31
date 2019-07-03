@@ -11,7 +11,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-	
 	<style>
     .icon-list-wrap .icon-list-item i {
         float: left;
@@ -23,23 +22,125 @@
         -webkit-transition: all .2s ease-in-out;
         -o-transition: all .2s ease-in-out;
         -moz-transition: all .2s ease-in-out;
-        transition: all .2s ease-in-out;
-    
+        transition: all .2s ease-in-out;    
 	</style>
-	
 		
 	<script>
 		$(document).ready(function(){
-			// 조직도 버튼 클릭 이벤트
+			
+			//getDepartmentCategoryName 리스트
+			$.ajax({
+				url : '/getDepartmentCategoryName'
+				,type : 'get'
+				,success : function(data){
+					console.log(data);					
+					$(data).each(function(index,item){
+						$('#departmentCategoryName').append('<option value="'+item.departmentCategoryName+'">'+item.departmentCategoryName+'</option>');
+					});
+				}                 
+			});
+			
+			//getDepartmentDivisionName 리스트
+			$.ajax({
+				url : '/getDepartmentDivisionName'
+				,type : 'get'
+				,success : function(data){
+					console.log(data);					
+					$(data).each(function(index,item){
+						$('#departmentDivisionName').append('<option value="'+item.departmentDivisionName+'">'+item.departmentDivisionName+'</option>');
+					});
+				}                 
+			});
+			
+			//getDepartmentSectionName 리스트
+			$.ajax({
+				url : '/getDepartmentSectionName'
+				,type : 'get'
+				,success : function(data){
+					console.log(data);					
+					$(data).each(function(index,item){
+						$('#departmentSectionName').append('<option value="'+item.departmentSectionName+'">'+item.departmentSectionName+'</option>');
+					});
+				}                 
+			});
+			
+			//departmentName 리스트
+			$.ajax({
+				url : '/getDepartmentName'
+				,type : 'get'
+				,success : function(data){
+					console.log(data);					
+					$(data).each(function(index,item){
+						$('#departmentName').append('<option value="'+item.departmentName+'">'+item.departmentName+'</option>');
+					});
+				}                 
+			});
+		
+			
+			
 			$('.departmentNameButton').click(function(){
 				console.log('조직도 버튼 테스트 value : '+$(this).attr('value'));
 				// departmentName 별로 부서명을 조회하기 위해 이름 값을 담는 변수  
 				let departmentName = $(this).attr('value');
 				console.log('departmentName 확인');	
 				location.href='/department/departmentAdminView?departmentName='+$(this).attr('value');
-			});
+			});			
+			$('#saveButton').click(function(){
+				console.log('조직원 insert 입력 ');
+				
+				let memberId = $('#memberId').val(); 
+				let memberName = $('#memberName').val();  
+				let memberEmployeeCode = $('#memberEmployeeCode').val(); 
+				let departmentName = $('#departmentName').val(); 
+				let departmentCategoryName = $('#departmentCategoryName').val();
+				let departmentDivisionName = $('#departmentDivisionName').val();
+				let departmentSectionName = $('#departmentSectionName').val();
+				let memberPositionName = $('#memberPositionName').val();
+				let memberLevelTitle = $('#memberLevelTitle').val();
+				let memberStatus = $('#memberStatus').val();
+				let memberPw = $('#memberPw').val();
+				
+				console.log("memberId = " + memberId);
+				console.log("memberName = " + memberName);
+				console.log("memberEmployeeCode = " + memberEmployeeCode);
+				console.log("departmentName = " + departmentName);
+				console.log("departmentCategoryName = " + departmentCategoryName);
+				console.log("departmentDivisionName = " + departmentDivisionName);
+				console.log("departmentSectionName = " + departmentSectionName);
+				console.log("memberPositionName = " + memberPositionName);
+				console.log("memberLevelTitle = " + memberLevelTitle);
+				console.log("memberStatus = " + memberStatus);
+				console.log("memberPw = " + memberPw);	
+								
+				$.ajax({
+						url : '/addMember',
+						type : 'post',
+						data : {
+							memberId:memberId
+							,memberName:memberName
+							,memberEmployeeCode:memberEmployeeCode
+							,departmentName:departmentName
+							,departmentCategoryName:departmentCategoryName
+							,departmentDivisionName:departmentDivisionName
+							,departmentSectionName:departmentSectionName
+							,memberPositionName:memberPositionName
+							,memberLevelTitle:memberLevelTitle
+							,memberStatus:memberStatus
+							,memberPw:memberPw
+							},							
+							success : function(){
+								console.log('성공')					
+								location.reload();  // 새로고침
+							},
+							error : function(error){
+								console.log(error);
+								//alert('실패 : '+error);
+							}
+				});
+			});			
 		});
 	</script>
+	
 </th:block>
 
 <th:block layout:fragment="customBody">
@@ -77,20 +178,21 @@
 			</div>
 		</div>
 	</div>
+	<!-- 오른쪽 위 헤드 -->
 	<div class="col-9">		
 		<div class="card" >
 			<div class="card-header justify-content-between" style="padding: 10px;">				
 				<div> </div>
 				<div class="icon-list-wrap">
-					<div class="icon-list-item">													
-						<a class="btn pull-right" href="#" style="width: 30px; padding: 0;">
+					<div class="icon-list-item">																							
+						<a class="memberAddButton btn pull-right" href="#" data-toggle="modal" data-target="#detailModal" style="width: 30px; padding: 0;">
 							<i class="ik ik-plus-square"></i>
 						</a>
 					</div>
 				</div>					
 			</div>
 		</div>
-				
+		<!-- 오른쪽 밑 -->		
 		<div class="card" style="min-height: 650px;">
 			<div class="card-header">
 				<h3>조직도 상세보기</h3>
@@ -122,7 +224,45 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal" id="detailModal">
+		 <div class="modal-dialog mt-0 mb-0" role="document">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h2 class="modal-title">조직원 추가</h2>
+					<button type="button" class="close" data-dismiss="modal">×</button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body">							
+					<form class="leavePolicyForm">
+					<!-- 첫 번째 카드 영역 시작 -  -->
+					<div class="card">								
+						<div class="card-body">														
+							조직원 아이디 :  <div><input type="text" id="memberId" class="form-control"></div>
+							조직원 이름 :  <div><input type="text" id="memberName" class="form-control"></div>
+							조직원 사번 :  <div><input type="text" id="memberEmployeeCode" class="form-control"></div>																			
+							부서명 :  <div><select id="departmentName" class="form-control"></select></div>							
+							 :  <div><select id="departmentCategoryName" class="form-control"></select></div>
+							 :  <div><select id="departmentDivisionName" class="form-control"></select></div>
+							 :  <div><select id="departmentSectionName" class="form-control"></select></div>
+							직위/직책 :  <div><input type="text" id="memberPositionName" class="form-control"></div>
+							조직원 권한 :  <div><input type="text" id="memberLevelTitle" class="form-control"></div>
+							조직원 상태 :  <div><input type="text" id="memberStatus" class="form-control"></div>
+							조직원 비밀번호 :  <div><input type="text" id="memberPw" class="form-control"></div>															
+						</div>
+					</div>							
+					</form>								
+				</div>
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button id="saveButton" type="button" class="btn btn-primary">확인</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
+				</div>	
+			</div>
+		</div>
+	</div>	
 </div>
+			
 
 </th:block>
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ksmart31.team01.department.mapper.DepartmentMapper;
+import ksmart31.team01.member.domain.Member;
 import ksmart31.team01.department.domain.Department;
 import ksmart31.team01.department.domain.DepartmentJoinMember;
 
@@ -48,5 +49,39 @@ public class DepartmentService {
 		List<DepartmentJoinMember> list = departmentMapper.selectDepartmentJoinMemberListByMemberId(memberId);
 		System.out.println(list +"DepartmentService getDepartmentJoinMemberListByMemberId list");
 		return list;
-	}	
+	}
+	// member insert
+	public int addMember(Member member) {
+		return departmentMapper.insertMember(member);
+	}
+	// departmentName selectList
+	public List<Department> getDepartmentNameList(String departmentName){
+		List<Department> list = departmentMapper.selectDepartmentNameList(departmentName);
+		System.out.println(list + "DepartmentService getDepartmentNameList list");
+		return list;
+	}
+	// departmentName select
+	public List<Department> getDepartmentName(){
+		List<Department> list = departmentMapper.selectDepartmentName();
+		System.out.println(list + "DepartmentService getDepartmentName list");
+		return list;
+	}
+	// department_category_name select
+	public List<Department> getDepartmentCategoryName(){
+		List<Department> list = departmentMapper.selectDepartmentCategoryName();
+		System.out.println(list + "DepartmentService getDepartmentCategoryName list");
+		return list;
+	}
+	// department_division_name select
+	public List<Department> getDepartmentDivisionName(){
+		List<Department> list = departmentMapper.selectDepartmentDivisionName();
+		System.out.println(list + "DepartmentService getDepartmentDivisionName list");
+		return list;
+	}
+	// department_section_name select
+	public List<Department> getDepartmentSectionName(){
+		List<Department> list = departmentMapper.selectDepartmentSectionName();
+		System.out.println(list + "DepartmentService getDepartmentSectionName list");
+		return list;
+	}
 }	
