@@ -38,6 +38,7 @@ public class LeaveCategoryManagementController {
 				map =  leaveCategoryManagementService.getLeaveDetailAndPolicyList(leaveCategoryCode);
 			}
 			model.addAttribute("resultMap", map);
+			model.addAttribute("leaveCategoryCode", leaveCategoryCode);
 			System.out.println("LeaveCategoryManagementController.getleaveCategoryManagement [GET] model : "+model);
 			return "leave/leaveCategoryManagement";
 		}else {
