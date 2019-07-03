@@ -19,9 +19,9 @@ public class DocumentFormService {
 	public List<DraftDocument> getLeaveApplicationForm() {
 		System.out.println("[DocumentFormService] getLeaveApplicationForm() 실행");
 
-		List<DraftDocument> list = draftDocumentMapper.selectDraftDocument();
-		System.out.println("[DocumentFormService] list:"+list);
+		//List<DraftDocument> list = draftDocumentMapper.selectDraftDocument();
+		//System.out.println("[DocumentFormService] list:"+list);
 		
-		return list;
+		return null;
 	}
 }

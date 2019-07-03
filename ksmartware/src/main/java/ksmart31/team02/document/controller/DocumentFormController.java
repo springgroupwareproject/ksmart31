@@ -61,10 +61,10 @@ public class DocumentFormController {
 			return "redirect:"+"/login";
 		}else {
 			// 기안일 조회
-			List<DraftDocument> draftDocumentList = documentFormService.getLeaveApplicationForm();
-			System.out.println("[DocumentFormController] draftDocumentList:"+draftDocumentList);
+			//List<DraftDocument> draftDocumentList = documentFormService.getLeaveApplicationForm();
+			//System.out.println("[DocumentFormController] draftDocumentList:"+draftDocumentList);
 			
-			model.addAttribute("draftDocumentList", draftDocumentList);
+			//model.addAttribute("draftDocumentList", draftDocumentList);
 			model.addAttribute("loginMember", loginMember);
 			return "member/documentForm/leaveApplicationForm";
 		}

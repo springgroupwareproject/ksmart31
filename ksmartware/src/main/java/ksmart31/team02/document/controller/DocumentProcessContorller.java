@@ -17,18 +17,14 @@ public class DocumentProcessContorller {
 	@Autowired private DocumentProcessService documentProcessService;
 	@Autowired private DocumentFormMapper documentFormMapper;
 	
-	// 사용자 기안시 결재선 목록 불러오기(휴가신청서)
-	@GetMapping("/member/documentForm/leaveApplicationForm")
-	public String modal() {
-		return "/member/documentForm/leaveApplicationForm";
-	}
-	
-	// 관리자 결재선 관리(공통프로세스 목록)
+	// 관리자 결재선 관리
 	@GetMapping("/admin/documentManagement/documentProcessManagement")
 	public String getApprovalProcess(Model model) {
 		System.out.println("[DocumentProcessContorller] getApprovalProcess() 실행");
+		
 		List<ApprovalProcess> list = documentProcessService.getApprovalProcess();
 		System.out.println("[DocumentProcessContorller] getApprovalProcess() list : "+list);
+		
 		model.addAttribute("list",list);
 		return "admin/documentManagement/documentProcessManagement";
 	}

@@ -7,7 +7,6 @@ import ksmart31.team02.document.domain.ApprovalProcess;
 
 @Mapper
 public interface DocumentProcessMapper {
-	// 관리자 결재선 관리(공통프로세스 목록)
+	// 관리자 결재선 관리, 사용자 결재선 목록 불러오기
 	public List<ApprovalProcess> selectApprovalProcess();
-	
 }

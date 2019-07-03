@@ -12,11 +12,11 @@ import ksmart31.team02.document.mapper.DocumentProcessMapper;
 public class DocumentProcessService {
 	@Autowired private DocumentProcessMapper documentProcessMapper;
 
-	// 관리자 결재선 관리(공통프로세스 목록)
+	// 관리자 결재선 관리, 사용자 결재선 목록 불러오기
 	public List<ApprovalProcess> getApprovalProcess() {
-		System.out.println("(S) getApprovalProcess() 실행");
+		System.out.println("[DocumentProcessService] getApprovalProcess() 실행");
 		List<ApprovalProcess> list = documentProcessMapper.selectApprovalProcess();
-		System.out.println("(S) getApprovalProcess() list : " + list);
+		System.out.println("[DocumentProcessService] getApprovalProcess() list : " + list);
 		return list;
 	}
 }
