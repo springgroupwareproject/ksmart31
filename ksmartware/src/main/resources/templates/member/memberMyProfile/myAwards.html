@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-		<style>
+		<style> /* 추가버튼 스타일 */
 		    .icon-list-wrap .icon-list-item i {
 		        float: left;
 		        text-align: center;
@@ -115,7 +115,7 @@
 						</div>
 						<hr>
 						<div>
-							<a href="/member/memberMyProfile/myCareer">경력 정보</a>
+							<a href="/member/memberMyProfile/myEducation">학력 정보</a>
 						</div>
 						<hr>
 						<div>
@@ -123,7 +123,7 @@
 						</div>
 						<hr>
 						<div>
-							<a href="/member/memberMyProfile/myEducation">학력 정보</a>
+							<a href="/member/memberMyProfile/myLicense">자격증 정보</a>
 						</div>
 						<hr>
 						<div>
@@ -131,13 +131,12 @@
 						</div>
 						<hr>
 						<div>
-							<a href="/member/memberMyProfile/myLicense">자격증 정보</a>
+							<a href="/member/memberMyProfile/myCareer">경력 정보</a>
 						</div>
 						<hr>
 						<div>
 							<a href="/member/memberMyProfile/myAwards">수상 이력 정보</a>
 						</div>
-					
 					</div>
 				</div>
 			</div>	
@@ -150,7 +149,7 @@
 					    <!-- 팝업창 추가 버튼 -->
 					    <div class="icon-list-wrap">
 					        <div class="icon-list-item">
-					            <a id="addMyAcademyBtn" data-toggle="modal" data-target="#detailModal" class="btn pull-right" href="#" style="padding: 0;" >
+					            <a id="addBtn" data-toggle="modal" data-target="#detailModal" class="btn pull-right" href="#" style="padding: 0;" >
 					                <i class="ik ik-plus-square"></i>
 					            </a>
 					        </div>
@@ -178,7 +177,7 @@
 							</div>
 							
 							<div  align="right" style="height: 100px; padding:20px"><button>수정</button> <button>삭제</button></div>
-								<hr>
+							<hr>
 						</div>	
 						
 						
@@ -219,15 +218,17 @@
 												<div class="card-body">
 													<div class="input-group">
 
-														<input type="text" id="startYear" class="form-control col-sm-1"><h4>&nbsp;년&nbsp;</h4>
+														<input type="text" id="startYear" class="form-control col-sm-1">
+														<div style="padding: 8px 10px 10px 10px" th:text="년 "></div>
 														
 														<select id="startMonth" class="form-control col-sm-1">
 															<!-- 스크립트 반복문으로 뿌려준다 01~12까지 뿌려준다 -->
-														</select> <h4>&nbsp;월&nbsp;</h4>
+														</select><div style="padding: 8px 10px 10px 10px" th:text="월 "></div>
 														
 														<select id="startDay" class="form-control col-sm-1">
 															<!-- 스크립트 반복문으로 뿌려준다 01~31까지 뿌려준다 -->
-														</select> <h4>&nbsp;일&nbsp;</h4>
+														</select><div style="padding: 8px 10px 10px 10px" th:text="일 "></div>
+														
 													</div>
 												</div>
 											</div>			
@@ -236,9 +237,9 @@
 											<div class="card">
 												<div class="card-header"><h3>설명</h3></div>
 												<div class="card-body">
-													<div>
-														<input type="text" id="memberAwardsDesc" class="form-control">
-													</div>
+																									<!-- rows높이/cols넓이 -->
+													<textarea id="memberAwardsDesc" class="form-control" rows="4" cols="">
+													</textarea>
 												</div>
 											</div> <!-- 설명 끝 -->
 

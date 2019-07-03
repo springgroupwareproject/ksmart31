@@ -13,6 +13,169 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<style> /* 추가버튼 스타일 */
+		    .icon-list-wrap .icon-list-item i {
+		        float: left;
+		        text-align: center;
+		        border-radius: .1875rem;
+		        margin-right: 1rem;
+		        margin-bottom: 1.5rem;
+		        font-size: 1.5rem;
+		        -webkit-transition: all .2s ease-in-out;
+		        -o-transition: all .2s ease-in-out;
+		        -moz-transition: all .2s ease-in-out;
+		        transition: all .2s ease-in-out;
+		    }
+		</style>
+		
+		<script>
+			$(document).ready(function(){
+				
+				$('#addBtn').click(function(){	// 입력버튼 클릭시
+					console.log('추가 버튼 테스트 : '+$(this).attr('value'));
+					
+					$("#endLicense").change(function(){
+				        if($("#endLicense").is(":checked")){
+				        	$("#range").hide();
+				        	$("#endYear").hide(); $('#endYear').empty();
+				        	$("#endMonth").hide(); $('#endMonth').empty();
+				        	$("#endDay").hide(); $('#endDay').empty();
+				        	$("#Year").hide();
+				        	$("#Month").hide();
+				        	$("#Day").hide();
+				        }else{
+				        	for (var i = 1; i < 13; i++) { /* 시간 시작 월 선택 */  
+								if(i <10) {
+									$("#startMonth").append('<option value="0'+i+'">'+i+'</option>');
+								} else {
+									$("#startMonth").append('<option value="'+i+'">'+i+'</option>');
+								}
+							}
+							
+							for (var i = 1; i < 32; i++) { /* 기간 시작 일 선택 */
+								if(i <10) {
+									$("#startDay").append('<option value="0'+i+'">'+i+'</option>');
+								} else {
+									$("#startDay").append('<option value="'+i+'">'+i+'</option>');
+								}
+							}
+							
+							for (var i = 1; i < 13; i++) { /* 기간 종료 월 선택 */
+								if(i <10) {
+									$("#endMonth").append('<option value="0'+i+'">'+i+'</option>');
+								} else {
+									$("#endMonth").append('<option value="'+i+'">'+i+'</option>');
+								}
+							}
+							
+							for (var i = 1; i < 32; i++) { /* 기간 종료 일 선택 */
+								if(i <10) {
+									$("#endDay").append('<option value="0'+i+'">'+i+'</option>');
+								} else {
+									$("#endDay").append('<option value="'+i+'">'+i+'</option>');
+								}
+							}
+				        	$("#range").show();
+				        	$("#endYear").show();
+				        	$("#endMonth").show();
+				        	$("#endDay").show();
+				        	$("#Year").show();
+				        	$("#Month").show();
+				        	$("#Day").show();
+				        }
+				    });
+				
+					for (var i = 1; i < 13; i++) { /* 시간 시작 월 선택 */  
+						if(i <10) {
+							$("#startMonth").append('<option value="0'+i+'">'+i+'</option>');
+						} else {
+							$("#startMonth").append('<option value="'+i+'">'+i+'</option>');
+						}
+					}
+					
+					for (var i = 1; i < 32; i++) { /* 기간 시작 일 선택 */
+						if(i <10) {
+							$("#startDay").append('<option value="0'+i+'">'+i+'</option>');
+						} else {
+							$("#startDay").append('<option value="'+i+'">'+i+'</option>');
+						}
+					}
+					
+					for (var i = 1; i < 13; i++) { /* 기간 종료 월 선택 */
+						if(i <10) {
+							$("#endMonth").append('<option value="0'+i+'">'+i+'</option>');
+						} else {
+							$("#endMonth").append('<option value="'+i+'">'+i+'</option>');
+						}
+					}
+					
+					for (var i = 1; i < 32; i++) { /* 기간 종료 일 선택 */
+						if(i <10) {
+							$("#endDay").append('<option value="0'+i+'">'+i+'</option>');
+						} else {
+							$("#endDay").append('<option value="'+i+'">'+i+'</option>');
+						}
+					}
+				
+					
+					$('#saveBtn').click(function(){
+						console.log('저장 버튼 테스트 ');
+							
+						let memberLicenseName = $('#memberLicenseName').val(); // 자격증 명
+						let memberLicenseAuthentication = $('#memberLicenseAuthentication').val(); // 인증기관
+						let memberLicenseNumber = $('#memberLicenseNumber').val(); // 자격증 번호
+						let memberLicenseStartDay = $('#startYear').val() + '-' + $('#startMonth').val() + '-' + $('#startDay').val(); //시작날
+						let memberLicenseEndDay = $('#endYear').val() + '-' + $('#endMonth').val() + '-' + $('#endDay').val(); //종료날
+						let memberLicenseExpiration = $('#memberLicenseExpiration').val(); // 만료일 여부
+						let memberLicenseUrl = $('#memberLicenseUrl').val(); // 자격증 url
+				 
+					 /*	let selectFile = $('#selectFile').val(); // MultipartFile 인터페이스에 담을 파일값 
+					 	let memberFilesType = $('#filesType').val(); // 파일 타입   */
+					 	
+					/*  let memberFilesInfo = $('#memberFileInfo').val();  // 뷰쪽 타이틀정보를 담음  */
+						
+						console.log('값출력 '+$('#memberLicenseName').val() + ' 변수값 확인 비교 : '+ memberLicenseName);
+						console.log('값출력 '+$('#memberLicenseAuthentication').val() + ' 변수값 확인 비교 : '+ memberLicenseAuthentication);
+						console.log('값출력 '+$('#memberLicenseNumber').val() + ' 변수값 확인 비교 : '+ memberLicenseNumber);
+						console.log("자격증 취득 날짜 : " + memberLicenseStartDay);
+						console.log("자격증 기간 종료날짜 : " + memberLicenseEndDay);
+						console.log('만료일 값출력 '+$('#memberLicenseExpiration').val() + ' 변수값 확인 비교 : '+ memberLicenseExpiration);
+						console.log('값출력 '+$('#memberLicenseUrl').val() + ' 변수값 확인 비교 : '+ memberLicenseUrl);
+						
+						
+							$.ajax({
+								url : '/member/memberMyProfile/addMyAwards',
+								type : 'get',
+								data : {
+									memberLicenseName:memberLicenseName,
+									memberLicenseAuthentication:memberLicenseAuthentication,
+									memberLicenseNumber:memberLicenseNumber,
+									memberLicenseStartDay:memberLicenseStartDay,
+									memberLicenseEndDay:memberLicenseEndDay,
+									memberLicenseExpiration:memberLicenseExpiration,
+									memberLicenseUrl:memberLicenseUrl
+								},
+								success : function(){
+									console.log('성공')
+							/* 	$('#closeBtn').trigger("click"); 닫기버튼클릭  */
+									location.reload();   // 새로고침
+								},
+								error : function(error){
+									console.log(error);
+									//alert('실패 : '+error);
+								}
+							});
+					
+					
+					});
+					
+					
+				});
+				
+			});
+		
+		
+		</script>
 		
 	</th:block>
 	
@@ -35,7 +198,7 @@
 						</div>
 						<hr>
 						<div>
-							<a href="/member/memberMyProfile/myCareer">경력 정보</a>
+							<a href="/member/memberMyProfile/myEducation">학력 정보</a>
 						</div>
 						<hr>
 						<div>
@@ -43,7 +206,7 @@
 						</div>
 						<hr>
 						<div>
-							<a href="/member/memberMyProfile/myEducation">학력 정보</a>
+							<a href="/member/memberMyProfile/myLicense">자격증 정보</a>
 						</div>
 						<hr>
 						<div>
@@ -51,13 +214,12 @@
 						</div>
 						<hr>
 						<div>
-							<a href="/member/memberMyProfile/myLicense">자격증 정보</a>
+							<a href="/member/memberMyProfile/myCareer">경력 정보</a>
 						</div>
 						<hr>
 						<div>
 							<a href="/member/memberMyProfile/myAwards">수상 이력 정보</a>
 						</div>
-					
 					</div>
 				</div>
 			</div>	
@@ -65,17 +227,28 @@
 			
 			<div class="col-10" style="padding-right:20px; border-right: 1px solid #ccc;">
 				<div class="card">
-					<div class="card-header">
-						<div>나의 자격증 정보</div> 
-						<div style="padding:10px; text-align:right"><button >추가</button></div>
-					</div>
+					
+					<div class="card-header justify-content-between" style="padding: 10px;">
+					    <div style="padding: 0px 0px 0px 10px">나의 자격증 정보</div>
+					    
+					    <!-- 팝업창 추가 버튼 -->
+					    <div class="icon-list-wrap">
+					        <div class="icon-list-item">
+					            <a id="addBtn" data-toggle="modal" data-target="#detailModal" class="btn pull-right">
+					                <i class="ik ik-plus-square"></i>
+					            </a>
+					        </div>
+					    
+					    </div>
+					</div>	
+
 					<div class="card-body" >
 						<div  th:each="myLicense : ${myLicense}">	
 						
 							<div class="input-group">
 								<!-- 자격증 유효기간 취득일 -->
 								<div th:text="|자격증 유효기간 : ${myLicense.memberLicenseStartDay}|"></div>
-								<!-- 자격증 유효만료날짜 -->
+								<!-- 자격증 유효만료날짜   memberLicenseExpiration == N 이면으로 조건 변경하는게 좋음 -->
 								<div th:if="${myLicense.memberLicenseEndDay != null}" th:text="|&nbsp; ~ ${myLicense.memberLicenseEndDay}|"></div>
 								<div th:unless="${myLicense.memberLicenseEndDay != null}">
 									<div>&nbsp; ~ 만료기간없음</div>
@@ -91,11 +264,11 @@
 							<div th:text="|인증 기관 : ${myLicense.memberLicenseAuthentication}|"></div>
 							
 							<!-- if 조건 데이터가 공백이면 파일없음 -->
-							<div th:if="${myLicense.memberFilesSaveName == ''}">
+							<div th:if="${myLicense.memberFilesSaveName == '' || myLicense.memberFilesSaveName == null} ">
 								<div>첨부파일 : 파일없음</div>
 							</div>
 							<!-- else 조건 -->
-							<div th:unless="${myLicense.memberFilesSaveName == ''}">
+							<div th:unless="${myLicense.memberFilesSaveName == '' || myLicense.memberFilesSaveName == null}">
 								<div class="input-group">
 									<div>첨부파일 : </div>
 									<a href="#" th:text="|&nbsp; ${myLicense.memberFilesSaveName}|"></a>
@@ -103,8 +276,112 @@
 							</div>
 							
 							<div  align="right" style="height: 100px; padding:20px"><button>수정</button> <button>삭제</button></div>
-								<hr>
-						</div>	 
+							<hr>
+						</div>
+						
+						<!-- 팝업 화면 출력  -->
+						<div class="modal" id="detailModal">
+							<div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">
+								<div class="modal-content">
+								
+									<!-- Modal Header -->
+									<div class="modal-header">
+										<h2 class="modal-title">자격증 정보 입력</h2>
+										<button type="button" class="close" data-dismiss="modal">×</button>
+									</div>
+									
+									<!-- Modal body -->
+									<div class="modal-body">
+										<form class="BodyForm">
+											
+											<!-- 자격증명 카드영역 시작 -->
+											<div class="card">
+												<div class="card-header"><h3>자격증 명</h3></div>
+												<div class="card-body">
+													<div><input type="text" id="memberLicenseName" class="form-control"></div>
+												</div>
+											</div> <!-- 자격증명 카드영역 끝 -->
+
+											<!-- 인증기관 카드영역 시작 -->
+											<div class="card">
+												<div class="card-header"><h3>인증기관</h3></div>
+												<div class="card-body">
+													<div><input type="text" id="memberLicenseAuthentication" class="form-control"></div>
+												</div>
+											</div> <!-- 인증기관 카드영역 끝 -->
+											
+											<!-- 자격증번호 카드영역 시작 -->
+											<div class="card">
+												<div class="card-header"><h3>자격증번호</h3></div>
+												<div class="card-body">
+													<div><input type="text" id="memberLicenseNumber" class="form-control"></div>
+												</div>
+											</div> <!-- 자격증번호 카드영역 끝 -->
+											
+											<!-- 유효 기간 시작 -->
+											<div class="card">
+												<div class="card-header"><h3>유효 기간</h3></div>
+												<div class="card-body">
+												<div>만료일 여부 <input id="endLicense" type="checkbox"></div>
+												<br>
+													<div class="input-group">
+														
+														<input type="text" id="startYear" class="form-control col-sm-1"> <div style="padding: 8px 10px 10px 10px" th:text="년 "></div>
+														
+														<select id="startMonth" class="form-control col-sm-1">
+															<!-- 스크립트 반복문으로 뿌려준다 01~12까지 뿌려준다 -->
+														</select><div style="padding: 8px 10px 10px 10px" th:text="월 "></div>
+														
+														<select id="startDay" class="form-control col-sm-1">
+															<!-- 스크립트 반복문으로 뿌려준다 01~31까지 뿌려준다 -->
+														</select><div style="padding: 8px 10px 10px 10px" th:text="일 "></div>
+														
+														
+														<h4 id="range">&nbsp; ~ &nbsp;</h4>
+														
+														<input type="text" id="endYear" class="form-control col-sm-1"> <div id="Year" style="padding: 8px 10px 10px 10px" th:text="년 "></div>
+														
+														<select id="endMonth" class="form-control col-sm-1">
+															<!-- 스크립트 반복문으로 뿌려준다 01~12까지 뿌려준다 -->
+														</select> <div id="Month" style="padding: 8px 10px 10px 10px" th:text="월 "></div>
+														
+														<select id="endDay" class="form-control col-sm-1">
+															<!-- 스크립트 반복문으로 뿌려준다 01~31까지 뿌려준다 -->
+														</select> <div id="Day" style="padding: 8px 10px 10px 10px" th:text="일 "></div>
+													
+														
+													</div>
+												</div>
+											</div> <!-- 유효 기간  끝 -->
+											
+											<!-- 자격증URL 카드영역 시작 -->
+											<div class="card">
+												<div class="card-header"><h3>자격증URL</h3></div>
+												<div class="card-body">
+													<div><input type="text" id="memberLicenseUrl" class="form-control"></div>
+												</div>
+											</div> <!-- 자격증URL 카드영역 끝 -->
+
+										</form>
+									</div>	
+									
+									
+									<!-- Modal footer -->
+									<div class="modal-footer"> 
+										<form id="FooterForm">
+											<div class="input-group" style="margin: 0px 0px 0px 10px; padding: 0px 0px 0px 0px">
+												<button id="saveBtn" type="button" class="btn btn-primary">저장</button>
+												&nbsp;
+												<button id="closeBtn" type="button" class="btn btn-light" data-dismiss="modal">취소</button> 
+												<div id="memberFileInfo" hidden="hidden" th:value="수상이력정보"></div> <!-- 파일테이블에서 사용할 뷰쪽 타이틀정보 -->
+											</div>
+										</form>
+									</div>	
+									
+								</div>
+							</div>
+						</div> <!-- 팝업창끝 -->
+							 
 					</div>
 				</div>
 			</div>
