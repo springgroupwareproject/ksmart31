@@ -19,6 +19,12 @@ public class DocumentBoxController {
 	@Autowired
 	DocumentBoxService documentBoxService;
 
+	
+	@GetMapping("/datepk")
+	public String datepk() {
+		return "/datepickerEx";
+	}
+	
 	/* 기안문서함 */
 	@GetMapping("/documentBox/draftDocument")
 	public String draftDocumentBox(Model model, HttpSession session) {
