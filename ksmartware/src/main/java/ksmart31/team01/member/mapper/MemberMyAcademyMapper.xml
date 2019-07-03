@@ -1,24 +1,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ksmart31.team01.member.mapper.MemberMyAcademyMapper">
 	
-<!-- 	<insert id="insertMyacademy">
-		INSERT INTO (
-			
-		
-		
-		) VALUES (
-		
-		
-		
+	<insert id="insertMyacademy">
+		INSERT INTO member_academy (
+			member_academy_code,
+			member_id,
+			member_academy_name,
+			member_academy_start_day,
+			member_academy_end_day,
+			member_academy_complete,
+			member_academy_institution,
+			member_academy_cost,
+			member_academy_place,
+			member_academy_purpose,
+			member_academy_desc,
+			member_academy_date,
+			member_name,
+			member_employee_code,
+			department_name,
+			member_position_name,
+			member_file_code
 		)
+		
+			SELECT CONCAT('MBACA','_', (SELECT MAX(substring(member_academy_code, 7)+1) FROM member_academy)),
+			#{memberId},
+			#{memberAcademyName},
+			#{memberAcademyStartDay},
+			#{memberAcademyEndDay},
+			#{memberAcademyComplete},
+			#{memberAcademyInstitution},
+			#{memberAcademyCost},
+			#{memberAcademyPlace},
+			#{memberAcademyPurpose},
+			#{memberAcademyDesc},
+			NOW(),
+			#{memberName},
+			#{memberEmployeeCode},
+			#{departmentName},
+			#{memberPositionName},
+			#{memberFileCode}
+			
+	</insert> 
 	
-	
-	</insert> -->
-	
-	
-	<!-- myProfile 개인정보 -->
-	<resultMap type="ksmart31.team01.member.domain.MemberAcademy" id="myAcademy">	
-				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+ 	<resultMap type="ksmart31.team01.member.domain.MemberAcademy" id="myAcademy">	
+			<!-- 	db컬럼		domain 데이터변수명 -->
 		<result column="member_academy_start_day" property="memberAcademyStartDay"/>
 		<result column="member_academy_end_day" property="memberAcademyEndDay"/>
 		<result column="member_academy_name" property="memberAcademyName"/>
@@ -28,12 +53,14 @@
 		<result column="member_academy_purpose" property="memberAcademyPurpose"/>
 		<result column="member_academy_cost" property="memberAcademyCost"/>
 		<result column="member_academy_desc" property="memberAcademyDesc"/>
+		
 		<result column="member_file_code" property="memberFileCode"/>
 		<result column="member_files_origin_name" property="memberFilesOriginName"/>
 		<result column="member_files_save_name" property="memberFilesSaveName"/>
-	</resultMap>
+		
+	</resultMap>  
 	
-	<select id="myAcademy" resultMap="myAcademy">
+	<select id="myAcademy" resultMap="myAcademy" >
 		SELECT 
 			member_academy_start_day,
 			member_academy_end_day,
@@ -47,15 +74,18 @@
 			member_file_code,
 			member_files_origin_name,
 			member_files_save_name
-			
+		
 		FROM 
 			member_academy ma
-		INNER JOIN
+			
+		LEFT JOIN
 			member_files mf
 		ON 
 			ma.member_file_code = mf.member_files_code
+		
 		WHERE
 			ma.member_id = #{memberId}
+
 	</select>
 	
 

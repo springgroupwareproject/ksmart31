@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ksmart31.team01.files.mapper.FilesMapper;
 import ksmart31.team01.member.domain.Member;
 import ksmart31.team01.member.domain.MemberAcademy;
-import ksmart31.team01.member.domain.MemberFiles;
 import ksmart31.team01.member.mapper.MemberMyAcademyMapper;
 
 @Service
@@ -21,13 +20,21 @@ public class MemberMyAcademyService {
 	@Autowired private MemberMyAcademyMapper memberMyAcademyMapper;
 	@Autowired private FilesMapper filesMapper;
 	
-	public void insertMyacademy(HttpSession session, MemberAcademy memberAcademy, MemberFiles memberFiles) {
+	public void insertMyacademy(HttpSession session, MemberAcademy memberAcademy /* , MemberFiles memberFiles */) {
 		System.out.println("나의 교육 이력 입력 실행");
 
 
 		Member member = (Member) session.getAttribute("loginMember");  // member = 아이디,사번,조직원이름,부서명,직위직책,
+		memberAcademy.setMemberId(member.getMemberId());
+		memberAcademy.setMemberEmployeeCode(member.getMemberEmployeeCode());
+		memberAcademy.setMemberName(member.getMemberName());
+		memberAcademy.setDepartmentName(member.getDepartmentName());
+		memberAcademy.setMemberPositionName(member.getMemberPositionName());
 		
-		memberFiles.setMemberId(member.getMemberId());
+		System.out.println("MemberMyAcademyService.insertMyacademy() 입력되는 나의 교육 값 : " + memberAcademy);
+		
+		/* 파일업로드
+		 * memberFiles.setMemberId(member.getMemberId());
 		memberFiles.setMemberEmployeeCode(member.getMemberEmployeeCode());
 		memberFiles.setMemberName(member.getMemberName());
 		memberFiles.setDepartmentName(member.getDepartmentName());
@@ -41,11 +48,17 @@ public class MemberMyAcademyService {
 		} else {
 			System.out.println("ksmart31.team01.files.service.filesService 파일 첨부 성공 (쿼리문성공) 리턴int : " + returnResult);
 		}
+		*/
 		
 		
+		// 쿼리문 실행 결과 리턴 int값 으로 성공여부 확인
+		int result= memberMyAcademyMapper.insertMyacademy(memberAcademy);
 		
-	
-		memberMyAcademyMapper.insertMyacademy(memberAcademy);
+		if(result != 0) {
+			System.out.println("입력 성공");
+		} else {
+			System.out.println("입력 실패");
+		}
 	}
 	
 	/*	// 글 & 파일 등록

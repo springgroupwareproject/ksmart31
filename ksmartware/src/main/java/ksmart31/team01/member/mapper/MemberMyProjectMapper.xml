@@ -1,17 +1,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ksmart31.team01.member.mapper.MemberMyProjectMapper">
 	
-	<!-- myProfile 개인정보 -->
-	<select id="memberFilesCode" resultType="String">
-		SELECT 
-			member_file_code AS memberFileCode
-		FROM 
-			member_project
-		WHERE 
-			member_id = #{memberId}
-
-	</select>
-
 
 	<!-- myProfile 개인정보 -->
 	<resultMap type="ksmart31.team01.member.domain.MemberProjectMemberFiles" id="myProject">	
@@ -42,15 +31,13 @@
 			member_files_save_name
 		FROM 
 			member_project mp
-		INNER JOIN
+		LEFT JOIN
 			member_files mf
 		ON 
 			mp.member_file_code = mf.member_files_code
 			
 		WHERE
 			mp.member_id = #{memberId}
-		AND
-			mp.member_file_code = #{memberFileCode}
 			
 	</select>
 	

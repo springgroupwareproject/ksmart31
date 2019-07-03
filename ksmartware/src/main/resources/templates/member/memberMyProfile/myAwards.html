@@ -13,6 +13,86 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<style>
+		    .icon-list-wrap .icon-list-item i {
+		        float: left;
+		        text-align: center;
+		        border-radius: .1875rem;
+		        margin-right: 1rem;
+		        margin-bottom: 1.5rem;
+		        font-size: 1.5rem;
+		        -webkit-transition: all .2s ease-in-out;
+		        -o-transition: all .2s ease-in-out;
+		        -moz-transition: all .2s ease-in-out;
+		        transition: all .2s ease-in-out;
+		    }
+		</style>
+		<script>
+			$(document).ready(function(){
+				
+				$('#addBtn').click(function(){
+				console.log('추가 버튼 테스트 : '+$(this).attr('value'));
+					
+					for (var i = 1; i < 13; i++) { /* 월 선택 */
+						if(i <10) {
+							$("#startMonth").append('<option value="0'+i+'">'+i+'</option>');
+						} else {
+							$("#startMonth").append('<option value="'+i+'">'+i+'</option>');
+						}
+					}
+					
+					for (var i = 1; i < 32; i++) { /* 일 선택 */
+						if(i <10) {
+							$("#startDay").append('<option value="0'+i+'">'+i+'</option>');
+						} else {
+							$("#startDay").append('<option value="'+i+'">'+i+'</option>');
+						}
+					}
+				
+					$('#saveBtn').click(function(){
+					console.log('저장 버튼 테스트 ');
+
+					let memberAwardsName = $('#memberAwardsName').val(); // 상훈명
+					let memberAwardsInstitution = $('#memberAwardsInstitution').val(); //발급기관
+					let memberAwardsDay = $('#startYear').val() + '-' + $('#startMonth').val() + '-' + $('#startDay').val(); //수상일 
+					let memberAwardsDesc = $('#memberAwardsDesc').val(); // 설명
+					
+					console.log('값출력 '+$('#memberAwardsName').val() + ' 변수값 확인 비교 : '+ memberAwardsName);
+					console.log('값출력 '+$('#memberAwardsInstitution').val() + ' 변수값 확인 비교 : '+ memberAwardsInstitution);
+					console.log("교육기간 시작날짜 : " + memberAwardsDay);
+					console.log('값출력 '+$('#memberAwardsDesc').val() + ' 변수값 확인 비교 : '+ memberAwardsDesc);
+					
+						$.ajax({
+							url : '/member/memberMyProfile/addMyAwards',
+							type : 'get',
+							data : {
+								memberAwardsName:memberAwardsName,
+								memberAwardsInstitution:memberAwardsInstitution,
+								memberAwardsDay:memberAwardsDay,
+								memberAwardsDesc:memberAwardsDesc
+								
+							},
+							success : function(){
+								console.log('성공')
+						/* 	$('#closeBtn').trigger("click"); 닫기버튼클릭  */
+								location.reload();  // 새로고침
+							},
+							error : function(error){
+								console.log(error);
+								//alert('실패 : '+error);
+							}
+						});
+					
+					
+					});
+					
+					
+				});
+				
+			});
+		
+		
+		</script>
 		
 	</th:block>
 	
@@ -65,9 +145,16 @@
 			
 			<div class="col-10" style="padding-right:20px; border-right: 1px solid #ccc;">
 				<div class="card">
-					<div class="card-header">
-						<div>나의 수상 이력 정보</div> 
-						<div style="padding:10px; text-align:right"><button >추가</button></div>
+					<div class="card-header justify-content-between" style="padding: 10px;">
+					    <div style="padding: 0px 0px 0px 10px">나의 수상 이력 정보</div>
+					    <!-- 팝업창 추가 버튼 -->
+					    <div class="icon-list-wrap">
+					        <div class="icon-list-item">
+					            <a id="addMyAcademyBtn" data-toggle="modal" data-target="#detailModal" class="btn pull-right" href="#" style="padding: 0;" >
+					                <i class="ik ik-plus-square"></i>
+					            </a>
+					        </div>
+					    </div>
 					</div>
 					<div class="card-body" >
 						<div  th:each="myAwards : ${myAwards}">	
@@ -79,11 +166,11 @@
 							<div th:text="|설명 : ${myAwards.memberAwardsDesc}|"></div>
 							
 							<!-- if 조건 데이터가 공백이면 파일없음 -->
-							<div th:if="${myAwards.memberFilesSaveName == ''}">
+							<div th:if="${myAwards.memberFilesSaveName == '' || myAwards.memberFilesSaveName == null} ">
 								<div>첨부파일 : 파일없음</div>
 							</div>
 							<!-- else 조건 -->
-							<div th:unless="${myAwards.memberFilesSaveName == ''}">
+							<div th:unless="${myAwards.memberFilesSaveName == '' || myAwards.memberFilesSaveName == null}">
 								<div class="input-group">
 									<div>첨부파일 : </div>
 									<a href="#" th:text="|&nbsp; ${myAwards.memberFilesSaveName}|"></a>
@@ -92,7 +179,89 @@
 							
 							<div  align="right" style="height: 100px; padding:20px"><button>수정</button> <button>삭제</button></div>
 								<hr>
-						</div>	 
+						</div>	
+						
+						
+						
+						<!-- 팝업 화면 출력  -->
+						<div class="modal" id="detailModal">
+							<div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">
+								<div class="modal-content">
+								
+									<!-- Modal Header -->
+									<div class="modal-header">
+										<h2 class="modal-title">수상 이력 정보 입력</h2>
+										<button type="button" class="close" data-dismiss="modal">×</button>
+									</div>
+									
+									<!-- Modal body -->
+									<div class="modal-body">
+										<form class="BodyForm">
+											
+											<!-- 상훈명 카드영역 시작 -->
+											<div class="card">
+												<div class="card-header"><h3>상훈명</h3></div>
+												<div class="card-body">
+													<div><input type="text" id="memberAwardsName" class="form-control"></div>
+												</div>
+											</div> <!-- 상훈명 카드영역 끝 -->
+											
+											<!-- 발급 기관 카드영역 시작 -->
+											<div class="card">
+												<div class="card-header"><h3>발급 기관</h3></div>
+												<div class="card-body">
+													<div><input type="text" id="memberAwardsInstitution" class="form-control"></div>
+												</div>
+											</div> <!-- 발급 기관 카드영역 끝 -->
+											
+											<div class="card">
+												<div class="card-header"><h3>수상일</h3></div>
+												<div class="card-body">
+													<div class="input-group">
+
+														<input type="text" id="startYear" class="form-control col-sm-1"><h4>&nbsp;년&nbsp;</h4>
+														
+														<select id="startMonth" class="form-control col-sm-1">
+															<!-- 스크립트 반복문으로 뿌려준다 01~12까지 뿌려준다 -->
+														</select> <h4>&nbsp;월&nbsp;</h4>
+														
+														<select id="startDay" class="form-control col-sm-1">
+															<!-- 스크립트 반복문으로 뿌려준다 01~31까지 뿌려준다 -->
+														</select> <h4>&nbsp;일&nbsp;</h4>
+													</div>
+												</div>
+											</div>			
+											
+											<!-- 설명 시작 -->
+											<div class="card">
+												<div class="card-header"><h3>설명</h3></div>
+												<div class="card-body">
+													<div>
+														<input type="text" id="memberAwardsDesc" class="form-control">
+													</div>
+												</div>
+											</div> <!-- 설명 끝 -->
+
+										</form>
+									</div>	
+									
+									
+									<!-- Modal footer -->
+									<div class="modal-footer"> 
+										<form id="FooterForm">
+											<div class="input-group" style="margin: 0px 0px 0px 10px; padding: 0px 0px 0px 0px">
+												<button id="saveBtn" type="button" class="btn btn-primary">저장</button>
+												&nbsp;
+												<button id="closeBtn" type="button" class="btn btn-light" data-dismiss="modal">취소</button> 
+												<div id="memberFileInfo" hidden="hidden" th:value="수상이력정보"></div> <!-- 파일테이블에서 사용할 뷰쪽 타이틀정보 -->
+											</div>
+										</form>
+									</div>	
+									
+								</div>
+							</div>
+						</div> <!-- 팝업창끝 -->
+						
 					</div>
 				</div>
 			</div>
