@@ -33,6 +33,7 @@ public class MemberMyAcademyController {
 		model.addAttribute("myAcademy", myAcademy);
 		
 		return "member/memberMyProfile/myAcademy";
+		//수정
 	}
 	
 	
