@@ -47,7 +47,7 @@ public class LeaveCategoryManagementService {
 	// 상세 휴가 리스트, 휴가 정책 리스트 조회
 	public Map<String, Object> getLeaveDetailAndPolicyList(String leaveCategoryCode){
 		// 상세 휴가 리스트
-		List<LeaveDetail> leaveDetailList = leaveDetailMapper.selectLeaveDetailList(leaveCategoryCode);
+		List<LeaveDetail> leaveDetailList = leaveDetailMapper.selectLeaveDetailListByCategoryCode(leaveCategoryCode);
 		System.out.println("LeaveDetailService.getLeaveDetailList leaveDetailList : "+leaveDetailList);
 		// 휴가 정책 리스트
 		List<LeavePolicy> leavePolicyList = leavePolicyMapper.selectLeavePolicyList(leaveCategoryCode);
