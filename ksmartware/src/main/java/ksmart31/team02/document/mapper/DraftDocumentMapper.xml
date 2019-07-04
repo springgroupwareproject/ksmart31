@@ -4,7 +4,40 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="ksmart31.team02.document.mapper.DraftDocumentMapper">
-
+	<!-- 기안시 첨부파일 목록 -->
+	<select id="selectApprovalFile"
+			resultType="ksmart31.team02.document.domain.ApprovalFile">
+		SELECT approval_file_code AS approvalFileCode
+			, document_code AS documentCode
+			, approval_file_save_name AS approvalFileSaveName
+			, approval_file_ext AS approvalFileExt
+		FROM approval_file
+	</select>
+	
+	<!-- 기안시 의견 등록 -->
+	<!-- <insert id="insertApprovalOpinion"
+			parameterType="ksmart31.team02.document.domain.ApprovalOpinion">
+		INSERT INTO approval_opinion(
+			approval_opinion_code
+			, document_code
+			, approval_opinion_desc
+			, member_id
+			, member_name
+			, approval_opinion_date
+			, member_employee_code
+			, department_name
+			, member_position_name)
+		VALUES(
+			'test2'
+			, 'DOC_0001'
+			, #{approvalOpinionDesc}
+			,'asdfkasd@eknekee.net'
+			, '기안자'
+			, NOW()
+			, '15244'
+			, '연구본부'
+			, '부장')
+	</insert> -->
 
 	<!-- 기안시 의견목록 -->
 	<select id="selectApprovalOpinion"
@@ -16,6 +49,12 @@
 		FROM approval_opinion
 		<!-- WHERE document_code='DOC_0001' -->
 	</select>
+	
+	<!-- 문서양식폼을 불러오면 임시저장상태로 draft_document테이블로 insert -->
+	<insert id="insertApprovalOpinion"
+			parameterType="ksmart31.team02.document.domain.DraftDocument">
+	
+	</insert>
 	
 	<!-- 문서양식폼에 보여줄 정보 -->
 <!-- 	<select id="selectDraftDocument"
