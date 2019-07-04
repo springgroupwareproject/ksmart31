@@ -225,14 +225,48 @@
 					$('#부여').attr('hidden', true);
 					// 비동기 요청
 					$.ajax({
-						url : '/leave/leaveCategoryList',
+						url : '/leave/leaveDetailList',
 						type : 'get',
 						success : function(data){
 							console.log(data);
-							// 휴가 종류 선택 박스에 리턴 값 추가
+							let preCategory = '';	// 이전 휴가 종류 
+							let nextCategory = '';	// 다음 휴가 종류
 							$(data).each(function(i, item){
-								$('#leaveCategorySortList').append('<option value="'+item.leaveCategorySort+'">'+item.leaveCategorySort+'</option>');
+								nextCategory = item.leaveCategorySort;
+								// 휴가 종류 값 비교 
+								if(preCategory != nextCategory){ // 휴가 종류 값이  같지 않을 때 비활성화된 채로 목록에 추가
+									$('#leaveCategorySortList').append('<option disabled>'+item.leaveCategorySort+'</option>');
+									preCategory = nextCategory;
+								}
+								// 휴가 종류 선택 박스에 상세 휴가 종류 추가
+								$('#leaveCategorySortList').append('<option value="'+item.leaveCategorySort+', '+item.leaveDetailSort+', '+item.leaveDetailCode+'">&nbsp;&nbsp;&nbsp;&nbsp;'+item.leaveDetailSort+'</option>');
 							});
+							$('#leaveCategorySortList').val(data.leaveCategorySort+', '+data.leaveDetailSort+', '+data.leaveDetailCode).trigger('change');
+						},	
+						error : function(error){
+							console.log(error);
+						}
+					});
+				}
+			});
+			// 부여 및 차감 모달 - 차감 - 카테고리 선택 시 이벤트
+			$('#leaveCategorySortList').change(function(){
+				if($('#grantAndUsed').val() == '차감'){
+					console.log('차감-카테고리 선택 체인지 테스트');
+					// 상세 휴가 코드 얻기 위한 변수 
+					let detailCode = $('#leaveCategorySortList').val();
+					console.log('선택 값 val : '+detailCode); // 현재 밸류 값 예시) '보상 휴가, 대체 휴가, leave_detail_code_5'
+					$.ajax({
+						url : '/leave/leaveDetailByDetailCode',
+						type : 'get',
+						data : {
+							detailCode: detailCode
+						},
+						success : function(data){
+							console.log(data);
+							// 최대 사용 시간, 일 값으로 변경 
+							$("#usedMinimumHour").val(data.leaveDetailMaximumHour).prop('checked', true);
+							$("#usedMinimumDay").val(data.leaveDetailMaximumDay);
 						},	
 						error : function(error){
 							console.log(error);
@@ -241,6 +275,7 @@
 				}
 			});
 			$('#categoryList').val('').trigger('change');
+			$('#grantAndUsed').val('부여').trigger('change');
 		});
 	</script>
 	<style>
@@ -272,7 +307,7 @@
 	<!-- 오른쪽 카드 영역 시작 -->
 	<div class="col-9">
 		<!-- 오른쪽 카드 제목 -->
-		<div class="card" style="min-height: 100%;">
+		<div class="card" style="height: 100%;">
 			<div class="card-header justify-content-between">
 				<div>휴가 기준 : 회계연도&nbsp;&nbsp;&nbsp;&nbsp;검색 연도 : 2019 년</div>
 				<div class="pull-right">
@@ -466,9 +501,9 @@
 							&nbsp;&nbsp;~&nbsp;&nbsp; 
 							<input type="text" class="form-control col-2">
 							<div class="col-1"></div>
-							<input type="text" class="form-control col-1" value="0">
+							<input type="text" class="form-control col-1" value="0" id="usedMinimumDay">
 							<label for="exampleInputUsername2" class="col-1 col-form-label">일</label>
-							<select class="form-control col-1" id="">
+							<select class="form-control col-1" id="usedMinimumHour">
 								<option value="0">0</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
@@ -484,6 +519,19 @@
 						<div class="input-group">
 							<label for="exampleInputUsername2" class="col-2 col-form-label">사유 입력</label>
 							<input type="text" class="form-control" placeholder="부여 및 차감 사유 (필수입력)">
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header">2. 휴가 부여 및 차감 대상자 설정</div>
+					<div class="card-body">
+						<div>휴가일수 부여 및 차감의 대상자를 설정합니다.</div><br>					
+						<div class="col-6">
+							<ul class="nav flex-column">
+								<li class="nav-item" th:each="recursiveList: ${recursiveList}">
+									<a class="nav-link departmentNameButton" href="#" th:text="${recursiveList.departmentName}" th:value="${recursiveList.departmentName}"></a>
+								</li>	
+							</ul>
 						</div>
 					</div>
 				</div>
