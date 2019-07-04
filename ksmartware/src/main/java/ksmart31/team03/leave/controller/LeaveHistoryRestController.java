@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ksmart31.team03.leave.domain.LeaveCategory;
+import ksmart31.team03.leave.domain.LeaveDetail;
 import ksmart31.team03.leave.domain.LeaveGrant;
 import ksmart31.team03.leave.domain.LeaveGrantAndUsed;
 import ksmart31.team03.leave.domain.LeaveHistory;
@@ -20,13 +22,28 @@ public class LeaveHistoryRestController {
 	@Autowired
 	private LeaveHistoryManagementService leaveHistoryManagementService;
 	
+	// 디테일 코드 별 세부 휴가 정보
+	@GetMapping("/leave/leaveDetailByDetailCode")
+	public LeaveDetail getLeaveDetailByDetailCode(String detailCode) {
+		System.out.println("LeaveHistoryRestController.getLeaveDetailByDetailCode [GET] detailCode : "+detailCode);
+		return leaveHistoryManagementService.getLeaveDetailByDetailCode(detailCode);
+	}
+	// 세부 휴가 조회
+	@GetMapping("/leave/leaveDetailList")
+	public List<LeaveDetail> getLeaveDetailList(){
+		return leaveHistoryManagementService.getLeaveDetailList();
+	}
+	// 휴가 종류 조회
+	@GetMapping("/leave/leaveCategoryList")
+	public List<LeaveCategory> getLeaveCategoryList(){
+		return leaveHistoryManagementService.getLeaveCategoryList();
+	}
 	// 조직도 조회
 	@GetMapping("/leave/leaveHistoryByMemberIdList")
-	public List<LeaveHistory> getleaveHistoryByMemberIdList(@RequestParam(required = false) String departmentName){
+	public List<LeaveHistory> getLeaveHistoryByMemberIdList(@RequestParam(required = false) String departmentName){
 		System.out.println("LeaveHistoryRestController.getleaveHistoryByMemberIdList departmentName : "+departmentName);
 		return leaveHistoryManagementService.getleaveHistoryByMemberIdList(departmentName);
 	}
-	
 	// 조직원 한 명의 상세 휴가 내역 조회
 	@GetMapping("/leave/leaveHistoryByMemberId")
 	public Map<String, Object> getLeaveHistoryByMemberId(@RequestParam(required = false) String leaveCategorySort, String memberId){
