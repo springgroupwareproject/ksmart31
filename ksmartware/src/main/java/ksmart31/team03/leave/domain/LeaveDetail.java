@@ -3,6 +3,7 @@ package ksmart31.team03.leave.domain;
 public class LeaveDetail {
 	private String leaveDetailCode;
 	private String leaveCategoryCode;
+	private String leaveCategorySort;
 	private String leaveDetailSort;
 	private int leaveDetailHour;
 	private int leaveDetailDay;
@@ -24,6 +25,12 @@ public class LeaveDetail {
 	}
 	public void setLeaveCategoryCode(String leaveCategoryCode) {
 		this.leaveCategoryCode = leaveCategoryCode;
+	}
+	public String getLeaveCategorySort() {
+		return leaveCategorySort;
+	}
+	public void setLeaveCategorySort(String leaveCategorySort) {
+		this.leaveCategorySort = leaveCategorySort;
 	}
 	public String getLeaveDetailSort() {
 		return leaveDetailSort;
@@ -88,12 +95,12 @@ public class LeaveDetail {
 	@Override
 	public String toString() {
 		return "LeaveDetail [leaveDetailCode=" + leaveDetailCode + ", leaveCategoryCode=" + leaveCategoryCode
-				+ ", leaveDetailSort=" + leaveDetailSort + ", leaveDetailHour=" + leaveDetailHour + ", leaveDetailDay="
-				+ leaveDetailDay + ", leaveDetailUseOrNot=" + leaveDetailUseOrNot + ", leaveDetailMinimumHour="
-				+ leaveDetailMinimumHour + ", leaveDetailMinimumDay=" + leaveDetailMinimumDay
-				+ ", leaveDetailMaximumHour=" + leaveDetailMaximumHour + ", leaveDetailMaximumDay="
-				+ leaveDetailMaximumDay + ", memberId=" + memberId + ", leaveCategoryDate=" + leaveCategoryDate + "]";
+				+ ", leaveCategorySort=" + leaveCategorySort + ", leaveDetailSort=" + leaveDetailSort
+				+ ", leaveDetailHour=" + leaveDetailHour + ", leaveDetailDay=" + leaveDetailDay
+				+ ", leaveDetailUseOrNot=" + leaveDetailUseOrNot + ", leaveDetailMinimumHour=" + leaveDetailMinimumHour
+				+ ", leaveDetailMinimumDay=" + leaveDetailMinimumDay + ", leaveDetailMaximumHour="
+				+ leaveDetailMaximumHour + ", leaveDetailMaximumDay=" + leaveDetailMaximumDay + ", memberId=" + memberId
+				+ ", leaveCategoryDate=" + leaveCategoryDate + "]";
 	}
-	
 	
 }

@@ -12,11 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ksmart31.team01.department.domain.Department;
 import ksmart31.team03.leave.domain.LeaveCategory;
+import ksmart31.team03.leave.domain.LeaveDetail;
 import ksmart31.team03.leave.domain.LeaveGrant;
 import ksmart31.team03.leave.domain.LeaveGrantAndUsed;
 import ksmart31.team03.leave.domain.LeaveHistory;
 import ksmart31.team03.leave.domain.LeaveUsed;
 import ksmart31.team03.leave.mapper.LeaveCategoryMapper;
+import ksmart31.team03.leave.mapper.LeaveDetailMapper;
 import ksmart31.team03.leave.mapper.LeaveGrantMapper;
 import ksmart31.team03.leave.mapper.LeaveHistoryMapper;
 import ksmart31.team03.leave.mapper.LeaveUsedMapper;
@@ -36,6 +38,19 @@ public class LeaveHistoryManagementService {
 	@Autowired
 	private LeaveUsedMapper leaveUsedMapper;
 	
+	@Autowired
+	private LeaveDetailMapper leaveDetailMapper;
+	
+	// 디테일 코드 별 세부 휴가 정보
+	public LeaveDetail getLeaveDetailByDetailCode(String detailCode) {
+		String leaveDetailCode = detailCode.substring(detailCode.lastIndexOf(",")+2);
+		System.out.println("LeaveHistoryManagementService.getLeaveDetailByDetailCode leaveDetailCode : "+leaveDetailCode);
+		return leaveDetailMapper.selectLeaveDetail(leaveDetailCode);
+	}
+	// 세부 휴가 조회
+	public List<LeaveDetail> getLeaveDetailList(){
+		return leaveDetailMapper.selectLeaveDetailList();
+	}
 	//조직도 departmentView.html
 	public List<LeaveHistory> getleaveHistoryByMemberIdList(String departmentName){	
 		// StringUtils.countMatches() -> departmentName중에 -가 포함되어있는 갯수를 보여준다

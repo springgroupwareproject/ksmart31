@@ -8,7 +8,9 @@ import ksmart31.team03.leave.domain.LeaveCategory;
 
 @Mapper
 public interface LeaveCategoryMapper {
-	// 카테고리 리스트 조회
+	// 휴가 종류 입력
+	public void insertLeaveCategory(LeaveCategory leaveCategory);
+	// 휴가 종류 리스트 조회
 	public List<LeaveCategory> selectLeaveCategoryList();
 	
 }
