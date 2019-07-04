@@ -78,10 +78,9 @@ $(document).ready(function(){ // ready 시작
 		
 		$("#memberEducationInstitutionStandard").change(function(){ // 체인지시 이벤트 발생
 	        if($("#memberEducationInstitutionStandard").val() == '고등학교'){ // 값이 고등학교일경우 
-	        	$("#EducationGrade").hide(); // 학점 숨김 
+	        	$("#EducationGrade").hide(1000); // 학점 숨김 
 	        }else{
-	        	$("#EducationGrade").show(); // 학점 출력
-	        	
+	        	$("#EducationGrade").show(1000); // 학점 출력
 	        } /* else 종료 */
 	    }); /* change 이벤트 종료 */
 	    
