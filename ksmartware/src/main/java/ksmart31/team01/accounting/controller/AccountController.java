@@ -24,7 +24,8 @@ public class AccountController {
 		model.addAttribute("accountList", map.get("accountList"));		
 		model.addAttribute("memberId", loginMember.getMemberId());		
 		return "accounting/accountListView";
-		
-		
+
+
+
 	}	
 }

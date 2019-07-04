@@ -28,6 +28,14 @@
 	<script>
 		$(document).ready(function(){
 			
+			
+			$('.departmentJoinMemberByMemberIdButton').click(function(){
+				console.log('departmentJoinMemberByMemberIdButton 버튼 테스트 value : '+$(this).attr('value'));	
+				let memberId = $(this).attr('value');
+				console.log('memberId 확인');	
+				location.href='/department/departmentAdminView?memberId='+$(this).attr('value');
+			});
+			
 			//getMemberPosition 리스트
 			$.ajax({
 				url : '/getMemberPositon'
@@ -144,11 +152,8 @@
 							success : function(){
 								console.log('성공')					
 								location.reload();  // 새로고침
-							},
-							error : function(error){
-								console.log(error);
-								//alert('실패 : '+error);
 							}
+							
 				});
 			});			
 		});
@@ -218,7 +223,7 @@
 				<div class="container">						  
 					<div class="card">							
 						<span class="card-body" th:each="departmentJoinMemberList:${departmentJoinMemberList}">
-							<!-- 클릭시 각 조직원 인사 정보로 넘어간다 -->
+							<!-- 클릭시 각 조직원 인사 정보로 넘어간다(예정) -->
 							<a class="departmentJoinMemberByMemberIdButton" href="#" th:value="${departmentJoinMemberList.memberId}"><span th:text="${departmentJoinMemberList.memberName}"></span></a>								
 							<span th:text="${departmentJoinMemberList.memberName}"></span>
 							<span th:text="${departmentJoinMemberList.memberLevelTitle}"></span> 
