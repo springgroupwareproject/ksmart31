@@ -2,30 +2,18 @@
 <html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
 
 <th:block layout:fragment="customHead">
-    <meta charset="UTF-8">
-    <title>Sample</title>
-    <th:block th:include="layout/customHead"></th:block>
-    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <link rel="stylesheet" href="/css/jquery-ui.min.css">
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-    <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
-    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-    <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
-
+<meta charset="UTF-8">
+<title>Sample</title>
+<th:block th:include="layout/customHead"></th:block>
+<link rel="stylesheet" th:href="@{//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css}">
+<script th:src="@{https://code.jquery.com/jquery-1.12.4.js}"></script>
+<script th:src="@{https://code.jquery.com/ui/1.12.1/jquery-ui.js}"></script>
 
     <script>
-        $(function() {
-            $('.input-group.date').datepicker({
-                calendarWeeks: false,
-                todayHighlight: true,
-                autoclose: true,
-                format: "yyyy/mm/dd",
-                language: "kr"
-            });
-        });
-    </script>
-    <script>
+    $( function() {
+        $( "#fromDate" ).datepicker();
+        $( "#toDate" ).datepicker();
+      } );
         $(document).ready(function() {
             $('#btnDelete').click(function() { // 체크박스 삭제시
                 /* 유효성 검사 */
@@ -69,9 +57,9 @@
                     $("input[type=checkbox]").prop(
                         "checked", false);
                 }
-            });
-
+            });            
         });
+    
     </script>
 </th:block>
 
@@ -106,17 +94,13 @@
                                             <option value="draftDate">기안일</option>
                                             <option value="approvedDate">최종승인일</option>
                                         </select>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-5">
-                                            <div class="input-group date">
-                                                <input type="text" class="form-control" placeholder="yyyy-mm-dd"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <input type="text" id="fromDate">
                                             </div>
-                                        </div>
-                                        ~
-                                        <div class="col-sm-5">
-                                            <div class="input-group date">
-                                                <input type="text" class="form-control" placeholder="yyyy-mm-dd"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            ~
+                                            <div class="col-sm-5">
+                                                <input type="text" id="toDate">
                                             </div>
                                         </div>
                                     </div>
@@ -207,10 +191,7 @@
 </th:block>
 
 <th:block layout:fragment="customJquery">
-    <th:block th:include="layout/customJquery"></th:block> >
-    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-
-    <script src="/plugins/datepicker/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
+    <th:block th:include="layout/customJquery"></th:block>
 
 </th:block>
 
