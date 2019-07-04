@@ -29,8 +29,6 @@
 						},
 						success : function(data){
 							console.log(data);
-							$('.leaveDetailForm')[0].reset();
-							// 리턴 값(leaveDetailList.length) 만큼 상세 휴가를 생성하는 반복문 
 							// 휴가 이름 설정
 					        $('#leaveDetailSort').attr('value', data.leaveDetailSort);
 					        // 기본 휴가 일 설정
@@ -72,8 +70,6 @@
 						},
 						success : function(data){
 							console.log(data);
-							$('.leaveDetailForm')[0].reset();
-							// 리턴 값(leaveDetailList.length) 만큼 상세 휴가를 생성하는 반복문 
 							// 휴가 정책 이름 설정
 					        $('#leavePolicyTitle').attr('value', data.leavePolicyTitle);
 					        // leavePolicyStandard 설정
@@ -127,6 +123,309 @@
 						$("#leavePolicyStartUnit").val("일").prop('checked', true);
 					}
 				});
+				// 휴가 정책 입력 - leavePolicyStandard 선택 이벤트
+				$('#addLeavePolicyStandard').change(function(){
+					let leavePolicyStandard = $("#addLeavePolicyStandard option:selected").val();
+					console.log(leavePolicyStandard);
+					if(leavePolicyStandard == "회계연도"){
+						for (var i = 2; i < 51; i++) {
+						    $("#addLeavePolicyStartPoint").append('<option value="'+i+'">'+i+'</option>');
+						}
+						$("#addLeavePolicyStartUnit").val("년").prop('checked', true);
+						$("#addLeavePolicyStartUnit").attr("disabled", true);
+					}else{
+						$("#addLeavePolicyStartUnit").attr("disabled", false);
+					}
+				});
+				// 휴가 정책 입력 - leavePolicyStartUnit 선택 이벤트
+				$('#addLeavePolicyStartUnit').change(function(){
+					$('#addLeavePolicyStartPoint').empty();
+					let leavePolicyStartUnit = $("#addLeavePolicyStartUnit option:selected").val();
+					console.log(leavePolicyStartUnit);
+					if(leavePolicyStartUnit == "년"){
+						for (var i = 2; i < 51; i++) {
+						    $("#addLeavePolicyStartPoint").append('<option value="'+i+'">'+i+'</option>');
+						}
+						$("#addLeavePolicyStartUnit").val("년").prop('checked', true);
+					}else if(leavePolicyStartUnit == "개월"){
+						for (var i = 2; i < 12; i++) {
+						    $("#addLeavePolicyStartPoint").append('<option value="'+i+'">'+i+'</option>');
+						}
+						$("#addLeavePolicyStartUnit").val("개월").prop('checked', true);
+					}else {
+						for (var i = 1; i < 32; i++) {
+						    $("#addLeavePolicyStartPoint").append('<option value="'+i+'">'+i+'</option>');
+						}
+						$("#addLeavePolicyStartUnit").val("일").prop('checked', true);
+					}
+				});
+				// 휴가 종류 입력 버튼 클릭 이벤트
+				$('#addLeaveCategory').click(function(){
+					console.log('휴가 종류 입력 확인 버튼 테스트');
+					let leaveCategorySort = $('#addleaveCategorySort').val();
+					// 휴가 사용 유무 값을 담는 변수
+					let leaveCategoryUseOrNot;
+					if($("input[name='addleaveCategoryUseOrNotCheckBox']").prop("checked")){
+						leaveCategoryUseOrNot = 'Y';
+					}else{
+						leaveCategoryUseOrNot = 'N';
+					}
+					console.log('휴가 종류 이름 : '+leaveCategorySort);
+					console.log('휴가 사용 유무 체크 : '+leaveCategoryUseOrNot);
+					if(categorySort == false){
+						$('#addleaveCategorySortCheck').text("휴가 종류 이름을 입력하세요");
+						$('#addleaveCategorySort').focus();
+					}else{
+						console.log('유효성 검사 완료');
+						// 비동기 요청
+						$.ajax({
+							url : '/leave/addLeaveCategory',
+							type : 'post',
+							data : {
+								leaveCategorySort : leaveCategorySort,
+								leaveCategoryUseOrNot : leaveCategoryUseOrNot
+							},
+							success : function(data){
+								// 성공 시 페이지 새로고침
+								location.reload();
+							},
+							error : function(error){
+								console.log(error);
+								//alert('실패 : '+error);
+							}
+						});
+					}
+				});
+				
+				// 이름에 해당하는 값의 유효성 검사하는 변수
+				let categorySort = false;
+				let detailSort = false;
+				let policyTitle = false;
+				// 휴가 일수에 해당하는 입력 값 정규식 숫자 1~3자리
+				let basicDay = /^[0-9]{1,3}$/; // 상세 휴가 기본일
+				let minimumDay = /^[0-9]{1,3}$/; // 상세 휴가 최소일
+				let maximumDay = /^[0-9]{1,3}$/; // 상세 휴가 최대일
+				let policyDay = /^[0-9]{1,3}$/; // 휴가 정책 부여일
+				let basicDayCheck = false;
+				let minimumDayCheck = false;
+				let maximumDayCheck = false;
+				let policyDayCheck = false;
+				// 휴가 종류 이름 입력 박스에 값 입력 시
+				$('#addleaveCategorySort').on('change paste keyup', function() { 
+			    	$('#addleaveCategorySortCheck').empty(); // 경고 문구 초기화
+			    	if($('#addleaveCategorySort').val() == ""){ // 공백 검사
+						$('#addleaveCategorySortCheck').text("휴가 종류 이름을 입력하세요");
+						categorySort = false;
+					}else{ // 유효성 검사 만족 시
+						categorySort = true;
+					}
+			    });
+				// 휴가 종류 수정 버튼 클릭 이벤트
+				$('.modifyLeaveCategoryButton').click(function(){
+					console.log('휴가 종류 수정 버튼 테스트');
+					$('#modifyleaveCategorySort').attr('value', $(this).attr('value'));
+				});
+				// 상세 휴가 이름 입력 박스에 값 입력 시
+				$('#addLeaveDetailSort').on('change paste keyup', function() { 
+			    	$('#addLeaveDetailSortCheck').empty(); // 경고 문구 초기화
+			    	if($('#addLeaveDetailSort').val() == ""){ // 공백 검사
+						$('#addLeaveDetailSortCheck').text("상세 휴가 이름을 입력하세요");
+						detailSort = false;
+					}else{ // 유효성 검사 만족 시
+						detailSort = true;
+					}
+			    });
+				// 상세 휴가 기본일 입력 박스에 값 입력 시
+				$('#addLeaveDetailDay').on('change paste keyup', function() { 
+			    	$('#addLeaveDetailDayCheck').empty();
+			    	if($('#addLeaveDetailDay').val() == ""){
+						$('#addLeaveDetailDayCheck').text("기본일을 입력하세요");
+						basicDayCheck = false;
+					}else if(!basicDay.test($('#addLeaveDetailDay').val())){
+						$('#addLeaveDetailDayCheck').text("올바른 형식으로 입력하세요(숫자 3자리 이내)");
+						$('#addLeaveDetailDay').focus();
+						basicDayCheck = false;
+					}else{
+						basicDayCheck = true;
+					}
+			    });
+				// 상세 휴가 최소일 입력 박스에 값 입력 시
+				$('#addLeaveDetailMinimumDay').on('change paste keyup', function() { 
+			    	$('#addLeaveDetailMinimumDayCheck').empty();
+			    	if($('#addLeaveDetailMinimumDay').val() == ""){
+						$('#addLeaveDetailMinimumDayCheck').text("최소일을 입력하세요");
+						minimumDayCheck = false;
+					}else if(!basicDay.test($('#addLeaveDetailMinimumDay').val())){
+						$('#addLeaveDetailMinimumDayCheck').text("올바른 형식으로 입력하세요(숫자 3자리 이내)");
+						$('#addLeaveDetailMinimumDay').focus();
+						minimumDayCheck = false;
+					}else{
+						minimumDayCheck = true;
+					}
+			    });
+				// 상세 휴가 최대일 입력 박스에 값 입력 시
+				$('#addLeaveDetailMaximumDay').on('change paste keyup', function() { 
+			    	$('#addLeaveDetailMaximumDayCheck').empty();
+			    	if($('#addLeaveDetailMaximumDay').val() == ""){
+						$('#addLeaveDetailMaximumDayCheck').text("최대일을 입력하세요");
+						maximumDayCheck = false;
+					}else if(!basicDay.test($('#addLeaveDetailMaximumDay').val())){
+						$('#addLeaveDetailMaximumDayCheck').text("올바른 형식으로 입력하세요(숫자 3자리 이내)");
+						$('#addLeaveDetailMaximumDay').focus();
+						maximumDayCheck = false;
+					}else{
+						maximumDayCheck = true;
+					}
+			    });
+				// 상세 휴가 입력 전송 이벤트
+				$('#addLeaveDetail').click(function(){
+					console.log('상세 휴가 입력 전송 클릭 테스트');
+					console.log($('#leaveCategoryCode').val());
+					// 비동기 요청에 필요한 값 셋팅
+					let leaveCategoryCode = $('#leaveCategoryCode').val();
+					let leaveDetailSort = $('#addLeaveDetailSort').val();
+					let leaveDetailHour = $('#addLeaveDetailHour').val();
+					let leaveDetailDay = $('#addLeaveDetailDay').val();
+					let leaveDetailUseOrNot;
+					let leaveDetailMinimumHour = $('#addLeaveDetailMinimumHour').val();
+					let leaveDetailMinimumDay = $('#addLeaveDetailMinimumDay').val();
+					let leaveDetailMaximumHour = $('#addLeaveDetailMaximumHour').val();
+					let leaveDetailMaximumDay = $('#addLeaveDetailMaximumDay').val();
+					// 체크 여부에 따른 상세 휴가 사용 여부 값 설정
+					if($("input[name='addLeaveDetailUseOrNot']").prop("checked")){
+						leaveDetailUseOrNot = 'Y';
+					}else{
+						leaveDetailUseOrNot = 'N';
+					}
+					console.log('leaveCategoryCode : '+leaveCategoryCode);
+					console.log('leaveDetailSort : '+leaveDetailSort);
+					console.log('leaveDetailHour : '+leaveDetailHour);
+					console.log('leaveDetailDay : '+leaveDetailDay);
+					console.log('leaveDetailUseOrNot : '+leaveDetailUseOrNot);
+					console.log('leaveDetailMinimumHour : '+leaveDetailMinimumHour);
+					console.log('leaveDetailMinimumDay : '+leaveDetailMinimumDay);
+					console.log('leaveDetailMaximumHour : '+leaveDetailMaximumHour);
+					console.log('leaveDetailMaximumDay : '+leaveDetailMaximumDay);
+					// 유효성 검사
+					if(detailSort == false){
+						$('#addLeaveDetailSortCheck').text("세부 휴가 이름을 입력하세요");
+						$('#addLeaveDetailSort').focus();
+					}else if(basicDayCheck == false){
+						$('#addLeaveDetailDayCheck').text("기본일을 확인하세요");
+						$('#addLeaveDetailDay').focus();
+					}else if(minimumDayCheck == false){
+						$('#addLeaveDetailMinimumDayCheck').text("최소일을 확인하세요");
+						$('#addLeaveDetailMinimumDay').focus();
+					}else if(maximumDayCheck == false){
+						$('#addLeaveDetailMaximumDayCheck').text("최대일을 확인하세요");
+						$('#addLeaveDetailMaximumDay').focus();
+					}else{
+						console.log('유효성 검사 완료');
+						// 비동기 요청
+						$.ajax({
+							url : '/leave/addLeaveDetail',
+							type : 'post',
+							data : {
+								leaveCategoryCode : leaveCategoryCode,
+								leaveDetailSort : leaveDetailSort,
+								leaveDetailHour : leaveDetailHour,
+								leaveDetailDay : leaveDetailDay,
+								leaveDetailUseOrNot : leaveDetailUseOrNot,
+								leaveDetailMinimumHour : leaveDetailMinimumHour,
+								leaveDetailMinimumDay : leaveDetailMinimumDay,
+								leaveDetailMaximumHour : leaveDetailMaximumHour,
+								leaveDetailMaximumDay : leaveDetailMaximumDay
+							},
+							success : function(data){
+								// 성공 시 페이지 새로고침
+								location.reload();
+							},
+							error : function(error){
+								console.log(error);
+								//alert('실패 : '+error);
+							}
+						});
+					}
+				});
+				// 상세 휴가 추가 버튼 클릭 이벤트
+				$('#addLeavePolicyButton').click(function(){
+					$('#addLeavePolicyStartUnit').val('년').trigger('change');
+				});
+				// 휴가 정책 이름 입력 박스에 값 입력 시
+				$('#addLeavePolicyTitle').on('change paste keyup', function() { 
+			    	$('#addLeavePolicyTitleCheck').empty(); // 경고 문구 초기화
+			    	if($('#addLeavePolicyTitle').val() == ""){ // 공백 검사
+						$('#addLeavePolicyTitleCheck').text("상세 휴가 이름을 입력하세요");
+						policyTitle = false;
+					}else{ // 유효성 검사 만족 시
+						policyTitle = true;
+					}
+			    });
+				// 휴가 정책 부여일 입력 박스에 값 입력 시
+				$('#addLeavePolicyDays').on('change paste keyup', function() { 
+			    	$('#addLeavePolicyDaysCheck').empty();
+			    	if($('#addLeavePolicyDays').val() == ""){
+						$('#addLeavePolicyDaysCheck').text("기본일을 입력하세요");
+						policyDayCheck = false;
+					}else if(!basicDay.test($('#addLeavePolicyDays').val())){
+						$('#addLeavePolicyDaysCheck').text("올바른 형식으로 입력하세요(숫자 3자리 이내)");
+						$('#addLeavePolicyDays').focus();
+						policyDayCheck = false;
+					}else{
+						policyDayCheck = true;
+					}
+			    });
+				// 상세 휴가 입력 전송 이벤트
+				$('#addLeavePolicy').click(function(){
+					console.log('휴가 정책 입력 클릭 테스트');
+					let leaveCategoryCode = $('#leaveCategoryCode').val();
+					let leavePolicyTitle = $('#addLeavePolicyTitle').val();
+					let leavePolicyStandard = $('#addLeavePolicyStandard').val();
+					let leavePolicyStartPoint = $('#addLeavePolicyStartPoint').val();
+					let leavePolicyStartUnit = $('#addLeavePolicyStartUnit').val();
+					let leavePolicyDays = $('#addLeavePolicyDays').val();
+					console.log('leaveCategoryCode : '+leaveCategoryCode);
+					console.log('leavePolicyTitle : '+leavePolicyTitle);
+					console.log('leavePolicyStandard : '+leavePolicyStandard);
+					console.log('leavePolicyStartPoint : '+leavePolicyStartPoint);
+					console.log('leavePolicyStartUnit : '+leavePolicyStartUnit);
+					console.log('leavePolicyDays : '+leavePolicyDays);
+					// 유효성 검사
+					if(policyTitle == false){
+						$('#addLeavePolicyTitleCheck').text("휴가 정책 이름을 입력하세요");
+						$('#addLeavePolicyTitle').focus();
+					}else if(policyDayCheck == false){
+						$('#addLeavePolicyDaysCheck').text("부여일을 확인하세요");
+						$('#addLeavePolicyDays').focus();
+					}else{
+						console.log('유효성 검사 완료');
+						// 비동기 요청
+						$.ajax({
+							url : '/leave/addLeavePolicy',
+							type : 'post',
+							data : {
+								leaveCategoryCode : leaveCategoryCode,
+								leavePolicyTitle : leavePolicyTitle,
+								leavePolicyStandard : leavePolicyStandard,
+								leavePolicyStartPoint : leavePolicyStartPoint,
+								leavePolicyStartUnit : leavePolicyStartUnit,
+								leavePolicyDays : leavePolicyDays
+							},
+							success : function(data){
+								// 성공 시 페이지 새로고침
+								location.reload();
+							},
+							error : function(error){
+								console.log(error);
+								//alert('실패 : '+error);
+							}
+						});
+					}
+				});
+				$('#leaveCategoryUseOrNotButton').click(function(){
+					console.log('휴가 종류 사용 여부 저장 버튼 테스트');
+				});
+				
 				// 페이지 로딩 완료 시 클릭 이벤트(임시)
 				//$('#leave_category_code_1').trigger('click');
 				// 추가 버튼 클릭 시 입력 폼 초기화
@@ -137,26 +436,62 @@
 					$('.leavePolicyForm')[0].reset();
 				});
 			});
-			</script>
+		</script>
+		<style>
+			.icon-list-wrap .icon-list-item i {
+			    float: left;
+			    text-align: center;
+			    border-radius: .1875rem;
+			    margin-right: 1rem;
+			    margin-bottom: 1.5rem;
+			    font-size: 1.5rem;
+			    -webkit-transition: all .2s ease-in-out;
+			    -o-transition: all .2s ease-in-out;
+			    -moz-transition: all .2s ease-in-out;
+			    transition: all .2s ease-in-out;
+			}
+		</style>
 	</th:block>
 	
 	<th:block layout:fragment="customBody">
+		<!-- 세부 휴가, 정책 입력 시 휴가 종류 코드를 가져가기 위한 코드 -->
+		<input type="hidden" th:value="${leaveCategoryCode}" id="leaveCategoryCode">
+		
 		<h2>인사관리 - 휴가 종류 관리</h2>	<br/>
 		<div>
 			<div class="row">
 				<div class="col-3">
-					<!-- 휴가 카테고리 네비바 -->
 					<div class="card">
-						<div class="card-header">휴가 종류</div>
+						<!-- 왼쪽 카드 제목 -->
+						<div class="card-header justify-content-between" style="padding: 10px;">
+							<div>휴가 종류</div>
+							<div class="icon-list-wrap">
+								<div class="icon-list-item">
+									<!-- 휴가 종류 추가 버튼 -->
+									<a class="btn pull-right addLeaveCategoryButton" data-toggle="modal" data-target="#addCategoryModal" style="padding: 0;">
+										<i class="ik ik-plus-square"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						<!-- 왼쪽 카드 내용 -->
 						<div class="card-body">
-							<ul class="nav flex-column">
-								<li class="nav-item" th:each="list : ${leaveCategoryList}">
-									<a class="nav-link leaveCategoryButton" href="#" th:text="${list.leaveCategorySort}" th:value="${list.leaveCategoryCode}"></a>
-								</li>	
-							</ul>
+							<div class="row layout-wrap" id="layout-wrap">
+								<div class="col-12 list-item" th:each="list : ${leaveCategoryList}" style="height:40px;">
+							        <div class="d-flex flex-grow-1 min-width-zero bgGrey">
+										<!-- 휴가 종류 리스트 -->
+										<th:block th:switch="${list.leaveCategoryUseOrNot}">
+						                	<a href="#" class="col-8 leaveCategoryButton" th:case="'Y'" th:text="${list.leaveCategorySort}" th:value="${list.leaveCategoryCode}"></a>
+						                </th:block>
+							            <div class="list-actions col-5">
+											<!-- 수정 버튼 -->
+							                <a href="layout-edit-item.html" class="modifyLeaveCategoryButton" th:value="${list.leaveCategorySort}" data-toggle="modal" data-target="#modifyCategoryModal"><i class="ik ik-edit-2"></i></a>
+							            </div>
+							        </div>
+								</div>
+							</div>
 						</div>
 					</div>
-							
 				</div>
 				<div class="col-9">
 					<!-- 휴가 카테고리 사용 유무 메뉴 -->
@@ -172,6 +507,10 @@
 							        <span>휴가 종류 사용 유무</span>
 							    </label>
 							</div>
+							<!-- 저장 버튼 -->
+							<div class="float-right">
+								<button class="btn btn-primary" id="leaveCategoryUseOrNotButton">저장</button>
+							</div>
 						</div>
 					</div>
 					<!-- 상세 휴가 정보 메뉴 -->
@@ -183,7 +522,7 @@
 							<div>수정 시 사용 휴가 종류를 선택하시면 상세 설정 팝업에서 기본 휴가일수, 최대 휴가일수, 최소 휴가일수 등을 설정하실 수 있습니다.</div><br>
 							<!-- 상세 휴가 추가 팝업-->
 							<div>
-								<button type="button" id="leaveDetailAddButton" class="btn btn-outline-primary btn-block" data-toggle="modal" data-target="#detailModal" >추가</button>
+								<button type="button" id="addLeaveDetailButton" class="btn btn-outline-primary btn-block" data-toggle="modal" data-target="#addDetailModal">추가</button>
 							</div>
 							<!-- 상세 휴가 리스트 출력 -->
 							<th:block th:if="${resultMap != null}">
@@ -210,7 +549,7 @@
 							<div>정책에 따라 휴가일수를 자동으로 부여를 할 수 있습니다.</div>
 							<br>
 							<!-- 휴가일수 부여 정책 추가 팝업-->
-							<button type="button" id="leavePolicyAddButton" class="btn btn-outline-primary btn-block" data-toggle="modal" data-target="#policyModal">추가</button>
+							<button type="button" id="addLeavePolicyButton" class="btn btn-outline-primary btn-block" data-toggle="modal" data-target="#addPolicyModal">추가</button>
 							<!-- 휴가일수 부여 정책 리스트 출력 -->
 							<th:block th:if="${resultMap != null}">
 								<div th:each="list : ${resultMap.leavePolicyList}">
@@ -336,7 +675,7 @@
 					</div>
 					<!-- Modal footer -->
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary">확인</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
 						<button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
 					</div>
 				</div>
@@ -398,7 +737,270 @@
 					</div>
 			        <!-- Modal footer -->
 			        <div class="modal-footer">
-			          <button type="button" class="btn btn-primary">확인</button>
+			          <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+			          <button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
+			        </div>
+				</div>
+			</div>
+		</div>
+		<!-- 상세 휴가 입력 팝업 -->
+		<div class="modal" id="addDetailModal">
+			<div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">
+				<div class="modal-content">
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">사용 휴가 종류 입력</h4>
+						<button type="button" class="close" data-dismiss="modal">×</button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<form id="addLeaveDetailForm">
+							<!-- 첫 번째 카드 영역 시작 - 사용 휴가 종류 이름 -->
+							<div class="card">
+								<div class="card-header"><h3>사용 휴가 종류 이름</h3></div>
+								<div class="card-body">
+									<div>사용 휴가 종류의 이름을 설정합니다.</div><br>
+									<!-- 휴가 종류 이름 -->
+									<div>
+										<input type="text" id="addLeaveDetailSort" class="form-control">
+										<span class="text-danger" id="addLeaveDetailSortCheck"></span>
+									</div>
+								</div>
+							</div>
+							<!-- 첫 번째 카드 영역 종료 - 사용 휴가 종류 이름 -->
+							<!-- 두 번째 카드 영역 시작 - 휴가 종류 사용 유무 -->
+							<div class="card">
+								<div class="card-header"><h3>휴가 종류 사용 유무</h3></div>
+								<div class="card-body">		
+									<div>휴가 종류는 휴가 이력 관리를 위하여 삭제되지 않습니다.</div><br>
+									<!-- 사용 유무 체크박스 -->
+									<div class="checkbox-fade fade-in-primary">
+									    <label>
+									        <input type="checkbox" name="addLeaveDetailUseOrNot" checked="checked">
+									        <span class="cr"><i class="cr-icon ik ik-check txt-primary"></i></span>
+									        <span>휴가 종류 사용 유무</span>
+									    </label>
+									</div>
+								</div>
+							</div>
+							<!-- 두 번째 카드 영역 종료 - 휴가 종류 사용 유무 -->	
+							<!-- 세 번째 카드 영역 시작 - 기본 휴가일수 설정 -->
+							<div class="card">
+								<div class="card-header"><h3>기본 휴가일수 설정</h3></div>
+								<div class="card-body">		
+									<div>본 휴가 종류의 기본 휴가일수를 지정할 수 있습니다.</div><br>
+									<div class="form-group row">
+										<label for="exampleInputUsername2" class="col-sm-1 col-form-label">기본</label>
+										<input type="text" id="addLeaveDetailDay" class="col-sm-1 form-control">
+										<span class="text-danger" id="addLeaveDetailDayCheck"></span>
+										<label for="exampleInputUsername2" class="col-sm-1 col-form-label">일</label>
+										<select class="form-control col-1" id="addLeaveDetailHour">
+											<option value="0">0
+											<option value="1">1
+											<option value="2">2
+											<option value="3">3
+											<option value="4">4
+											<option value="5">5
+											<option value="6">6
+											<option value="7">7
+										</select>
+										<label for="exampleInputUsername2" class="col-sm-3 col-form-label">시간으로 지정</label>
+									</div>
+								</div>
+							</div>
+							<!-- 세 번째 카드 영역 종료 - 기본 휴가일수 설정 -->	
+							<!-- 네 번째 카드 영역 시작 - 최소 휴가일수 설정 -->
+							<div class="card">
+								<div class="card-header"><h3>최소 휴가일수 설정</h3></div>
+								<div class="card-body">		
+									<div>본 휴가 종류의 신청 건당 최소로 신청 가능한 휴가일수를 지정할 수 있습니다.</div><br>
+									<div class="form-group row">
+										<label for="exampleInputUsername2" class="col-sm-1 col-form-label">최소</label>
+										<input type="text" id="addLeaveDetailMinimumDay" class="col-sm-1 form-control">
+										<span class="text-danger" id="addLeaveDetailMinimumDayCheck"></span>
+										<label for="exampleInputUsername2" class="col-sm-1 col-form-label">일</label>
+										<select class="form-control col-1" id="addLeaveDetailMinimumHour">
+											<option value="0">0
+											<option value="1">1
+											<option value="2">2
+											<option value="3">3
+											<option value="4">4
+											<option value="5">5
+											<option value="6">6
+											<option value="7">7
+										</select>
+										<label for="exampleInputUsername2" class="col-sm-3 col-form-label">시간 이상 신청 가능</label>
+									</div>
+								</div>
+							</div>
+							<!-- 네 번째 카드 영역 종료 - 최소 휴가일수 설정 -->	
+							<!-- 다섯 번째 카드 영역 시작 - 최대 휴가일수 설정 -->
+							<div class="card">
+								<div class="card-header"><h3>최대 휴가일수 설정</h3></div>
+								<div class="card-body">		
+									<div>본 휴가 종류의 신청 건당 최대로 신청 가능한 휴가일수를 지정할 수 있습니다.</div><br>
+									<div class="form-group row">
+										<label for="exampleInputUsername2" class="col-sm-1 col-form-label">최대</label>
+										<input type="text" id="addLeaveDetailMaximumDay" class="col-sm-1 form-control">
+										<span class="text-danger" id="addLeaveDetailMaximumDayCheck"></span> 
+										<label for="exampleInputUsername2" class="col-sm-1 col-form-label">일</label>
+										<select class="form-control col-1" id="addLeaveDetailMaximumHour">
+											<option value="0">0
+											<option value="1">1
+											<option value="2">2
+											<option value="3">3
+											<option value="4">4
+											<option value="5">5
+											<option value="6">6
+											<option value="7">7
+										</select> 
+										<label for="exampleInputUsername2" class="col-sm-3 col-form-label">시간 이하 신청 가능</label>
+									</div>
+								</div>
+							</div>
+							<!-- 다섯 번째 카드 영역 종료 - 최대 휴가일수 설정 -->	
+						</form>
+					</div>
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="addLeaveDetail">확인</button>
+						<button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 휴가 정책 입력 팝업 -->
+		<div class="modal" id="addPolicyModal">
+			<div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">
+				<div class="modal-content">
+					<!-- Modal Header -->
+			        <div class="modal-header">
+						<h4 class="modal-title">휴가일수 부여 정책 입력</h4>
+						<button type="button" class="close" data-dismiss="modal">×</button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<form id="addLeavePolicyForm">
+							<!-- 첫 번째 카드 영역 시작 - 휴가 정책 이름 -->
+							<div class="card">
+								<div class="card-header"><h3>1. 휴가일수 부여 정책 이름 정의</h3></div>
+								<div class="card-body">
+									<div>휴가 부여 정책의 이름을 정의합니다.</div><br>
+									<!-- 휴가 정책 이름 -->
+									<div>
+										<input type="text" id="addLeavePolicyTitle" class="form-control">
+										<span class="text-danger" id="addLeavePolicyTitleCheck"></span>
+									</div>
+								</div>
+							</div>
+							<!-- 첫 번째 카드 영역 종료 - 휴가 정책 이름 -->
+							<!-- 두 번째 카드 영역 시작 - 휴가 정책 기준 -->
+							<div class="card">
+								<div class="card-header"><h3>2. 휴가일수 부여 정책 기준 정의</h3></div>
+								<div class="card-body">
+									<div>휴가일수 부여가 실행될 기준을 정의합니다.</div><br>
+									<div class="form-group row">
+										<select class="form-control col-2" id="addLeavePolicyStandard">
+											<option value="입사일">입사일
+											<option value="회계연도">회계연도
+										</select>
+										<label for="exampleInputUsername2" class="col-2 col-form-label">로부터</label>
+										<select class="form-control col-1" id="addLeavePolicyStartPoint">
+											<option value="">선택
+										</select> 
+										<select class="form-control col-1" id="addLeavePolicyStartUnit">
+											<option value="년">년
+											<option value="개월">개월
+											<option value="일">일
+										</select>
+										<label for="exampleInputUsername2" class="col-sm-5 col-form-label">이 시작되는 날, 해당 임직원에게</label>
+									</div>
+									<br>
+									<div class="form-group row">
+										<label for="exampleInputUsername2" class="col-sm-2 col-form-label">연차 유급 휴가</label>
+										<input type="text" id="addLeavePolicyDays" class="col-sm-1 form-control">
+										<span class="text-danger" id="addLeavePolicyDaysCheck"></span> 
+										<label for="exampleInputUsername2" class="col-sm-2 col-form-label">일 부여</label> 
+									</div>
+								</div>
+							</div>
+							<!-- 두 번째 카드 영역 종료 - 휴가 정책 기준 -->
+						</form>
+					</div>
+			        <!-- Modal footer -->
+			        <div class="modal-footer">
+			          <button type="button" class="btn btn-primary" id="addLeavePolicy">확인</button>
+			          <button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
+			        </div>
+				</div>
+			</div>
+		</div>
+		<!-- 휴가 종류 입력 팝업 -->
+		<div class="modal" id="addCategoryModal">
+			<div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">
+				<div class="modal-content">
+					<!-- Modal Header -->
+			        <div class="modal-header">
+						<h4 class="modal-title">휴가 종류 설정</h4>
+						<button type="button" class="close" data-dismiss="modal">×</button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<div class="card">
+							<div class="card-header"><h3>휴가 종류 추가</h3></div>
+							<div class="card-body">
+								<div>휴가 종류의 이름을 정의합니다.</div><br>
+								<!-- 휴가 종류 이름 -->
+								<div>
+									<input type="text" id="addleaveCategorySort" class="form-control">
+									<span class="text-danger" id="addleaveCategorySortCheck"></span>
+								</div>
+								<br>
+								<!-- 휴가 종류 사용 유무 -->
+								<div class="checkbox-fade fade-in-primary">
+								    <label>
+								        <input type="checkbox" name="addleaveCategoryUseOrNotCheckBox" checked="checked">
+								        <span class="cr"><i class="cr-icon ik ik-check txt-primary"></i></span>
+								        <span>휴가 종류 사용 유무</span>
+								    </label>
+								</div>
+							</div>
+						</div>
+					</div>
+			        <!-- Modal footer -->
+			        <div class="modal-footer">
+			          <button type="button" class="btn btn-primary" id="addLeaveCategory">확인</button>
+			          <button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
+			        </div>
+				</div>
+			</div>
+		</div>
+		<!-- 휴가 종류 수정 팝업 -->
+		<div class="modal" id="modifyCategoryModal">
+			<div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">
+				<div class="modal-content">
+					<!-- Modal Header -->
+			        <div class="modal-header">
+						<h4 class="modal-title">휴가 종류 설정</h4>
+						<button type="button" class="close" data-dismiss="modal">×</button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<div class="card">
+							<div class="card-header"><h3>휴가 종류 수정</h3></div>
+							<div class="card-body">
+								<div>휴가 종류의 이름을 정의합니다.</div><br>
+								<!-- 휴가 종류 이름 -->
+								<div>
+									<input type="text" id="modifyleaveCategorySort" class="form-control">
+									<span class="text-danger" id="addleaveCategorySortCheck"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+			        <!-- Modal footer -->
+			        <div class="modal-footer">
+			          <button type="button" class="btn btn-primary" id="modifyLeaveCategory" data-dismiss="modal">확인</button>
 			          <button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
 			        </div>
 				</div>
