@@ -4,95 +4,147 @@
 	<th:block layout:fragment="customHead">
 		<meta charset="UTF-8">
 		<title>프로젝트 지출결의서</title>
-		<style>
-			p    {color: powderblue;}
-		</style>
 		<th:block th:include="layout/customHead"></th:block>
 	</th:block>
 	
 	<th:block layout:fragment="customBody">
-		<body>
-			<div class="container">
-				<h1>프로젝트 지출결의서</h1>
-				<form>
-					<div>
-						<table style="width:100%">
-							<tr>
-								<td>문서양식명</td>
-								<td>
-									<a th:value="달러">
-										<th:block th:text="달러"></th:block>
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>부서</td>
-								<td>
-									<a th:value="달러">
-										<th:block th:text="달러"></th:block>
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>직위/직책</td>
-								<td>
-									<a th:value="달러">
-										<th:block th:text="달러"></th:block>
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>신청자명</td>
-								<td>
-									<a th:value="달러">
-										<th:block th:text="달러"></th:block>
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>기안일</td>
-								<td>
-									<a th:value="달러">
-										<th:block th:text="달러"></th:block>
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>프로젝트 명</td>
-								<td>
-									<select name="job">
-									    <option value="">직업선택</option>
-									    <option value="학생">학생</option>
-									    <option value="회사원">회사원</option>
-									    <option value="기타">기타</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td>지출 항목</td>
-								<td>
-									<select name="job">
-									    <option value="">직업선택</option>
-									    <option value="학생">학생</option>
-									    <option value="회사원">회사원</option>
-									    <option value="기타">기타</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td>지출금액</td>
-								<td>
-									<a th:value="달러">
-										<th:block th:text="달러"></th:block>
-									</a>
-								</td>
-							</tr>
-						</table>
-						<p>지출 증빙을 위한 영수증 등은 스캔이나 사진 촬영 후 첨부파일로 첨부하여 주시기 바랍니다.</p>
-					</div>
-				</form>
+		<div class="row">
+			<!-- 왼쪽 칸 시작 -->
+			<div class="col-md-8">
+				<div class="card" style="min-height: 484px;">
+			        <div class="card-header"><h3>프로젝트 지출결의서</h3></div>
+		            <div class="card-body">
+		                <form class="forms-sample">
+		                	<div class="form-group row">
+		                        <label for="departmentName" class="col-sm-3 col-form-label">부서</label>
+		                        <div class="col-sm-9">
+		                            <input type="text" class="form-control" id="departmentName">
+		                        </div>
+		                    </div>
+		                    <div class="form-group row">
+		                        <label for="memberPositionName" class="col-sm-3 col-form-label">직위/직책</label>
+		                        <div class="col-sm-9">
+		                            <input type="text" class="form-control" id="memberPositionName">
+		                        </div>
+		                    </div>
+		                    <div class="form-group row">
+		                        <label for="memberName" class="col-sm-3 col-form-label">신청자명</label>
+		                        <div class="col-sm-9">
+		                            <input type="text" class="form-control" id="memberName">
+		                        </div>
+		                    </div>
+		                    <div class="form-group row">
+		                        <label for="draftDocumentDate" class="col-sm-3 col-form-label">기안일</label>
+		                        <div class="col-sm-9">
+		                            <input type="text" class="form-control" id="draftDocumentDate">
+		                        </div>
+		                    </div>
+		                    <div class="form-group row">
+		                        <label for="exampleInputMobile" class="col-sm-3 col-form-label">프로젝트명</label>
+		                        <div class="col-sm-6">
+	                            	<select class="form-control" id="exampleSelectGender">
+	                                     <option>선택하세요</option>
+	                                 </select>
+		                        </div>
+		                    </div>
+		                    <div class="form-group row">
+		                        <label for="exampleInputMobile" class="col-sm-3 col-form-label">지출항목</label>
+		                        <div class="col-sm-6">
+	                            	<select class="form-control" id="exampleSelectGender">
+	                                     <option>선택하세요</option>
+	                                 </select>
+		                        </div>
+		                    </div>
+		                    <div class="form-group row">
+		                        <label for="draftDocumentDate" class="col-sm-3 col-form-label">지출금액</label>
+		                        <div class="col-sm-9">
+		                            <input type="text" class="form-control" id="draftDocumentDate">
+		                        </div>
+		                    </div>
+		                    <div class="form-group row">
+		                    	<div class="d-inline-block">
+		                     		<p class="text-muted mb-0">&nbsp &nbsp 지출 증빙을 위한 영수증 등은 스캔이나 사진 촬영 후 첨부파일로 첨부하여 주시기 바랍니다.</p>
+		                    	</div>
+		                    </div>
+				        </form>
+				    </div>
+				</div>
 			</div>
-		</body>
+			<!-- 왼쪽 칸 끝 -->
+			
+			<!-- 오른쪽 칸 시작-->
+			<div class="col-4">
+				<div class="card" style="min-height: 484px;">
+<!-- 					<div class="card-header">
+					<label class="btn btn-primary">기안하기</label>
+					<label class="btn btn-outline-primary">임시저장</label>
+						<button type="submit" class="btn btn-primary mr-2">기안</button>
+				        <button class="btn btn-light">임시저장</button>
+					</div> -->
+					<div class="card-body">
+						<ul class="nav nav-tabs">
+						  <li class="nav-item">
+						    <a class="nav-link active" id="approvalProcessLine" data-toggle="tab" href="#approvalProcess">결재선 설정</a>
+						  </li>
+						  <li class="nav-item">
+						    <a class="nav-link" id="opinion" data-toggle="tab" href="#opinionList">의견</a>
+						  </li>
+						  <li class="nav-item">
+						    <a class="nav-link" id="file" data-toggle="tab" href="#fileList">첨부파일</a>
+						  </li>
+						</ul>
+						<br>
+						<div class="tab-content">
+							<!-- 결재선 설정 탭 -->
+							<div class="tab-pane fade show active" id="approvalProcess">
+							     <form class="sample-form">
+							          <div class="form-group">
+							               <select class="form-control select2" id="approvalProcessList">
+										   </select>
+							          </div>
+							     </form>
+							</div>
+							<!-- 의견 탭 -->
+							<div class="tab-pane fade" id="opinionList">
+								<div class="card-block">
+									<div class="table-responsive">
+										<table style="width:100%">
+											<tbody id="approvalOpinionList">
+									        </tbody>
+										</table>
+									</div>
+								</div>
+						  		<div class="right-icon-control m-t-15">
+                                    <div class="input-group input-group-button">
+                                        <input type="text" class="form-control" placeholder="의견을 등록해주세요.">
+                                        <div class="input-group-append">
+                                            <button id="insertOpinion" class="btn btn-primary" type="button"><i class="ik ik-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+							<!-- 첨부파일 탭 -->
+							<div class="tab-pane fade" id="fileList">
+								<div class="card-block">
+									<div class="table-responsive">
+										<table style="width:100%">
+											<tbody id="approvalFileList">
+									        </tbody>
+										</table>
+										<button type="button" class="btn btn-outline-secondary btn-rounded"><i class="ik ik-share"></i>Upload</button>
+									</div>
+								</div>
+							</div>
+						</div>
+		            </div>
+		            <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">기안하기</button>
+                        <button type="button" class="btn btn-secondary">임시저장</button>
+                    </div>
+				</div>
+			</div>
+			<!-- 오른쪽 칸 끝-->
+		</div>
 	</th:block>
 	
 	<th:block layout:fragment="customJquery">
