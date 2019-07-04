@@ -6,17 +6,14 @@ public class Member {
 	private String memberId;
 	private String memberName;
 	private String memberEmployeeCode;
-	private String departmentName;				   
-	private String departmentCategoryCode;
-	private String departmentCategoryName;
-	private String departmentDivisionCode;
-	private String departmentDivisionName;
-	private String departmentSectionCode;
+	private String departmentName;		   	
+	private String departmentCategoryName;	
+	private String departmentDivisionName;	
 	private String departmentSectionName;
 	private String memberPositionName;
 	private String memberLevelTitle;
-	private String memberJoinDay;
-	private String memberStatus;	
+	private String memberStatus;
+	private String memberJoinDay;		
 	private String memberWork;
 	private String memberFormOfEmployment;
 	private String memberPhone;
@@ -27,8 +24,6 @@ public class Member {
 	private String memberPw;
 	private String memberRegistantDate;
 	private String memberGender;
-	
-	
 	public String getMemberCode() {
 		return memberCode;
 	}
@@ -59,35 +54,17 @@ public class Member {
 	public void setDepartmentName(String departmentName) {
 		this.departmentName = departmentName;
 	}
-	public String getDepartmentCategoryCode() {
-		return departmentCategoryCode;
-	}
-	public void setDepartmentCategoryCode(String departmentCategoryCode) {
-		this.departmentCategoryCode = departmentCategoryCode;
-	}
 	public String getDepartmentCategoryName() {
 		return departmentCategoryName;
 	}
 	public void setDepartmentCategoryName(String departmentCategoryName) {
 		this.departmentCategoryName = departmentCategoryName;
 	}
-	public String getDepartmentDivisionCode() {
-		return departmentDivisionCode;
-	}
-	public void setDepartmentDivisionCode(String departmentDivisionCode) {
-		this.departmentDivisionCode = departmentDivisionCode;
-	}
 	public String getDepartmentDivisionName() {
 		return departmentDivisionName;
 	}
 	public void setDepartmentDivisionName(String departmentDivisionName) {
 		this.departmentDivisionName = departmentDivisionName;
-	}
-	public String getDepartmentSectionCode() {
-		return departmentSectionCode;
-	}
-	public void setDepartmentSectionCode(String departmentSectionCode) {
-		this.departmentSectionCode = departmentSectionCode;
 	}
 	public String getDepartmentSectionName() {
 		return departmentSectionName;
@@ -107,17 +84,17 @@ public class Member {
 	public void setMemberLevelTitle(String memberLevelTitle) {
 		this.memberLevelTitle = memberLevelTitle;
 	}
-	public String getMemberJoinDay() {
-		return memberJoinDay;
-	}
-	public void setMemberJoinDay(String memberJoinDay) {
-		this.memberJoinDay = memberJoinDay;
-	}
 	public String getMemberStatus() {
 		return memberStatus;
 	}
 	public void setMemberStatus(String memberStatus) {
 		this.memberStatus = memberStatus;
+	}
+	public String getMemberJoinDay() {
+		return memberJoinDay;
+	}
+	public void setMemberJoinDay(String memberJoinDay) {
+		this.memberJoinDay = memberJoinDay;
 	}
 	public String getMemberWork() {
 		return memberWork;
@@ -174,29 +151,24 @@ public class Member {
 		this.memberRegistantDate = memberRegistantDate;
 	}
 	public String getMemberGender() {
-		return memberCode;
+		return memberGender;
 	}
 	public void setMemberGender(String memberGender) {
 		this.memberGender = memberGender;
 	}
-	
 	@Override
 	public String toString() {
 		return "Member [memberCode=" + memberCode + ", memberId=" + memberId + ", memberName=" + memberName
 				+ ", memberEmployeeCode=" + memberEmployeeCode + ", departmentName=" + departmentName
-				+ ", departmentCategoryCode=" + departmentCategoryCode + ", departmentCategoryName="
-				+ departmentCategoryName + ", departmentDivisionCode=" + departmentDivisionCode
-				+ ", departmentDivisionName=" + departmentDivisionName + ", departmentSectionCode="
-				+ departmentSectionCode + ", departmentSectionName=" + departmentSectionName + ", memberPositionName="
-				+ memberPositionName + ", memberLevelTitle=" + memberLevelTitle + ", memberJoinDay=" + memberJoinDay
-				+ ", memberStatus=" + memberStatus + ", memberWork=" + memberWork + ", memberFormOfEmployment="
+				+ ", departmentCategoryName=" + departmentCategoryName + ", departmentDivisionName="
+				+ departmentDivisionName + ", departmentSectionName=" + departmentSectionName + ", memberPositionName="
+				+ memberPositionName + ", memberLevelTitle=" + memberLevelTitle + ", memberStatus=" + memberStatus
+				+ ", memberJoinDay=" + memberJoinDay + ", memberWork=" + memberWork + ", memberFormOfEmployment="
 				+ memberFormOfEmployment + ", memberPhone=" + memberPhone + ", memberMobile=" + memberMobile
 				+ ", memberAddress=" + memberAddress + ", memberBirth=" + memberBirth + ", memberDate=" + memberDate
 				+ ", memberPw=" + memberPw + ", memberRegistantDate=" + memberRegistantDate + ", memberGender="
 				+ memberGender + "]";
 	}
-	
-	
-	
+		
 	
 }
