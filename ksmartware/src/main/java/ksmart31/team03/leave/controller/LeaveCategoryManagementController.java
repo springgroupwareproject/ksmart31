@@ -21,6 +21,7 @@ public class LeaveCategoryManagementController {
 	@Autowired
 	private LeaveCategoryManagementService leaveCategoryManagementService;
 	
+	// 휴가 종류, 세부 휴가, 휴가 정책 리스트
 	@GetMapping("/leave/leaveCategoryManagement")
 	public String getleaveCategoryManagement(HttpSession session, Model model, @RequestParam(required = false) String leaveCategoryCode) {
 		Member loginMember = (Member) session.getAttribute("loginMember");
@@ -28,16 +29,19 @@ public class LeaveCategoryManagementController {
 		if(loginMember == null) {
 			return "redirect:"+"/login";
 		}else if(loginMember.getMemberLevelTitle().equals("슈퍼관리자")) {
+			// 휴가 종류 리스트
 			List<LeaveCategory> categoryList = leaveCategoryManagementService.getLeaveCategoryList();
 			System.out.println("LeaveCategoryManagementController.getleaveCategoryManagement [GET] categoryList : "+categoryList);
-			model.addAttribute("leaveCategoryList", categoryList);
+			model.addAttribute("leaveCategoryList", categoryList);	// 휴가 종류 리스트
 			
 			System.out.println("LeaveCategoryManagementController.getleaveCategoryManagement [GET] leaveCategoryCode : "+leaveCategoryCode);
 			Map<String, Object> map = new HashMap<String, Object>();
 			if(leaveCategoryCode != "") {
+				// 세부 휴가, 휴가 정책 리스트
 				map =  leaveCategoryManagementService.getLeaveDetailAndPolicyList(leaveCategoryCode);
 			}
-			model.addAttribute("resultMap", map);
+			model.addAttribute("resultMap", map);	// 세부 휴가, 휴가 정책 리스트
+			model.addAttribute("leaveCategoryCode", leaveCategoryCode);
 			System.out.println("LeaveCategoryManagementController.getleaveCategoryManagement [GET] model : "+model);
 			return "leave/leaveCategoryManagement";
 		}else {
