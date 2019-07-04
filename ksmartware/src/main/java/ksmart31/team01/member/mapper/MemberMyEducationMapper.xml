@@ -25,12 +25,12 @@
 			member_files_save_name
 		FROM 
 			member_education me
-		LEFT JOIN
+		INNER JOIN
 			member_files mf
 		ON 
 			me.member_file_code = mf.member_files_code
 		WHERE
-			me.member_id = #{memberId} 
+			me.member_id = #{memberId}
 	</select>
 	
 

@@ -28,7 +28,7 @@
 			member_files_save_name	
 		FROM 
 			member_license ml
-		LEFT JOIN
+		INNER JOIN
 			member_files mf
 		ON 
 			ml.member_file_code = mf.member_files_code

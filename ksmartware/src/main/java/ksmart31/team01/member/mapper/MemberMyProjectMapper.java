@@ -1,6 +1,7 @@
 package ksmart31.team01.member.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,6 +13,6 @@ public interface MemberMyProjectMapper {
 	//19-06-30리스트로 리턴해야됨
 	public String memberFilesCode(String memberId);
 	
-	public List<MemberProjectMemberFiles> myProject(String memberId);
+	public List<MemberProjectMemberFiles> myProject(Map<Object, String> map);
 	
 }

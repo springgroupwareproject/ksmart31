@@ -4,17 +4,17 @@ public class MemberEducation {
 
 	private String memberEducationCode;
 	private String memberId;
-	private String memberEducationInstitutionStandard; // 교육기관 구분
-	private String memberEducationInstitution; // 학교명
-	private String memberEducationStartDay; // 재학기간 시작일
-	private String memberEducationEndDay;	// 재학기간 종료일
-	private String memberEducationNow;	// 재학여부
-	private String memberEducationDegree;	// 학위
-	private String memberEducationMajor;	// 전공
-	private int memberEducationGrade;	// 학점
-	private int memberEducationTotalScore;	// 총점
-	private String memberEducationDesc;	// 설명
-	private String memberEducationDate; // 등록일
+	private String memberEducationInstitutionStandard;
+	private String memberEducationInstitution;
+	private String memberEducationStartDay;
+	private String memberEducationEndDay;
+	private String memberEducationNow;
+	private String memberEducationDegree;
+	private String memberEducationMajor;
+	private int memberEducationGrade;
+	private int memberEducationTotalScore;
+	private String memberEducationDesc;
+	private String memberEducationDate;
 	private String memberEmployeeCode;
 	private String memberName;
 	private String departmentName;

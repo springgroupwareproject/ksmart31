@@ -9,12 +9,6 @@ import ksmart31.team01.member.domain.MemberAcademy;
 @Mapper
 public interface MemberMyAcademyMapper {
 
-	public List<MemberAcademy> myAcademy(String memberId); // 교육 이력 정보 출력
-	
-	
-	public int insertMyacademy(MemberAcademy memberAcademy);  // 교육 이력 정보 추가
-	
-	
-	
+	public List<MemberAcademy> myAcademy(String memberId);
 	
 }

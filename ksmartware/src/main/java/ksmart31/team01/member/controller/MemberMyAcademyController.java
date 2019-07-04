@@ -23,14 +23,17 @@ public class MemberMyAcademyController {
 		System.out.println("controller 교육 이력 정보 실행");
 		
 		Member member = (Member) session.getAttribute("loginMember"); 
-		
+		if(member.getMemberId() == null) { // 미로그인시 세션없으므로  로그인페이지 이동
+			System.out.println("아이디 확인불가");
+		  	return "redirect:"+"/login"; 
+		}
 		System.out.println(member.getMemberName()+"님 확인");
 		String memberId = member.getMemberId();
 		
-		List<MemberAcademy> myAcademy = memberAcademyService.myAcatemy(memberId);
+		List<MemberAcademy> myAcatemy = memberAcademyService.myAcatemy(memberId);
 		
-		System.out.println("MemberMyAcademyController myAcatemy : " + myAcademy);
-		model.addAttribute("myAcademy", myAcademy);
+		System.out.println("MemberMyAcademyController myAcatemy : " + myAcatemy);
+		model.addAttribute("myAcatemy", myAcatemy);
 		
 		return "member/memberMyProfile/myAcademy";
 	}

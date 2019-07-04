@@ -11,5 +11,4 @@ public interface MemberMyAwardsMapper {
 
 	public List<MemberAwards> myAwards(String memberId);
 	
-	public int insertMyAwards(MemberAwards memberAwards);
 }
