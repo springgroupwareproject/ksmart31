@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ksmart31.team01.department.domain.DepartmentJoinMember;
 import ksmart31.team03.leave.domain.LeaveCategory;
 import ksmart31.team03.leave.domain.LeaveDetail;
 import ksmart31.team03.leave.domain.LeaveGrant;
@@ -22,6 +23,11 @@ public class LeaveHistoryRestController {
 	@Autowired
 	private LeaveHistoryManagementService leaveHistoryManagementService;
 	
+	// 특정 부서에 해당하는 조직원 정보 조회
+	@GetMapping("/leave/departmentJoinMember")
+	public List<DepartmentJoinMember> getDepartmentJoinMember(String departmentName){
+		return leaveHistoryManagementService.getDepartmentJoinMember(departmentName);
+	}
 	// 디테일 코드 별 세부 휴가 정보
 	@GetMapping("/leave/leaveDetailByDetailCode")
 	public LeaveDetail getLeaveDetailByDetailCode(String detailCode) {

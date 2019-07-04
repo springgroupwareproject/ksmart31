@@ -5,13 +5,12 @@
 	<meta charset="UTF-8">
 	<title>leaveHistoryManagement</title>
 	<th:block th:include="layout/customHead"></th:block>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">	
 	<script>
 		$(document).ready(function(){
 			// 상세 휴가 내역에서 비동기 요청 시 필요한 값이기 때문에 전역변수로 설정 
 			let memberId;
 			let leaveCategorySort = '';
-			
 			// 조직도 버튼 클릭 이벤트
 			$('.departmentNameButton').click(function(){
 				console.log('조직도 버튼 테스트 value : '+$(this).attr('value'));
@@ -274,6 +273,35 @@
 					});
 				}
 			});
+			$('.addDepartmentNameButton').click(function(){
+				console.log('모달 조직도 버튼 테스트 value : '+$(this).attr('value'));
+				// 조직원 정보 초기화
+				$('#member').empty();
+				// departmentName 별로 조직원을 조회하기 위해 이름 값을 담는 변수  
+				let departmentName = $(this).attr('value');
+				// 비동기 요청 성공 시 리턴 값을 #member 위치에 생성할 내용을 담을 변수
+				let contents = '';
+				$.ajax({
+					url : '/leave/departmentJoinMember',
+					type : 'get',
+					data : {
+						departmentName : departmentName
+					},
+					success : function(data){
+						console.log(data);
+						$(data).each(function(i, item){
+							contents += '<div class="input-group-text">';
+							contents += '<label for="'+item.memberId+'"><input type="checkbox" id="'+item.memberId+'"> '+item.memberName+'('+item.memberId+')</label>';
+							contents += '</div>';
+							$('#member').append(contents);
+							contents = '';
+						});
+					},	
+					error : function(error){
+						console.log(error);
+					}
+				});
+			});
 			$('#categoryList').val('').trigger('change');
 			$('#grantAndUsed').val('부여').trigger('change');
 		});
@@ -477,8 +505,10 @@
 						</div>
 						<!-- 기간 - 부여 -->
 						<div class="input-group" id="부여" hidden="hidden">
+							
 							<label for="exampleInputUsername2" class="col-2 col-form-label">부여일</label>
 							<input type="text" class="form-control col-2">
+							
 							<div class="col-1"></div>
 							<input type="text" class="form-control col-1" value="1">
 							<label for="exampleInputUsername2" class="col-1 col-form-label">일</label>
@@ -526,12 +556,16 @@
 					<div class="card-header">2. 휴가 부여 및 차감 대상자 설정</div>
 					<div class="card-body">
 						<div>휴가일수 부여 및 차감의 대상자를 설정합니다.</div><br>					
-						<div class="col-6">
-							<ul class="nav flex-column">
-								<li class="nav-item" th:each="recursiveList: ${recursiveList}">
-									<a class="nav-link departmentNameButton" href="#" th:text="${recursiveList.departmentName}" th:value="${recursiveList.departmentName}"></a>
-								</li>	
-							</ul>
+						<div class="input-group">
+							<div class="col-4">
+								<ul class="nav flex-column">
+									<li class="nav-item" th:each="recursiveList: ${recursiveList}">
+										<a class="nav-link addDepartmentNameButton" href="#" th:text="${recursiveList.departmentName}" th:value="${recursiveList.departmentName}"></a>
+									</li>
+								</ul>
+							</div>
+							<div class="col-8" id="member">
+							</div>
 						</div>
 					</div>
 				</div>
@@ -544,6 +578,7 @@
 		</div>
 	</div>
 </div>
+
 </th:block>
 
 <th:block layout:fragment="customJquery">
