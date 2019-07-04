@@ -25,7 +25,8 @@ public class AccountController {
 		model.addAttribute("memberId", loginMember.getMemberId());		
 		return "accounting/accountListView";
 
-
+		
+		//수정
 
 	}	
 }
