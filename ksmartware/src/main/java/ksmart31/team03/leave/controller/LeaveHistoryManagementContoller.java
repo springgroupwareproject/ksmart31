@@ -29,23 +29,19 @@ public class LeaveHistoryManagementContoller {
 			return "redirect:"+"/login";
 		}else {
 			// 조직도 & 특정 부서의 조직원
-<<<<<<< HEAD
+
 			List<Department> recursiveList = leaveHistoryManagementService.getDepartmentList();
 			System.out.println("LeaveHistoryManagementContoller.getleaveHistoryManagement [GET] recursiveList : "+recursiveList);
-=======
+
 			Map<String,Object> returnMap = leaveHistoryManagementService.getDepartmentList(departmentName);
 			System.out.println("LeaveHistoryManagementContoller.getleaveHistoryManagement [GET] returnMap : "+returnMap);
->>>>>>> branch 'JINHO' of https://github.com/springgroupwareproject/ksmart31.git
 			// 휴가 카테고리 리스트 조회
 			List<LeaveCategory> leaveCategoryList = leaveHistoryManagementService.getLeaveCategoryList();
 			System.out.println("LeaveHistoryManagementContoller.getleaveHistoryManagement [GET] leaveCategoryList : "+leaveCategoryList);
 			
-<<<<<<< HEAD
 			model.addAttribute("recursiveList", recursiveList);
-=======
 			model.addAttribute("recursiveList", returnMap.get("recursiveList"));
 			model.addAttribute("departmentJoinMemberList", returnMap.get("departmentJoinMemberList"));
->>>>>>> branch 'JINHO' of https://github.com/springgroupwareproject/ksmart31.git
 			model.addAttribute("leaveCategoryList", leaveCategoryList);
 			return "leave/leaveHistoryManagement";
 		}

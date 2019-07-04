@@ -108,12 +108,11 @@ public class LeaveHistoryManagementService {
 		}
 		return leaveHistoryByMemberList;
 	}	
-<<<<<<< HEAD
 	// 조직도 조회
 	public List<Department> getDepartmentList(){
 		//재귀쿼리 사용한 조직도 조회
 		return leaveHistoryMapper.selectDepartmentList();
-=======
+	}
 	//조직도 departmentView.html
 	public Map<String, Object> getDepartmentList(String departmentName){
 		//재귀쿼리 사용한 departmentName 조직도 조회 리스트
@@ -140,7 +139,6 @@ public class LeaveHistoryManagementService {
 		returnMap.put("recursiveList", recursiveList);		
 		returnMap.put("departmentJoinMemberList", departmentJoinMemberList);		
 		return returnMap;
->>>>>>> branch 'JINHO' of https://github.com/springgroupwareproject/ksmart31.git
 	}	
 	// 카테고리 리스트 조회
 	public List<LeaveCategory> getLeaveCategoryList(){
