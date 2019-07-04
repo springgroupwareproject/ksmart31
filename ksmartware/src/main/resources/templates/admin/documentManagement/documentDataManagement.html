@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main">
+
+<th:block layout:fragment="customHead">
+	<meta charset="UTF-8">
+	<title>documentDataManagement</title>
+	<th:block th:include="layout/customHead"></th:block>
+</th:block>
+
+<th:block layout:fragment="customBody">
+	<h1>문서통합관리</h1>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-header">
+					<h3>문서양식별 세부 데이터관리</h3>
+				</div>
+				<div class="card-body">
+					<table id="data_table" class="table">
+						<thead>
+
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<div class="col-md-3 icon-list-item">
+										<i class="ik ik-file-text"></i>
+									</div>
+								</td>
+								<td><a href="#">구매요청서</a></td>
+							</tr>
+							<tr>
+								<td>
+									<div class="col-md-3 icon-list-item">
+										<i class="ik ik-file-text"></i>
+									</div>
+								</td>
+								<td><a href="#">지출결의서</a></td>
+							</tr>
+							<tr>
+								<td>
+									<div class="col-md-3 icon-list-item">
+										<i class="ik ik-file-text"></i>
+									</div>
+								</td>
+								<td><a href="#">휴가신청서</a></td>
+							</tr>
+							<tr>
+								<td>
+									<div class="col-md-3 icon-list-item">
+										<i class="ik ik-file-text"></i>
+									</div>
+								</td>
+								<td><a href="#">프로젝트 업무보고</a></td>
+							</tr>
+							<tr>
+								<td>
+									<div class="col-md-3 icon-list-item">
+										<i class="ik ik-file-text"></i>
+									</div>
+								</td>
+								<td><a href="#">프로젝트 지출결의서</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="card">
+				<div class="card-header">
+					<h3>문서 결재 데이터</h3>
+				</div>
+				<div class="card-body">
+					<table id="data_table" class="table">
+						<thead>
+							<tr>
+								<th>문서제목</th>
+								<th>부서</th>
+								<th>직위/직책</th>
+								<th>신청자명</th>
+								<th>사번</th>
+								<th>기안일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>휴가신청서</td>
+								<td>정보사령부</td>
+								<td>대장</td>
+								<td>김**</td>
+								<td>351351351</td>
+								<td>2019-05-05</td>
+							</tr>
+							<tr>
+								<td>휴가신청서</td>
+								<td>제3함대사</td>
+								<td>중장</td>
+								<td>김**</td>
+								<td>357357357</td>
+								<td>2018-05-15</td>
+							</tr>
+							<tr>
+								<td>휴가신청서</td>
+								<td>해군사관학교</td>
+								<td>중장</td>
+								<td>최**</td>
+								<td>157157157</td>
+								<td>2017-05-22</td>
+							</tr>
+							<tr>
+								<td>휴가신청서</td>
+								<td>제주기지방어사령부</td>
+								<td>대령</td>
+								<td>조**</td>
+								<td>15415411</td>
+								<td>2019-05-23</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+<th:block layout:fragment="customJquery">
+	<th:block th:include="layout/customJquery"></th:block>
+</th:block>
+
+</html>
