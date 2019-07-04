@@ -28,7 +28,7 @@
 	<script>
 		$(document).ready(function(){
 			
-			//getDepartmentCategoryName 리스트
+			//getMemberPosition 리스트
 			$.ajax({
 				url : '/getMemberPositon'
 				,type : 'get'
@@ -89,7 +89,7 @@
 			});
 		
 			
-			
+			// 조직도 부서명 클릭
 			$('.departmentNameButton').click(function(){
 				console.log('조직도 버튼 테스트 value : '+$(this).attr('value'));
 				// departmentName 별로 부서명을 조회하기 위해 이름 값을 담는 변수  
@@ -97,6 +97,7 @@
 				console.log('departmentName 확인');	
 				location.href='/department/departmentAdminView?departmentName='+$(this).attr('value');
 			});			
+			// member 추가
 			$('#saveButton').click(function(){
 				console.log('조직원 insert 입력 ');
 				
@@ -164,9 +165,11 @@
 				<div>조직도</div>						
 				<div class="icon-list-wrap">
 					<div class="icon-list-item">													
+						<!-- 부서명 추가 -->
 						<a class="btn pull-right" href="#" style="width: 30px; padding: 0;">
 							<i class="ik ik-plus-square"></i>
 						</a>																		
+						<!-- 전체 조직원 리스트 -->
 						<a class="departmentNameButton btn pull-right" href="#" th:value="fullView" style="width: 30px; padding: 0;">
 							<i class="ik ik-clipboard"></i>
 						</a>
@@ -179,6 +182,7 @@
 				<div class="row layout-wrap" id="layout-wrap">
 					<div class="col-12 list-item" th:each="recursiveList: ${recursiveList}">
 				        <div class="d-flex flex-grow-1 min-width-zero text-black-50">
+			                <!-- 부서명 리스트 -->
 			                <a href="#" class="col-8 departmentNameButton" th:text="${recursiveList.departmentName}" th:value="${recursiveList.departmentName}"></a>
 				            <div class="list-actions col-5" >
 				                <a href="layout-edit-item.html"><i class="ik ik-edit-2"></i></a>
@@ -197,6 +201,7 @@
 				<div> </div>
 				<div class="icon-list-wrap">
 					<div class="icon-list-item">																							
+						<!-- 조직원 추가 modal-->
 						<a class="memberAddButton btn pull-right" href="#" data-toggle="modal" data-target="#detailModal" style="width: 30px; padding: 0;">
 							<i class="ik ik-plus-square"></i>
 						</a>
@@ -213,6 +218,7 @@
 				<div class="container">						  
 					<div class="card">							
 						<span class="card-body" th:each="departmentJoinMemberList:${departmentJoinMemberList}">
+							<!-- 클릭시 각 조직원 인사 정보로 넘어간다 -->
 							<a class="departmentJoinMemberByMemberIdButton" href="#" th:value="${departmentJoinMemberList.memberId}"><span th:text="${departmentJoinMemberList.memberName}"></span></a>								
 							<span th:text="${departmentJoinMemberList.memberName}"></span>
 							<span th:text="${departmentJoinMemberList.memberLevelTitle}"></span> 

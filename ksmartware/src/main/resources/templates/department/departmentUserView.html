@@ -12,8 +12,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<style>
-	#departmentJoinMemberByMemberIdList{text-align:center;}
-	
+	#departmentJoinMemberByMemberIdList{text-align:center;}	
     .icon-list-wrap .icon-list-item i {
         float: left;
         text-align: center;
@@ -24,30 +23,24 @@
         -webkit-transition: all .2s ease-in-out;
         -o-transition: all .2s ease-in-out;
         -moz-transition: all .2s ease-in-out;
-        transition: all .2s ease-in-out;
-    
-		
+        transition: all .2s ease-in-out;    		
 	</style>
 	<script>
 		$(document).ready(function(){
-			// 조직도 버튼 클릭 이벤트
-						
+			
+			// departmentName 별로 부서명을 조회하기 위해 이름 값을 담는 변수			
 			$('.departmentNameButton').click(function(){
-				console.log('조직도 버튼 테스트 value : '+$(this).attr('value'));
-				// departmentName 별로 부서명을 조회하기 위해 이름 값을 담는 변수  
+				console.log('조직도 버튼 테스트 value : '+$(this).attr('value'));				  
 				let departmentName = $(this).attr('value');				
 				console.log('departmentName 확인');	
 				location.href='/department/departmentUserView?departmentName='+$(this).attr('value');
 			});
-			
+			// 조인한 결과를 뿌려준다
 			$('.departmentJoinMemberByMemberIdButton').click(function(){
-				console.log('상세 정보 버튼 value : '+$(this).attr('value'));
-				// 해당 코드별로 휴가 상세 데이터 조회
+				console.log('상세 정보 버튼 value : '+$(this).attr('value'));				
 				let memberId = $(this).attr('value');
 				console.log("memberId 확인");
-				
-				// 비동기 요청
-				
+								
 				$.ajax({
 						url : '/getDepartmentJoinMemberListByMemberId',
 						type : 'get',
@@ -87,6 +80,7 @@
 				<div>조직도</div>						
 				<div class="icon-list-wrap">
 					<div class="icon-list-item">																								
+						<!-- 전체 조직원 리스트 -->
 						<a class="departmentNameButton btn pull-right" href="#" th:value="fullView" style="width: 30px; padding: 0;">
 							<i class="ik ik-clipboard"></i>
 						</a>
@@ -98,6 +92,7 @@
 				<div class="row layout-wrap" id="layout-wrap">
 					<div class="col-12 list-item" th:each="recursiveList: ${recursiveList}">
 				        <div class="d-flex flex-grow-1 min-width-zero text-black-50">
+			                <!-- 버튼 클릭시 조인한 결과 뿌려준다 -->
 			                <a href="#" class="col-8 departmentNameButton" th:text="${recursiveList.departmentName}" th:value="${recursiveList.departmentName}"></a>
 				            <div class="list-actions col-5" >
 				                <a href="layout-edit-item.html"><i class="ik ik-edit-2"></i></a>
@@ -110,11 +105,13 @@
 		</div>
 	</div>
 	<div class="col-9">		
+		<!-- 오른쪽상단 -->
 		<div class="card">
 			<div class="card-header">                
-
+			<!-- 검색 들어가야된다 (예정) -->
 			</div>
 		</div>
+		<!-- 오른쪽하단 -->
 		<div class="card" style="min-height: 650px;">
 			<div class="card-header">
 				<h3>조직도 상세보기</h3>
@@ -123,6 +120,7 @@
 				<div class="container">						  
 					<div class="card">																	
 						<span class="card-body" th:each="departmentJoinMemberList:${departmentJoinMemberList}">
+							<!-- 버튼클릭시 상세보기창 이동 model -->
 							<a class="departmentJoinMemberByMemberIdButton" href="#" th:value="${departmentJoinMemberList.memberId}" data-toggle="modal" data-target="#detailModal"><span th:text="${departmentJoinMemberList.memberName}"></span></a>														
 							<span th:text="${departmentJoinMemberList.memberLevelTitle}"></span> 
 							<br>

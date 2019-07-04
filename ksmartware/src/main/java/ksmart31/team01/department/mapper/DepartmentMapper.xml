@@ -68,7 +68,7 @@
 				WHERE d.department_name = #{departmentName}	
 		</if>
 	</select>
-	
+	<!-- 조인한 결과를 memberId로 select한 내용을 뿌려준다 -->
 	<resultMap type="ksmart31.team01.department.domain.DepartmentJoinMember" id="selectDepartmentJoinMemberListByMemberId">
 		<result column="member_name" property="memberName"/>
 		<result column="member_level_title" property="memberLevelTitle"/>
@@ -100,6 +100,7 @@
 		ON d.department_name = m.department_name	
 		WHERE m.member_id = #{memberId}				
 	</select>
+	<!-- memberInsert -->
 	<insert id="insertMember" parameterType="ksmart31.team01.member.domain.Member">
 		insert into
 			member
@@ -170,6 +171,7 @@
 			department_section_name
 		from department	
 	</select>
+	<!-- memberPosition select -->
 	<resultMap type="ksmart31.team01.member.domain.MemberPosition" id="selectMemberPositon">
 		<result column="member_position_name" property="memberPositionName"></result>
 	</resultMap>

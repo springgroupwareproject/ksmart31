@@ -13,6 +13,7 @@ import ksmart31.team01.department.service.DepartmentService;
 public class RestDepartmentUserController {
 	@Autowired
 	private DepartmentService departmentService;
+	//memberid로 조회한 결과를 뿌려준다
 	@GetMapping(value="/getDepartmentJoinMemberListByMemberId")
 	public List<DepartmentJoinMember> getDepartmentJoinMemberListByMemberId(String memberId){
 		System.out.println(memberId + "RestDepartmentUserController getDepartmentJoinMemberListByMemberId memberId");		

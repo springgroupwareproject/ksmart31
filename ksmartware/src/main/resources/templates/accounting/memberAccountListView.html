@@ -11,7 +11,7 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 		<script>
 		$(document).ready(function(){
-			
+			//session에 있는 memberLogin의 값으로 바꿔준다
 			let registrationMemberId = '[[${memberId}]]';
 			let memberEmployeeCode = '[[${memberEmployeeCode}]]';
 			let departmentName = '[[${departmentName}]]';
@@ -102,9 +102,12 @@
 		<div class="card-body p-0 table-border-style">
 			<div class="table-responsive">
 					<h3>조직원 계좌
+						<!-- insertButton -->
 						<a class="ik ik-plus-square" href="#" id="memberAccountAddButton"></a>											
+						<!-- listButton -->
 						<a class="ik ik-clipboard" href="#" id="memberAccountListButton"></a>
 					</h3>
+					<!-- insert테이블 -->
 					<table class="table table-hover" id="customerAddList">			
 						<thead>
 							<tr>								
@@ -136,6 +139,7 @@
 				</div>
 			<div class="card-body p-0 table-border-style">
 				<div class="table-responsive">
+					<!-- 리스트table -->
 					<table class="table table-hover">
 						<thead>
 							<tr>
