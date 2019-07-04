@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ksmart31.team01.department.mapper.DepartmentMapper;
 import ksmart31.team01.member.domain.Member;
+import ksmart31.team01.member.domain.MemberPosition;
 import ksmart31.team01.department.domain.Department;
 import ksmart31.team01.department.domain.DepartmentJoinMember;
 
@@ -54,12 +55,6 @@ public class DepartmentService {
 	public int addMember(Member member) {
 		return departmentMapper.insertMember(member);
 	}
-	// departmentName selectList
-	public List<Department> getDepartmentNameList(String departmentName){
-		List<Department> list = departmentMapper.selectDepartmentNameList(departmentName);
-		System.out.println(list + "DepartmentService getDepartmentNameList list");
-		return list;
-	}
 	// departmentName select
 	public List<Department> getDepartmentName(){
 		List<Department> list = departmentMapper.selectDepartmentName();
@@ -82,6 +77,12 @@ public class DepartmentService {
 	public List<Department> getDepartmentSectionName(){
 		List<Department> list = departmentMapper.selectDepartmentSectionName();
 		System.out.println(list + "DepartmentService getDepartmentSectionName list");
+		return list;
+	}
+	//memberPositionName select
+	public List<MemberPosition> getMemberPositon(){
+		List<MemberPosition> list = departmentMapper.selectMemberPositon();
+		System.out.println(list + "DepartmentService getMemberPositon list");
 		return list;
 	}
 }	

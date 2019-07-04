@@ -30,6 +30,18 @@
 			
 			//getDepartmentCategoryName 리스트
 			$.ajax({
+				url : '/getMemberPositon'
+				,type : 'get'
+				,success : function(data){
+					console.log(data);					
+					$(data).each(function(index,item){
+						$('#memberPositionName').append('<option value="'+item.memberPositionName+'">'+item.memberPositionName+'</option>');
+					});
+				}                 
+			});
+			
+			//getDepartmentCategoryName 리스트
+			$.ajax({
 				url : '/getDepartmentCategoryName'
 				,type : 'get'
 				,success : function(data){
@@ -244,10 +256,10 @@
 							부서명 :  <div><select id="departmentName" class="form-control"></select></div>							
 							 :  <div><select id="departmentCategoryName" class="form-control"></select></div>
 							 :  <div><select id="departmentDivisionName" class="form-control"></select></div>
-							 :  <div><select id="departmentSectionName" class="form-control"></select></div>
-							직위/직책 :  <div><input type="text" id="memberPositionName" class="form-control"></div>
-							조직원 권한 :  <div><input type="text" id="memberLevelTitle" class="form-control"></div>
-							조직원 상태 :  <div><input type="text" id="memberStatus" class="form-control"></div>
+							 :  <div><select id="departmentSectionName" class="form-control"></select></div>							
+							직위/직책 :  <div><select id="memberPositionName" class="form-control"></select></div>
+							조직원 권한 :  <div><input type="text" id="memberLevelTitle" class="form-control" placeholder="일반조직원"></div>
+							조직원 상태 :  <div><input type="text" id="memberStatus" class="form-control" placeholder="재직"></div>
 							조직원 비밀번호 :  <div><input type="text" id="memberPw" class="form-control"></div>															
 						</div>
 					</div>							

@@ -133,21 +133,7 @@
 			,now()
 			,#{memberPw}			
 	</insert>
-	<resultMap type="ksmart31.team01.department.domain.Department" id="selectDepartmentNameList">
-		<result column="department_name" property="departmentName"></result>
-		<result column="department_category_name" property="departmentSectionName"></result>
-		<result column="department_division_name" property="departmentDivisionName"></result>
-		<result column="department_section_name" property="departmentSectionName"></result>
-	</resultMap>
-	<select id="selectDepartmentNameList" resultMap="selectDepartmentNameList">
-		SELECT 
-			department_name
-			,department_category_name
-			,department_division_name
-			,department_section_name
-		FROM department	
-		WHERE department_name = #{departmentName}	
-	</select>
+	
 	<!-- selectDepartmentName 리스트 -->
 	<resultMap type="ksmart31.team01.department.domain.Department" id="selectDepartmentName">
 		<result column="department_name" property="departmentName"></result>
@@ -183,6 +169,14 @@
 		select distinct
 			department_section_name
 		from department	
+	</select>
+	<resultMap type="ksmart31.team01.member.domain.MemberPosition" id="selectMemberPositon">
+		<result column="member_position_name" property="memberPositionName"></result>
+	</resultMap>
+	<select id="selectMemberPositon" resultMap="selectMemberPositon">
+		select 
+			member_position_name			
+		from member_position
 	</select>
 	
 </mapper>			
