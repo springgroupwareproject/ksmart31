@@ -234,8 +234,8 @@
 							$(data).each(function(i, item){
 								nextCategory = item.leaveCategorySort;
 								// 휴가 종류 값 비교 
-								if(preCategory != nextCategory){ // 휴가 종류 값이  같지 않을 때 비활성화된 채로 목록에 추가
-									$('#leaveCategorySortList').append('<option disabled>'+item.leaveCategorySort+'</option>');
+								if(preCategory != nextCategory){ // 휴가 종류 값이 같지 않을 때 비활성화된 채로 목록에 추가
+									$('#leaveCategorySortList').append('<optgroup label="'+item.leaveCategorySort+'">');
 									preCategory = nextCategory;
 								}
 								// 휴가 종류 선택 박스에 상세 휴가 종류 추가
