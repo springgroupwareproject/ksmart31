@@ -24,18 +24,30 @@ public class LeaveCategoryManagementService {
 	// 휴가 정책
 	@Autowired
 	private LeavePolicyMapper leavePolicyMapper;
-	// 휴가 카테고리
+	// 휴가 종류
 	@Autowired
 	private LeaveCategoryMapper leaveCategoryMapper;
 	
-	// 카테고리 리스트 조회
+	// 휴가 정책 입력
+	public void addLeavePolicy(LeavePolicy leavePolicy) {
+		leavePolicyMapper.insertLeavePolicy(leavePolicy);
+	}
+	// 상세 휴가 입력
+	public void addLeaveDetail(LeaveDetail leaveDetail) {
+		leaveDetailMapper.insertLeaveDetail(leaveDetail);
+	}
+	// 휴가 종류 입력
+	public void addLeaveCategory(LeaveCategory leaveCategory) {
+		leaveCategoryMapper.insertLeaveCategory(leaveCategory);
+	}
+	// 휴가 종류 리스트 조회
 	public List<LeaveCategory> getLeaveCategoryList(){
 		return leaveCategoryMapper.selectLeaveCategoryList();
 	}
 	// 상세 휴가 리스트, 휴가 정책 리스트 조회
 	public Map<String, Object> getLeaveDetailAndPolicyList(String leaveCategoryCode){
 		// 상세 휴가 리스트
-		List<LeaveDetail> leaveDetailList = leaveDetailMapper.selectLeaveDetailList(leaveCategoryCode);
+		List<LeaveDetail> leaveDetailList = leaveDetailMapper.selectLeaveDetailListByCategoryCode(leaveCategoryCode);
 		System.out.println("LeaveDetailService.getLeaveDetailList leaveDetailList : "+leaveDetailList);
 		// 휴가 정책 리스트
 		List<LeavePolicy> leavePolicyList = leavePolicyMapper.selectLeavePolicyList(leaveCategoryCode);
