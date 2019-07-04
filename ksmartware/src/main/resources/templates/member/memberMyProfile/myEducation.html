@@ -1,228 +1,236 @@
 <!DOCTYPE html>
 <html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
-	
-	<!-- jquery head 부분 넣는곳 -->
-	<th:block layout:fragment="customHead">
-		<meta charset="UTF-8">
-		<title>myProject</title>
-		<th:block th:include="layout/customHead"></th:block>
-				
-		<meta http-equiv="Content-Type" content="text/html</td> charset=UTF-8" />
-		<title>leaveCategoryList.html</title>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-		<style> /* 추가버튼 스타일 */
-		    .icon-list-wrap .icon-list-item i {
-		        float: left;
-		        text-align: center;
-		        border-radius: .1875rem;
-		        margin-right: 1rem;
-		        margin-bottom: 1.5rem;
-		        font-size: 1.5rem;
-		        -webkit-transition: all .2s ease-in-out;
-		        -o-transition: all .2s ease-in-out;
-		        -moz-transition: all .2s ease-in-out;
-		        transition: all .2s ease-in-out;
-		    }
-		</style>
-		
-		<script>
-			$(document).ready(function(){
-				
-				$('#addBtn').click(function(){	// 입력버튼 클릭시
-					console.log('추가 버튼 테스트 : '+$(this).attr('value'));
-					
-					for (var i = 1; i < 13; i++) { /* 시간 시작 월 선택 */  
-						if(i <10) {
-							$("#startMonth").append('<option value="0'+i+'">'+i+'</option>');
-						} else {
-							$("#startMonth").append('<option value="'+i+'">'+i+'</option>');
-						}
-					}
-					
-					for (var i = 1; i < 32; i++) { /* 기간 시작 일 선택 */
-						if(i <10) {
-							$("#startDay").append('<option value="0'+i+'">'+i+'</option>');
-						} else {
-							$("#startDay").append('<option value="'+i+'">'+i+'</option>');
-						}
-					}
-					
-					for (var i = 1; i < 13; i++) { /* 기간 종료 월 선택 */
-						if(i <10) {
-							$("#endMonth").append('<option value="0'+i+'">'+i+'</option>');
-						} else {
-							$("#endMonth").append('<option value="'+i+'">'+i+'</option>');
-						}
-					}
-					
-					for (var i = 1; i < 32; i++) { /* 기간 종료 일 선택 */
-						if(i <10) {
-							$("#endDay").append('<option value="0'+i+'">'+i+'</option>');
-						} else {
-							$("#endDay").append('<option value="'+i+'">'+i+'</option>');
-						}
-					}
-					
-					$("#memberEducationInstitutionStandard").change(function(){ // 체인지시 이벤트 발생
-				        if($("#memberEducationInstitutionStandard").val() == '고등학교'){ // 값이 고등학교일경우 
-				        	$("#EducationGrade").hide(); // 학점 숨김 
-				        }else{
-				        	$("#EducationGrade").show(); // 학점 출력
-				        	
-				        } /* else 종료 */
-				    }); /* change 이벤트 종료 */
-				    
-				    $("#memberEducationNow").change(function(){
-				    	if($("#memberEducationNow").val() == '재학'){
-				    		$("#range").show(); // ~ 문자
-				        	$("#endYear").show(); // 년도값
-				        	$("#endMonth").show(); // 월값
-				        	$("#endDay").show(); // 일값
-				        	$("#Year").show(); // 년 text
-				        	$("#Month").show(); // 월 text
-				        	$("#Day").show(); // 일 text
-						}else{
-							$("#education").text($("#memberEducationNow").val() + ' 날짜'); // 내머리로 이런게 나오다니.. 신기하다.
-							$("#range").hide(); // ~ 문자
-				        	$("#endYear").hide(); $('#endYear').val('');
-				        	$("#endMonth").hide(); $('#endMonth').val(''); // 졸업 등일경우 null값
-				        	$("#endDay").hide(); $('#endDay').val(''); // 졸업 등일경우 null값
-				        	$("#Year").hide(); // 년 text
-				        	$("#Month").hide(); // 월 text
-				        	$("#Day").hide(); // 일 text
-						}
-				    }); /* change 이벤트 종료 */
-				    
-					$('#saveBtn').click(function(){
-						console.log('저장 버튼 테스트 ');
-						
-						if($("#memberEducationInstitutionStandard").val() == '선택'){ // 기관선택
-							 alert('기관을 선택하십시오.');
-							 return false;
-						}else if($("#memberEducationInstitution").val() == ''){ // 학교명 입력
-							 alert('학교명을 입력하십시오.');
-							 return false;
-						}
-						if($("#memberEducationNow").val() == '선택'){ // 재학 선택 여부
-							 alert('재학여부를 선택하십시오.');
-							 return false;
-						}
-						/* 기간 검사 */
-						if($("#memberEducationNow").val() == '재학'){
-							if($('#startYear').val() == ''){
-								alert('입학년도를 입력하십시오.');
-								return false;
-							}else if($('#endYear').val() == ''){ // number로입력받아서 javaScript의 자동형변환 int값  .val('')을넣으면  '' 이된다 String은 null 이된다  / 여러번해본결과 이런 것 같다
-								alert('졸업년도를 입력하십시오.');
-								return false;
-							}else if($('#endMonth').val() == null){ // select로'1'문자열을 입력받아서 javaScript의 자동형변환  string값 이므로 null조건
-								alert('졸업 달을 입력하십시오.');
-								return false;
-							}else if($('#endDay').val() == null){
-								alert('졸업 일을 입력하십시오.');
-								return false;
-							}
-						}else{
-							if($('#startYear').val() == ''){
-								alert('년도를 입력하십시오.');
-								return false;
-							}
-						}/* 기간검사 끝 */
-						
-						if($('#memberEducationDegree').val() == ''){ 
-							alert('학위를 입력하십시오.');
-							return false;
-						}else if($('#memberEducationMajor').val() == ''){
-							alert('전공을 입력하십시오.');
-							return false;
-						}
-						/* 학점검사 */
-						if($('#memberEducationInstitutionStandard').val() != '고등학교'){
-							if($('#memberEducationGrade').val() == ''){
-								alert('학점을 입력하십시오.');
-								return false;
-							}else if($('#memberEducationTotalScore').val() == ''){
-								alert('총점을 입력하십시오.');
-								return false;
-							}
-						}else if($('#memberEducationInstitutionStandard').val() == '고등학교'){
-							$('#memberEducationGrade').val('') // 학점을 비운다
-						} /* 학점검사 끝  */
-							
-						if($('#memberEducationDesc').val() == ''){
-							alert('설명을 입력해주십시오.');
-							return false;
-						}	
-							
-						let memberEducationInstitutionStandard = $('#memberEducationInstitutionStandard').val(); // 기관구분
-						let memberEducationInstitution = $('#memberEducationInstitution').val(); // 학교명
-						let memberEducationStartDay = $('#startYear').val() + '-' + $('#startMonth').val() + '-' + $('#startDay').val(); //시작날
-						let memberEducationEndDay = $('#endYear').val() + '-' + $('#endMonth').val() + '-' + $('#endDay').val(); //종료날
-						let memberEducationNow = $('#memberEducationNow').val(); // 재학여부
-						let memberEducationDegree = $('#memberEducationDegree').val(); // 학위
-						let memberEducationMajor = $('#memberEducationMajor').val(); // 전공
-						let memberEducationGrade = $('#memberEducationGrade').val(); // 학점
-						let memberEducationTotalScore = $('#memberEducationTotalScore').val(); // 총점
-						let memberEducationDesc = $('#memberEducationDesc').val(); // 설명
-				 
-					 /*	let selectFile = $('#selectFile').val(); // MultipartFile 인터페이스에 담을 파일값 
-					 	let memberFilesType = $('#filesType').val(); // 파일 타입   */
-					 	
-					/*  let memberFilesInfo = $('#memberFileInfo').val();  // 뷰쪽 타이틀정보를 담음  */
-						
-						console.log('기관구분 값출력 '+$('#memberEducationInstitutionStandard').val() + ' 변수값 확인 비교 : '+ memberEducationInstitutionStandard);
-						console.log('학교명 값출력 '+$('#memberEducationInstitution').val() + ' 변수값 확인 비교 : '+ memberEducationInstitution);
-						console.log("재학 시작날짜 : " + memberEducationStartDay);
-						console.log("재학 종료날짜 : " + memberEducationEndDay);
-						console.log('재학여부 값출력 '+$('#memberEducationNow').val() + ' 변수값 확인 비교 : '+ memberEducationNow);
-						console.log('학위 값출력 '+$('#memberEducationDegree').val() + ' 변수값 확인 비교 : '+ memberEducationDegree);
-						console.log('전공 값출력 '+$('#memberEducationMajor').val() + ' 변수값 확인 비교 : '+ memberEducationMajor);
-						console.log('학점 값출력 '+$('#memberEducationGrade').val() + ' 변수값 확인 비교 : '+ memberEducationGrade);
-						console.log('총점 값출력 '+$('#memberEducationTotalScore').val() + ' 변수값 확인 비교 : '+ memberEducationTotalScore);
-						console.log('설명 값출력 '+$('#memberEducationDesc').val() + ' 변수값 확인 비교 : '+ memberEducationDesc);
 
+<!-- jquery head 부분 넣는곳 -->
+<th:block layout:fragment="customHead">
+<meta charset="UTF-8">
+<title>myProject</title>
+<th:block th:include="layout/customHead"></th:block>
+		
+<meta http-equiv="Content-Type" content="text/html</td> charset=UTF-8" />
+<title>leaveCategoryList.html</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- calendar -->
+<link rel="stylesheet" th:href="@{/plugins/jquery-minicolors/jquery.minicolors.css}">
+      <link rel="stylesheet" th:href="@{/plugins/datedropper/datedropper.min.css}">
+      <!-- /calendar -->
+
+<style> /* 추가버튼 스타일 */
+    .icon-list-wrap .icon-list-item i {
+        float: left;
+        text-align: center;
+        border-radius: .1875rem;
+        margin-right: 1rem;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        -moz-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+    }
+</style>
+
+
+<script>
+
+
+
+
+$(document).ready(function(){ // ready 시작
 						
-							$.ajax({
-								url : '/member/memberMyProfile/addmyEducation',
-								type : 'get',
-								data : {
-									memberEducationInstitutionStandard:memberEducationInstitutionStandard,
-									memberEducationInstitution:memberEducationInstitution,
-									memberEducationStartDay:memberEducationStartDay,
-									memberEducationEndDay:memberEducationEndDay,
-									memberEducationNow:memberEducationNow,
-									memberEducationDegree:memberEducationDegree,
-									memberEducationMajor:memberEducationMajor,
-									memberEducationGrade:memberEducationGrade,
-									memberEducationTotalScore:memberEducationTotalScore,
-									memberEducationDesc:memberEducationDesc
-								},
-								success : function(){
-									console.log('성공')
-							/* 	$('#closeBtn').trigger("click"); 닫기버튼클릭  */
-									location.reload();   // 새로고침
-								},
-								error : function(error){
-									console.log(error);
-									//alert('실패 : '+error);
-								}
-							});
-					
-					
-					});
-					
-					
-				});
+	$('#addBtn').click(function(){	// 입력버튼 클릭시
+		console.log('추가 버튼 테스트 : '+$(this).attr('value'));
+		
+		for (var i = 1; i < 13; i++) { /* 시간 시작 월 선택 */  
+			if(i <10) {
+				$("#startMonth").append('<option value="0'+i+'">'+i+'</option>');
+			} else {
+				$("#startMonth").append('<option value="'+i+'">'+i+'</option>');
+			}
+		}
+		
+		for (var i = 1; i < 32; i++) { /* 기간 시작 일 선택 */
+			if(i <10) {
+				$("#startDay").append('<option value="0'+i+'">'+i+'</option>');
+			} else {
+				$("#startDay").append('<option value="'+i+'">'+i+'</option>');
+			}
+		}
+		
+		for (var i = 1; i < 13; i++) { /* 기간 종료 월 선택 */
+			if(i <10) {
+				$("#endMonth").append('<option value="0'+i+'">'+i+'</option>');
+			} else {
+				$("#endMonth").append('<option value="'+i+'">'+i+'</option>');
+			}
+		}
+		
+		for (var i = 1; i < 32; i++) { /* 기간 종료 일 선택 */
+			if(i <10) {
+				$("#endDay").append('<option value="0'+i+'">'+i+'</option>');
+			} else {
+				$("#endDay").append('<option value="'+i+'">'+i+'</option>');
+			}
+		}
+		
+		$("#memberEducationInstitutionStandard").change(function(){ // 체인지시 이벤트 발생
+	        if($("#memberEducationInstitutionStandard").val() == '고등학교'){ // 값이 고등학교일경우 
+	        	$("#EducationGrade").hide(); // 학점 숨김 
+	        }else{
+	        	$("#EducationGrade").show(); // 학점 출력
+	        	
+	        } /* else 종료 */
+	    }); /* change 이벤트 종료 */
+	    
+	    $("#memberEducationNow").change(function(){
+	    	if($("#memberEducationNow").val() == '재학'){
+	    		$("#education").text('재학 날짜');
+	    		$("#range").show(); // ~ 문자
+	        	$("#endYear").show(); // 년도값
+	        	$("#endMonth").show(); // 월값
+	        	$("#endDay").show(); // 일값
+	        	$("#Year").show(); // 년 text
+	        	$("#Month").show(); // 월 text
+	        	$("#Day").show(); // 일 text
+			}else{
+				$("#education").text($("#memberEducationNow").val() + ' 날짜'); // 내머리로 이런게 나오다니.. 신기하다.
+				$("#range").hide(); // ~ 문자
+	        	$("#endYear").hide(); $('#endYear').val('');
+	        	$("#endMonth").hide(); $('#endMonth').val(''); // 졸업 등일경우 null값
+	        	$("#endDay").hide(); $('#endDay').val(''); // 졸업 등일경우 null값
+	        	$("#Year").hide(); // 년 text
+	        	$("#Month").hide(); // 월 text
+	        	$("#Day").hide(); // 일 text
+			}
+	    }); /* change 이벤트 종료 */
+	    
+		$('#saveBtn').click(function(){
+			console.log('저장 버튼 테스트 ');
+			
+			if($("#memberEducationInstitutionStandard").val() == '선택'){ // 기관선택
+				 alert('기관을 선택하십시오.');
+				 return false;
+			}else if($("#memberEducationInstitution").val() == ''){ // 학교명 입력
+				 alert('학교명을 입력하십시오.');
+				 return false;
+			}
+			if($("#memberEducationNow").val() == '선택'){ // 재학 선택 여부
+				 alert('재학여부를 선택하십시오.');
+				 return false;
+			}
+			/* 기간 검사 */
+			if($("#memberEducationNow").val() == '재학'){
+				if($('#startYear').val() == ''){
+					alert('입학년도를 입력하십시오.');
+					return false;
+				}else if($('#endYear').val() == ''){ // number로입력받아서 javaScript의 자동형변환 int값  .val('')을넣으면  '' 이된다 String은 null 이된다  / 여러번해본결과 이런 것 같다
+					alert('졸업년도를 입력하십시오.');
+					return false;
+				}else if($('#endMonth').val() == null){ // select로'1'문자열을 입력받아서 javaScript의 자동형변환  string값 이므로 null조건
+					alert('졸업 달을 입력하십시오.');
+					return false;
+				}else if($('#endDay').val() == null){
+					alert('졸업 일을 입력하십시오.');
+					return false;
+				}
+			}else{
+				if($('#startYear').val() == ''){
+					alert('년도를 입력하십시오.');
+					return false;
+				}
+			}/* 기간검사 끝 */
+			
+			if($('#memberEducationDegree').val() == ''){ 
+				alert('학위를 입력하십시오.');
+				return false;
+			}else if($('#memberEducationMajor').val() == ''){
+				alert('전공을 입력하십시오.');
+				return false;
+			}
+			/* 학점검사 */
+			if($('#memberEducationInstitutionStandard').val() != '고등학교'){
+				if($('#memberEducationGrade').val() == ''){
+					alert('학점을 입력하십시오.');
+					return false;
+				}else if($('#memberEducationTotalScore').val() == ''){
+					alert('총점을 입력하십시오.');
+					return false;
+				}
+			}else if($('#memberEducationInstitutionStandard').val() == '고등학교'){
+				$('#memberEducationGrade').val('') // 학점을 비운다
+			} /* 학점검사 끝  */
 				
-			});
+			if($('#memberEducationDesc').val() == ''){
+				alert('설명을 입력해주십시오.');
+				return false;
+			}	
+				
+			let memberEducationInstitutionStandard = $('#memberEducationInstitutionStandard').val(); // 기관구분
+			let memberEducationInstitution = $('#memberEducationInstitution').val(); // 학교명
+			let memberEducationStartDay = $('#startYear').val() + '-' + $('#startMonth').val() + '-' + $('#startDay').val(); //시작날
+			let memberEducationEndDay = $('#endYear').val() + '-' + $('#endMonth').val() + '-' + $('#endDay').val(); //종료날
+			let memberEducationNow = $('#memberEducationNow').val(); // 재학여부
+			let memberEducationDegree = $('#memberEducationDegree').val(); // 학위
+			let memberEducationMajor = $('#memberEducationMajor').val(); // 전공
+			let memberEducationGrade = $('#memberEducationGrade').val(); // 학점
+			let memberEducationTotalScore = $('#memberEducationTotalScore').val(); // 총점
+			let memberEducationDesc = $('#memberEducationDesc').val(); // 설명
+	 
+		 /*	let selectFile = $('#selectFile').val(); // MultipartFile 인터페이스에 담을 파일값 
+		 	let memberFilesType = $('#filesType').val(); // 파일 타입   */
+		 	
+		/*  let memberFilesInfo = $('#memberFileInfo').val();  // 뷰쪽 타이틀정보를 담음  */
+			
+			console.log('기관구분 값출력 '+$('#memberEducationInstitutionStandard').val() + ' 변수값 확인 비교 : '+ memberEducationInstitutionStandard);
+			console.log('학교명 값출력 '+$('#memberEducationInstitution').val() + ' 변수값 확인 비교 : '+ memberEducationInstitution);
+			console.log("재학 시작날짜 : " + memberEducationStartDay);
+			console.log("재학 종료날짜 : " + memberEducationEndDay);
+			console.log('재학여부 값출력 '+$('#memberEducationNow').val() + ' 변수값 확인 비교 : '+ memberEducationNow);
+			console.log('학위 값출력 '+$('#memberEducationDegree').val() + ' 변수값 확인 비교 : '+ memberEducationDegree);
+			console.log('전공 값출력 '+$('#memberEducationMajor').val() + ' 변수값 확인 비교 : '+ memberEducationMajor);
+			console.log('학점 값출력 '+$('#memberEducationGrade').val() + ' 변수값 확인 비교 : '+ memberEducationGrade);
+			console.log('총점 값출력 '+$('#memberEducationTotalScore').val() + ' 변수값 확인 비교 : '+ memberEducationTotalScore);
+			console.log('설명 값출력 '+$('#memberEducationDesc').val() + ' 변수값 확인 비교 : '+ memberEducationDesc);
+
 		
+			$.ajax({
+				url : '/member/memberMyProfile/addmyEducation',
+				type : 'get',
+				data : {
+					memberEducationInstitutionStandard:memberEducationInstitutionStandard,
+					memberEducationInstitution:memberEducationInstitution,
+					memberEducationStartDay:memberEducationStartDay,
+					memberEducationEndDay:memberEducationEndDay,
+					memberEducationNow:memberEducationNow,
+					memberEducationDegree:memberEducationDegree,
+					memberEducationMajor:memberEducationMajor,
+					memberEducationGrade:memberEducationGrade,
+					memberEducationTotalScore:memberEducationTotalScore,
+					memberEducationDesc:memberEducationDesc
+				},
+				success : function(){
+					console.log('성공')
+			/* 	$('#closeBtn').trigger("click"); 닫기버튼클릭  */
+					location.reload();   // 새로고침
+				},
+				error : function(error){
+					console.log(error);
+					//alert('실패 : '+error);
+				}
+			}); // ajax 끝
 		
-		</script>
-		
-	</th:block>
+		}); // 저장버튼 클릭 끝
+		    
+	}); // 입력버튼 클릭끝
+	
+});  // ready 끝
+
+</script>
+	
+</th:block>
 	
 	<!-- 본문 -->
 	<th:block layout:fragment="customBody">
@@ -363,6 +371,7 @@
 											<div class="card">
 												<div class="card-header"><h3 id="education" th:text="재학날"></h3></div>
 												<div class="card-body">
+
 													<div class="input-group">
 
 														<input type="text" id="startYear" class="form-control col-sm-1"> <div style="padding: 8px 10px 10px 10px" th:text="년 "></div>
@@ -448,10 +457,11 @@
 								</div>
 							</div>
 						</div> <!-- 팝업창끝 -->
+						
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> <!-- class="row" 끝 -->
 
 			
 		
@@ -459,6 +469,8 @@
 	
 	<th:block layout:fragment="customJquery">
 		<th:block th:include="layout/customJquery"></th:block>
+		<script src="/plugins/jquery-minicolors/jquery.minicolors.min.js"></script>
+        <script src="/plugins/datedropper/datedropper.min.js"></script>
 	</th:block>
 	
 </html>

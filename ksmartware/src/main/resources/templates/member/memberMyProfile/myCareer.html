@@ -75,11 +75,11 @@
 						let memberCareerEndDay = $('#endYear').val() + '-' + $('#endMonth').val() + '-' + $('#endDay').val(); // 근무 기간
 						let memberCareerOutReason  = $('#memberCareerOutReason').val(); // 퇴사 사유
 						
-						console.log('값출력 '+$('#memberCareerCompany').val() + ' 변수값 확인 비교 : '+ memberCareerCompany);
-						console.log('값출력 '+$('#memberPositionName').val() + ' 변수값 확인 비교 : '+ memberPositionName);
-						console.log("시작날짜 : " + memberCareerStartDay);
-						console.log("종료날짜 : " + memberCareerEndDay);
-						console.log('값출력 '+$('#memberCareerOutReason').val() + ' 변수값 확인 비교 : '+ memberCareerOutReason);
+						console.log('회사명 값출력 '+$('#memberCareerCompany').val() + ' 변수값 확인 비교 : '+ memberCareerCompany);
+						console.log('직위 값출력 '+$('#memberPositionName').val() + ' 변수값 확인 비교 : '+ memberPositionName);
+						console.log("근무 시작날짜 : " + memberCareerStartDay);
+						console.log("퇴사날짜 : " + memberCareerEndDay);
+						console.log('퇴사사유 값출력 '+$('#memberCareerOutReason').val() + ' 변수값 확인 비교 : '+ memberCareerOutReason);
 						
 						$.ajax({
 							url : '',

@@ -57,10 +57,10 @@
 					let memberAwardsDay = $('#startYear').val() + '-' + $('#startMonth').val() + '-' + $('#startDay').val(); //수상일 
 					let memberAwardsDesc = $('#memberAwardsDesc').val(); // 설명
 					
-					console.log('값출력 '+$('#memberAwardsName').val() + ' 변수값 확인 비교 : '+ memberAwardsName);
-					console.log('값출력 '+$('#memberAwardsInstitution').val() + ' 변수값 확인 비교 : '+ memberAwardsInstitution);
-					console.log("교육기간 시작날짜 : " + memberAwardsDay);
-					console.log('값출력 '+$('#memberAwardsDesc').val() + ' 변수값 확인 비교 : '+ memberAwardsDesc);
+					console.log('상훈명 값출력 '+$('#memberAwardsName').val() + ' 변수값 확인 비교 : '+ memberAwardsName);
+					console.log('발급기관 값출력 '+$('#memberAwardsInstitution').val() + ' 변수값 확인 비교 : '+ memberAwardsInstitution);
+					console.log("수상일 날짜 : " + memberAwardsDay);
+					console.log('설명 값출력 '+$('#memberAwardsDesc').val() + ' 변수값 확인 비교 : '+ memberAwardsDesc);
 					
 						$.ajax({
 							url : '/member/memberMyProfile/addMyAwards',
