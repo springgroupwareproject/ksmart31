@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+	
+	<th:block layout:fragment="customHead">
+		<meta charset="UTF-8">
+		<title>Sample</title>
+		<th:block th:include="layout/customHead"></th:block>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<script>		
+		$(document).ready(function(){			
+			//session에 있는 memberLogin의 값으로 바꿔준다
+			let memberId = '[[${memberId}]]';
+			$('#memberId').val(memberId);
+			console.log("memberId : " + memberId);			 			
+						
+			// customer insert
+			$('#customerAddButton').click(function(){
+				console.log('거래처 insert 버튼 테스트');
+				let customerName = $('#customerName').val();      		
+            	let customerPhone = $('#customerPhone').val();
+            	let customerCorporateRegistrationNumber = $('#customerCorporateRegistrationNumber').val();
+            	let customerAddress = $('#customerAddress').val();
+            	let customerBank = $('#customerBank').val();
+            	let customerAccountHolder = $('#customerAccountHolder').val();
+            	let customerAccountNumber = $('#customerAccountNumber').val();
+            	let memberId = $('#memberId').val();
+				
+				$.ajax({
+					url : '/addCustomer'
+					,type : 'post'
+					,data : {'customerName':customerName,'customerPhone':customerPhone,
+						'customerCorporateRegistrationNumber':customerCorporateRegistrationNumber,
+						'customerAddress':customerAddress,'customerBank':customerBank,
+						'customerAccountHolder':customerAccountHolder,
+						'customerAccountNumber':customerAccountNumber,
+						'memberId':memberId}
+					,success : function(data){
+						console.log('#accountAddButton click');
+						$('#customerListButton').trigger('click');
+	               		
+					}	
+				});
+			});
+			
+			// customer 리스트 			
+			$('#customerListButton').click(function(){
+				console.log('거래처 리스트버튼 테스트');	
+					
+					$.ajax({
+			    		url : '/getCustomer'
+			    		,type : 'get'			    								
+			    		,success:function(data){			    			
+							$('#customerList').empty();							
+							$(data).each(function(index,item){
+								$('#customerList').append('<tr>');
+								$('#customerList').append('<td>'+item.customerName+'</td>');
+								$('#customerList').append('<td>'+item.customerPhone+'</td>');
+								$('#customerList').append('<td>'+item.customerCorporateRegistrationNumber+'</td>');
+								$('#customerList').append('<td>'+item.customerAddress+'</td>');
+								$('#customerList').append('<td>'+item.customerBank+'</td>');
+								$('#customerList').append('<td>'+item.customerAccountHolder+'</td>');
+								$('#customerList').append('<td>'+item.customerAccountNumber+'</td>');
+								$('#customerList').append('<td>'+item.customerDate+'</td>');
+								$('#customerList').append('<td>'+item.memberId+'</td>');
+								$('#customerList').append('</tr>');
+							});	
+			    		}
+					});							
+				});	
+			});
+		</script>		
+	</th:block>
+	
+	<th:block layout:fragment="customBody">				
+		
+		<div class="card-body p-0 table-border-style">
+				<div class="table-responsive">
+					<h3>거래처
+						<!-- insertButton -->
+						<a class="ik ik-plus-square" href="#" id="customerAddButton"></a>											
+						<!-- listButton -->
+						<a class="ik ik-clipboard" href="#" id="customerListButton"></a>	
+					</h3>
+					<!-- insert테이블 -->
+					<table class="table table-hover" id="customerAddList">			
+						<thead>
+							<tr>								
+								<th>거래처 명</th>								
+								<th>거래처 전화번호</th>
+								<th>거래처 사업자 등록번호</th>
+								<th>거래처 주소</th>
+								<th>거래처 은행 명</th>
+								<th>거래처 예금주</th>
+								<th>거래처 계좌번호</th>								
+								<th>등록자</th>									
+							</tr>
+						</thead>
+				        <tbody>
+							<tr>
+								<td><input type="text" id="customerName"></td>								
+								<td><input type="text" id="customerPhone"></td>
+								<td><input type="text" id="customerCorporateRegistrationNumber"></td>
+								<td><input type="text" id="customerAddress"></td>
+								<td><input type="text" id="customerBank"></td>
+								<td><input type="text" id="customerAccountHolder"></td>
+								<td><input type="text" id="customerAccountNumber"></td>								
+								<td><input type="text" id="memberId"></td>
+							</tr>
+						</tbody>
+					</table>						
+				</div>
+			<div class="card-body p-0 table-border-style">
+				<div class="table-responsive">
+					<!-- 리스트table -->
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>거래처 명</th>								
+								<th>거래처 전화번호</th>
+								<th>거래처 사업자 등록번호</th>
+								<th>거래처 주소</th>
+								<th>거래처 은행 명</th>
+								<th>거래처 예금주</th>
+								<th>거래처 계좌번호</th>
+								<th>거래처 등록날짜</th>
+								<th>등록자</th>								
+							</tr>
+						</thead>
+						<tbody id="customerList">
+																			
+						</tbody>						
+					</table>
+					<div class="paging">
+    	
+   					</div>				
+				</div>
+			</div>
+		</div>		
+	</th:block>
+	
+	<th:block layout:fragment="customJquery">
+		<th:block th:include="layout/customJquery"></th:block>
+	</th:block>
+	
+</html>
