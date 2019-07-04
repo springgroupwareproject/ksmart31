@@ -3,24 +3,22 @@ package ksmart31.team01.member.domain;
 public class MemberPosition {
 
 	private String memberPositionCode;
-	private String memberPositionTitle;
+	private String memberPositionName;
 	private int memberPositionRank;
 	private String personnelStandardFinalModifierId;
 	private String personnelStandardFinalModifierName;
 	private String personnelStandardFinalModifyDate;
-	
-	
 	public String getMemberPositionCode() {
 		return memberPositionCode;
 	}
 	public void setMemberPositionCode(String memberPositionCode) {
 		this.memberPositionCode = memberPositionCode;
 	}
-	public String getMemberPositionTitle() {
-		return memberPositionTitle;
+	public String getMemberPositionName() {
+		return memberPositionName;
 	}
-	public void setMemberPositionTitle(String memberPositionTitle) {
-		this.memberPositionTitle = memberPositionTitle;
+	public void setMemberPositionName(String memberPositionName) {
+		this.memberPositionName = memberPositionName;
 	}
 	public int getMemberPositionRank() {
 		return memberPositionRank;
@@ -46,6 +44,17 @@ public class MemberPosition {
 	public void setPersonnelStandardFinalModifyDate(String personnelStandardFinalModifyDate) {
 		this.personnelStandardFinalModifyDate = personnelStandardFinalModifyDate;
 	}
+	@Override
+	public String toString() {
+		return "MemberPosition [memberPositionCode=" + memberPositionCode + ", memberPositionName=" + memberPositionName
+				+ ", memberPositionRank=" + memberPositionRank + ", personnelStandardFinalModifierId="
+				+ personnelStandardFinalModifierId + ", personnelStandardFinalModifierName="
+				+ personnelStandardFinalModifierName + ", personnelStandardFinalModifyDate="
+				+ personnelStandardFinalModifyDate + "]";
+	}
+	
+	
+	
 	
 	
 }
