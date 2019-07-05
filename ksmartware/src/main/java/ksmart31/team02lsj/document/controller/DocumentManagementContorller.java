@@ -27,14 +27,19 @@ public class DocumentManagementContorller {
 		
 		return "admin/documentManagement/documentManagement";			
 	}
-	//문서관리 상세보기
+	//문서관리 상세보기(구매요청서)
 	@GetMapping(value = "/documentManagement/detail")
-	public String documentManagementList(Model model, @RequestParam(value = "draftDocumentCode")String draftDocumentCode) {
+	public String documentManagementList(Model model, @RequestParam(value = "draftDocumentCode")String draftDocumentCode
+											, @RequestParam(value = "documentForm") String documentForm) {
+		String path = null;
 		System.out.println("(C)documentApprovalManagement");
 		 Map<String, Object> documentDetailMap = documentManagementService.documentManagementDetail(draftDocumentCode);
 		 model.addAttribute("approvalDocumentDetailMap", documentDetailMap);
-		
-		return "admin/documentManagement/documentManagement";			
+		/* 맵에서 리스트 꺼내서 리스트별로 포워딩 주소(리턴값) 다르게 만들기 */
+		 if(documentDetailMap != null) {  
+			 path= "admin/documentManagement/documentManagement";
+		 }
+		return path;
 	}
 
 }

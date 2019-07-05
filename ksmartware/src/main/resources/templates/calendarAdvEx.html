@@ -5,7 +5,6 @@
 	<meta charset="UTF-8">
 	<title>Sample</title>
 	<th:block th:include="layout/customHead"></th:block>
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" type="text/css" />
 	<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 	
@@ -26,13 +25,13 @@ $(function() {
 
 					alert(d + "선택되었습니다.");
 
-					var arrDate = d.split("-");
+					let arrDate = d.split("-");
 
-					var year = arrDate[0];
+					let year = arrDate[0];
 
-					var month = arrDate[1];
+					let month = arrDate[1];
 
-					var day = arrDate[2];
+					let day = arrDate[2];
 
 					//숫자를 문자형으로 변환
 
@@ -47,7 +46,7 @@ $(function() {
 
 					//날짜 구하기          
 
-					var date = new Date($("#date").datepicker({
+					let date = new Date($("#date").datepicker({
 						dateFormant : "yy-mm-dd"
 					}).val());
 
@@ -55,7 +54,7 @@ $(function() {
 
 					//getDay 요일
 
-					var week = new Array("일", "월", "화", "수", "목", "금", "토"); //요일 배열
+					let week = new Array("일", "월", "화", "수", "목", "금", "토"); //요일 배열
 
 					$("#mydate").text(week[date.getDay()]);
 
