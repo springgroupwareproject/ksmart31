@@ -14,8 +14,8 @@ public class MemberAcademy {
 	private String memberAcademyPurpose;
 	private String memberAcademyDesc;
 	private String memberAcademyDate;
-	private String memberEmployeeCode;
 	private String memberName;
+	private String memberEmployeeCode;
 	private String departmentName;
 	private String memberPositionName;
 	private String memberFileCode;

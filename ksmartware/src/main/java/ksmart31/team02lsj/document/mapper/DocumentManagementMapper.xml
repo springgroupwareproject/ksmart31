@@ -2,54 +2,39 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-  
-<mapper namespace="ksmart31.team02.document.mapper.DocumentManagementMapper">
-	<!-- 기안문서 삭제 -->
-	<delete id="deleteDraftDocument"
-			parameterType="ksmart31.team02.document.domain.DraftDocument">
-		DELETE FROM draft_document 
-		WHERE draft_document_code=#{draftDocumentCode}
-	</delete>
-
-	<!-- 기안문서 조회(워크플로우 문서 관리) -->
-	<select id="selectDraftDocument"
-			resultType="ksmart31.team02.document.domain.DraftDocument">
-		SELECT draft_document_code AS draftDocumentCode
-			, draft_document_file_save_name AS draftDocumentFileSaveName
-			, draft_document_status AS draftDocumentStatus
-			, draft_document_final_approval_member_name AS draftDocumentFinalApprovalMemberName
-			, draft_document_final_approval_date AS draftDocumentFinalApprovalDate
-			, draft_document_member_id AS draftDocumentMemberId
-			, draft_document_member_name AS draftDocumentMemberName
-			, draft_document_date AS draftDocumentDate
-		FROM draft_document
-	</select>
-
-	<!-- 관리자 결재선 관리(공통프로세스 목록) -->
-	<select id="selectApprovalProcess"
-			resultType="ksmart31.team02.document.domain.ApprovalProcess">
-		SELECT approval_process_code AS approvalProcessCode
-			, approval_process_name AS approvalProcessName
-		FROM approval_process
-
-	</select>
-
+<mapper	namespace="ksmart31.team02lsj.document.mapper.DocumentManagementMapper">
 	<!-- 관리자 문서관리 전체리스트 -->
-	<select id="selectDocuemntApprovalList"
-		resultType="ksmart31.team02.document.domain.ApprovalDocument">
+	<select id="selectDraftDocumentList"
+		resultType="ksmart31.team02lsj.document.domain.DraftDocument">
 		SELECT
+		draft_document_code AS draftDocumentCode,
 		draft_document_status AS draftDocumentStatus,
-		approval_document_file_save_name AS approvalDocumentFileSaveName,
-		member_name AS memberName,
-		document_date AS documentDate,
-		final_approval_member_name AS finalApprovalMemberName,
-		final_approval_date AS finalApprovalDate,
+		draft_document_file_save_name AS draftDocumentFileSaveName,
+		draft_document_member_name AS draftDocumentMemberName,
+		draft_document_date AS draftDocumentDate,
+		draft_document_final_approval_member_name AS draftDocumentFinalApprovalMemberName,
+		draft_document_final_approval_date AS draftDocumentFinalApprovalDate,
 		document_opinion_count AS documentOpinionCount,
 		document_attatch_file_count AS documentAttatchFileCount
-		FROM approval_document 
-		ORDER BY document_date DESC
+		FROM draft_document
+		ORDER BY draft_document_date DESC
 	</select>
+		<!-- 관리자 문서삭제 -->
+	<delete id="deleteDraftDocumentByDraftDocumentCode"
+		parameterType="ksmart31.team02lsj.document.domain.DraftDocument">
+		DELETE FROM  draft_document WHERE draft_document_code=#{draftDocumentCode};
+		DELETE FROM  document_opinion WHERE draft_document_code=#{draftDocumentCode};
+		DELETE FROM  document_attached_file  WHERE draft_document_code=#{draftDocumentCode};
+		DELETE FROM  approval_member  WHERE draft_document_code=#{draftDocumentCode};
+		DELETE FROM  approval_member_receive  WHERE draft_document_code=#{draftDocumentCode};
+		DELETE FROM  approval_member_circulation  WHERE draft_document_code=#{draftDocumentCode};
+		DELETE FROM  approval_related_document  WHERE draft_document_code=#{draftDocumentCode};
+		DELETE FROM  purchase_requisition WHERE draft_document_code=#{draftDocumentCode};
+		DELETE FROM  disbursement_document WHERE draft_document_code=#{draftDocumentCode};
+		DELETE FROM  leave_application WHERE draft_document_code=#{draftDocumentCode};
+		DELETE FROM  project_report WHERE draft_document_code=#{draftDocumentCode};
+		DELETE FROM  project_disbursement WHERE draft_document_code=#{draftDocumentCode};		
+	</delete>
 	
 	<!-- 관리자 문서관리 상세정보 확인을위한 문서양식 select -->
 	<select id="selectDocumentFormTitleByApprovalDocumentCode"
@@ -63,18 +48,18 @@
 	<!-- 구매요청서 입력데이터 select 쿼리문 -->
 	<select id="selectPurchaseRequisitionDetail"
 		parameterType="String"
-		resultType="ksmart31.team02.document.domain.PurchaseRequisition">
+		resultType="ksmart31.team02lsj.document.domain.PurchaseRequisition">
 		SELECT 
 		pr.member_name AS memberName,
 		pr.member_position_name AS memberPositionName,
 		pr.purchase_requisition_date AS purchaseRequisitionDate, 
 		pr.purchase_requisition_pay_day AS purchaseRequisitionPayDay,
-		pr.purchase_requisition_total_price ASpurchaseRequisitionTotalPrice,
+		pr.purchase_requisition_total_price AS purchaseRequisitionTotalPrice,
 		pr.purchase_requisition_item_category AS purchaseRequisitionItemCategory,
 		pr.purchase_requisition_item AS purchaseRequisitionItem,
 		pr.purchase_requisition_item_unit AS purchaseRequisitionItemUnit,
 		pr.purchase_requisition_item_count AS purchaseRequisitionItemCount,
-		pr.purchase_requisition_item_price ASpurchaseRequisitionItemPrice,
+		pr.purchase_requisition_item_price AS purchaseRequisitionItemPrice,
 		pr.purchase_requisition_etc AS purchaseRequisitionEtc
 		FROM purchase_requisition AS pr
 		JOIN  approval_document AS ad
@@ -84,7 +69,7 @@
 	<!-- 지출결의서 입력데이터 select 쿼리 -->
 	<select id="selectDisbursementDocumentDetail"
 		parameterType="String"
-		resultType="ksmart31.team02.document.domain.DisbursementDocument">
+		resultType="ksmart31.team02lsj.document.domain.DisbursementDocument">
 		SELECT
 		dd.disbursement_document_name AS disbursementDocumentName,
 		dd.department_name AS departmentName,
@@ -111,7 +96,7 @@
 	
 	<!-- 휴가보고서 입력데이터 select 쿼리 -->
 	<select id="selectLeaveApplicationDetail" parameterType="String"
-		resultType="ksmart31.team02.document.domain.LeaveApplication">
+		resultType="ksmart31.team02lsj.document.domain.LeaveApplication">
 		SELECT
 		ad.department_name AS departmentName,
 		ad.member_position_name AS memberPositionName,
@@ -132,19 +117,19 @@
 	
 	<!-- 프로젝트 업무보고 입력데이터 selelct 쿼리 -->
 	<select id="selectProjectReportDetail" parameterType="String"
-		resultType="ksmart31.team02.document.domain.ProjectReport">
+		resultType="ksmart31.team02lsj.document.domain.ProjectReport">
 	</select>
 	
 	<!-- 프로젝트 지출결의서 입력데이터 select 쿼리  -->
 	<select id="selectProjectDisbursementDetail"
 		parameterType="String"
-		resultType="ksmart31.team02.document.domain.ProjectDisbursement">
+		resultType="ksmart31.team02lsj.document.domain.ProjectDisbursement">
 	</select>
 	
 	<!-- 문서 상세별 의견 데이터 select 쿼리 -->
 	<select id="selectApprovalDocumentOpinion"
 		parameterType="String"
-		resultType="ksmart31.team02.document.domain.DocumentOpinion">
+		resultType="ksmart31.team02lsj.document.domain.DocumentOpinion">
 		SELECT
 		do.approval_opinion_desc AS approvalOpinionDesc,
 		do.approval_registrant_name AS approvalOpinionDesc,
@@ -158,7 +143,7 @@
 	<!-- 문서 상세별 첨부파일 select 쿼리 -->
 	<select id="selelctApprovalDocumentAttachedFile"
 		parameterType="String"
-		resultType="ksmart31.team02.document.domain.DocumentAttachedFile">
+		resultType="ksmart31.team02lsj.document.domain.DocumentAttachedFile">
 		SELECT
 		do.approval_opinion_desc AS approvalOpinionDesc,
 		do.approval_registrant_name AS approvalOpinionDesc,
@@ -169,10 +154,10 @@
 		WHERE approval_document_code = #{approvalDocumentCode}		
 	</select>
 	
-	<!-- 문서상세별 결재순서(프로세스) selelct 쿼리 -->
+	<!-- 문서상세별 결재순서(프로세스) select 쿼리 -->
 	<select id="selelctApprovalDocumentApprovalProcess"
 		parameterType="String"
-		resultType="ksmart31.team02.document.domain.ApprovalMember">
+		resultType="ksmart31.team02lsj.document.domain.ApprovalMember">
 		SELECT
 		do.approval_opinion_desc AS approvalOpinionDesc,
 		do.approval_registrant_name AS approvalOpinionDesc,

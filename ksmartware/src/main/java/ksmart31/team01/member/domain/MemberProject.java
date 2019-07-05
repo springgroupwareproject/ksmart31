@@ -2,21 +2,21 @@ package ksmart31.team01.member.domain;
 
 public class MemberProject {
 
-	private String memberProjectCode;
-	private String memberId;
-	private String memberProjectName;
-	private String memberProjectPlace;
-	private String memberProjectStartDay;
-	private String memberProjectEndDay;
-	private String memberProjectResult;
-	private String memberProjectDesc;
-	private String memberProjectUrl;
-	private String memberProjectDate;
-	private String memberEmployeeCode;
-	private String memberName;
-	private String departmentName;
-	private String memberPositionName;
-	private String memberFileCode;
+	private String memberProjectCode;	// 조직원 프로젝트 정보 코드
+	private String memberId;	//	조직원 아이디
+	private String memberProjectName;	//	프로젝트 명
+	private String memberProjectPlace;	//	수행처
+	private String memberProjectStartDay;	//	시작일
+	private String memberProjectEndDay;	//	종료일
+	private String memberProjectResult;	//	진행중 / 완료 여부
+	private String memberProjectDesc;	//	프로젝트 설명
+	private String memberProjectUrl;	//	프로젝트 정보의 위치
+	private String memberProjectDate;	//	글작성 등록일 쿼리문now()
+	private String memberEmployeeCode;	//	사원번호 session
+	private String memberName;	//	조직원 이름 session
+	private String departmentName;	//	부서명 session
+	private String memberPositionName;	//	직위 직책 session
+	private String memberFileCode;	//	첨부 파일 코드 join
 	
 	public String getMemberProjectCode() {
 		return memberProjectCode;
