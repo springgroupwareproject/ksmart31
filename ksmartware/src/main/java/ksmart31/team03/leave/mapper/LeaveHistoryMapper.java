@@ -6,13 +6,10 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import ksmart31.team01.department.domain.Department;
-import ksmart31.team01.department.domain.DepartmentJoinMember;
 import ksmart31.team03.leave.domain.LeaveHistory;
 
 @Mapper
 public interface LeaveHistoryMapper {
-	// 특정 부서에 해당하는 조직원 정보
-	public List<DepartmentJoinMember> selectDepartmentJoinMemberList(Map<String, Object> map);
 	// 조직원 아이디별 휴가 내역 조회
 	public List<LeaveHistory> selectLeaveHistoryByMemberId(String memberId);
 	// 조직도 리스트
