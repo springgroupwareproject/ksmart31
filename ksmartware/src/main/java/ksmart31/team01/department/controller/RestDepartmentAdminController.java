@@ -56,10 +56,10 @@ public class RestDepartmentAdminController {
 	}
 	//memberProfile select
 	@GetMapping("/getmemberMyProfile")
-	public List<Member> getmemberMyProfile(String memberId){ 		 
-		List<Member> list = departmentService.getmemberMyProfile(memberId);
-		System.out.println(list + "RestDepartmentAdminController getmemberMyProfile list");
-		return list;
-		
+	public Member getmemberMyProfile(String memberId){ 		 
+		Member member = departmentService.getmemberMyProfile(memberId);
+		System.out.println(member + "RestDepartmentAdminController getmemberMyProfile list");
+		return member;
 	}
+	
 }

@@ -23,13 +23,50 @@
 	</style>
 		
 	<script>
+		let memberId;
 		$(document).ready(function(){
 			
 			
 			$('.departmentJoinMemberByMemberIdButton').click(function(){
 				console.log('상세 정보 버튼 value : '+$(this).attr('value'));				
-				let memberId = $(this).attr('value');
+				memberId = $(this).attr('value');
 				console.log("memberId 확인");
+				$('#개인정보').trigger('click');
+			});
+			
+			$('.profile').click(function(){
+				
+				console.log('카테고리 클릭 테스트');
+				console.log('선택한 조직원 아이디 : '+memberId);
+				let category = $(this).attr('id');
+				console.log($(this).attr('id'));
+				if(category == '개인정보'){
+ 					console.log('개인 정보 클릭 확인');
+ 					$('#개인').attr('hidden', false);
+ 					$('#인사').attr('hidden', true);
+ 					
+ 					// 비동기 요청
+ 					$.ajax({
+ 						url : '/getmemberMyProfile'
+ 						,type : 'get'
+ 						,data : {
+ 							memberId : memberId
+ 						}
+ 						,success : function(data){
+ 							console.log(data);
+ 							$('#memberPhone').val(data.memberPhone);
+ 							$('#memberMobile').val(data.memberMobile);
+ 							$('#memberAddress').val(data.memberAddress);
+ 							$('#memberBirth').val(data.memberBirth);
+ 							$('#memberGender').val(data.memberGender).prop('selected');
+ 						}                 
+ 					});
+ 					
+				}else if(category == '인사정보'){
+					console.log('인사 정보 클릭 확인');
+					$('#인사').attr('hidden', false);
+					$('#개인').attr('hidden', true);
+				}
 			});
 			
 			//getMemberPosition 리스트
@@ -290,53 +327,141 @@
 				</div>
 				<!-- Modal body -->
 				<div class="modal-body">							
-					<form class="leavePolicyForm">
-					<!-- 첫 번째 카드 영역 시작 -  -->
-					<div class="card">								
-					
-						<div class="col-2" style="padding-left:50px; border-right: 1px solid #ccc;">
-							<div class="card">
+					<div class="input-group">
+						<!-- 왼쪽 카드 시작 -->
+						<div class="col-2">
+							<div class="card">								
 								<div class="card-header">MyProfile</div>
 								<div class="card-body">
 									<div>
-										<a href="/member/memberMyProfile/myProfile">개인 정보</a>
+										<a href="#" class="profile" id="개인정보">개인 정보</a>
 									</div>
 									<hr>
 									<div>
-										<a href="/member/memberMyProfile/myInfo">인사 정보</a>
+										<a href="#" class="profile" id="인사정보">인사 정보</a>
 									</div>
 									<hr>
 									<div>
-										<a href="/member/memberMyProfile/myEducation">학력 정보</a>
+										<a href="#" class="profile" id="학력정보">학력 정보</a>
 									</div>
 									<hr>
 									<div>
-										<a href="/member/memberMyProfile/myProject">프로젝트 정보</a>
+										<a href="#" class="profile" id="프로젝트정보">프로젝트 정보</a>
 									</div>
 									<hr>
 									<div>
-										<a href="/member/memberMyProfile/myLicense">자격증 정보</a>
+										<a href="#" class="profile" id="자격증정보">자격증 정보</a>
 									</div>
 									<hr>
 									<div>
-										<a href="/member/memberMyProfile/myAcademy">교육 이력 정보</a>
+										<a href="#" class="profile" id="교육이력정보">교육 이력 정보</a>
 									</div>
 									<hr>
 									<div>
-										<a href="/member/memberMyProfile/myCareer">경력 정보</a>
+										<a href="#" class="profile" id="경력정보">경력 정보</a>
 									</div>
 									<hr>
 									<div>
-										<a href="/member/memberMyProfile/myAwards">수상 이력 정보</a>
+										<a href="#" class="profile" id="수상이력정보">수상 이력 정보</a>
 									</div>
 								</div>
 							</div>
 						</div>
-						
-						
-						
-					</div>							
-					</form>								
+						<!-- 왼쪽 카드 종료 -->
+						<!-- 오른쪽 카드 시작 -->
+						<div class="col-10" style="min-width: 600px">
+							<div class="card" >								
+								<div class="card-header">상세정보</div>
+								<div class="card-body">
+								
+									<div id="개인">
+										<div>전화번호</div>
+										<input type="text" style="width:200px" class="form-control" id="memberPhone">
+										<hr>
+										
+										<div>휴대전화</div>
+										<input type="text" style="width:200px" class="form-control" id="memberMobile">
+										<hr>
+										
+										<div>주소</div>
+										<textarea style="width:700px;" class="form-control" id="memberAddress"></textarea>
+										<hr>
+				
+										<div>생년월일</div>
+										<input type="text" style="width:200px" class="form-control" id="memberBirth">
+										<hr>
+										
+										<div>성별</div>
+										<select style="width:65px" class="form-control" id="memberGender">
+											<option value="남">남</option>
+											<option value="여">여</option>
+										</select>
+									</div>
+									
+									<div id="인사" hidden="hidden">
+										<div>이메일</div>
+										<div id="infoMemberId"></div>
+										<hr>
+									
+										<div>소속 부서</div>
+										<div id="infoDepartmentCategoryName"></div>
+										<div id="infoDepartmentDivisionName"></div>
+										<div id="infoDepartmentSectionName"></div>
+											<!-- <div class="input-group">
+												<div th:text="${memberInfo.departmentCategoryName}"></div>
+												<div th:if="${memberInfo.departmentDivisionName != ''}" th:text="|&nbsp; > ${memberInfo.departmentDivisionName}|"></div>
+												<div th:if="${memberInfo.departmentSectionName != ''}" th:text="|&nbsp; > ${memberInfo.departmentSectionName}|"></div>
+											</div> -->
+										<hr>
+										
+										<div>직위/직책</div>
+										<div id="infoMemberPositionName"></div>
+										<hr>
+										
+										<div>조직원 상태</div>
+										<div id="infoMemberStatus"></div>
+										<hr>
+										
+										<div>권한</div>
+										<div id="infoMemberLevelTitle"></div>
+										<hr>
+										
+										<div>사번</div>
+										<div id="infoMemberEmployeeCode"></div>
+										<hr>
+										
+										<div>입사일</div>
+										<div id="infoMemberJoinDay"></div>
+									</div>
+									
+									<div id="학력정보" hidden="hidden">
+										
+									</div>
+									
+									<div id="프로젝트정보" hidden="hidden">
+										
+									</div>
+									
+									<div id="자격증정보" hidden="hidden">
+										
+									</div>
+									
+									<div id="교육이력정보" hidden="hidden">
+										
+									</div>
+									
+									<div id="경력정보" hidden="hidden">
+										
+									</div>
+									
+									<div id="수상이력정보" hidden="hidden">
+										
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- 오른쪽 카드 종료 -->
+					</div>
 				</div>
 					
 			</div>

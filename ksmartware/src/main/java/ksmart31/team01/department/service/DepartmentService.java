@@ -86,8 +86,7 @@ public class DepartmentService {
 		return list;
 	}
 	//memberMyProfile
-	public List<Member> getmemberMyProfile(String memberId) {
-		List<Member> list = departmentMapper.selectmemberMyProfile(memberId);
-		return list;
+	public Member getmemberMyProfile(String memberId) {
+		return departmentMapper.selectmemberMyProfile(memberId);
 	}
 }	
