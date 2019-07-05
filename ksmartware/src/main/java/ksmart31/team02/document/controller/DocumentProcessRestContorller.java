@@ -15,11 +15,11 @@ public class DocumentProcessRestContorller {
 	
 	// 사용자 기안시 결재선 목록 불러오기
 	@PostMapping("/member/getApprovalProcess")
-	public List<ApprovalProcess> modalApprovalProcess() {
-		System.out.println("[DocumentProcessRestContorller] modalApprovalProcess() 실행");
+	public List<ApprovalProcess> getApprovalProcess() {
+		System.out.println("[DocumentProcessRestContorller] getApprovalProcess() 실행");
 		
 		List<ApprovalProcess> list = documentProcessService.getApprovalProcess();
-		System.out.println("[DocumentProcessRestContorller] modalApprovalProcess() list : "+list);
+		System.out.println("[DocumentProcessRestContorller] getApprovalProcess() list : "+list);
 		
 		return list;
 	}
