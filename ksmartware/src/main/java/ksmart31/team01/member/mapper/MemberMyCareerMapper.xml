@@ -1,0 +1,26 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ksmart31.team01.member.mapper.MemberMyCareerMapper">
+
+	<!-- myProfile 개인정보 -->
+	<resultMap type="ksmart31.team01.member.domain.MemberCareer" id="myCareer">	
+				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+		<result column="member_career_start_day" property="memberCareerStartDay"/>
+		<result column="member_career_end_day" property="memberCareerEndDay"/>
+		<result column="member_career_company" property="memberCareerCompany"/>
+		<result column="member_position_name" property="memberPositionName"/>
+		<result column="member_career_out_reason" property="memberCareerOutReason"/>
+		
+	</resultMap>
+	<select id="myCareer" resultMap="myCareer">
+		SELECT
+			member_career_start_day,
+			member_career_end_day,
+			member_career_company,
+			member_position_name,
+			member_career_out_reason
+		FROM member_career
+		WHERE member_id = #{memberId}
+	</select>
+	
+
+</mapper>

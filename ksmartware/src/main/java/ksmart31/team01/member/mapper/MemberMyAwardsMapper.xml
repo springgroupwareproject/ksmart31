@@ -1,0 +1,69 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ksmart31.team01.member.mapper.MemberMyAwardsMapper">
+
+	
+	<insert id="insertMyAwards">
+		INSERT INTO member_awards (
+			member_awards_code,
+			member_id,
+			member_awards_name,
+			member_awards_institution,
+			member_awards_day,
+			member_awards_desc,
+			member_awards_date,
+			member_name,
+			member_employee_code,
+			department_name,
+			member_position_name,
+			member_file_code
+		) 
+			SELECT CONCAT('MBAW','_', (SELECT MAX(SUBSTRING_INDEX(member_awards_code,'_',-1)+1) FROM member_awards)),
+			#{memberId},
+			#{memberAwardsName},
+			#{memberAwardsInstitution},
+			#{memberAwardsDay},
+			#{memberAwardsDesc},
+			NOW(),
+			#{memberEmployeeCode},
+			#{memberName},
+			#{departmentName},
+			#{memberPositionName},
+			#{memberFileCode}
+
+			
+	</insert> 
+	
+	<!-- myProfile 개인정보 -->
+	<resultMap type="ksmart31.team01.member.domain.MemberAwards" id="myAwards">
+				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+		<result column="member_awards_day" property="memberAwardsDay"/>
+		<result column="member_awards_name" property="memberAwardsName"/>
+		<result column="member_awards_institution" property="memberAwardsInstitution"/>
+		<result column="member_awards_desc" property="memberAwardsDesc"/>
+		<result column="member_file_code" property="memberFileCode"/>
+		<result column="member_files_origin_name" property="memberFilesOriginName"/>
+		<result column="member_files_save_name" property="memberFilesSaveName"/>
+	</resultMap>
+	
+	<select id="myAwards" resultMap="myAwards" parameterType="java.util.Map">
+		SELECT 
+			member_awards_day,
+			member_awards_name,
+			member_awards_institution,
+			member_awards_desc,
+			member_file_code,
+			mf.member_files_origin_name,
+			mf.member_files_save_name
+		FROM 
+			member_awards ma
+		LEFT JOIN
+			member_files mf
+		ON 
+			ma.member_file_code = mf.member_files_code
+		WHERE
+			ma.member_id = #{memberId}
+	</select>
+	
+	
+
+</mapper>

@@ -151,7 +151,7 @@
 									<div class="nav-item has-sub">
 										<a href="javascript:void(0)" class="menu-item">11. 인사 관리</a>
 										<div class="submenu-content">
-											<a href="javascript:void(0)" class="menu-item">#11-1 인사 설정</a> 
+											<a href="/admin/personnelSetting/setting" class="menu-item">11-1 인사 설정</a> 
 											<a href="/department/departmentAdminView" class="menu-item">11-2 조직도/조직원 관리</a> 
 											<a href="/leave/leaveCategoryManagement" class="menu-item">11-3 휴가 종류 관리</a> 
 											<a href="/leave/leaveHistoryManagement" class="menu-item">11-4 휴가 내역 관리</a> 
@@ -180,15 +180,15 @@
 										<a href="javascript:void(0)" class="menu-item">#14. 문서양식 관리</a>
 										<div class="submenu-content">
 											<a href="javascript:void(0)" class="menu-item">#14-1 공통 문서양식 관리</a> 
-											<a href="/admin/documentManagement/documentProcessManagement" class="menu-item">#14-2 공통 결재선 관리</a> 
+											<a href="javascript:void(0)" class="menu-item">#14-2 공통 결재선 관리</a> 
 											<a href="javascript:void(0)" class="menu-item">#14-3 제공 문서양식 도입</a>
 										</div>
 									</div>
 									<div class="nav-item has-sub">
-										<a href="javascript:void(0)" class="menu-item">#15. 문서 통합 관리</a>
+										<a href="javascript:void(0)" class="menu-item">15. 문서 통합 관리</a>
 										<div class="submenu-content">
-											<a href="javascript:void(0)" class="menu-item">#15-1 문서 관리</a> 
-											<a href="javascript:void(0)" class="menu-item">#15-2 문서 상세 데이터 조회</a>
+											<a href="/admin/documentManagement" class="menu-item">15-1 문서 관리</a> 
+											<a href="/admin/documentFormManagement" class="menu-item">15-2 문서 상세 데이터 조회</a>
 										</div>
 									</div>
 									<div class="nav-item has-sub">
@@ -200,7 +200,7 @@
 									<div class="nav-item has-sub">
 										<a href="javascript:void(0)" class="menu-item">17. 보안 관리</a>
 										<div class="submenu-content">
-											<a href="/adminLevel/adminLevel" class="menu-item">17-1. 관리자 권한 관리</a>
+											<a href="/admin/adminSecurity/adminSecurity" class="menu-item">17-1. 관리자 권한 관리</a>
 										</div>
 									</div>
 								</div>
@@ -213,11 +213,11 @@
 			                </div>
 							 -->
 							<div class="nav-item has-sub">
-								<a href="javascript:void(0)"><i class="ik ik-layers"></i><span>#1. 문서 기안</span></a>
+								<a href="javascript:void(0)"><i class="ik ik-layers"></i><span>1. 문서 기안</span></a>
 								<div class="submenu-content">
-									<a href="#" class="menu-item">#1-1 최근 승인 문서</a> 
-									<a href="/member/draftDocument/documentFormList" class="menu-item">#1-2 문서양식</a> 
-									<a href="/member/draftDocument/temporaryDocumentList" class="menu-item">#1-3 임시문서</a> 
+									<a href="/member/draftDocument/lastestApprovalDocumentList" class="menu-item">1-1 최근 승인 문서</a> 
+									<a href="/member/draftDocument/documentFormList" class="menu-item">1-2 문서양식</a> 
+									<a href="/member/draftDocument/temporaryDocumentList" class="menu-item">1-3 임시문서</a> 
 									<a href="#" class="menu-item">#1-4 개인 문서 양식 관리</a>
 								</div>
 							</div>
@@ -227,22 +227,22 @@
 							</div>
 							<hr>
 							<div class="nav-item has-sub">
-								<a href="javascript:void(0)"><i class="ik ik-layers"></i><span>#3. 나의 문서함</span></a>
+								<a href="javascript:void(0)"><i class="ik ik-layers"></i><span>3. 나의 문서함</span></a>
 								<div class="submenu-content">
-									<a href="javascript:void(0)" class="menu-item">#3-1 기안문서</a> 
-									<a href="javascript:void(0)" class="menu-item">#3-2 결재완료문서</a> 
-									<a href="javascript:void(0)" class="menu-item">#3-3 수신문서</a> 
-									<a href="javascript:void(0)" class="menu-item">#3-4 회람문서</a> 
-									<a href="javascript:void(0)" class="menu-item">#3-5 전결문서</a> 
-									<a href="javascript:void(0)" class="menu-item">#3-6 첨부파일</a>
+									<a href="/documentBox/draftDocument" class="menu-item">3-1 기안문서</a> 
+									<a href="/documentBox/approvedDocument" class="menu-item">3-2 결재완료문서</a> 
+									<a href="/documentBox/recievedDocument" class="menu-item">3-3 수신문서</a> 
+									<a href="/documentBox/circulationDocument" class="menu-item">3-4 회람문서</a> 
+									<a href="/documentBox/finalApprovalDocument" class="menu-item">#3-5 전결문서</a> 
+									<a href="/documentBox/attachedFile" class="menu-item">3-6 첨부파일</a>
 								</div>
 							</div>
 							<div class="nav-item">
-								<a href="javascript:void(0)"><i class="ik ik-menu"></i><span>#4. 문서 상세 데이터 조회</span></a>
+								<a href="/member/documentData"><i class="ik ik-menu"></i><span>#4. 문서 상세 데이터 조회</span></a>
 							</div>
 							<hr>
 							<div class="nav-item has-sub">
-								<a href="javascript:void(0)"><i class="ik ik-layers"></i><span>#5. 나의 정보</span></a>
+								<a href="javascript:void(0)"><i class="ik ik-layers"></i><span>5. 나의 정보</span></a>
 								<div class="submenu-content">
 									<a href="/member/memberMyProfile/myProfile" class="menu-item">5-1 나의 인사 정보</a> 
 									<a href="/leave/leaveMyPage" class="menu-item">5-2 나의 휴가 정보</a> 
@@ -267,10 +267,10 @@
 								<a href="javascript:void(0)"><i class="ik ik-menu"></i><span>#8. 공통 연락처</span></a>
 							</div>
 							<div class="nav-item has-sub">
-								<a href="javascript:void(0)"><i class="ik ik-layers"></i><span>#9. 증명서 발급</span></a>
+								<a href="javascript:void(0)"><i class="ik ik-layers"></i><span>9. 증명서 발급</span></a>
 								<div class="submenu-content">
-									<a href="javascript:void(0)" class="menu-item">#9-1 증명서 신청</a> 
-									<a href="javascript:void(0)" class="menu-item">#9-2 신청내역</a>
+									<a href="/apply/getApplyCertification" class="menu-item">9-1 증명서 신청</a> 
+									<a href="/apply/getCertificationHistoryList" class="menu-item">9-2 신청내역</a>
 								</div>
 							</div>
 						</nav>
@@ -317,8 +317,134 @@
 	                       </div>
 	                   </form>
 	               </div>
+	               <div class="chat-list">
+	                   <div class="list-group row">
+	                       <a href="javascript:void(0)" class="list-group-item" data-chat-user="Gene Newman">
+	                           <figure class="user--online">
+	                               <img src="/img/users/1.jpg" class="rounded-circle" alt="">
+	                           </figure><span><span class="name">Gene Newman</span>  <span class="username">@gene_newman</span> </span>
+	                       </a>
+	                       <a href="javascript:void(0)" class="list-group-item" data-chat-user="Billy Black">
+	                           <figure class="user--online">
+	                               <img src="/img/users/2.jpg" class="rounded-circle" alt="">
+	                           </figure><span><span class="name">Billy Black</span>  <span class="username">@billyblack</span> </span>
+	                       </a>
+	                       <a href="javascript:void(0)" class="list-group-item" data-chat-user="Herbert Diaz">
+	                           <figure class="user--online">
+	                               <img src="/img/users/3.jpg" class="rounded-circle" alt="">
+	                           </figure><span><span class="name">Herbert Diaz</span>  <span class="username">@herbert</span> </span>
+	                       </a>
+	                       <a href="javascript:void(0)" class="list-group-item" data-chat-user="Sylvia Harvey">
+	                           <figure class="user--busy">
+	                               <img src="/img/users/4.jpg" class="rounded-circle" alt="">
+	                           </figure><span><span class="name">Sylvia Harvey</span>  <span class="username">@sylvia</span> </span>
+	                       </a>
+	                       <a href="javascript:void(0)" class="list-group-item active" data-chat-user="Marsha Hoffman">
+	                           <figure class="user--busy">
+	                               <img src="/img/users/5.jpg" class="rounded-circle" alt="">
+	                           </figure><span><span class="name">Marsha Hoffman</span>  <span class="username">@m_hoffman</span> </span>
+	                       </a>
+	                       <a href="javascript:void(0)" class="list-group-item" data-chat-user="Mason Grant">
+	                           <figure class="user--offline">
+	                               <img src="/img/users/1.jpg" class="rounded-circle" alt="">
+	                           </figure><span><span class="name">Mason Grant</span>  <span class="username">@masongrant</span> </span>
+	                       </a>
+	                       <a href="javascript:void(0)" class="list-group-item" data-chat-user="Shelly Sullivan">
+	                           <figure class="user--offline">
+	                               <img src="/img/users/2.jpg" class="rounded-circle" alt="">
+	                           </figure><span><span class="name">Shelly Sullivan</span>  <span class="username">@shelly</span></span>
+	                       </a>
+	                   </div>
+	               </div>
 	           </div>
 	        </aside>
+			<!-- / I-2-4. right-sidebar (사용 시 내용 수정) -->
+			
+			<!-- I-2-5. chat-panel (사용 시 내용 수정) -->
+		    <div class="chat-panel" hidden>
+	           <div class="card">
+	               <div class="card-header d-flex justify-content-between">
+	                   <a href="javascript:void(0);"><i class="ik ik-message-square text-success"></i></a>  
+	                   <span class="user-name">John Doe</span> 
+	                   <button type="button" class="close" aria-label="Close"><span aria-hidden="true">×</span></button>
+	               </div>
+	               <div class="card-body">
+	                   <div class="widget-chat-activity flex-1">
+	                       <div class="messages">
+	                           <div class="message media reply">
+	                               <figure class="user--online">
+	                                   <a href="#">
+	                                       <img src="/img/users/3.jpg" class="rounded-circle" alt="">
+	                                   </a>
+	                               </figure>
+	                               <div class="message-body media-body">
+	                                   <p>Epic Cheeseburgers come in all kind of styles.</p>
+	                               </div>
+	                           </div>
+	                           <div class="message media">
+	                               <figure class="user--online">
+	                                   <a href="#">
+	                                       <img src="/img/users/1.jpg" class="rounded-circle" alt="">
+	                                   </a>
+	                               </figure>
+	                               <div class="message-body media-body">
+	                                   <p>Cheeseburgers make your knees weak.</p>
+	                               </div>
+	                           </div>
+	                           <div class="message media reply">
+	                               <figure class="user--offline">
+	                                   <a href="#">
+	                                       <img src="/img/users/5.jpg" class="rounded-circle" alt="">
+	                                   </a>
+	                               </figure>
+	                               <div class="message-body media-body">
+	                                   <p>Cheeseburgers will never let you down.</p>
+	                                   <p>They'll also never run around or desert you.</p>
+	                               </div>
+	                           </div>
+	                           <div class="message media">
+	                               <figure class="user--online">
+	                                   <a href="#">
+	                                       <img src="/img/users/1.jpg" class="rounded-circle" alt="">
+	                                   </a>
+	                               </figure>
+	                               <div class="message-body media-body">
+	                                   <p>A great cheeseburger is a gastronomical event.</p>
+	                               </div>
+	                           </div>
+	                           <div class="message media reply">
+	                               <figure class="user--busy">
+	                                   <a href="#">
+	                                       <img src="/img/users/5.jpg" class="rounded-circle" alt="">
+	                                   </a>
+	                               </figure>
+	                               <div class="message-body media-body">
+	                                   <p>There's a cheesy incarnation waiting for you no matter what you palete preferences are.</p>
+	                               </div>
+	                           </div>
+	                           <div class="message media">
+	                               <figure class="user--online">
+	                                   <a href="#">
+	                                       <img src="/img/users/1.jpg" class="rounded-circle" alt="">
+	                                   </a>
+	                               </figure>
+	                               <div class="message-body media-body">
+	                                   <p>If you are a vegan, we are sorry for you loss.</p>
+	                               </div>
+	                           </div>
+	                       </div>
+	                   </div>
+	               </div>
+	               <form action="javascript:void(0)" class="card-footer" method="post">
+	                   <div class="d-flex justify-content-end">
+	                       <textarea class="border-0 flex-1" rows="1" placeholder="Type your message here"></textarea>
+	                       <button class="btn btn-icon" type="submit"><i class="ik ik-arrow-right text-success"></i></button>
+	                   </div>
+	               </form>
+	           </div>
+	        </div>
+			<!-- / I-2-5. chat-panel -->
+			
 		</div>
 		<!-- / I-2. page-wrap -->	
 		

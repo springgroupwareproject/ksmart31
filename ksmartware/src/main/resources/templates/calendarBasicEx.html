@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+	
+<th:block layout:fragment="customHead">
+	<meta charset="UTF-8">
+	<title>Sample</title>
+	<th:block th:include="layout/customHead"></th:block>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script>
+		
+		
+
+		//[연습1]
+		
+		$.datepicker.setDefaults({
+			dateFormat: 'yy-mm-dd'   
+		});
+		
+		$(function() {
+			$("#fromDate").datepicker();
+			$("#toDate").datepicker();
+		});
+		
+
+		
+/* 	
+		//[연습 2]
+		 
+		$.datepicker.setDefaults({
+			dateFormat: 'yy-mm-dd',
+			prevText: '이전 달',
+			nextText: '다음 달',
+			monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+			monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+			dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+			dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+			dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+			showMonthAfterYear: true,
+			yearSuffix: '년'
+		});
+		
+		
+		$(function() {
+		    $("#datepicker1").datepicker();
+		    $("#datepicker2").datepicker();
+		});
+ */
+	</script>	
+</th:block>
+
+
+<th:block layout:fragment="customBody">
+
+<h2><a href="https://its-easy.tistory.com/12">[Jquery UI] Datepicker 간단 사용법(링크)</a></h2><hr><br>
+		
+		
+		localhost/test<br><br>
+		
+		<div>
+			[ 연습 1 ] 기본버전 (영어) 
+			시작일 : <input type="text" name="fromDate" id="fromDate" size="12" />
+			종료일 : <input type="text" name="toDate" id="toDate" size="12" />
+		</div>
+		<hr><br>
+		<div>
+			[ 연습 2 ] 커스텀 셋팅(한글)
+			시작일: <input type="text" id="datepicker1">
+			종료일: <input type="text" id="datepicker2">
+		</div>
+
+</th:block>
+	
+<th:block layout:fragment="customJquery">
+	<th:block th:include="layout/customJquery"></th:block>
+</th:block>
+	
+</html>
