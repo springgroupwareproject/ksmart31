@@ -26,8 +26,5 @@ public class AccountController {
 		return "accounting/accountListView";
 //수정
 
-
-
-
 	}	
 }
