@@ -22,9 +22,19 @@ public class DocumentFormController {
 	
 	// 구매요청서 작성폼
 	@GetMapping("/purchaseRequisitionForm")
-	public String addPurchaseRequisitionForm() {
+	public String addPurchaseRequisitionForm(HttpSession session, Model model) {
 		System.out.println("[DocumentFormController] addPurchaseRequisitionForm() 실행");
-		return "member/documentForm/purchaseRequisitionForm";
+		
+		// 로그인된 아이디에서 직원 정보 조회
+		Member loginMember = (Member) session.getAttribute("loginMember");
+		System.out.println("[DocumentFormController] loginMember : "+loginMember);
+		
+		if(loginMember == null) {
+			return "redirect:"+"/login";
+		}else {
+			model.addAttribute("loginMember", loginMember);
+			return "member/documentForm/purchaseRequisitionForm";
+		}
 	}
 	
 	// 프로젝트 업무보고 작성폼

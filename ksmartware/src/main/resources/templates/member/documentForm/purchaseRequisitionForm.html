@@ -20,20 +20,20 @@
 		                	<div class="row">
 	                            <div class="col-md-4">
 	                                <div class="form-group">
-	                                    <label for="exampleInputEmail3">소속</label>
-	                                    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+	                                    <label for="departmentName">소속</label>
+	                                    <input type="text" class="form-control" id="departmentName" th:value="${loginMember.departmentName}">
 	                                </div>
 	                            </div>
 	                            <div class="col-md-4">
 	                                <div class="form-group">
-	                                    <label for="exampleSelectGender">직위/직책</label>
-	                                    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+	                                    <label for="memberPositionName">직위/직책</label>
+	                                    <input type="text" class="form-control" id="memberPositionName" th:value="${loginMember.memberPositionName}">
 	                                </div>
 	                            </div>
 	                            <div class="col-md-4">
 	                                <div class="form-group">
-	                                    <label for="exampleSelectGender">신청자</label>
-	                                    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+	                                    <label for="memberName">신청자</label>
+	                                    <input type="text" class="form-control" id="memberName" th:value="${loginMember.memberName}">
 	                                </div>
 	                            </div>
                             </div>
@@ -41,19 +41,19 @@
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label for="exampleInputEmail3">작성일</label>
-	                                    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+	                                    <input type="email" class="form-control" id="exampleInputEmail3">
 	                                </div>
 	                            </div>
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label for="exampleSelectGender">지급요청일</label>
-	                                    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+	                                    <input type="email" class="form-control" id="exampleInputEmail3">
 	                                </div>
 	                            </div>
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label for="exampleSelectGender">총 요청금액</label>
-	                                    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+	                                    <input type="email" class="form-control" id="exampleInputEmail3">
 	                                </div>
 	                            </div>
                             </div>
@@ -76,7 +76,7 @@
 									<th>삭제</th>
 								</tr>
 								<tr>
-									<td>
+									<td width="100">
 										<select class="form-control" id="exampleSelectGender">
 		                                     <option></option>
 											 <option>품목1</option>
@@ -84,13 +84,13 @@
 											 <option>품목3</option>
 		                                 </select>
 		                            </td>
-									<td><input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email"></td>
-									<td><input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email"></td>
-									<td><input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email"></td>
-									<td><input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email"></td>
-									<td><input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email"></td>
-									<td><input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email"></td>
-									<td><input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email"></td>
+									<td><input type="email" class="form-control" id="exampleInputEmail3"></td>
+									<td><input type="email" class="form-control" id="exampleInputEmail3"></td>
+									<td><input type="email" class="form-control" id="exampleInputEmail3"></td>
+									<td><input type="email" class="form-control" id="exampleInputEmail3"></td>
+									<td><input type="email" class="form-control" id="exampleInputEmail3"></td>
+									<td><input type="email" class="form-control" id="exampleInputEmail3"></td>
+									<td><input type="email" class="form-control" id="exampleInputEmail3"></td>
 								</tr>
 							</table>
 				        </form>
