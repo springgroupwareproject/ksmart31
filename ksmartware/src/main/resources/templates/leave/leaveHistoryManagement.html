@@ -273,13 +273,14 @@
 					});
 				}
 			});
+			// 모달 조직도에서 부서 선택 시 해당 조직원 목록 출력 
 			$('.addDepartmentNameButton').click(function(){
 				console.log('모달 조직도 버튼 테스트 value : '+$(this).attr('value'));
 				// 조직원 정보 초기화
 				$('#member').empty();
 				// departmentName 별로 조직원을 조회하기 위해 이름 값을 담는 변수  
 				let departmentName = $(this).attr('value');
-				// 비동기 요청 성공 시 리턴 값을 #member 위치에 생성할 내용을 담을 변수
+				// 비동기 요청 성공 시 조직원 리스트를 #member 위치에 생성할 내용을 담을 변수
 				let contents = '';
 				$.ajax({
 					url : '/leave/departmentJoinMember',
@@ -290,10 +291,12 @@
 					success : function(data){
 						console.log(data);
 						$(data).each(function(i, item){
+							// 조직원 리스트 생성
 							contents += '<div class="input-group-text">';
 							contents += '<label for="'+item.memberId+'"><input type="checkbox" id="'+item.memberId+'"> '+item.memberName+'('+item.memberId+')</label>';
 							contents += '</div>';
 							$('#member').append(contents);
+							// 변수 내용 초기화
 							contents = '';
 						});
 					},	
@@ -302,6 +305,12 @@
 					}
 				});
 			});
+			// 부여 및 차감 확인 버튼 이벤트 (입력)
+			$('#leaveGrantAndUsedButton').click(function(){
+				console.log('부여 및 차감 확인 버튼 테스트');
+				
+			});
+			
 			$('#categoryList').val('').trigger('change');
 			$('#grantAndUsed').val('부여').trigger('change');
 		});
@@ -572,7 +581,7 @@
 			</div>
 	        <!-- Modal footer -->
 	        <div class="modal-footer">
-	          <button type="button" class="btn btn-primary" id="modifyLeaveCategory" data-dismiss="modal">확인</button>
+	          <button type="button" class="btn btn-primary" id="leaveGrantAndUsedButton">확인</button>
 	          <button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
 	        </div>
 		</div>
