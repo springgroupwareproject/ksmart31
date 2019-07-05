@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ksmart31.team02.document.mapper.DocumentFormManagementMapper">
+<mapper namespace="ksmart31.team02lsj.document.mapper.DocumentFormManagementMapper">
 	<!-- 전체리스트 -->
 	<select id="selectdocumentFormList"
-			resultType="ksmart31.team02.document.domain.DocumentForm">
+			resultType="ksmart31.team02lsj.document.domain.DocumentForm">
 			SELECT
 				document_form_name AS documentFormName
 			FROM document_form
@@ -14,7 +14,7 @@
 	<!-- 카테고리별 리스트 -->
 	<select id="selectdocumentFormListByCategory"
 			parameterType="String"
-			resultType="ksmart31.team02.document.domain.DocumentForm">
+			resultType="ksmart31.team02lsj.document.domain.DocumentForm">
 			SELECT
 				document_form_name AS documentFormName
 			FROM document_form
@@ -23,7 +23,7 @@
 	</select>
 	<!-- 구매요청서 리스트 -->
 	<select id="selectPurchaseRequisitionByDocumentForm"
-			resultType="ksmart31.team02.document.domain.PurchaseRequisition">
+			resultType="ksmart31.team02lsj.document.domain.PurchaseRequisition">
 			SELECT
 				draft_document_code AS draftDocumentCode
 				member_name AS memberName
@@ -37,7 +37,7 @@
 	</select>
 	<!-- 지출결의서 리스트 -->
 	<select id="selectDisbursementDocumentByDocumentForm"
-			resultType="ksmart31.team02.document.domain.DisbursementDocument">
+			resultType="ksmart31.team02lsj.document.domain.DisbursementDocument">
 			SELECT
 			draft_document_code AS draftDocumentCode
 			disbursement_document_name AS disbursementDocumentName
@@ -54,7 +54,7 @@
 	</select>
 	<!-- 휴가신청서 리스트 -->
 	<select id="selectLeaveApplicationByDocumentForm"
-			resultType="ksmart31.team02.document.domain.LeaveApplication">
+			resultType="ksmart31.team02lsj.document.domain.LeaveApplication">
 			SELECT
 			draft_document_code AS draftDocumentCode
 			member_name AS memberName
@@ -69,13 +69,13 @@
 	<!-- 프로젝트 업무보고 리스트 -->
 	<select id="selectProjectReportByDocumentForm"
 			parameterType="String"
-			resultType="ksmart31.team02.document.domain.DocumentForm">
+			resultType="ksmart31.team02lsj.document.domain.DocumentForm">
 
 	</select>
 	<!-- 프로젝트 업무보고 리스트 -->
 	<select id="selectProjectDisbursementByDocumentForm"
 			parameterType="String"
-			resultType="ksmart31.team02.document.domain.DocumentForm">
+			resultType="ksmart31.team02lsj.document.domain.DocumentForm">
 
 	</select>
 	

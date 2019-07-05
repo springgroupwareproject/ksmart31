@@ -1,0 +1,38 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ksmart31.team01.files.mapper.FilesMapper">
+	
+	<insert id="insertFiles" parameterType="ksmart31.team01.member.domain.MemberFiles">
+		INSERT INTO member_files (
+			member_files_code,	<!-- # 쿼리문 구현 오토기본키 -->
+			member_id,	<!--  # 세션값 아이디 -->
+			member_file_info,	<!--  # 테이블의 이름값 예:자격증 정보 -->
+			member_files_origin_name,	<!--   # 서비스구현 코드로구현 파일 오리진이름(중복안되게해야됨 UUID사용) -->
+			member_files_save_name,	<!--  #서비스구현 저장파일 이름 (select먼저사용 하여 중복 안되게) -->
+			member_files_ext,	<!--  # 서비스구현 파일확장자명 (sub.String) -->
+			member_files_type,	<!--  # 파일첨부시 같이 등록되는 글"셀렉트 사진,음악,동영상,파일" -->
+			member_files_size,	<!--  # 서비스구현 파일크기 -->
+			member_files_date,	<!-- # 쿼리문 입력시 now() -->
+			member_employee_code,<!--  # 세션값 사원코드 -->
+			member_name, <!-- # 세션값 사원이름 -->
+			department_name, <!-- # 세션값 부서명  -->
+			member_position_name <!-- # 세션값 직위직책 -->
+		)
+			
+			SELECT CONCAT('MBACA','_', (SELECT MAX(substring(member_academy_code, 7)+1) FROM member_academy)),  <!-- 기본키값 마지막 수 증가 -->
+			#{memberId},	<!-- F.K-->
+			#{memberFileInfo},
+			#{memberFilesOriginName},
+			#{memberFilesSaveName},
+			#{memberFilesExt},
+			#{memberFilesType},
+			#{memberFilesSize},	<!-- INT -->
+			NOW(),	<!-- DATE TIME -->
+			#{memberEmployeeCode},	<!-- F.K-->
+			#{memberName},
+			#{departmentName},	<!-- F.K-->
+			#{memberPositionName}	<!-- F.K-->
+
+	</insert>
+	
+		
+</mapper>

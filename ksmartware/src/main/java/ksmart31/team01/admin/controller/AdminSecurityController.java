@@ -15,9 +15,7 @@ import ksmart31.team01.member.domain.Member;
 
 @Controller
 public class AdminSecurityController {
-	
-	// 리베이스 테스트
-	
+		
 	@Autowired AdminSecurityService AdminSecurityService;
 	
 	/* 관리자 권한부여 매서드 */

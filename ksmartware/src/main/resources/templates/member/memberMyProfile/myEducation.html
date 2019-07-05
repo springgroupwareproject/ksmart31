@@ -1,20 +1,235 @@
 <!DOCTYPE html>
 <html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
-	
-	<!-- jquery head 부분 넣는곳 -->
-	<th:block layout:fragment="customHead">
-		<meta charset="UTF-8">
-		<title>myProject</title>
-		<th:block th:include="layout/customHead"></th:block>
-				
-		<meta http-equiv="Content-Type" content="text/html</td> charset=UTF-8" />
-		<title>leaveCategoryList.html</title>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- jquery head 부분 넣는곳 -->
+<th:block layout:fragment="customHead">
+<meta charset="UTF-8">
+<title>myProject</title>
+<th:block th:include="layout/customHead"></th:block>
 		
-	</th:block>
+<meta http-equiv="Content-Type" content="text/html</td> charset=UTF-8" />
+<title>leaveCategoryList.html</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- calendar -->
+<link rel="stylesheet" th:href="@{/plugins/jquery-minicolors/jquery.minicolors.css}">
+      <link rel="stylesheet" th:href="@{/plugins/datedropper/datedropper.min.css}">
+      <!-- /calendar -->
+
+<style> /* 추가버튼 스타일 */
+    .icon-list-wrap .icon-list-item i {
+        float: left;
+        text-align: center;
+        border-radius: .1875rem;
+        margin-right: 1rem;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        -moz-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+    }
+</style>
+
+
+<script>
+
+
+
+
+$(document).ready(function(){ // ready 시작
+						
+	$('#addBtn').click(function(){	// 입력버튼 클릭시
+		console.log('추가 버튼 테스트 : '+$(this).attr('value'));
+		
+		for (var i = 1; i < 13; i++) { /* 시간 시작 월 선택 */  
+			if(i <10) {
+				$("#startMonth").append('<option value="0'+i+'">'+i+'</option>');
+			} else {
+				$("#startMonth").append('<option value="'+i+'">'+i+'</option>');
+			}
+		}
+		
+		for (var i = 1; i < 32; i++) { /* 기간 시작 일 선택 */
+			if(i <10) {
+				$("#startDay").append('<option value="0'+i+'">'+i+'</option>');
+			} else {
+				$("#startDay").append('<option value="'+i+'">'+i+'</option>');
+			}
+		}
+		
+		for (var i = 1; i < 13; i++) { /* 기간 종료 월 선택 */
+			if(i <10) {
+				$("#endMonth").append('<option value="0'+i+'">'+i+'</option>');
+			} else {
+				$("#endMonth").append('<option value="'+i+'">'+i+'</option>');
+			}
+		}
+		
+		for (var i = 1; i < 32; i++) { /* 기간 종료 일 선택 */
+			if(i <10) {
+				$("#endDay").append('<option value="0'+i+'">'+i+'</option>');
+			} else {
+				$("#endDay").append('<option value="'+i+'">'+i+'</option>');
+			}
+		}
+		
+		$("#memberEducationInstitutionStandard").change(function(){ // 체인지시 이벤트 발생
+	        if($("#memberEducationInstitutionStandard").val() == '고등학교'){ // 값이 고등학교일경우 
+	        	$("#EducationGrade").hide(1000); // 학점 숨김 
+	        }else{
+	        	$("#EducationGrade").show(1000); // 학점 출력
+	        } /* else 종료 */
+	    }); /* change 이벤트 종료 */
+	    
+	    $("#memberEducationNow").change(function(){
+	    	if($("#memberEducationNow").val() == '재학'){
+	    		$("#education").text('재학 날짜');
+	    		$("#range").show(); // ~ 문자
+	        	$("#endYear").show(); // 년도값
+	        	$("#endMonth").show(); // 월값
+	        	$("#endDay").show(); // 일값
+	        	$("#Year").show(); // 년 text
+	        	$("#Month").show(); // 월 text
+	        	$("#Day").show(); // 일 text
+			}else{
+				$("#education").text($("#memberEducationNow").val() + ' 날짜'); // 내머리로 이런게 나오다니.. 신기하다.
+				$("#range").hide(); // ~ 문자
+	        	$("#endYear").hide(); $('#endYear').val('');
+	        	$("#endMonth").hide(); $('#endMonth').val(''); // 졸업 등일경우 null값
+	        	$("#endDay").hide(); $('#endDay').val(''); // 졸업 등일경우 null값
+	        	$("#Year").hide(); // 년 text
+	        	$("#Month").hide(); // 월 text
+	        	$("#Day").hide(); // 일 text
+			}
+	    }); /* change 이벤트 종료 */
+	    
+		$('#saveBtn').click(function(){
+			console.log('저장 버튼 테스트 ');
+			
+			if($("#memberEducationInstitutionStandard").val() == '선택'){ // 기관선택
+				 alert('기관을 선택하십시오.');
+				 return false;
+			}else if($("#memberEducationInstitution").val() == ''){ // 학교명 입력
+				 alert('학교명을 입력하십시오.');
+				 return false;
+			}
+			if($("#memberEducationNow").val() == '선택'){ // 재학 선택 여부
+				 alert('재학여부를 선택하십시오.');
+				 return false;
+			}
+			/* 기간 검사 */
+			if($("#memberEducationNow").val() == '재학'){
+				if($('#startYear').val() == ''){
+					alert('입학년도를 입력하십시오.');
+					return false;
+				}else if($('#endYear').val() == ''){ // number로입력받아서 javaScript의 자동형변환 int값  .val('')을넣으면  '' 이된다 String은 null 이된다  / 여러번해본결과 이런 것 같다
+					alert('졸업년도를 입력하십시오.');
+					return false;
+				}else if($('#endMonth').val() == null){ // select로'1'문자열을 입력받아서 javaScript의 자동형변환  string값 이므로 null조건
+					alert('졸업 달을 입력하십시오.');
+					return false;
+				}else if($('#endDay').val() == null){
+					alert('졸업 일을 입력하십시오.');
+					return false;
+				}
+			}else{
+				if($('#startYear').val() == ''){
+					alert('년도를 입력하십시오.');
+					return false;
+				}
+			}/* 기간검사 끝 */
+			
+			if($('#memberEducationDegree').val() == ''){ 
+				alert('학위를 입력하십시오.');
+				return false;
+			}else if($('#memberEducationMajor').val() == ''){
+				alert('전공을 입력하십시오.');
+				return false;
+			}
+			/* 학점검사 */
+			if($('#memberEducationInstitutionStandard').val() != '고등학교'){
+				if($('#memberEducationGrade').val() == ''){
+					alert('학점을 입력하십시오.');
+					return false;
+				}else if($('#memberEducationTotalScore').val() == ''){
+					alert('총점을 입력하십시오.');
+					return false;
+				}
+			}else if($('#memberEducationInstitutionStandard').val() == '고등학교'){
+				$('#memberEducationGrade').val('') // 학점을 비운다
+			} /* 학점검사 끝  */
+				
+			if($('#memberEducationDesc').val() == ''){
+				alert('설명을 입력해주십시오.');
+				return false;
+			}	
+				
+			let memberEducationInstitutionStandard = $('#memberEducationInstitutionStandard').val(); // 기관구분
+			let memberEducationInstitution = $('#memberEducationInstitution').val(); // 학교명
+			let memberEducationStartDay = $('#startYear').val() + '-' + $('#startMonth').val() + '-' + $('#startDay').val(); //시작날
+			let memberEducationEndDay = $('#endYear').val() + '-' + $('#endMonth').val() + '-' + $('#endDay').val(); //종료날
+			let memberEducationNow = $('#memberEducationNow').val(); // 재학여부
+			let memberEducationDegree = $('#memberEducationDegree').val(); // 학위
+			let memberEducationMajor = $('#memberEducationMajor').val(); // 전공
+			let memberEducationGrade = $('#memberEducationGrade').val(); // 학점
+			let memberEducationTotalScore = $('#memberEducationTotalScore').val(); // 총점
+			let memberEducationDesc = $('#memberEducationDesc').val(); // 설명
+	 
+		 /*	let selectFile = $('#selectFile').val(); // MultipartFile 인터페이스에 담을 파일값 
+		 	let memberFilesType = $('#filesType').val(); // 파일 타입   */
+		 	
+		/*  let memberFilesInfo = $('#memberFileInfo').val();  // 뷰쪽 타이틀정보를 담음  */
+			
+			console.log('기관구분 값출력 '+$('#memberEducationInstitutionStandard').val() + ' 변수값 확인 비교 : '+ memberEducationInstitutionStandard);
+			console.log('학교명 값출력 '+$('#memberEducationInstitution').val() + ' 변수값 확인 비교 : '+ memberEducationInstitution);
+			console.log("재학 시작날짜 : " + memberEducationStartDay);
+			console.log("재학 종료날짜 : " + memberEducationEndDay);
+			console.log('재학여부 값출력 '+$('#memberEducationNow').val() + ' 변수값 확인 비교 : '+ memberEducationNow);
+			console.log('학위 값출력 '+$('#memberEducationDegree').val() + ' 변수값 확인 비교 : '+ memberEducationDegree);
+			console.log('전공 값출력 '+$('#memberEducationMajor').val() + ' 변수값 확인 비교 : '+ memberEducationMajor);
+			console.log('학점 값출력 '+$('#memberEducationGrade').val() + ' 변수값 확인 비교 : '+ memberEducationGrade);
+			console.log('총점 값출력 '+$('#memberEducationTotalScore').val() + ' 변수값 확인 비교 : '+ memberEducationTotalScore);
+			console.log('설명 값출력 '+$('#memberEducationDesc').val() + ' 변수값 확인 비교 : '+ memberEducationDesc);
+
+		
+			$.ajax({
+				url : '/member/memberMyProfile/addmyEducation',
+				type : 'get',
+				data : {
+					memberEducationInstitutionStandard:memberEducationInstitutionStandard,
+					memberEducationInstitution:memberEducationInstitution,
+					memberEducationStartDay:memberEducationStartDay,
+					memberEducationEndDay:memberEducationEndDay,
+					memberEducationNow:memberEducationNow,
+					memberEducationDegree:memberEducationDegree,
+					memberEducationMajor:memberEducationMajor,
+					memberEducationGrade:memberEducationGrade,
+					memberEducationTotalScore:memberEducationTotalScore,
+					memberEducationDesc:memberEducationDesc
+				},
+				success : function(){
+					console.log('성공')
+			/* 	$('#closeBtn').trigger("click"); 닫기버튼클릭  */
+					location.reload();   // 새로고침
+				},
+				error : function(error){
+					console.log(error);
+					//alert('실패 : '+error);
+				}
+			}); // ajax 끝
+		
+		}); // 저장버튼 클릭 끝
+		    
+	}); // 입력버튼 클릭끝
+	
+});  // ready 끝
+
+</script>
+	
+</th:block>
 	
 	<!-- 본문 -->
 	<th:block layout:fragment="customBody">
@@ -35,7 +250,7 @@
 						</div>
 						<hr>
 						<div>
-							<a href="/member/memberMyProfile/myCareer">경력 정보</a>
+							<a href="/member/memberMyProfile/myEducation">학력 정보</a>
 						</div>
 						<hr>
 						<div>
@@ -43,7 +258,7 @@
 						</div>
 						<hr>
 						<div>
-							<a href="/member/memberMyProfile/myEducation">학력 정보</a>
+							<a href="/member/memberMyProfile/myLicense">자격증 정보</a>
 						</div>
 						<hr>
 						<div>
@@ -51,13 +266,12 @@
 						</div>
 						<hr>
 						<div>
-							<a href="/member/memberMyProfile/myLicense">자격증 정보</a>
+							<a href="/member/memberMyProfile/myCareer">경력 정보</a>
 						</div>
 						<hr>
 						<div>
 							<a href="/member/memberMyProfile/myAwards">수상 이력 정보</a>
 						</div>
-					
 					</div>
 				</div>
 			</div>	
@@ -65,9 +279,16 @@
 			
 			<div class="col-10" style="padding-right:20px; border-right: 1px solid #ccc;">
 				<div class="card">
-					<div class="card-header">
-						<div>나의 학력 정보</div> 
-						<div style="padding:10px; text-align:right"><button >추가</button></div>
+					<div class="card-header justify-content-between" style="padding: 10px;">
+					    <div style="padding: 0px 0px 0px 10px">나의 학력 정보</div>
+					    <!-- 팝업창 추가 버튼 -->
+					    <div class="icon-list-wrap">
+					        <div class="icon-list-item">
+					            <a id="addBtn" data-toggle="modal" data-target="#detailModal" class="btn pull-right" href="#" style="padding: 0;" >
+					                <i class="ik ik-plus-square"></i>
+					            </a>
+					        </div>
+					    </div>
 					</div>
 					<div class="card-body" >
 						<div  th:each="myEducation : ${myEducation}">	
@@ -80,12 +301,13 @@
 							<div th:text="|학위 : ${myEducation.memberEducationDegree}|"></div>
 							<div th:text="|전공 : ${myEducation.memberEducationMajor}|"></div>
 							<div th:text="|학점 : ${myEducation.memberFilesOriginName}|"></div>
+							
 							<!-- if 조건 데이터가 공백이면 파일없음 -->
-							<div th:if="${myEducation.memberFilesSaveName == '' }">
+							<div th:if="${myEducation.memberFilesSaveName == '' || myEducation.memberFilesSaveName == null} ">
 								<div>첨부파일 : 파일없음</div>
 							</div>
 							<!-- else 조건 -->
-							<div th:unless="${myEducation.memberFilesSaveName == ''}">
+							<div th:unless="${myEducation.memberFilesSaveName == '' || myEducation.memberFilesSaveName == null}">
 								<div class="input-group">
 									<div>첨부파일 : </div>
 									<a href="#" th:text="|&nbsp; ${myEducation.memberFilesSaveName}|"></a>
@@ -93,20 +315,152 @@
 							</div>
 							
 							<div  align="right" style="height: 100px; padding:20px"><button>수정</button> <button>삭제</button></div>
-								<hr>
-							
-							<!-- 
-							시작								종료					퇴사회사					직급
-							member_career_start_day ~ member_career_end_day member_career_company	member_position_name
-							
-							퇴사사유
-							member_career_out_reason
-							 -->
-						</div>	 
+							<hr>
+						</div>
+						
+						<!-- 팝업 화면 출력  -->
+						<div class="modal" id="detailModal">
+							<div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">
+								<div class="modal-content">
+								
+									<!-- Modal Header -->
+									<div class="modal-header">
+										<h2 class="modal-title">학력 정보 입력</h2>
+										<button type="button" class="close" data-dismiss="modal">×</button>
+									</div>
+									
+									<!-- Modal body -->
+									<div class="modal-body">
+										<form class="BodyForm">
+											
+											<!-- 학교명 카드영역 시작 -->
+											<div class="card">
+												<div class="card-header"><h3>학교명</h3></div>
+												<div class="card-body">
+													<div class="input-group">
+														<select id="memberEducationInstitutionStandard" class="form-control col-sm-2"> <!-- 학교구분 -->
+															<option th:value="선택">선택</option>
+															<option th:value="고등학교">고등학교</option>
+															<option th:value="대학교">대학교</option>
+															<option th:value="대학원">대학원</option>
+														</select>
+														<input type="text" id="memberEducationInstitution" class="form-control"> <!-- 학교명 -->
+													</div> 
+												</div>
+											</div> <!-- 학교명 카드영역 끝 -->
+											
+											<div class="card">
+												<div class="card-header"><h3>재학 여부</h3></div>
+												<div class="card-body">
+													<select id="memberEducationNow" class="form-control">
+															<option th:value="선택">선택</option>
+															<option th:value="졸업">졸업</option>
+															<option th:value="재학">재학</option>
+															<option th:value="휴학">휴학</option>
+															<option th:value="수료">수료</option>
+															<option th:value="자퇴">자퇴</option>
+															<option th:value="제적">제적</option>
+															<option th:value="조기졸업">조기졸업</option>
+															<option th:value="학위포기">학위포기</option>
+													</select>
+												</div>
+											</div>			
+											
+											<!-- 재학 기간 시작 -->
+											<div class="card">
+												<div class="card-header"><h3 id="education" th:text="재학날"></h3></div>
+												<div class="card-body">
+
+													<div class="input-group">
+
+														<input type="text" id="startYear" class="form-control col-sm-1"> <div style="padding: 8px 10px 10px 10px" th:text="년 "></div>
+														
+														<select id="startMonth" class="form-control col-sm-1">
+															<!-- 스크립트 반복문으로 뿌려준다 01~12까지 뿌려준다 -->
+														</select><div style="padding: 8px 10px 10px 10px" th:text="월 "></div>
+														
+														<select id="startDay" class="form-control col-sm-1">
+															<!-- 스크립트 반복문으로 뿌려준다 01~31까지 뿌려준다 -->
+														</select><div style="padding: 8px 10px 10px 10px" th:text="일 "></div>
+														
+														<h4 id="range">&nbsp; ~ &nbsp;</h4>
+														
+														<input type="text" id="endYear" class="form-control col-sm-1"> <div id="Year" style="padding: 8px 10px 10px 10px" th:text="년 "></div>
+														
+														<select id="endMonth" class="form-control col-sm-1">
+															<!-- 스크립트 반복문으로 뿌려준다 01~12까지 뿌려준다 -->
+														</select> <div id="Month" style="padding: 8px 10px 10px 10px" th:text="월 "></div>
+														
+														<select id="endDay" class="form-control col-sm-1">
+															<!-- 스크립트 반복문으로 뿌려준다 01~31까지 뿌려준다 -->
+														</select> <div id="Day" style="padding: 8px 10px 10px 10px" th:text="일 "></div>
+														
+													</div>
+												</div>
+											</div> <!-- 재학 기간  끝 -->
+											
+											<!-- 학위 카드영역 시작 -->
+											<div class="card">
+												<div class="card-header"><h3>학위</h3></div>
+												<div class="card-body">
+													<div><input type="text" id="memberEducationDegree" class="form-control"></div>
+												</div>
+											</div> <!-- 학위 카드영역 끝 -->
+											
+											<!-- 전공 카드영역 시작 -->
+											<div class="card">
+												<div class="card-header"><h3>전공</h3></div>
+												<div class="card-body">
+													<div><input type="text" id="memberEducationMajor" class="form-control"></div>
+												</div>
+											</div> <!-- 전공 카드영역 끝 -->
+											
+											<!-- 학점 카드영역 시작 -->
+											<div id="EducationGrade" class="card">
+												<div class="card-header"><h3>학점</h3></div>
+												<div class="card-body">
+													<div class="input-group">
+														<input type="number" id="memberEducationGrade" class="form-control col-sm-2" th:placeholder="학점">
+														<h4 style="padding: 2px 10px 0px 10px">/</h4>
+														<input type="number" id="memberEducationTotalScore" class="form-control col-sm-2" th:placeholder="총점">
+													</div>
+												</div>
+											</div> <!-- 학점 카드영역 끝 -->
+											
+											<!-- 설명 시작 -->
+											<div class="card">
+												<div class="card-header"><h3>설명</h3></div>
+												<div class="card-body">
+																										<!-- rows높이/cols넓이 -->
+													<textarea id="memberEducationDesc" class="form-control" rows="4" cols="">
+													</textarea>
+												</div>
+											</div> <!-- 설명 끝 -->
+
+										</form>
+									</div>	
+									
+									
+									<!-- Modal footer -->
+									<div class="modal-footer"> 
+										<form id="FooterForm">
+											<div class="input-group" style="margin: 0px 0px 0px 10px; padding: 0px 0px 0px 0px">
+												<button id="saveBtn" type="button" class="btn btn-primary">저장</button>
+												&nbsp;
+												<button id="closeBtn" type="button" class="btn btn-light" data-dismiss="modal">취소</button> 
+												<div id="memberFileInfo" hidden="hidden" th:value="수상이력정보"></div> <!-- 파일테이블에서 사용할 뷰쪽 타이틀정보 -->
+											</div>
+										</form>
+									</div>	
+									
+								</div>
+							</div>
+						</div> <!-- 팝업창끝 -->
+						
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> <!-- class="row" 끝 -->
 
 			
 		
@@ -114,6 +468,8 @@
 	
 	<th:block layout:fragment="customJquery">
 		<th:block th:include="layout/customJquery"></th:block>
+		<script src="/plugins/jquery-minicolors/jquery.minicolors.min.js"></script>
+        <script src="/plugins/datedropper/datedropper.min.js"></script>
 	</th:block>
 	
 </html>
