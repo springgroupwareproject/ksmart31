@@ -11,12 +11,6 @@
 <title>leaveCategoryList.html</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<!-- calendar -->
-<link rel="stylesheet" th:href="@{/plugins/jquery-minicolors/jquery.minicolors.css}">
-      <link rel="stylesheet" th:href="@{/plugins/datedropper/datedropper.min.css}">
-      <!-- /calendar -->
 
 <style> /* 추가버튼 스타일 */
     .icon-list-wrap .icon-list-item i {
@@ -276,9 +270,9 @@ $(document).ready(function(){ // ready 시작
 				</div>
 			</div>	
 
-			
+                      			
 			<div class="col-10" style="padding-right:20px; border-right: 1px solid #ccc;">
-				<div class="card">
+				    <div class="card">
 					<div class="card-header justify-content-between" style="padding: 10px;">
 					    <div style="padding: 0px 0px 0px 10px">나의 학력 정보</div>
 					    <!-- 팝업창 추가 버튼 -->
@@ -291,176 +285,206 @@ $(document).ready(function(){ // ready 시작
 					    </div>
 					</div>
 					<div class="card-body" >
-						<div  th:each="myEducation : ${myEducation}">	
-							<div class="input-group">
-								<div th:text="|기간 - ${myEducation.memberEducationStartDay}|"></div>
-								<div th:if="${myEducation.memberEducationEndDay != ''}" th:text="|&nbsp; ~ ${myEducation.memberEducationEndDay}|"></div>
-							</div>
-							<div th:text="|학교 명 : ${myEducation.memberEducationInstitution}|"></div>
-							<div th:text="|재학여부 : ${myEducation.memberEducationNow}|"></div>
-							<div th:text="|학위 : ${myEducation.memberEducationDegree}|"></div>
-							<div th:text="|전공 : ${myEducation.memberEducationMajor}|"></div>
-							<div th:text="|학점 : ${myEducation.memberFilesOriginName}|"></div>
-							
-							<!-- if 조건 데이터가 공백이면 파일없음 -->
-							<div th:if="${myEducation.memberFilesSaveName == '' || myEducation.memberFilesSaveName == null} ">
-								<div>첨부파일 : 파일없음</div>
-							</div>
-							<!-- else 조건 -->
-							<div th:unless="${myEducation.memberFilesSaveName == '' || myEducation.memberFilesSaveName == null}">
-								<div class="input-group">
-									<div>첨부파일 : </div>
-									<a href="#" th:text="|&nbsp; ${myEducation.memberFilesSaveName}|"></a>
-								</div>
-							</div>
-							
-							<div  align="right" style="height: 100px; padding:20px"><button>수정</button> <button>삭제</button></div>
-							<hr>
+						<div  th:each="myEducation : ${myEducation}" class="card">
+						    <div class="card-body p-0 table-border-style">
+						        <div class="table-responsive">
+						            <table class="table table-hover">
+						                <thead>
+						                    <tr>
+						                        <td><h5>학력 종류</h5></td>
+						                        <td>
+						                        	<div class="input-group"> 
+						                        		<h5>학력 정보</h5>       
+						                        		<div class="icon-list-item">
+												            <a id="addBtn" data-toggle="modal" data-target="#detailModal" class="btn pull-right" href="#" style="padding: 0;" >
+												                <i class="ik ik-trash-2"></i>
+												            </a>
+												        </div>
+					                             	</div>
+					                             </td>
+					                             
+						                    </tr>
+						                </thead>
+						                <tbody>
+						                	<tr>
+						                        <td scope="row">학교명 :
+						                        	<span th:text="${myEducation.memberEducationInstitution}"></span>
+						                       	</td>
+						                    </tr>
+						                	<tr>
+						                        <td scope="row">기간 :</td>
+						                        <td style="padding: 0;">
+						                        	<div class="input-group" style="margin: 10px 10px 10px 10px;" >
+														<div th:text="|기간 - ${myEducation.memberEducationStartDay}|"></div>
+														<div th:if="${myEducation.memberEducationEndDay != ''}" th:text="|&nbsp; ~ ${myEducation.memberEducationEndDay}|"></div>
+													</div>
+												</td>
+						                    </tr>
+						                    <tr>
+						                        <td scope="row">재학여부 ]</td>
+						                        <td><div th:text="${myEducation.memberEducationNow}"></div></td>
+						                    </tr>
+						                    <tr>
+						                        <td scope="row">학위 ]</td>
+						                        <td><div th:text="${myEducation.memberEducationDegree}"></div></td>
+						                    </tr>
+						                    <tr>
+						                        <td scope="row">전공 ]</td>
+						                        <td><div th:text="${myEducation.memberEducationMajor}"></div></td>
+						                    </tr>
+						                    <tr>
+						                        <td scope="row">학점 ]</td>
+						                        <td><div th:text="${myEducation.memberFilesOriginName}"></div></td>
+						                    </tr>
+						                 
+						                </tbody>
+						               			
+						            </table>
+						        </div>
+						    </div>
 						</div>
+					</div> <!-- /card-body -->
 						
-						<!-- 팝업 화면 출력  -->
-						<div class="modal" id="detailModal">
-							<div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">
-								<div class="modal-content">
-								
-									<!-- Modal Header -->
-									<div class="modal-header">
-										<h2 class="modal-title">학력 정보 입력</h2>
-										<button type="button" class="close" data-dismiss="modal">×</button>
-									</div>
-									
-									<!-- Modal body -->
-									<div class="modal-body">
-										<form class="BodyForm">
-											
-											<!-- 학교명 카드영역 시작 -->
-											<div class="card">
-												<div class="card-header"><h3>학교명</h3></div>
-												<div class="card-body">
-													<div class="input-group">
-														<select id="memberEducationInstitutionStandard" class="form-control col-sm-2"> <!-- 학교구분 -->
-															<option th:value="선택">선택</option>
-															<option th:value="고등학교">고등학교</option>
-															<option th:value="대학교">대학교</option>
-															<option th:value="대학원">대학원</option>
-														</select>
-														<input type="text" id="memberEducationInstitution" class="form-control" > <!-- 학교명 -->
-													</div> 
-												</div>
-											</div> <!-- 학교명 카드영역 끝 -->
-											
-											<div class="card">
-												<div class="card-header"><h3>재학 여부</h3></div>
-												<div class="card-body">
-													<select id="memberEducationNow" class="form-control">
-															<option th:value="선택">선택</option>
-															<option th:value="졸업">졸업</option>
-															<option th:value="재학">재학</option>
-															<option th:value="휴학">휴학</option>
-															<option th:value="수료">수료</option>
-															<option th:value="자퇴">자퇴</option>
-															<option th:value="제적">제적</option>
-															<option th:value="조기졸업">조기졸업</option>
-															<option th:value="학위포기">학위포기</option>
-													</select>
-												</div>
-											</div>			
-											
-											<!-- 재학 기간 시작 -->
-											<div class="card">
-												<div class="card-header"><h3 id="education" th:text="재학날"></h3></div>
-												<div class="card-body">
-
-													<div class="input-group">
-
-														<input type="text" id="startYear" class="form-control col-sm-1"> <div style="padding: 8px 10px 10px 10px" th:text="년 "></div>
-														
-														<select id="startMonth" class="form-control col-sm-1">
-															<!-- 스크립트 반복문으로 뿌려준다 01~12까지 뿌려준다 -->
-														</select><div style="padding: 8px 10px 10px 10px" th:text="월 "></div>
-														
-														<select id="startDay" class="form-control col-sm-1">
-															<!-- 스크립트 반복문으로 뿌려준다 01~31까지 뿌려준다 -->
-														</select><div style="padding: 8px 10px 10px 10px" th:text="일 "></div>
-														
-														<h4 id="range">&nbsp; ~ &nbsp;</h4>
-														
-														<input type="text" id="endYear" class="form-control col-sm-1"> <div id="Year" style="padding: 8px 10px 10px 10px" th:text="년 "></div>
-														
-														<select id="endMonth" class="form-control col-sm-1">
-															<!-- 스크립트 반복문으로 뿌려준다 01~12까지 뿌려준다 -->
-														</select> <div id="Month" style="padding: 8px 10px 10px 10px" th:text="월 "></div>
-														
-														<select id="endDay" class="form-control col-sm-1">
-															<!-- 스크립트 반복문으로 뿌려준다 01~31까지 뿌려준다 -->
-														</select> <div id="Day" style="padding: 8px 10px 10px 10px" th:text="일 "></div>
-														
-													</div>
-												</div>
-											</div> <!-- 재학 기간  끝 -->
-											
-											<!-- 학위 카드영역 시작 -->
-											<div class="card">
-												<div class="card-header"><h3>학위</h3></div>
-												<div class="card-body">
-													<div><input type="text" id="memberEducationDegree" class="form-control"></div>
-												</div>
-											</div> <!-- 학위 카드영역 끝 -->
-											
-											<!-- 전공 카드영역 시작 -->
-											<div class="card">
-												<div class="card-header"><h3>전공</h3></div>
-												<div class="card-body">
-													<div><input type="text" id="memberEducationMajor" class="form-control"></div>
-												</div>
-											</div> <!-- 전공 카드영역 끝 -->
-											
-											<!-- 학점 카드영역 시작 -->
-											<div id="EducationGrade" class="card">
-												<div class="card-header"><h3>학점</h3></div>
-												<div class="card-body">
-													<div class="input-group">
-														<input type="number" id="memberEducationGrade" class="form-control col-sm-2" th:placeholder="학점">
-														<h4 style="padding: 2px 10px 0px 10px">/</h4>
-														<input type="number" id="memberEducationTotalScore" class="form-control col-sm-2" th:placeholder="총점">
-													</div>
-												</div>
-											</div> <!-- 학점 카드영역 끝 -->
-											
-											<!-- 설명 시작 -->
-											<div class="card">
-												<div class="card-header"><h3>설명</h3></div>
-												<div class="card-body">
-																										<!-- rows높이/cols넓이 -->
-													<textarea id="memberEducationDesc" class="form-control" rows="4" cols="">
-													</textarea>
-												</div>
-											</div> <!-- 설명 끝 -->
-
-										</form>
-									</div>	
-									
-									
-									<!-- Modal footer -->
-									<div class="modal-footer"> 
-										<form id="FooterForm">
-											<div class="input-group" style="margin: 0px 0px 0px 10px; padding: 0px 0px 0px 0px">
-												<button id="saveBtn" type="button" class="btn btn-primary">저장</button>
-												&nbsp;
-												<button id="closeBtn" type="button" class="btn btn-light" data-dismiss="modal">취소</button> 
-												<div id="memberFileInfo" hidden="hidden" th:value="수상이력정보"></div> <!-- 파일테이블에서 사용할 뷰쪽 타이틀정보 -->
-											</div>
-										</form>
-									</div>	
-									
+					<!-- 팝업 화면 출력  -->
+					<div class="modal" id="detailModal">
+						<div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">
+							<div class="modal-content">
+							
+								<!-- Modal Header -->
+								<div class="modal-header">
+									<h2 class="modal-title">학력 정보 입력</h2>
+									<button type="button" class="close" data-dismiss="modal">×</button>
 								</div>
+								
+								<!-- Modal body -->
+								<div class="modal-body">
+									<form class="BodyForm">
+										
+										<!-- 학교명 카드영역 시작 -->
+										<div class="card">
+											<div class="card-header"><h3>학교명</h3></div>
+											<div class="card-body">
+												<div class="input-group">
+													<select id="memberEducationInstitutionStandard" class="form-control col-sm-2"> <!-- 학교구분 -->
+														<option th:value="선택">선택</option>
+														<option th:value="고등학교">고등학교</option>
+														<option th:value="대학교">대학교</option>
+														<option th:value="대학원">대학원</option>
+													</select>
+													<input type="text" id="memberEducationInstitution" class="form-control" > <!-- 학교명 -->
+												</div> 
+											</div>
+										</div> <!-- 학교명 카드영역 끝 -->
+										
+										<div class="card">
+											<div class="card-header"><h3>재학 여부</h3></div>
+											<div class="card-body">
+												<select id="memberEducationNow" class="form-control">
+														<option th:value="선택">선택</option>
+														<option th:value="졸업">졸업</option>
+														<option th:value="재학">재학</option>
+														<option th:value="휴학">휴학</option>
+														<option th:value="수료">수료</option>
+														<option th:value="자퇴">자퇴</option>
+														<option th:value="제적">제적</option>
+														<option th:value="조기졸업">조기졸업</option>
+														<option th:value="학위포기">학위포기</option>
+												</select>
+											</div>
+										</div>			
+										
+										<!-- 재학 기간 시작 -->
+										<div class="card">
+											<div class="card-header"><h3 id="education" th:text="재학날"></h3></div>
+											<div class="card-body">
+
+												<div class="input-group">
+
+													<input type="text" id="startYear" class="form-control col-sm-1"> <div style="padding: 8px 10px 10px 10px" th:text="년 "></div>
+													
+													<select id="startMonth" class="form-control col-sm-1">
+														<!-- 스크립트 반복문으로 뿌려준다 01~12까지 뿌려준다 -->
+													</select><div style="padding: 8px 10px 10px 10px" th:text="월 "></div>
+													
+													<select id="startDay" class="form-control col-sm-1">
+														<!-- 스크립트 반복문으로 뿌려준다 01~31까지 뿌려준다 -->
+													</select><div style="padding: 8px 10px 10px 10px" th:text="일 "></div>
+													
+													<h4 id="range">&nbsp; ~ &nbsp;</h4>
+													
+													<input type="text" id="endYear" class="form-control col-sm-1"> <div id="Year" style="padding: 8px 10px 10px 10px" th:text="년 "></div>
+													
+													<select id="endMonth" class="form-control col-sm-1">
+														<!-- 스크립트 반복문으로 뿌려준다 01~12까지 뿌려준다 -->
+													</select> <div id="Month" style="padding: 8px 10px 10px 10px" th:text="월 "></div>
+													
+													<select id="endDay" class="form-control col-sm-1">
+														<!-- 스크립트 반복문으로 뿌려준다 01~31까지 뿌려준다 -->
+													</select> <div id="Day" style="padding: 8px 10px 10px 10px" th:text="일 "></div>
+													
+												</div>
+											</div>
+										</div> <!-- 재학 기간  끝 -->
+										
+										<!-- 학위 카드영역 시작 -->
+										<div class="card">
+											<div class="card-header"><h3>학위</h3></div>
+											<div class="card-body">
+												<div><input type="text" id="memberEducationDegree" class="form-control"></div>
+											</div>
+										</div> <!-- 학위 카드영역 끝 -->
+										
+										<!-- 전공 카드영역 시작 -->
+										<div class="card">
+											<div class="card-header"><h3>전공</h3></div>
+											<div class="card-body">
+												<div><input type="text" id="memberEducationMajor" class="form-control"></div>
+											</div>
+										</div> <!-- 전공 카드영역 끝 -->
+										
+										<!-- 학점 카드영역 시작 -->
+										<div id="EducationGrade" class="card">
+											<div class="card-header"><h3>학점</h3></div>
+											<div class="card-body">
+												<div class="input-group">
+													<input type="number" id="memberEducationGrade" class="form-control col-sm-2" th:placeholder="학점">
+													<h4 style="padding: 2px 10px 0px 10px">/</h4>
+													<input type="number" id="memberEducationTotalScore" class="form-control col-sm-2" th:placeholder="총점">
+												</div>
+											</div>
+										</div> <!-- 학점 카드영역 끝 -->
+										
+										<!-- 설명 시작 -->
+										<div class="card">
+											<div class="card-header"><h3>설명</h3></div>
+											<div class="card-body">
+																									<!-- rows높이/cols넓이 -->
+												<textarea id="memberEducationDesc" class="form-control" rows="4" cols="">
+												</textarea>
+											</div>
+										</div> <!-- 설명 끝 -->
+
+									</form>
+								</div>	
+								
+								
+								<!-- Modal footer -->
+								<div class="modal-footer"> 
+									<form id="FooterForm">
+										<div class="input-group" style="margin: 0px 0px 0px 10px; padding: 0px 0px 0px 0px">
+											<button id="saveBtn" type="button" class="btn btn-primary">저장</button>
+											&nbsp;
+											<button id="closeBtn" type="button" class="btn btn-light" data-dismiss="modal">취소</button> 
+											<div id="memberFileInfo" hidden="hidden" th:value="수상이력정보"></div> <!-- 파일테이블에서 사용할 뷰쪽 타이틀정보 -->
+										</div>
+									</form>
+								</div>	
 							</div>
-						</div> <!-- 팝업창끝 -->
-						
-					</div>
+						</div>
+					</div> <!-- 팝업창끝 -->
 				</div>
 			</div>
-		</div> <!-- class="row" 끝 -->
+		</div>
 
 			
 		
