@@ -30,4 +30,6 @@ public interface DepartmentMapper {
 	public List<Department> selectDepartmentSectionName();
 	//memberPosition select
 	public List<MemberPosition> selectMemberPositon();
+	//memberProfile select
+	public List<Member> selectmemberMyProfile(String memberId);
 }	

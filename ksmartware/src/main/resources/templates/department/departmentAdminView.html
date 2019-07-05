@@ -27,10 +27,9 @@
 			
 			
 			$('.departmentJoinMemberByMemberIdButton').click(function(){
-				console.log('departmentJoinMemberByMemberIdButton 버튼 테스트 value : '+$(this).attr('value'));	
+				console.log('상세 정보 버튼 value : '+$(this).attr('value'));				
 				let memberId = $(this).attr('value');
-				console.log('memberId 확인');	
-				location.href='/department/departmentAdminView?memberId='+$(this).attr('value');
+				console.log("memberId 확인");
 			});
 			
 			//getMemberPosition 리스트
@@ -204,7 +203,7 @@
 				<div class="icon-list-wrap">
 					<div class="icon-list-item">																							
 						<!-- 조직원 추가 modal-->
-						<a class="memberAddButton btn pull-right" href="#" data-toggle="modal" data-target="#detailModal" style="width: 30px; padding: 0;">
+						<a class="memberAddButton btn pull-right" href="#" data-toggle="modal" data-target="#memberInsertModal" style="width: 30px; padding: 0;">
 							<i class="ik ik-plus-square"></i>
 						</a>
 					</div>
@@ -221,7 +220,7 @@
 					<div class="card">							
 						<span class="card-body" th:each="departmentJoinMemberList:${departmentJoinMemberList}">
 							<!-- 클릭시 각 조직원 인사 정보로 넘어간다(예정) -->
-							<a class="departmentJoinMemberByMemberIdButton" href="#" th:value="${departmentJoinMemberList.memberId}"><span th:text="${departmentJoinMemberList.memberName}"></span></a>								
+							<a class="departmentJoinMemberByMemberIdButton" href="#" th:value="${departmentJoinMemberList.memberId}"><span th:text="${departmentJoinMemberList.memberName}" data-toggle="modal" data-target="#personnelModal"></span></a>								
 							<span th:text="${departmentJoinMemberList.memberName}"></span>
 							<span th:text="${departmentJoinMemberList.memberLevelTitle}"></span> 
 							<br>
@@ -244,7 +243,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal" id="detailModal">
+	<div class="modal" id="memberInsertModal">
 		 <div class="modal-dialog mt-0 mb-0" role="document">
 			<div class="modal-content">
 				<!-- Modal Header -->
@@ -278,6 +277,68 @@
 					<button id="saveButton" type="button" class="btn btn-primary">확인</button>
 					<button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
 				</div>	
+			</div>
+		</div>
+	</div>
+	<div class="modal" id="personnelModal">
+		 <div class="modal-dialog modal-lg mt-0 mb-0" role="document" style="max-width: 100%; width: auto; display: table;">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h2 class="modal-title">조직원 정보 편집</h2>
+					<button type="button" class="close" data-dismiss="modal">×</button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body">							
+					<form class="leavePolicyForm">
+					<!-- 첫 번째 카드 영역 시작 -  -->
+					<div class="card">								
+					
+						<div class="col-2" style="padding-left:50px; border-right: 1px solid #ccc;">
+							<div class="card">
+								<div class="card-header">MyProfile</div>
+								<div class="card-body">
+									<div>
+										<a href="/member/memberMyProfile/myProfile">개인 정보</a>
+									</div>
+									<hr>
+									<div>
+										<a href="/member/memberMyProfile/myInfo">인사 정보</a>
+									</div>
+									<hr>
+									<div>
+										<a href="/member/memberMyProfile/myEducation">학력 정보</a>
+									</div>
+									<hr>
+									<div>
+										<a href="/member/memberMyProfile/myProject">프로젝트 정보</a>
+									</div>
+									<hr>
+									<div>
+										<a href="/member/memberMyProfile/myLicense">자격증 정보</a>
+									</div>
+									<hr>
+									<div>
+										<a href="/member/memberMyProfile/myAcademy">교육 이력 정보</a>
+									</div>
+									<hr>
+									<div>
+										<a href="/member/memberMyProfile/myCareer">경력 정보</a>
+									</div>
+									<hr>
+									<div>
+										<a href="/member/memberMyProfile/myAwards">수상 이력 정보</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						
+						
+					</div>							
+					</form>								
+				</div>
+					
 			</div>
 		</div>
 	</div>	

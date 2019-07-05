@@ -85,4 +85,9 @@ public class DepartmentService {
 		System.out.println(list + "DepartmentService getMemberPositon list");
 		return list;
 	}
+	//memberMyProfile
+	public List<Member> getmemberMyProfile(String memberId) {
+		List<Member> list = departmentMapper.selectmemberMyProfile(memberId);
+		return list;
+	}
 }	
