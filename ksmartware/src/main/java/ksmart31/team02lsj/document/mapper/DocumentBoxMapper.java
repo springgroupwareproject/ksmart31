@@ -1,0 +1,26 @@
+package ksmart31.team02lsj.document.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import ksmart31.team01.member.domain.Member;
+import ksmart31.team02lsj.document.domain.DocumentAttachedFile;
+import ksmart31.team02lsj.document.domain.DraftDocument;
+
+@Mapper
+public interface DocumentBoxMapper {
+	//기안문서
+	public List<DraftDocument> selectDraftDocumentListByMember(String memberId);
+	//결재완료문서
+	public List<DraftDocument> selectApprovedDocumentListByMember(String memberId, String documentStatus);
+	//수신문서
+	public List<DraftDocument> selectRecievedDocumentListByMember(String memberId, String documentStatus);
+	//회람문서
+	public List<DraftDocument> selectCirculationDocumentListByMember(String memberId);
+	//전결문서
+	public List<DraftDocument> selectfinalApprovalDocumentListByMember(String memberId);
+	//첨부파일
+	public List<DocumentAttachedFile> selectAttachedFileListByMember(String memberId);
+}
