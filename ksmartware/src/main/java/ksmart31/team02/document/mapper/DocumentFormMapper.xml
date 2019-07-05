@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="ksmart31.team02.document.mapper.DocumentFormMapper">
+    <!-- 전체 문서양식 목록 -->
+    <select id="selectDocumentForm"
+    		parameterType="Integer"
+    		resultType="ksmart31.team02.document.domain.DocumentForm">
+	    SELECT document_form_code AS documentFormCode
+			, document_form_category_code AS documentFormCategoryCode
+			, document_form_category_name AS documentFormCategoryName
+			, document_form_name AS documentFormName
+			, document_form_date AS documentFormDate
+		FROM document_form
+		ORDER BY document_form_date DESC
+    </select>
+
+	<!-- 카테고리별 문서양식 목록 -->
+	<select id="selectDocumentFormByCategory"
+			parameterType="String"
+			resultType="ksmart31.team02.document.domain.DocumentForm">
+		SELECT document_form_code AS documentFormCode
+			, document_form_category_code AS documentFormCategoryCode
+			, document_form_category_name AS documentFormCategoryName
+			, document_form_name AS documentFormName
+			, document_form_date AS documentFormDate
+		FROM document_form
+		WHERE document_form_category_code=#{documentFormCategoryCode}
+		ORDER BY document_form_date DESC
+	</select>
+
+	<!-- 공통양식 카테고리 목록 -->
+	<select id="selectDocumentFormCategory"
+			parameterType="Integer"
+			resultType="ksmart31.team02.document.domain.DocumentFormCategory">
+		SELECT document_form_category_code AS documentFormCategoryCode
+			, document_form_category_name AS documentFormCategoryName
+		FROM document_form_category
+	</select>
+</mapper>
