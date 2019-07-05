@@ -60,63 +60,77 @@
 					</div>
 				</div>
 			</div>	
+				
+
+			
 			
 			<div class="col-10" style="padding-right:20px; border-right: 1px solid #ccc;">
 				<div class="card">
 					<div class="card-header">나의 개인 정보</div>
 					<div class="card-body" >
-						
-						<div>전화번호</div>
-						<div th:if="${memberProfile.memberPhone != null}">
-							<input type="text" style="width:200px" class="form-control" th:value="${memberProfile.memberPhone}">										
-						</div>
-						<div th:if="${memberProfile.memberPhone == null}">
-							<input type="text" style="width:200px" class="form-control" >
-						</div>	
-						<hr>
-						
-						<div>휴대전화</div>
-						<div th:if="${memberProfile.memberMobile != null}">
-							<input type="text" style="width:200px" class="form-control" th:value="${memberProfile.memberMobile}">
-						</div>	
-						<div th:if="${memberProfile.memberMobile == null}">
-							<input type="text" style="width:200px" class="form-control">
-						</div>
-						<hr>
-						
-						<div>주소</div>
-						<div th:if="${memberProfile.memberAddress != null}">
-							<textarea style="width:700px;" class="form-control" th:placeholder="|현재 주소 : ${memberProfile.memberAddress}|" ></textarea>
-						</div>	
-						<div th:if="${memberProfile.memberAddress == null}">
-							<textarea style="width:700px;" class="form-control" th:placeholder="현재 주소 : 없음" ></textarea>
-						</div>
-						<hr>
-
-						<div>생년월일</div>
-						<div th:if="${memberProfile.memberBirth != null}">
-							<input type="text" style="width:200px" class="form-control" th:value="${memberProfile.memberBirth}">
-						</div>	
-						<div th:if="${memberProfile.memberBirth == null}">
-							<input type="text" style="width:200px" class="form-control">
-						</div>
-						<hr>
-					
-						<div>성별</div>
-						
-							<select style="width:65px" class="form-control">
-								<option value="남">남</option>
-								<option value="여">여</option>
+						<form id="myPofileForm" method="post" th:action="@{/member/memberMyProfile/myProfile}">
+							<div>전화번호</div>	
+								<div th:if="${memberProfile.memberPhone != null}">
+									<input type="text" name="memberPhone" style="width:200px" class="form-control" th:value="${memberProfile.memberPhone}">										
+								</div>
+								<div th:if="${memberProfile.memberPhone == null}">
+									<input type="text" name="memberPhone" style="width:200px" class="form-control" >
+								</div>
+							<hr>
+							
+							<div>휴대전화</div>
+								<div th:if="${memberProfile.memberMobile != null}">
+									<input type="text" name="memberMobile" style="width:200px" class="form-control" th:value="${memberProfile.memberMobile}">
+								</div>	
+								<div th:if="${memberProfile.memberMobile == null}">
+									<input type="text" name="memberMobile" style="width:200px" class="form-control">
+								</div>
+							<hr>
+							
+							<div>주소</div>
+								<div th:if="${memberProfile.memberAddress != null}">
+									<textarea style="width:700px;" name="memberAddress" class="form-control" th:placeholder="|현재 주소 : ${memberProfile.memberAddress}|" ></textarea>
+								</div>	
+								<div th:if="${memberProfile.memberAddress == null}">
+									<textarea style="width:700px;" name="memberAddress" class="form-control" ></textarea>
+								</div>
+							<hr>
+	
+							<div>생년월일</div>
+								<div th:if="${memberProfile.memberBirth != null}">
+									<input type="text" name="memberBirth" style="width:200px" class="form-control" th:value="${memberProfile.memberBirth}">
+								</div>
+								<div th:if="${memberProfile.memberBirth == null}">
+									<input type="text" name="memberBirth" style="width:200px" class="form-control">
+								</div>
+							<hr>
+							
+							<div>성별</div>
+							<select style="width:65px" name="memberGender" class="form-control">
+							<th:block th:switch="${memberProfile.memberGender}">
+								<th:block th:case="'남'">
+									<option value="남" selected="selected">남</option>
+									<option value="여">여</option>
+								</th:block>
+								<th:block th:case="'여'">
+									<option value="남">남</option>
+									<option value="'여'" selected="selected">여</option>
+								</th:block>
+							</th:block>
+								
 							</select>
-						</div>
-						<div style="margin: 0px 0px 20px 20px">
-							<button>저장</button>
-						</div>
+							
+							<div style="margin: 20px 0px 10px 0px">
+								<input type="submit" value="저장">
+							</div>
+						</form>
 						
 					</div>
 				</div>
 			</div>
-		
+		</div>
+
+			
 		
 	</th:block>
 	
