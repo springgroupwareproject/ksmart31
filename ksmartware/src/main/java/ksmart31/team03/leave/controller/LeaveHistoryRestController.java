@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +24,11 @@ public class LeaveHistoryRestController {
 	@Autowired
 	private LeaveHistoryManagementService leaveHistoryManagementService;
 	
+	// 휴가 부여
+	@PostMapping("/leave/leaveGrant")
+	public void addLeaveGrant(LeaveGrant leaveGrant) {
+		System.out.println("LeaveHistoryRestController.addLeaveGrant leaveGrant : "+leaveGrant);
+	}
 	// 특정 부서에 해당하는 조직원 정보 조회
 	@GetMapping("/leave/departmentJoinMember")
 	public List<DepartmentJoinMember> getDepartmentJoinMember(String departmentName){

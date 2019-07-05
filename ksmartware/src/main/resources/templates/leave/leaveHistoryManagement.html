@@ -6,6 +6,9 @@
 	<title>leaveHistoryManagement</title>
 	<th:block th:include="layout/customHead"></th:block>
 	<meta name="viewport" content="width=device-width, initial-scale=1">	
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" type="text/css" />
+	<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 	<script>
 		$(document).ready(function(){
 			// 상세 휴가 내역에서 비동기 요청 시 필요한 값이기 때문에 전역변수로 설정 
@@ -195,6 +198,7 @@
 				console.log('부여or차감 선택 : '+$('#grantAndUsed').val());
 				// 휴가 종류 선택 박스 초기화
 				$('#leaveCategorySortList').empty();
+				$('#leaveCategorySortList').append('<option value="">선택</option>');
 				// 부여 선택 
 				if($('#grantAndUsed').val() == '부여'){
 					// 부여 그룹 숨김 해제
@@ -240,7 +244,6 @@
 								// 휴가 종류 선택 박스에 상세 휴가 종류 추가
 								$('#leaveCategorySortList').append('<option value="'+item.leaveCategorySort+', '+item.leaveDetailSort+', '+item.leaveDetailCode+'">&nbsp;&nbsp;&nbsp;&nbsp;'+item.leaveDetailSort+'</option>');
 							});
-							$('#leaveCategorySortList').val(data.leaveCategorySort+', '+data.leaveDetailSort+', '+data.leaveDetailCode).trigger('change');
 						},	
 						error : function(error){
 							console.log(error);
@@ -264,8 +267,8 @@
 						success : function(data){
 							console.log(data);
 							// 최대 사용 시간, 일 값으로 변경 
-							$("#usedMinimumHour").val(data.leaveDetailMaximumHour).prop('checked', true);
-							$("#usedMinimumDay").val(data.leaveDetailMaximumDay);
+							$("#usedHour").val(data.leaveDetailMaximumHour).prop('checked', true);
+							$("#usedDay").val(data.leaveDetailMaximumDay);
 						},	
 						error : function(error){
 							console.log(error);
@@ -293,7 +296,7 @@
 						$(data).each(function(i, item){
 							// 조직원 리스트 생성
 							contents += '<div class="input-group-text">';
-							contents += '<label for="'+item.memberId+'"><input type="checkbox" id="'+item.memberId+'"> '+item.memberName+'('+item.memberId+')</label>';
+							contents += '<label for="'+item.memberId+'"><input type="checkbox" class="member" id="'+item.memberId+'" name="member" value="'+item.memberId+'"> '+item.memberName+'('+item.memberId+')</label>';
 							contents += '</div>';
 							$('#member').append(contents);
 							// 변수 내용 초기화
@@ -308,12 +311,73 @@
 			// 부여 및 차감 확인 버튼 이벤트 (입력)
 			$('#leaveGrantAndUsedButton').click(function(){
 				console.log('부여 및 차감 확인 버튼 테스트');
+				// 카테고리 값
+				let leaveCategorySort = $('#leaveCategorySortList option:selected').val();
+				console.log('카테고리 : '+leaveCategorySort);
+				// 부여 및 차감 사유
+				let reason = $('#reason').val();
+				console.log('사유 : '+reason);
+				// 체크된 멤버 아이디를 담을 변수
+				let memberId = '';
+				$('input:checkbox[name="member"]:checked').each(function(){ 
+					memberId += $(this).val()+', '; // 체크된 멤버의 아이디 셋팅 
+				});
+				console.log('체크된 멤버 : '+memberId);
 				
+				// 부여인 경우
+				if($('#grantAndUsed').val() == '부여'){
+					let leaveGrantDate = $('#grantDate').val();
+					let leaveGrantDay = $('#grantDay').val();
+					let leaveGrantHour = $('#grantHour').val();
+					console.log('leaveGrantDate : '+leaveGrantDate);
+					console.log('leaveGrantDay : '+leaveGrantDay);
+					console.log('leaveGrantHour : '+leaveGrantHour);
+					// 비동기 요청
+					$.ajax({
+						url : '/leave/leaveGrant',
+						type : 'post',
+						data : {
+							memberId : memberId,
+							leaveCategorySort : leaveCategorySort,
+							leaveGrantHour : leaveGrantHour,
+							leaveGrantDay : leaveGrantDay,
+							leaveGrantReason : reason,
+							leaveGrantDate : leaveGrantDate
+							
+						},
+						success : function(data){
+							
+						},	
+						error : function(error){
+							console.log(error);
+						}
+					});
+				// 차감인 경우
+				}else{
+					let leaveUsedStartDay = $('#usedStartDay').val();
+					let leaveUsedEndDay = $('#usedEndDay').val();
+					let leaveUsedDay = $('#usedDay').val();
+					let leaveUsedHour = $('#usedHour').val();
+					console.log('leaveUsedStartDay : '+leaveUsedStartDay);
+					console.log('leaveUsedEndDay : '+leaveUsedEndDay);
+					console.log('leaveUsedDay : '+leaveUsedDay);
+					console.log('leaveUsedHour : '+leaveUsedHour);
+				}
 			});
 			
 			$('#categoryList').val('').trigger('change');
 			$('#grantAndUsed').val('부여').trigger('change');
+			
+			// 달력 api 호출 함수
+			$('#grantDate').datepicker();
+			$('#usedStartDay').datepicker();
+			$('#usedEndDay').datepicker();
+			// 달력 입력 값 형식 설정 
+			$.datepicker.setDefaults({
+				dateFormat: 'yy-mm-dd'   
+			});
 		});
+		
 	</script>
 	<style>
 		.test tr th{
@@ -510,18 +574,18 @@
 							</select>
 							<label for="exampleInputUsername2" class="col-1 col-form-label"></label>
 							<select class="form-control" id="leaveCategorySortList">
+								<option value="">선택</option>
 							</select>
 						</div>
 						<!-- 기간 - 부여 -->
 						<div class="input-group" id="부여" hidden="hidden">
 							
 							<label for="exampleInputUsername2" class="col-2 col-form-label">부여일</label>
-							<input type="text" class="form-control col-2">
-							
+							<input type="text" class="col-2" id="grantDate">
 							<div class="col-1"></div>
-							<input type="text" class="form-control col-1" value="1">
+							<input type="text" class="form-control col-1" value="1" id="grantDay">
 							<label for="exampleInputUsername2" class="col-1 col-form-label">일</label>
-							<select class="form-control col-1" id="">
+							<select class="form-control col-1" id="grantHour">
 								<option value="0">0</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
@@ -536,13 +600,13 @@
 						<!-- 기간 - 차감 -->
 						<div class="input-group" id="차감" hidden="hidden">
 							<label for="exampleInputUsername2" class="col-2 col-form-label">휴가 기간</label>
-							<input type="text" class="form-control col-2">
+							<input type="text" class="col-2" id="usedStartDay">
 							&nbsp;&nbsp;~&nbsp;&nbsp; 
-							<input type="text" class="form-control col-2">
+							<input type="text" class="col-2" id="usedEndDay">
 							<div class="col-1"></div>
-							<input type="text" class="form-control col-1" value="0" id="usedMinimumDay">
+							<input type="text" class="form-control col-1" value="0" id="usedDay">
 							<label for="exampleInputUsername2" class="col-1 col-form-label">일</label>
-							<select class="form-control col-1" id="usedMinimumHour">
+							<select class="form-control col-1" id="usedHour">
 								<option value="0">0</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
@@ -557,7 +621,7 @@
 						<!-- 사유 -->
 						<div class="input-group">
 							<label for="exampleInputUsername2" class="col-2 col-form-label">사유 입력</label>
-							<input type="text" class="form-control" placeholder="부여 및 차감 사유 (필수입력)">
+							<input type="text" class="form-control" placeholder="부여 및 차감 사유 (필수입력)" id="reason">
 						</div>
 					</div>
 				</div>
@@ -581,8 +645,8 @@
 			</div>
 	        <!-- Modal footer -->
 	        <div class="modal-footer">
-	          <button type="button" class="btn btn-primary" id="leaveGrantAndUsedButton">확인</button>
-	          <button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
+				<button type="button" class="btn btn-primary" id="leaveGrantAndUsedButton">확인</button>
+				<button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
 	        </div>
 		</div>
 	</div>
