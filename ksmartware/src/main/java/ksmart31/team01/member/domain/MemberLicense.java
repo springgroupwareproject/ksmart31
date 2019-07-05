@@ -2,23 +2,23 @@ package ksmart31.team01.member.domain;
 
 public class MemberLicense {
 
-	private String memberLicenseCode;
-	private String memberId;
-	private String memberLicenseName;
-	private String memberLicenseAuthentication;
-	private String memberLicenseNumber;
-	private String memberLicenseStartDay;
-	private String memberLicenseEndDay;
-	private String memberLicenseExpiration;
-	private String memberLicenseUrl;
-	private String memberLicenseDate;
-	private String memberEmployeeCode;
-	private String memberName;
-	private String departmentName;
-	private String memberPositionName;
-	private String memberFileCode;
-	private String memberFilesOriginName;
-	private String memberFilesSaveName;
+	private String memberLicenseCode;	// 자격증 코드
+	private String memberId;	// 조직원 아이디
+	private String memberLicenseName;	// 자격증 명
+	private String memberLicenseAuthentication;	// 인증기관
+	private String memberLicenseNumber;	// 자격증 번호
+	private String memberLicenseStartDay;	// 유효기간 시작일
+	private String memberLicenseEndDay;	// 유효기간 종료일
+	private String memberLicenseExpiration;	// 만료일 여부
+	private String memberLicenseUrl;	// 자격증 URL
+	private String memberLicenseDate;	// 자격증 글작성 등록일
+	private String memberEmployeeCode;	// 사번
+	private String memberName;	// 조직원 이름
+	private String departmentName;	// 부서명
+	private String memberPositionName;	// 직위 직책
+	private String memberFileCode;	// 첨부파일 코드
+	private String memberFilesOriginName;	// 첨부파일 오리진이름
+	private String memberFilesSaveName;	// 첨부파일 저장이름
 	
 	public String getMemberLicenseCode() {
 		return memberLicenseCode;

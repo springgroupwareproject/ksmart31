@@ -1,7 +1,5 @@
 $(function() {
   'use strict';
-  
-  
   jQuery('#visitfromworld').vectorMap({
     map: 'world_mill_en',
     backgroundColor: 'transparent',
@@ -71,8 +69,6 @@ $(function() {
       alert(message);
     }
   });
-  
-  
   $('#datepickerwidget').datetimepicker({
       inline: true,
       format: 'L'
