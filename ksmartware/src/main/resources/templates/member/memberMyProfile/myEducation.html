@@ -231,7 +231,7 @@ $(document).ready(function(){ // ready 시작
 		<br/>
 		
 		<div class="row">
-			<div class="col-2" style="padding-left:50px; border-right: 1px solid #ccc;">
+			<div class="col-3" style="padding-left:50px; border-right: 1px solid #ccc;">
 				<div class="card">
 					<div class="card-header">MyProfile</div>
 					<div class="card-body">
@@ -271,7 +271,7 @@ $(document).ready(function(){ // ready 시작
 			</div>	
 
                       			
-			<div class="col-10" style="padding-right:20px; border-right: 1px solid #ccc;">
+			<div class="col-9" style="padding-right:20px; border-right: 1px solid #ccc;">
 				    <div class="card">
 					<div class="card-header justify-content-between" style="padding: 10px;">
 					    <div style="padding: 0px 0px 0px 10px">나의 학력 정보</div>
@@ -291,54 +291,56 @@ $(document).ready(function(){ // ready 시작
 						            <table class="table table-hover">
 						                <thead>
 						                    <tr>
-						                        <td><h5>학력 종류</h5></td>
 						                        <td>
-						                        	<div class="input-group"> 
-						                        		<h5>학력 정보</h5>       
-						                        		<div class="icon-list-item">
-												            <a id="addBtn" data-toggle="modal" data-target="#detailModal" class="btn pull-right" href="#" style="padding: 0;" >
-												                <i class="ik ik-trash-2"></i>
-												            </a>
-												        </div>
-					                             	</div>
-					                             </td>
-					                             
+						                       		<h5>학력 정보</h5>
+						                        </td>
+						                        <td style="text-align: right;">
+						                        	<span class="icon-list-item">
+											            <a id="modifyBtn" data-toggle="modal" data-target="#detailModal" class="btn pull-right" href="#" style="padding: 0;" >
+											                <i class="ik ik-trash-2"></i>
+											            </a>
+											        </span>
+											        <span class="icon-list-item">
+											            <a id="deleteBtn" data-toggle="modal" data-target="#detailModal" class="btn pull-right" href="#" style="padding: 0;" >
+											                <i class="ik ik-trash-2"></i>
+											            </a>
+											        </span>
+						                        </td>
 						                    </tr>
-						                </thead>
+						                </thead>	
 						                <tbody>
 						                	<tr>
 						                        <td scope="row">학교명 :
 						                        	<span th:text="${myEducation.memberEducationInstitution}"></span>
-						                       	</td>
+						                       	</td><td></td>
 						                    </tr>
 						                	<tr>
-						                        <td scope="row">기간 :</td>
-						                        <td style="padding: 0;">
-						                        	<div class="input-group" style="margin: 10px 10px 10px 10px;" >
-														<div th:text="|기간 - ${myEducation.memberEducationStartDay}|"></div>
-														<div th:if="${myEducation.memberEducationEndDay != ''}" th:text="|&nbsp; ~ ${myEducation.memberEducationEndDay}|"></div>
-													</div>
-												</td>
+						                        <td scope="row">기간 :
+													<span th:text="${myEducation.memberEducationStartDay}"></span>
+													<span th:if="${myEducation.memberEducationEndDay != ''}" th:text="|&nbsp; ~ ${myEducation.memberEducationEndDay}|"></span>
+						                        </td><td></td>
 						                    </tr>
 						                    <tr>
-						                        <td scope="row">재학여부 ]</td>
-						                        <td><div th:text="${myEducation.memberEducationNow}"></div></td>
+						                        <td scope="row">재학여부 :
+						                        	<span th:text="${myEducation.memberEducationNow}"></span>
+						                        </td><td></td>
 						                    </tr>
 						                    <tr>
-						                        <td scope="row">학위 ]</td>
-						                        <td><div th:text="${myEducation.memberEducationDegree}"></div></td>
+						                        <td scope="row">학위 : 
+						                       		<span th:text="${myEducation.memberEducationDegree}"></span>
+						                        </td><td></td>
 						                    </tr>
 						                    <tr>
-						                        <td scope="row">전공 ]</td>
-						                        <td><div th:text="${myEducation.memberEducationMajor}"></div></td>
+						                        <td scope="row">전공 : 
+						                       		<span th:text="${myEducation.memberEducationMajor}"></span>
+						                        </td><td></td>
 						                    </tr>
 						                    <tr>
-						                        <td scope="row">학점 ]</td>
-						                        <td><div th:text="${myEducation.memberFilesOriginName}"></div></td>
+						                        <td scope="row">학점 : 
+						                      		<span th:text="${myEducation.memberFilesOriginName}"></span>
+						                        </td><td></td>
 						                    </tr>
-						                 
 						                </tbody>
-						               			
 						            </table>
 						        </div>
 						    </div>
