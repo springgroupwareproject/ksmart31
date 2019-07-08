@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="ksmart31.team02.document.mapper.DraftDocumentMapper">
+	<!-- 기안시 첨부파일 목록 -->
+	<select id="selectApprovalFile"
+			resultType="ksmart31.team02.document.domain.ApprovalFile">
+		SELECT approval_file_code AS approvalFileCode
+			, document_code AS documentCode
+			, approval_file_save_name AS approvalFileSaveName
+			, approval_file_ext AS approvalFileExt
+		FROM approval_file
+	</select>
+	
+	<!-- 기안시 의견 등록 -->
+	<!-- <insert id="insertApprovalOpinion"
+			parameterType="ksmart31.team02.document.domain.ApprovalOpinion">
+		INSERT INTO approval_opinion(
+			approval_opinion_code
+			, document_code
+			, approval_opinion_desc
+			, member_id
+			, member_name
+			, approval_opinion_date
+			, member_employee_code
+			, department_name
+			, member_position_name)
+		VALUES(
+			'test2'
+			, 'DOC_0001'
+			, #{approvalOpinionDesc}
+			,'asdfkasd@eknekee.net'
+			, '기안자'
+			, NOW()
+			, '15244'
+			, '연구본부'
+			, '부장')
+	</insert> -->
+
+	<!-- 기안시 의견목록 -->
+	<select id="selectApprovalOpinion"
+			resultType="ksmart31.team02.document.domain.ApprovalOpinion">
+		SELECT member_name AS memberName
+			, document_code AS documentCode
+			, approval_opinion_date AS approvalOpinionDate
+			, approval_opinion_desc AS approvalOpinionDesc
+		FROM approval_opinion
+		<!-- WHERE document_code='DOC_0001' -->
+	</select>
+	
+	<!-- 문서양식폼을 불러오면 임시저장상태로 draft_document테이블로 insert -->
+	<insert id="insertApprovalOpinion"
+			parameterType="ksmart31.team02.document.domain.DraftDocument">
+	
+	</insert>
+	
+	<!-- 문서양식폼에 보여줄 정보 -->
+<!-- 	<select id="selectDraftDocument"
+			resultType="ksmart31.team02.document.domain.DraftDocument">
+		SELECT draft_document_code AS draftDocumentCode
+			, document_form_code AS documentFormCode
+			, document_form_category_code AS documentFormCategoryCode
+			, draft_document_date AS draftDocumentDate
+		FROM draft_document
+	</select> -->
+	
+	<!-- 최근 승인 문서 목록-->
+	<select id="selectLastestApprovalDocumentList"
+			parameterType="Integer"
+			resultType="ksmart31.team02.document.domain.ApprovalDocument">
+		SELECT approval_document_code AS approvalDocumentCode
+			, draft_document_code AS draftDocumentCode
+			, document_date AS documentDate
+			, approval_document_file_save_name AS approvalDocumentFileSaveName
+		FROM approval_document
+		WHERE draft_document_status='승인'
+		ORDER BY document_date DESC
+	</select>
+
+	<!-- 임시저장문서 목록 -->
+	<select id="selectTemporaryDocumentList"
+			parameterType="String"
+			resultType="ksmart31.team02.document.domain.DraftDocument">
+		SELECT draft_document_code AS draftDocumentCode
+		, document_form_code AS documentFormCode
+		, draft_document_member_name AS draftDocumentMemberName
+		, draft_document_file_save_name AS draftDocumentFileSaveName
+		, draft_document_date AS draftDocumentDate
+		FROM draft_document
+		WHERE draft_document_status='임시저장'
+		ORDER BY draft_document_date DESC
+	</select>
+</mapper>

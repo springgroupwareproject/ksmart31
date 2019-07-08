@@ -58,7 +58,7 @@
 						<table class="table table-hover mb-0">
 							<thead>
 								<tr>
-									<td></td>
+									<!-- <td></td> -->
 									<td>문서명</td>
 									<td>기안자</td>
 									<td>기안일</td>
@@ -67,7 +67,7 @@
 							</thead>
 							<tbody>
 								<tr th:each="list : ${list}">
-									<td><input type="checkbox" class="ck" th:value="${list.draftDocumentCode}"></td>
+									<!-- <td><input type="checkbox" class="ck" th:value="${list.draftDocumentCode}"></td> -->
 									<td>
 										<a th:href="@{/removeDraftDocument(draftDocumentCode = ${list.draftDocumentCode})}">
 											<th:block th:text="${list.draftDocumentFileSaveName}"></th:block>
@@ -76,7 +76,18 @@
 									<td th:text="${list.draftDocumentMemberName}"></td>
 									<td th:text="${list.draftDocumentDate}"></td>
 									<td>
-										<a href="#!"><i class="ik ik-trash-2 f-16 text-red"></i></a>
+										<div class="list-actions col-5" >
+											<div class="row layout-wrap" id="layout-wrap">
+												<div class="col-12 list-item">
+													<div class="d-flex flex-grow-1 min-width-zero text-black-50">
+												    	<div class="list-actions" >
+											    			<a href="layout-edit-item.html"><i class="ik ik-edit-2"></i></a>
+												       		<a href="#" class="list-delete"><i class="ik ik-trash-2"></i></a>
+												     	</div>
+												    </div>
+												</div>
+											</div>
+						            	</div>
 									</td>
 								</tr>
 							</tbody>
