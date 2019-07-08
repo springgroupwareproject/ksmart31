@@ -6,100 +6,222 @@
 		<title>구매요청서</title>
 		<th:block th:include="layout/customHead"></th:block>
 		<script type="text/javascript">
-			document.getElementById('purchaseRequisitionPayDay').value= new Date().toISOString().slice(0, -1);
+			$(function() {
+				// 작성일
+				document.getElementById('purchaseRequisitionDate').value= new Date().toISOString().slice(0, 16);
+				
+				// 지급요청일
+				document.getElementById('purchaseRequisitionPayDay').value= new Date().toISOString().slice(0, 16);
+				
+				// 결재선 목록
+				$.ajax({
+					url:'/member/getApprovalProcess'
+					, type:'POST'
+					, data : {}
+		            , success:function(data) {
+		            	console.log('비동기 요청 성공');
+		            	console.log('결재선');
+		            	console.log(data);
+		            	$('#approvalProcessList').empty();
+		            	// 요청 성공시 결재선목록 뿌려주기
+		                $(data).each(function(i,item){
+		                    $('#approvalProcessList').append('<option value="'+item.approvalProcessCode+'">'+item.approvalProcessName+'</option>');
+		        	   	});
+		            }
+				});
+				
+				// 의견 목록
+				$('#opinion').click(function() {
+					$.ajax({
+						url:'/member/approvalOpinionList'
+						, type:'GET'
+						, data : {}
+			            , success:function(data) {
+			            	console.log('비동기 요청 성공');
+			            	console.log('의견');
+			            	console.log(data);
+			            	$('#approvalOpinionList').empty();
+			            	// 요청 성공시 의견 목록 뿌려주기
+			            	$(data).each(function(i,item){
+			            		if($('#approvalOpinionList') != null) {
+				                    $('#approvalOpinionList').append('<tr>');
+				                    $('#approvalOpinionList').append('<td>'+item.memberName+'</td>');
+				                    $('#approvalOpinionList').append('<td>'+item.approvalOpinionDesc+'</td>');
+				                    $('#approvalOpinionList').append('<td>'+item.approvalOpinionDate+'</td>');
+				                    $('#approvalOpinionList').append('</tr>');
+			            		}else {
+				                    $('#approvalOpinionList').append('<tr>');
+				                    $('#approvalOpinionList').append('<td>의견이 없습니다.</td>');
+				                    $('#approvalOpinionList').append('</tr>');
+			            		}
+			        	   	});
+			            }
+					});
+				});
+				
+				// 첨부파일 목록
+				$('#file').click(function() {
+					console.log('#file click!!');
+					$.ajax({
+						url:'/member/approvalFileList'
+						, type:'GET'
+						, data : {}
+			            , success:function(data) {
+			            	console.log('비동기 요청 성공');
+			            	console.log('파일');
+			            	console.log(data);
+			            	$('#approvalFileList').empty();
+			            	// 요청 성공시 첨부파일 목록 뿌려주기
+			            	$(data).each(function(i,item){
+			            		if($('#approvalFileList') != null) {
+				                    $('#approvalFileList').append('<tr>');
+				                    $('#approvalFileList').append('<td>'+item.approvalFileSaveName+'</td>');
+				                    $('#approvalFileList').append('<td>'+item.approvalFileExt+'</td>');
+				                    $('#approvalFileList').append('</tr>');
+			            		}else {
+			            			$('#approvalFileList').append('<tr>');
+				                    $('#approvalFileList').append('<td>파일이 없습니다.</td>');
+				                    $('#approvalFileList').append('</tr>');
+			            		}
+			        	   	});
+			            }
+					});
+				})
+			});
 		</script>
 	</th:block>
 	
 	<th:block layout:fragment="customBody">
+		<div class="page-header">
+		    <div class="row align-items-end">
+		        <div class="col-lg-8">
+		            <div class="page-header-title">
+		                <i class="ik ik-box bg-blue"></i>
+		                <div class="d-inline">
+		                    <h5>구매요청서</h5>
+		                    <span>구매를 위하여 사용하는 양식입니다.</span>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
 		<div class="row">
 			<!-- 왼쪽 칸 시작 -->
 			<div class="col-md-8">
 				<div class="card" style="min-height: 484px;">
 			        <div class="card-header"><h3>구매요청서</h3></div>
 		            <div class="card-body">
-			            <!-- 첫번째 테이블 시작 -->
-			            <div class="form-control form-txt-inverse" style="padding:10px;">
-		                <form class="forms-sample">
-		                	<div class="row">
-	                            <div class="col-md-4">
-	                                <div class="form-group">
-	                                    <label for="departmentName">소속</label>
-	                                    <input type="text" class="form-control" id="departmentName" th:value="${loginMember.departmentName}">
-	                                </div>
+			            <form class="forms-sample">
+				            <!-- 첫번째 테이블 시작 -->
+				            <div class="form-control form-txt-inverse" style="padding:10px;">
+			                	<div class="row">
+		                            <div class="col-md-4">
+		                                <div class="form-group">
+		                                    <label for="departmentName">소속</label>
+		                                    <input type="text" class="form-control" id="departmentName" th:value="${loginMember.departmentName}">
+		                                </div>
+		                            </div>
+		                            <div class="col-md-4">
+		                                <div class="form-group">
+		                                    <label for="memberPositionName">직위/직책</label>
+		                                    <input type="text" class="form-control" id="memberPositionName" th:value="${loginMember.memberPositionName}">
+		                                </div>
+		                            </div>
+		                            <div class="col-md-4">
+		                                <div class="form-group">
+		                                    <label for="memberName">신청자</label>
+		                                    <input type="text" class="form-control" id="memberName" th:value="${loginMember.memberName}">
+		                                </div>
+		                            </div>
 	                            </div>
-	                            <div class="col-md-4">
-	                                <div class="form-group">
-	                                    <label for="memberPositionName">직위/직책</label>
-	                                    <input type="text" class="form-control" id="memberPositionName" th:value="${loginMember.memberPositionName}">
-	                                </div>
+	                            <div class="row">
+		                            <div class="col-md-4">
+		                                <div class="form-group">
+		                                    <label for="purchaseRequisitionDate">작성일</label>
+		                                    <input type="datetime-local" class="form-control" id="purchaseRequisitionDate">
+		                                </div>
+		                            </div>
+		                            <div class="col-md-4">
+		                                <div class="form-group">
+		                                    <label for="purchaseRequisitionPayDay">지급요청일</label>
+		                                    <input type="datetime-local" class="form-control" id="purchaseRequisitionPayDay">
+		                                </div>
+		                            </div>
+		                            <div class="col-md-4">
+		                                <div class="form-group">
+		                                    <label for="purchaseRequisitionTotalPrice">총 요청금액</label>
+		                                    <input type="text" class="form-control" id="purchaseRequisitionTotalPrice">
+		                                </div>
+		                            </div>
 	                            </div>
-	                            <div class="col-md-4">
-	                                <div class="form-group">
-	                                    <label for="memberName">신청자</label>
-	                                    <input type="text" class="form-control" id="memberName" th:value="${loginMember.memberName}">
-	                                </div>
-	                            </div>
-                            </div>
-                            <div class="row">
-	                            <div class="col-md-4">
-	                                <div class="form-group">
-	                                    <label for="purchaseRequisitionDate">작성일</label>
-	                                    <input type="text" class="form-control" id="purchaseRequisitionDate">
-	                                </div>
-	                            </div>
-	                            <div class="col-md-4">
-	                                <div class="form-group">
-	                                    <label for="purchaseRequisitionPayDay">지급요청일</label>
-	                                    <input type="datetime-local" class="form-control" id="purchaseRequisitionPayDay">
-	                                </div>
-	                            </div>
-	                            <div class="col-md-4">
-	                                <div class="form-group">
-	                                    <label for="purchaseRequisitionTotalPrice">총 요청금액</label>
-	                                    <input type="text" class="form-control" id="purchaseRequisitionTotalPrice">
-	                                </div>
-	                            </div>
-                            </div>
-                        </form>
-                        </div>
-                        <br>
-		                <!-- 첫번째 테이블 끝 -->
-        				
-						<!-- 두 번째 테이블 시작-->
-						<form class="forms-sample">
-					    	<table class="table table-bordered">
-								<tr>
-									<th>품목</th>
-									<th>품명</th>
-									<th>단위</th>
-									<th>수량</th>
-									<th>단가</th>
-									<th>금액</th>
-									<th>비고</th>
-									<th>삭제</th>
-								</tr>
-								<tr>
-									<td width="100">
-										<select class="form-control" id="purchaseRequisitionItemCategory">
-		                                     <option></option>
-											 <option>사무용품</option>
-											 <option>소모품</option>
-											 <option>비품</option>
-											 <option>도서</option>
-											 <option>자재</option>
-		                                 </select>
-		                            </td>
-									<td><input type="email" class="form-control" id="purchaseRequisitionItem"></td>
-									<td><input type="email" class="form-control" id="purchaseRequisitionItemUnit"></td>
-									<td><input type="email" class="form-control" id="purchaseRequisitionItemCount"></td>
-									<td><input type="email" class="form-control" id="purchaseRequisitionItemPrice"></td>
-									<td><input type="email" class="form-control" id="purchaseRequisitionTotalPrice"></td>
-									<td><input type="email" class="form-control" id="purchaseRequisitionEtc"></td>
-									<td><input type="email" class="form-control" id="deleteTable"></td>
-								</tr>
-							</table>
-				        </form>
-				    	<!-- 두번째 테이블 끝 -->
+	                        </div>
+	                        <br>
+			                <!-- 첫번째 테이블 끝 -->
+	        				
+							<!-- 두 번째 테이블 시작-->
+							<div class="form-control form-txt-inverse" style="padding:10px;">							
+								<div data-repeater-list="group-a">
+								    <div data-repeater-item class="d-flex mb-2">
+								       <div class="form-group mb-2 mr-sm-2 mb-sm-0" style="width:150px">
+											<div style="text-align: center;">
+											     <label for="purchaseRequisitionItemCategory">품목</label>
+											</div>
+											<select class="form-control" id="purchaseRequisitionItemCategory" >
+												<option></option>
+												<option>사무용품</option>
+												<option>소모품</option>
+												<option>비품</option>
+												<option>도서</option>
+												<option>자재</option>
+											</select>
+								       	</div>
+										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+											<div style="text-align: center;">
+												<label for="purchaseRequisitionItem">품명</label>
+											</div>
+											<input type="text" class="form-control">
+										</div>
+										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+										    <div style="text-align: center;">
+										 		<label for="purchaseRequisitionItemUnit">단위</label>
+											</div>
+										    <input type="text" class="form-control">
+										</div>
+										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+										    <div style="text-align: center;">
+										 		<label for="purchaseRequisitionItemCount">수량</label>
+											</div>
+										    <input type="text" class="form-control">
+										</div>
+										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+										    <div style="text-align: center;">
+												<label for="purchaseRequisitionItemPrice">단가</label>
+											 </div>
+										    <input type="text" class="form-control">
+										</div>
+										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+										    <div style="text-align: center;">
+												<label for="purchaseRequisitionTotalPrice">금액</label>
+											 </div>
+										    <input type="text" class="form-control">
+										</div>
+										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+										    <div style="text-align: center;">
+												<label for="purchaseRequisitionEtc">비고</label>
+											 </div>
+										    <input type="text" class="form-control">
+										</div>
+<!-- 										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+										    <div style="text-align: center;">
+												<label for="deletePurchaseRequisition">삭제</label>
+											</div>
+											<input type="text" class="form-control">
+										</div> -->
+							         </div>
+							     </div>
+							</div>
+					    	<!-- 두번째 테이블 끝 -->
+				    	</form>
 				    </div>
 				</div>
 			</div>

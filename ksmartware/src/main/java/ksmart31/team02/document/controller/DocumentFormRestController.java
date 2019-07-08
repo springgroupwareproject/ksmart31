@@ -8,18 +8,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ksmart31.team02.document.domain.DocumentForm;
-import ksmart31.team02.document.mapper.DocumentFormMapper;
+import ksmart31.team02.document.service.DocumentFormService;
 
 @RestController
 public class DocumentFormRestController {
-	@Autowired private DocumentFormMapper documentFormMapper;
+	@Autowired private DocumentFormService documentFormService;
 
 	// 전체 문서양식 목록
 	@GetMapping("/member/getDocumentForm")
 	public List<DocumentForm> getDocumentFormList() {
 		System.out.println("[DocumentFormRestController] getDocumentFormList() 실행");
 		
-		List<DocumentForm> documentFormList = documentFormMapper.selectDocumentForm();
+		List<DocumentForm> documentFormList = documentFormService.getDocumentFormList();
 		System.out.println("[DocumentFormRestController] getDocumentFormList() documentFormList:"+documentFormList);
 		
 		return documentFormList;
@@ -30,7 +30,7 @@ public class DocumentFormRestController {
 	public List<DocumentForm> getDocumentFormByCategory(@RequestParam(required = false) String documentFormCategoryCode) {
 		System.out.println("[DocumentFormRestController] getDocumentFormByCategory() 실행");
 		
-		List<DocumentForm> documentFormByCategoryList = documentFormMapper.selectDocumentFormByCategory(documentFormCategoryCode);
+		List<DocumentForm> documentFormByCategoryList = documentFormService.getDocumentFormByCategory(documentFormCategoryCode);
 		System.out.println("[DocumentFormRestController] getDocumentFormByCategory() documentFormByCategoryList:"+documentFormByCategoryList);
 		
 		return documentFormByCategoryList;
