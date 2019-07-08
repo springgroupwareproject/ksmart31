@@ -1,5 +1,53 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ksmart31.team03.leave.mapper.LeaveHistoryMapper">
+	<!-- 특정 부서에 해당하는 조직원 정보 -->	
+	<resultMap type="ksmart31.team01.department.domain.DepartmentJoinMember" id="selectDepartmentJoinMemberList">
+		<result column="member_name" property="memberName"/>
+		<result column="member_level_title" property="memberLevelTitle"/>
+		<result column="department_category_name" property="departmentCategoryName"/>
+		<result column="department_division_name" property="departmentDivisionName"/>
+		<result column="department_section_name" property="departmentSectionName"/>
+		<result column="member_position_name" property="memberPositionName"/>
+		<result column="member_id" property="memberId"/>
+		<result column="member_phone" property="memberPhone"/>
+		<result column="member_mobile" property="memberMobile"/>
+		<result column="member_join_day" property="memberJoinDay"/>
+		<result column="member_address" property="memberAddress"/>
+		<result column="department_number" property="departmentNumber"/>		
+	</resultMap>	
+	<select id="selectDepartmentJoinMemberList" parameterType="java.util.Map" resultMap="selectDepartmentJoinMemberList">
+		SELECT
+		<if test="departmentName == 'fullView'">
+			DISTINCT
+		</if>
+			m.member_name
+			,m.member_level_title
+			,m.department_category_name
+			,m.department_division_name
+			,m.department_section_name
+			,m.member_position_name
+			,m.member_id
+			,m.member_phone
+			,m.member_mobile
+			,m.member_join_day
+			,m.member_address
+		FROM department d
+		INNER JOIN member m				
+		<!-- choose if else처럼 쓸수있다  -->		
+		<if test="departmentName != 'fullView'">
+			<if test="departmentNumber == 1">
+				ON d.department_name = m.department_division_name
+			</if>
+			<if test="departmentNumber == 2">
+				ON d.department_name = m.department_section_name
+			</if>
+			
+			<if test="departmentNumber == 0">
+				ON d.department_name = m.department_category_name
+			</if>
+				WHERE d.department_name = #{departmentName}	
+		</if>
+	</select>
 	<!-- 조직원 아이디별 휴가 내역 조회 -->
 	<resultMap type="ksmart31.team03.leave.domain.LeaveHistory" id="selectLeaveHistoryByMemberId">
 		<result column="leave_history_code" property="LeaveHistoryCode"/>
