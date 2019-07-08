@@ -4,151 +4,221 @@
 	<th:block layout:fragment="customHead">
 		<meta charset="UTF-8">
 		<title>지출결의서</title>
-		<style>
-			table, th, td {
-				border: 1px solid black;
-				border-collapse: collapse;
-			}
-			th, td {
-				padding: 15px;
-			}
-		</style>
 		<th:block th:include="layout/customHead"></th:block>
 	</th:block>
 	
 	<th:block layout:fragment="customBody">
-	<body>
-		<h2>지출결의서</h2>
-		<table style="width:90%">
-			<tr>
-				<th>제목</th>
-				<td colspan="3">Bill Gates</td>
-			</tr>
-			<tr>
-				<th>부서</th>
-				<td>
-					<a th:value="달러">
-						<th:block th:text="달러"></th:block>
-					</a>
-				</td>
-				<th>담당자</th>
-				<td>
-					<a th:value="달러">
-						<th:block th:text="달러"></th:block>
-					</a>
-				</td>
-			</tr>
-			<tr>
-				<th>계좌번호(은행)</th>
-				<td>
-					<a th:value="달러">
-						<th:block th:text="달러"></th:block>
-					</a>
-				</td>
-				<th>예금주</th>
-				<td>
-					<a th:value="달러">
-						<th:block th:text="달러"></th:block>
-					</a>
-				</td>
-			</tr>
-			<tr>
-				<th>합계금액</th>
-				<td>
-					<a th:value="달러">
-						<th:block th:text="달러"></th:block>
-					</a>
-				</td>
-				<th>지급조건</th>
-				<td>
-					<a th:value="달러">
-						<th:block th:text="달러"></th:block>
-					</a>
-				</td>
-			</tr>
-			<tr>
-				<th>기안일</th>
-				<td>
-					<a th:value="달러">
-						<th:block th:text="달러"></th:block>
-					</a>
-				</td>
-				<th>지급요청일</th>
-				<td>
-					<a th:value="달러">
-						<th:block th:text="달러"></th:block>
-					</a>
-				</td>
-			</tr>
-		</table>
-		<br>
-		<table style="width:90%">
-			<tr>
-				<th>계정과목</th>
-				<th>지출일</th>
-				<th>지출내용</th>
-				<th>거래처</th>
-				<th>금액</th>
-				<th>결제수단</th>
-				<th>비고</th>
-				<th>증빙</th>
-				<th>삭제</th>
-			</tr>
-			<tr>
-				<td>
-					<select name="job">
-					    <option value="">직업선택</option>
-					    <option value="학생">학생</option>
-					    <option value="회사원">회사원</option>
-					    <option value="기타">기타</option>
-					</select>
-				</td>
-				<td>
-					<a th:value="달러">
-						<th:block th:text="달러"></th:block>
-					</a>
-				</td>
-				<td>
-					<a th:value="달러">
-						<th:block th:text="달러"></th:block>
-					</a>
-				</td>
-				<td>
-					<a th:value="달러">
-						<th:block th:text="달러"></th:block>
-					</a>
-				</td>
-				<td>
-					<a th:value="달러">
-						<th:block th:text="달러"></th:block>
-					</a>
-				</td>
-				<td>
-					<select name="job">
-					    <option value="">직업선택</option>
-					    <option value="학생">학생</option>
-					    <option value="회사원">회사원</option>
-					    <option value="기타">기타</option>
-					</select>
-				</td>
-				<td>
-					<a th:value="달러">
-						<th:block th:text="달러"></th:block>
-					</a>
-				</td>
-				<td>
-					<a th:value="달러">
-						<th:block th:text="달러"></th:block>
-					</a>
-				</td>
-				<td>
-					<a th:value="달러">
-						<th:block th:text="달러"></th:block>
-					</a>
-				</td>
-			</tr>
-		</table>
-	</body>
+		<div class="row">
+			<!-- 왼쪽칸 -->
+			<div class="col-8">
+				<div class="card" style="min-height: 484px;">
+			        <div class="card-header"><h3>지출결의서</h3></div>
+		            <div class="card-body">
+		                <form class="forms-sample">
+		                	<!-- 첫번째 테이블 -->
+		                	<div class="form-control form-txt-inverse" style="padding:10px;">
+		               			<div class="form-group">
+		                            <label for="exampleInputName1">제목</label>
+		                            <input type="text" class="form-control" id="exampleInputName1">
+		                        </div>
+		                        <div class="row">
+		                            <div class="col-md-6">
+		                                <div class="form-group">
+		                                    <label for="departmentName">부서</label>
+		                                    <input type="text" class="form-control" id="departmentName" th:value="${loginMember.departmentName}">
+		                                </div>
+		                            </div>
+		                            <div class="col-md-6">
+		                                <div class="form-group">
+		                                    <label for="memberName">담당자</label>
+		                                    <input type="text" class="form-control" id="memberName" th:value="${loginMember.memberName}">
+		                                </div>
+		                            </div>
+		                        </div>
+		                        <div class="row">
+		                            <div class="col-md-6">
+		                                <div class="form-group">
+		                                    <label for="accountNumber">계좌번호(은행)</label>
+		                                    <input type="text" class="form-control" id="accountNumber">
+		                                </div>
+		                            </div>
+		                            <div class="col-md-6">
+		                                <div class="form-group">
+		                                    <label for="disbursementDocumentAccount">예금주</label>
+		                                    <input type="text" class="form-control" id="disbursementDocumentAccount">
+		                                </div>
+		                            </div>
+		                        </div>
+		                        <div class="row">
+		                            <div class="col-md-6">
+		                                <div class="form-group">
+		                                    <label for="disbursementDocumentPrice">합계금액</label>
+		                                    <input type="text" class="form-control" id="disbursementDocumentPrice">
+		                                </div>
+		                            </div>
+		                            <div class="col-md-6">
+		                                <div class="form-group">
+		                                    <label for="disbursementDocumentTermsOfPayment">지급조건</label>
+		                                    <input type="text" class="form-control" id="disbursementDocumentTermsOfPayment">
+		                                </div>
+		                            </div>
+		                        </div>
+		                        <div class="row">
+		                            <div class="col-md-6">
+		                                <div class="form-group">
+		                                    <label for="exampleInputEmail3">기안일</label>
+		                                    <input type="text" class="form-control" id="exampleInputEmail3">
+		                                </div>
+		                            </div>
+		                            <div class="col-md-6">
+		                                <div class="form-group">
+		                                    <label for="disbursementDocumentDate">지급요청일</label>
+		                                    <input type="text" class="form-control" id="disbursementDocumentDate">
+		                                </div>
+		                            </div>
+		                        </div>
+	                        </div>
+	                        <br>
+	                        
+	                        <!-- 두번째 테이블 -->
+	                        <div class="form-group row">
+	                        	<label for="accountName" class="col-sm-3 col-form-label">계정과목</label>
+	                               <div class="col-sm-3">
+                                   		<select class="form-control" id="accountName">
+	                                     	 <option>선택하세요</option>
+											 <option>복리후생비</option>
+											 <option>여비교통비</option>
+											 <option>차량유지비</option>
+											 <option>사무용품비</option>
+											 <option>통신비</option>
+											 <option>운송비</option>
+											 <option>원재료</option>
+											 <option>상품</option>
+                                 		</select>
+	                           		</div>
+	                         </div>
+	                           <div class="form-group row">
+	                               <label for="disbursementDocumentExpenseDate" class="col-sm-3 col-form-label">지출일</label>
+	                               <div class="col-sm-6">
+	                                   <input type="text" class="form-control" id="disbursementDocumentExpenseDate">
+	                               </div>
+	                           </div>
+	                           <div class="form-group row">
+	                               <label for="disbursementDocumentContents" class="col-sm-3 col-form-label">지출내용</label>
+	                               <div class="col-sm-6">
+	                                   <input type="text" class="form-control" id="disbursementDocumentContents">
+	                           	</div>
+	                           </div>
+	                           <div class="form-group row">
+	                               <label for="disbursementDocumentCustomer" class="col-sm-3 col-form-label">거래처</label>
+	                               <div class="col-sm-6">
+	                                   <input type="text" class="form-control" id="disbursementDocumentCustomer">
+	                               </div>
+	                           </div>
+	                           <div class="form-group row">
+	                               <label for="disbursementDocumentPrice" class="col-sm-3 col-form-label">금액</label>
+	                               <div class="col-sm-6">
+	                                   <input type="text" class="form-control" id="disbursementDocumentPrice">
+	                           	</div>
+	                           </div>
+	                           <div class="form-group row">
+	                               <label for="disbursementDocumentMethodsOfPayment" class="col-sm-3 col-form-label">결제수단</label>
+	                               <div class="col-sm-3">
+	                                  	 <select class="form-control" id="disbursementDocumentMethodsOfPayment">
+	                                     <option>선택하세요</option>
+										 <option>신용카드</option>
+										 <option>계좌이체</option>
+										 <option>현금</option>
+										 <option>개인 신용카드</option>
+										 <option>법인 신용카드</option>
+										 <option>어음</option>
+	                                 </select>
+	                               </div>
+	                           </div>
+	                           <div class="form-group row">
+	                               <label for="disbursementDocumentEtc" class="col-sm-3 col-form-label">비고</label>
+	                               <div class="col-sm-6">
+	                                   <input type="text" class="form-control" id="disbursementDocumentEtc">
+	                           	</div>
+	                           </div>
+	                           <div class="form-group row">
+	                               <label for="disbursementDocumentEvidence" class="col-sm-3 col-form-label">증빙</label>
+	                               <div class="col-sm-6">
+	                                   <input type="text" class="form-control" id="disbursementDocumentEvidence">
+	                               </div>
+	                           </div>
+			        	</form>
+			    </div>
+				</div>
+			</div>
+			
+			<!-- 오른쪽 칸 시작-->
+			<div class="col-4">
+				<div class="card" style="min-height: 484px;">
+					<div class="card-body">
+						<ul class="nav nav-tabs">
+						  <li class="nav-item">
+						    <a class="nav-link active" id="approvalProcessLine" data-toggle="tab" href="#approvalProcess">결재선 설정</a>
+						  </li>
+						  <li class="nav-item">
+						    <a class="nav-link" id="opinion" data-toggle="tab" href="#opinionList">의견</a>
+						  </li>
+						  <li class="nav-item">
+						    <a class="nav-link" id="file" data-toggle="tab" href="#fileList">첨부파일</a>
+						  </li>
+						</ul>
+						<br>
+						<div class="tab-content">
+							<!-- 결재선 설정 탭 -->
+							<div class="tab-pane fade show active" id="approvalProcess">
+							     <form class="sample-form">
+							          <div class="form-group">
+							               <select class="form-control select2" id="approvalProcessList">
+										   </select>
+							          </div>
+							     </form>
+							</div>
+							<!-- 의견 탭 -->
+							<div class="tab-pane fade" id="opinionList">
+								<div class="card-block">
+									<div class="table-responsive">
+										<table style="width:100%">
+											<tbody id="approvalOpinionList">
+									        </tbody>
+										</table>
+									</div>
+								</div>
+						  		<div class="right-icon-control m-t-15">
+                                    <div class="input-group input-group-button">
+                                        <input type="text" class="form-control" placeholder="의견을 등록해주세요.">
+                                        <div class="input-group-append">
+                                            <button id="insertOpinion" class="btn btn-primary" type="button"><i class="ik ik-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+							<!-- 첨부파일 탭 -->
+							<div class="tab-pane fade" id="fileList">
+								<div class="card-block">
+									<div class="table-responsive">
+										<table style="width:100%">
+											<tbody id="approvalFileList">
+									        </tbody>
+										</table>
+										<button type="button" class="btn btn-outline-secondary btn-rounded"><i class="ik ik-share"></i>Upload</button>
+									</div>
+								</div>
+							</div>
+						</div>
+		            </div>
+		            <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">기안하기</button>
+                        <button type="button" class="btn btn-secondary">임시저장</button>
+                    </div>
+				</div>
+			</div>
+			<!-- 오른쪽 칸 끝-->
+		</div>
 	</th:block>
 	
 	<th:block layout:fragment="customJquery">
