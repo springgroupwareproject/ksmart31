@@ -34,8 +34,7 @@
 				$('#개인정보').trigger('click');
 			});
 			
-			$('.profile').click(function(){
-				
+			$('.profile').click(function(){				
 				console.log('카테고리 클릭 테스트');
 				console.log('선택한 조직원 아이디 : '+memberId);
 				let category = $(this).attr('id');
@@ -64,8 +63,8 @@
  					
 				}else if(category == '인사정보'){
 					console.log('인사 정보 클릭 확인');
-					$('#인사').attr('hidden', false);
 					$('#개인').attr('hidden', true);
+					$('#인사').attr('hidden', false);
 				}
 			});
 			
@@ -372,8 +371,7 @@
 						<div class="col-10" style="min-width: 600px">
 							<div class="card" >								
 								<div class="card-header">상세정보</div>
-								<div class="card-body">
-								
+								<div class="card-body">								
 									<div id="개인">
 										<div>전화번호</div>
 										<input type="text" style="width:200px" class="form-control" id="memberPhone">
@@ -401,17 +399,11 @@
 									<div id="인사" hidden="hidden">
 										<div>이메일</div>
 										<div id="infoMemberId"></div>
-										<hr>
-									
+										<hr>									
 										<div>소속 부서</div>
-										<div id="infoDepartmentCategoryName"></div>
-										<div id="infoDepartmentDivisionName"></div>
-										<div id="infoDepartmentSectionName"></div>
-											<!-- <div class="input-group">
-												<div th:text="${memberInfo.departmentCategoryName}"></div>
-												<div th:if="${memberInfo.departmentDivisionName != ''}" th:text="|&nbsp; > ${memberInfo.departmentDivisionName}|"></div>
-												<div th:if="${memberInfo.departmentSectionName != ''}" th:text="|&nbsp; > ${memberInfo.departmentSectionName}|"></div>
-											</div> -->
+										<span id="infoDepartmentCategoryName"></span> >
+										<span id="infoDepartmentDivisionName"></span> >
+										<span id="infoDepartmentSectionName"></span>											
 										<hr>
 										
 										<div>직위/직책</div>

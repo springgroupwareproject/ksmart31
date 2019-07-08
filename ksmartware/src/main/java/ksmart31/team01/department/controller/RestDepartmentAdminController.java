@@ -58,8 +58,14 @@ public class RestDepartmentAdminController {
 	@GetMapping("/getmemberMyProfile")
 	public Member getmemberMyProfile(String memberId){ 		 
 		Member member = departmentService.getmemberMyProfile(memberId);
-		System.out.println(member + "RestDepartmentAdminController getmemberMyProfile list");
+		System.out.println(member + "RestDepartmentAdminController getmemberMyProfile member");
 		return member;
 	}
-	
+	//memberInfo select
+	@GetMapping("/getmemberMyInfo")
+	public Member getmemberMyInfo(String memberId) {	
+		Member member = departmentService.getmemberMyInfo(memberId);
+		System.out.println(member + "RestDepartmentAdminController getmemberMyInfo member");
+		return member;
+	}	
 }

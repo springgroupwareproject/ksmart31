@@ -201,6 +201,38 @@
 		WHERE
 			member_id = #{memberId}
 	</select>
+		
+	<!-- myProfile 개인정보 -->
+	<resultMap type="ksmart31.team01.member.domain.Member" id="selectmemberMyInfo">	
+				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+		<result column="member_id" property="memberId"/>
+		<result column="department_category_name" property="departmentCategoryName"/>
+		<result column="department_division_name" property="departmentDivisionName"/>
+		<result column="department_section_name" property="departmentSectionName"/>
+		<result column="member_position_name" property="memberPositionName"/>
+		<result column="member_status" property="memberStatus"/>
+		<result column="member_level_title" property="memberLevelTitle"/>
+		<result column="member_form_of_employment" property="memberFormOfEmployment"/>
+		<result column="member_employee_code" property="memberEmployeeCode"/>
+		<result column="member_join_day" property="memberJoinDay"/>
+	</resultMap>
+	<select id="selectmemberMyInfo" resultMap="selectmemberMyInfo">
+		SELECT 
+			member_id,
+			department_category_name,
+			department_division_name,
+			department_section_name,
+			member_position_name,
+			member_status,
+			member_level_title,
+			member_form_of_employment,
+			member_employee_code,
+			member_join_day
+		FROM member
+		WHERE
+			member_id = #{memberId}
+	</select>
+	
 	
 </mapper>			
 		

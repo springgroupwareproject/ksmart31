@@ -89,4 +89,8 @@ public class DepartmentService {
 	public Member getmemberMyProfile(String memberId) {
 		return departmentMapper.selectmemberMyProfile(memberId);
 	}
+	//memberMyInfo
+	public Member getmemberMyInfo(String memberId) {
+		return departmentMapper.selectmemberMyInfo(memberId);
+	}
 }	
