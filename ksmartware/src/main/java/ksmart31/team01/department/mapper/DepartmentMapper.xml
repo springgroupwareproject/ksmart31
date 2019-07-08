@@ -181,8 +181,8 @@
 		from member_position
 	</select>
 	
-	<!-- myProfile 개인정보 -->
-	<resultMap type="ksmart31.team01.member.domain.Member" id="selectmemberMyProfile">	
+	<!-- Member 개인정보 -->
+	<resultMap type="ksmart31.team01.member.domain.Member" id="selectMemberMyProfile">	
 				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
 		<result column="member_phone" property="memberPhone"/>
 		<result column="member_mobile" property="memberMobile"/>
@@ -190,7 +190,7 @@
 		<result column="member_birth" property="memberBirth"/>
 		<result column="member_gender" property="memberGender"/>
 	</resultMap>
-	<select id="selectmemberMyProfile" resultMap="selectmemberMyProfile">
+	<select id="selectMemberMyProfile" resultMap="selectMemberMyProfile">
 		SELECT 
 			member_phone,
 			member_mobile,
@@ -202,8 +202,8 @@
 			member_id = #{memberId}
 	</select>
 		
-	<!-- myProfile 개인정보 -->
-	<resultMap type="ksmart31.team01.member.domain.Member" id="selectmemberMyInfo">	
+	<!-- Member 개인정보 -->
+	<resultMap type="ksmart31.team01.member.domain.Member" id="selectMemberMyInfo">	
 				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
 		<result column="member_id" property="memberId"/>
 		<result column="department_category_name" property="departmentCategoryName"/>
@@ -216,7 +216,7 @@
 		<result column="member_employee_code" property="memberEmployeeCode"/>
 		<result column="member_join_day" property="memberJoinDay"/>
 	</resultMap>
-	<select id="selectmemberMyInfo" resultMap="selectmemberMyInfo">
+	<select id="selectMemberMyInfo" resultMap="selectMemberMyInfo">
 		SELECT 
 			member_id,
 			department_category_name,
@@ -229,6 +229,149 @@
 			member_employee_code,
 			member_join_day
 		FROM member
+		WHERE
+			member_id = #{memberId}
+	</select>
+	
+	<!-- MemberEducation 개인정보 -->
+	<resultMap type="ksmart31.team01.member.domain.MemberEducation" id="selectMemberMyEducation">	
+				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+		<result column="member_education_start_day" property="memberEducationStartDay"/>
+		<result column="member_education_end_day" property="memberEducationEndDay"/>
+		<result column="member_education_institution" property="memberEducationInstitution"/>
+		<result column="member_education_now" property="memberEducationNow"/>
+		<result column="member_education_degree" property="memberEducationDegree"/>
+		<result column="member_education_major" property="memberEducationMajor"/>	
+	</resultMap>
+	<select id="selectMemberMyEducation" resultMap="selectMemberMyEducation">
+		SELECT 
+			member_education_start_day,
+			member_education_end_day,
+			member_education_institution,
+			member_education_now,
+			member_education_degree,
+			member_education_major		
+		FROM 
+			member_education 
+		
+		WHERE
+			member_id = #{memberId} 
+	</select>
+	
+	<!-- MemberProject 개인정보 -->
+	<resultMap type="ksmart31.team01.member.domain.MemberProject" id="selectMemberMyProject">	
+				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+		<result column="member_project_start_day" property="memberProjectStartDay"/>
+		<result column="member_project_end_day" property="memberProjectEndDay"/>
+		<result column="member_project_name" property="memberProjectName"/>
+		<result column="member_project_place" property="memberProjectPlace"/>
+		<result column="member_project_desc" property="memberProjectDesc"/>
+		<result column="member_project_url" property="memberProjectUrl"/>		
+	</resultMap>	
+	<select id="selectMemberMyProject" resultMap="selectMemberMyProject">		
+		<!-- 19-06-30 동적쿼리 반복문사용해야됨 -->
+		SELECT 
+			member_project_start_day,
+			member_project_end_day,
+			member_project_name,
+			member_project_place,
+			member_project_desc,
+			member_project_url			
+		FROM 
+			member_project		
+		WHERE
+			member_id = #{memberId}			
+	</select>
+	
+	<!-- MemberLicense 개인정보 -->
+	<resultMap type="ksmart31.team01.member.domain.MemberLicense" id="selectMemberMyLicense">
+				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+		<result column="member_license_start_day" property="memberLicenseStartDay"/>
+		<result column="member_license_end_day" property="memberLicenseEndDay"/>
+		<result column="member_license_name" property="memberLicenseName"/>
+		<result column="member_license_number" property="memberLicenseNumber"/>
+		<result column="member_license_url" property="memberLicenseUrl"/>
+		<result column="member_license_authentication" property="memberLicenseAuthentication"/>		
+	</resultMap>	
+	<select id="selectMemberMyLicense" resultMap="selectMemberMyLicense">
+		SELECT 
+			member_license_start_day,
+			member_license_end_day,
+			member_license_name,
+			member_license_number,
+			member_license_url,
+			member_license_authentication			
+		FROM 
+			member_license	
+		WHERE
+			member_id = #{memberId}
+	</select>
+	<!-- MemberAcademy 개인정보 -->
+	<resultMap type="ksmart31.team01.member.domain.MemberAcademy" id="selectMemberMyAcademy">	
+			<!-- 	db컬럼		domain 데이터변수명 -->
+		<result column="member_academy_start_day" property="memberAcademyStartDay"/>
+		<result column="member_academy_end_day" property="memberAcademyEndDay"/>
+		<result column="member_academy_name" property="memberAcademyName"/>
+		<result column="member_academy_complete" property="memberAcademyComplete"/>
+		<result column="member_academy_institution" property="memberAcademyInstitution"/>
+		<result column="member_academy_place" property="memberAcademyPlace"/>
+		<result column="member_academy_purpose" property="memberAcademyPurpose"/>
+		<result column="member_academy_cost" property="memberAcademyCost"/>
+		<result column="member_academy_desc" property="memberAcademyDesc"/>		
+	</resultMap>  	
+	<select id="selectMemberMyAcademy" resultMap="selectMemberMyAcademy" >
+		SELECT 
+			member_academy_start_day,
+			member_academy_end_day,
+			member_academy_name,
+			member_academy_complete,
+			member_academy_institution,
+			member_academy_place,
+			member_academy_purpose,
+			member_academy_cost,
+			member_academy_desc		
+		FROM 
+			member_academy		
+		WHERE
+			member_id = #{memberId}
+	</select>
+	
+	<!-- MemberCareer 개인정보 -->
+	<resultMap type="ksmart31.team01.member.domain.MemberCareer" id="selectMemberMyCareer">	
+				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+		<result column="member_career_start_day" property="memberCareerStartDay"/>
+		<result column="member_career_end_day" property="memberCareerEndDay"/>
+		<result column="member_career_company" property="memberCareerCompany"/>
+		<result column="member_position_name" property="memberPositionName"/>
+		<result column="member_career_out_reason" property="memberCareerOutReason"/>		
+	</resultMap>
+	<select id="selectMemberMyCareer" resultMap="selectMemberMyCareer">
+		SELECT
+			member_career_start_day,
+			member_career_end_day,
+			member_career_company,
+			member_position_name,
+			member_career_out_reason
+		FROM member_career
+		WHERE member_id = #{memberId}
+	</select>
+	
+	<!-- MemberAwards 개인정보 -->
+	<resultMap type="ksmart31.team01.member.domain.MemberAwards" id="selectMemberMyAwards">
+				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+		<result column="member_awards_day" property="memberAwardsDay"/>
+		<result column="member_awards_name" property="memberAwardsName"/>
+		<result column="member_awards_institution" property="memberAwardsInstitution"/>
+		<result column="member_awards_desc" property="memberAwardsDesc"/>		
+	</resultMap>	
+	<select id="selectMemberMyAwards" resultMap="selectMemberMyAwards">
+		SELECT 
+			member_awards_day,
+			member_awards_name,
+			member_awards_institution,
+			member_awards_desc			
+		FROM 
+			member_awards		
 		WHERE
 			member_id = #{memberId}
 	</select>
