@@ -5,10 +5,12 @@
 		<meta charset="UTF-8">
 		<title>휴가신청서</title>
 		<th:block th:include="layout/customHead"></th:block>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" type="text/css" />
+		<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 		<script>
 			$(function() {
-				// 기안일
-				document.getElementById('draftDocumentDate').value= new Date().toISOString().slice(0, 16);
+				// 양식폼이 로드되면 draft_document테이블에 임시저장 상태로 문서 등록
 				
 				// 결재선 목록
 				$.ajax({
@@ -47,6 +49,33 @@
 						});
 					}
 				})
+				
+				// 의견 목록
+				$.ajax({
+					url:'/member/approvalOpinionList'
+					, type:'GET'
+					, data : {}
+		            , success:function(data) {
+		            	console.log('비동기 요청 성공');
+		            	console.log('의견');
+		            	console.log(data);
+		            	$('#approvalOpinionList').empty();
+		            	// 요청 성공시 의견 목록 뿌려주기
+		            	$(data).each(function(i,item){
+		            		if($('#approvalOpinionList') != null) {
+			                    $('#approvalOpinionList').append('<tr>');
+			                    $('#approvalOpinionList').append('<td>'+item.memberName+'</td>');
+			                    $('#approvalOpinionList').append('<td>'+item.approvalOpinionDesc+'</td>');
+			                    $('#approvalOpinionList').append('<td>'+item.approvalOpinionDate+'</td>');
+			                    $('#approvalOpinionList').append('</tr>');
+		            		}else {
+			                    $('#approvalOpinionList').append('<tr>');
+			                    $('#approvalOpinionList').append('<td>의견이 없습니다.</td>');
+			                    $('#approvalOpinionList').append('</tr>');
+		            		}
+		        	   	});
+		            }
+				});
 				
 				// 의견 목록
 				$('#opinion').click(function() {
@@ -89,7 +118,7 @@
 			            	console.log('파일');
 			            	console.log(data);
 			            	$('#approvalFileList').empty();
-			            	// 요청 성공시 첨부파일 목록 뿌려주기
+			            	// 요청 성공시 의견 목록 뿌려주기
 			            	$(data).each(function(i,item){
 			            		if($('#approvalFileList') != null) {
 				                    $('#approvalFileList').append('<tr>');
@@ -104,7 +133,61 @@
 			        	   	});
 			            }
 					});
-				})
+				});
+				
+				// 휴가 리스트 및 잔여일
+				$.ajax({
+					url:'/member/getLeaveCategoryAndHistory'
+					, type:'GET'
+		            , success:function(data) {
+		            	console.log('비동기 요청 성공');
+		            	console.log('휴가 리스트');
+		            	console.log(data);
+		            	$('#approvalFileList').empty();
+		            	let preCategory = '';	// 이전 휴가 종류 
+						let nextCategory = '';	// 다음 휴가 종류
+						let remainingDateCount = 0;
+ 		            	$(data.leaveDetail).each(function(i,item){
+							nextCategory = item.leaveCategorySort;
+							if(preCategory != nextCategory){ // 휴가 종류 값이 같지 않을 때 비활성화된 채로 목록에 추가
+								$('#leaveCategoryAndRemaining').append('<div class="col-6" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;">'+item.leaveCategorySort+'</div>');
+								$('#leaveCategoryAndRemaining').append('<div class="col-2" id="remainingDate'+remainingDateCount+'" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;"></div>');
+								$('#leaveCategoryAndRemaining').append('<div class="col-2" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;"></div>');
+								$('#leaveCategoryAndRemaining').append('<div class="col-2" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;"></div>');
+								preCategory = nextCategory;
+								remainingDateCount++;
+							}
+							$('#leaveCategoryAndRemaining').append('<div class="col-6" style="height: 40px; padding-top: 10px;"><input type="radio" name="categorySort" value="'+item.leaveCategorySort+', '+item.leaveDetailSort+'">'+item.leaveDetailSort+'</div>');
+							$('#leaveCategoryAndRemaining').append('<div class="col-2" style="height: 40px; padding-top: 10px;"></div>');
+							$('#leaveCategoryAndRemaining').append('<div class="col-2" style="height: 40px; padding-top: 10px;">'+item.leaveDetailMinimumDay+'일 '+item.leaveDetailMinimumHour+'시간</div>');
+							$('#leaveCategoryAndRemaining').append('<div class="col-2" style="height: 40px; padding-top: 10px;">'+item.leaveDetailMaximumDay+'일 '+item.leaveDetailMaximumHour+'시간</div>');
+		        	   	});
+						$(data.leaveHistory).each(function(i, item){
+							$('#remainingDate'+i+'').append('<div>'+item.leaveHistoryRemainingDay+'일 '+item.leaveHistoryRemainingHour+'시간<div>')
+						});
+		            }
+				});
+				$('#categoryButton').click(function(){
+					$('#leaveCategoryList').empty();
+					console.log('휴가 종류 확인 버튼 테스트');
+					// 선택된 휴가 종류
+					let categorySort = $('input[name="categorySort"]:checked').val();
+					console.log('categorySort : '+categorySort);
+					// ', '를 제거하고 나머지 텍스트를 배열로 저장
+					// 기존 : '연차 유급 휴가, 오전 반차 휴가' -> 변경 : ['연차 유급 휴가', '오전 반차 휴가']
+					let detailSort = categorySort.split(', ');
+					// 1번째 담긴 값을 출력(상세 휴가 종류)
+					console.log('detailSort : '+detailSort[1]);
+					$('#leaveCategoryList').append('<option value="'+categorySort+'" selected="selected">'+detailSort[1]+'</option>');
+					$('#leaveCategoryListModal').modal('hide');
+				});
+				// 달력 api 호출 함수
+				$('#usedStartDay').datepicker();
+				$('#usedEndDay').datepicker();
+				// 달력 입력 값 형식 설정 
+				$.datepicker.setDefaults({
+					dateFormat: 'yy-mm-dd'   
+				});
 			});
 		</script>
 	</th:block>
@@ -126,7 +209,7 @@
 		<div class="row">
 			<!-- 왼쪽 칸 시작 -->
 			<div class="col-md-8">
-				<div class="card" style="min-height: 484px;">
+				<div  class="card" style="min-height: 484px;">
 			        <div class="card-header"><h3>휴가신청서</h3></div>
 		            <div class="card-body">
 		                <form class="forms-sample">
@@ -152,7 +235,7 @@
 		                    <div class="form-group row">
 		                        <label for="draftDocumentDate" class="col-sm-3 col-form-label">기안일</label>
 		                        <div class="col-sm-9">
-		                            <input type="datetime-local" class="form-control" id="draftDocumentDate">
+		                            <input type="text" class="form-control" id="draftDocumentDate">
 		                        </div>
 		                    </div>
 		                    <div class="form-group row">
@@ -168,34 +251,23 @@
 			    				<div class="form-group row">
 			                        <label for="draftDocumentDate" class="col-sm-3 col-form-label">휴가종류</label>
 			                        <div class="col-sm-5">
-					                     <select class="form-control" id="exampleSelectGender">
-		                                     <option>선택하세요</option>
-											 <option>오전 반차 휴가</option>
-											 <option>오후 반차 휴가</option>
-											 <option>연차 휴가</option>
-											 <option>월차 휴가</option>
-											 <option>대체 휴가</option>
-											 <option>재량 휴가</option>
-											 <option>장기 근속 휴가</option>
-											 <option>본인 결혼</option>
-											 <option>자녀 결혼</option>
-											 <option>본인 및 배우자 출산</option>
-											 <option>본인 및 배우자 부모의 사망</option>
-											 <option>본인 및 배우자의 조부모 및 외조부모 사망</option>
-											 <option>본인의 자녀 및 그 자녀의 배우자 사망</option>
-											 <option>본인 및 배우자의 형제자매 사망</option>
-											 <option>생리 휴가</option>
-											 <option>출산전후휴가</option>
-											 <option>일반 병가</option>
-											 <option>공무상 병가</option>
-											 <option>공무상 휴가</option>
+					                     <select class="form-control" data-toggle="modal" data-target="#leaveCategoryListModal" id="leaveCategoryList">
+		                                     
 		                                 </select>
 			                        </div>
 			                    </div>
 			     				<div class="form-group row">
 			                        <label for="leaveDays" class="col-sm-3 col-form-label">휴가기간</label>
-			                        <div class="col-sm-5">
-					                	<input type="text" class="form-control" id="leaveDays" placeholder="yyyy-MM-dd">
+			                        <div class="col-sm-9">
+			                        	<div class="form-group row">
+			                        		<div class="col-6">From</div>
+			                        		<div class="col-6">To</div>
+			                        	</div>
+			                        	<div class="form-group row">
+						                	<input type="text" class="col-5" id="usedStartDay" style="margin-left: 15px;">
+						                	<div class="col-1"></div> 
+						                	<input type="text" class="col-5" id="usedEndDay">
+					                	</div>
 			                        </div>
 			                    </div>
 			                    <div class="form-group row">
@@ -203,7 +275,7 @@
 			                        <div class="row col-sm-5">
 		                             	<div class="col-sm-12">
 		                          			<div class="input-group">
-		                          				<input type="email" class="form-control" id="leaveApplicationDays" placeholder="휴가일수"><span style="margin: 10px 0px 0px 0px">&nbsp 일 &nbsp</span>
+		                          				<input type="email" class="form-control" id="leaveApplicationDays" placeholder="휴가일수"><span style="margin: 10px 0px 0px 0px">&nbsp; 일 &nbsp;</span>
 			                          			<select class="form-control" id="leaveApplicationDays">
 			                                  		<option>0</option>
 			                                  		<option>1</option>
@@ -214,7 +286,7 @@
 			                                  		<option>6</option>
 			                                  		<option>7</option>
 			                             		</select>
-			                             		<span style="margin: 10px 0px 0px 0px">&nbsp 시간</span>
+			                             		<span style="margin: 10px 0px 0px 0px">&nbsp; 시간</span>
 		                             		</div>
 		                             	</div>
 			                    	</div>
@@ -252,17 +324,18 @@
 						<div class="tab-content">
 							<!-- 결재선 설정 탭 -->
 							<div class="tab-pane fade show active" id="approvalProcess">
-							          <div class="form-group">
-							               <select class="form-control select2" id="approvalProcessList">
-										   </select>
-							          </div>
+						          <div class="form-group">
+						               <select class="form-control select2" id="approvalProcessList">
+									   </select>
+						          </div>
 							</div>
 							<!-- 의견 탭 -->
 							<div class="tab-pane fade" id="opinionList">
 								<div class="card-block">
 									<div class="table-responsive">
 										<table style="width:100%">
-											<tbody id="approvalOpinionList">
+											<tbody id="approvalOpinion`
+											List">
 									        </tbody>
 										</table>
 									</div>
@@ -297,6 +370,44 @@
 				</div>
 			</div>
 			<!-- 오른쪽 칸 끝-->
+		</div>
+		<!-- 휴가 선택 팝업 -->
+		<div class="modal" id="leaveCategoryListModal">
+			<div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">
+				<div class="modal-content">
+					<!-- Modal Header -->
+			        <div class="modal-header">
+						<h4 class="modal-title">휴가 목록</h4>
+						<button type="button" class="close" data-dismiss="modal">×</button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<div class="card" style="margin: 0">
+							<div class="card-body" style="padding: 15px;">
+								<div class="row" id="leaveCategoryAndRemaining">
+									<div class="col-6" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;">
+										휴가 종류
+									</div>
+									<div class="col-2" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;">
+										잔여 일수
+									</div>
+									<div class="col-2" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;">
+										최소 일수
+									</div>
+									<div class="col-2" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;">
+										최대 일수
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			        <!-- Modal footer -->
+			        <div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="categoryButton">확인</button>
+						<button type="button" class="btn btn-light" data-dismiss="modal" id="categoryCancleButton">취소</button>
+			        </div>
+				</div>
+			</div>
 		</div>
 	</th:block>
 	
