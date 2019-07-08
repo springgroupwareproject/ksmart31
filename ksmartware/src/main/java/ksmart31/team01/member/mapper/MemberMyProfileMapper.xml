@@ -25,5 +25,18 @@
 			member_id = #{memberId}
 	</select>
 	
+	<insert id="updateMyProfile" parameterType="ksmart31.team01.member.domain.Member">
+		UPDATE
+			member
+		SET
+			member_phone = #{memberPhone},
+			member_mobile = #{memberMobile},
+			member_address = #{memberAddress},
+			member_birth = #{memberBirth},
+			member_gender = #{memberGender}
+		WHERE
+			member_id = #{memberId}
+	
+	</insert>
 
 </mapper>

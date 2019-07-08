@@ -1,15 +1,61 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ksmart31.team01.member.mapper.MemberMyEducationMapper">
 
+	<insert id="addmyEducation" parameterType="java.util.Map">
+		INSERT INTO member_education (
+			member_education_code,
+			member_id,
+			member_education_institution_standard,
+			member_education_institution,
+			member_education_start_day,
+			member_education_end_day,
+			member_education_now,
+			member_education_degree,
+			member_education_major,
+			member_education_grade,
+			member_education_total_score,
+			member_education_desc,
+			member_education_date,
+			member_name,
+			member_employee_code,
+			department_name,
+			member_position_name,
+			member_file_code
+		)
+			SELECT CONCAT('MBEC','_', (SELECT MAX(SUBSTRING_INDEX(member_education_code,'_',-1)+1) FROM member_education)),
+			#{member.memberId},
+			#{memberEducation.memberEducationInstitutionStandard},
+			#{memberEducation.memberEducationInstitution},
+			#{memberEducation.memberEducationStartDay},
+			#{memberEducation.memberEducationEndDay},
+			#{memberEducation.memberEducationNow},
+			#{memberEducation.memberEducationDegree},
+			#{memberEducation.memberEducationMajor},
+			#{memberEducation.memberEducationGrade},
+			#{memberEducation.memberEducationTotalScore},
+			#{memberEducation.memberEducationDesc},
+			NOW(),
+			#{member.memberName},
+			#{member.memberEmployeeCode},
+			#{member.departmentName},
+			#{member.memberPositionName},
+			#{memberEducation.memberFileCode}
+		
+	
+	</insert>
+
 	<!-- myProfile 개인정보 -->
 	<resultMap type="ksmart31.team01.member.domain.MemberEducation" id="myEducation">	
 				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
 		<result column="member_education_start_day" property="memberEducationStartDay"/>
 		<result column="member_education_end_day" property="memberEducationEndDay"/>
 		<result column="member_education_institution" property="memberEducationInstitution"/>
+		<result column="member_education_institution_standard" property="memberEducationInstitutionStandard"/>
 		<result column="member_education_now" property="memberEducationNow"/>
 		<result column="member_education_degree" property="memberEducationDegree"/>
 		<result column="member_education_major" property="memberEducationMajor"/>
+		<result column="member_education_grade" property="memberEducationGrade"/>
+		<result column="member_education_total_score" property="memberEducationTotalScore"/>
 		<result column="member_files_origin_name" property="memberFilesOriginName"/>
 		<result column="member_files_save_name" property="memberFilesSaveName"/>
 	</resultMap>
@@ -18,9 +64,12 @@
 			member_education_start_day,
 			member_education_end_day,
 			member_education_institution,
+			member_education_institution_standard,
 			member_education_now,
 			member_education_degree,
 			member_education_major,
+			member_education_grade,
+			member_education_total_score,
 			member_files_origin_name,
 			member_files_save_name
 		FROM 

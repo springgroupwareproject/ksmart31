@@ -17,5 +17,16 @@ public class MemberMyProfileService {
 		return memberMyProfileMapper.myProfile(memberId);
 	}
 	
+	public void modifyMyProfile(Member member)  {
+		System.out.println("MemberMyProfileService member : " + member);
+		
+		int result = memberMyProfileMapper.updateMyProfile(member);
+		
+		if(result != 0){
+			System.out.println("입력 실패");
+		}else {
+			System.out.println("입력 성공");
+		}
+	}
 	
 }

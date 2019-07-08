@@ -24,6 +24,8 @@ public class Member {
 	private String memberPw;
 	private String memberRegistantDate;
 	private String memberGender;
+	
+	
 	public String getMemberCode() {
 		return memberCode;
 	}
