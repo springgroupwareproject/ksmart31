@@ -11,7 +11,8 @@
 <title>leaveCategoryList.html</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 <style> /* 추가버튼 스타일 */
@@ -40,7 +41,7 @@ $(document).ready(function(){ // ready 시작
 	$('#addBtn').click(function(){	// 입력버튼 클릭시
 		console.log('추가 버튼 테스트 : '+$(this).attr('value'));
 		
-		$.datepicker.setDefaults({ // 캘린더 함수
+		$.datepicker.setDefaults({
 			dateFormat: 'yy-mm-dd',
 			prevText: '이전 달',
 			nextText: '다음 달',
@@ -53,9 +54,9 @@ $(document).ready(function(){ // ready 시작
 			yearSuffix: '년'
 		});
 		
-		$(function() { //캘린더 함수사용
-		    $("#startDay").datepicker();
-		    $("#endDay").datepicker();
+		$(function() {
+		    $("#startDay1").datepicker();
+		    $("#startDay2").datepicker();
 		});
 	
 		for (var i = 1; i < 13; i++) { /* 시간 시작 월 선택 */  
@@ -100,19 +101,32 @@ $(document).ready(function(){ // ready 시작
 	    
 	    $("#memberEducationNow").change(function(){
 	    	if($("#memberEducationNow").val() == '재학'){
-	    		$("#education").text('재학 날짜'); 
-	    		$("#startText").text($("#memberEducationNow").val() + ' 날짜'); // 내머리로 이런게 나오다니.. 신기하다.
-	    		$("#startDayView").show(); // 시작날 입력박스 출력
-	        	$("#endDayView").show(); // 종료날 입력박스 출력
+	    		$("#education").text('재학 날짜');
+	    		$("#range").show(); // ~ 문자
+	        	$("#endYear").show(); // 년도값
+	        	$("#endMonth").show(); // 월값
+	        	$("#endDay").show(); // 일값
+	        	$("#Year").show(); // 년 text
+	        	$("#Month").show(); // 월 text
+	        	$("#Day").show(); // 일 text
 			}else if($("#memberEducationNow").val() == '선택') {
 				$("#education").text('재학 여부를 선택 하십시오');
-	        	$("#startDayView").show(); // 시작날 입력박스 출력
-	        	$("#endDayView").show(); // 종료날 입력박스 출력
+	    		$("#range").show(); // ~ 문자
+	        	$("#endYear").show(); // 년도값
+	        	$("#endMonth").show(); // 월값
+	        	$("#endDay").show(); // 일값
+	        	$("#Year").show(); // 년 text
+	        	$("#Month").show(); // 월 text
+	        	$("#Day").show(); // 일 text
 			}else{
-				$("#education").text($("#memberEducationNow").val() + ' 날짜'); 
-	        	$("#startText").text($("#memberEducationNow").val() + ' 날짜');
-				$('#endDay').val(''); $("#endDayView").hide(); // 졸업 등일경우 null값을 주고 숨김
-	        	
+				$("#education").text($("#memberEducationNow").val() + ' 날짜'); // 내머리로 이런게 나오다니.. 신기하다.
+				$("#range").hide(); // ~ 문자
+	        	$('#endYear').val('0'); $("#endYear").hide();
+	        	$('#endMonth').text(); $("#endMonth").hide(); // 졸업 등일경우 null값
+	        	$('#endDay').text(); $("#endDay").hide();  // 졸업 등일경우 null값
+	        	$("#Year").hide(); // 년 text
+	        	$("#Month").hide(); // 월 text
+	        	$("#Day").hide(); // 일 text
 			}
 	    }); /* change 이벤트 종료 */
 	    
@@ -130,12 +144,27 @@ $(document).ready(function(){ // ready 시작
 				 alert('재학여부를 선택하십시오.');
 				 return false;
 			}
-			
-			if($('#endDay').text == ''){
-				 alert('종료날짜를 선택하십시오.');
-				 return false;
-			}
-			
+			/* 기간 검사 */
+			if($("#memberEducationNow").val() == '재학'){
+				if($('#startYear').val() == ''){
+					alert('입학년도를 입력하십시오.');
+					return false;
+				}else if($('#endYear').val() == ''){ // number로입력받아서 javaScript의 자동형변환 int값  .val('')을넣으면  '' 이된다 String은 null 이된다  / 여러번해본결과 이런 것 같다
+					alert('졸업년도를 입력하십시오.');
+					return false;
+				}else if($('#endMonth').val() == null){ // select로'1'문자열을 입력받아서 javaScript의 자동형변환  string값 이므로 null조건
+					alert('졸업 달을 입력하십시오.');
+					return false;
+				}else if($('#endDay').val() == null){
+					alert('졸업 일을 입력하십시오.');
+					return false;
+				}
+			}else{
+				if($('#startYear').val() == ''){
+					alert('년도를 입력하십시오.');
+					return false;
+				}
+			}/* 기간검사 끝 */
 			
 			if($('#memberEducationDegree').val() == ''){ 
 				alert('학위를 입력하십시오.');
@@ -162,11 +191,11 @@ $(document).ready(function(){ // ready 시작
 				alert('설명을 입력해주십시오.');
 				return false;
 			}	
-			
-			let memberEducationStartDay = $('#startDay').val(); // 시작날짜 (재학외 는 졸업날 등)
-			let memberEducationEndDay = $('#endDay').val(); // 종료날짜
+				
 			let memberEducationInstitutionStandard = $('#memberEducationInstitutionStandard').val(); // 기관구분
 			let memberEducationInstitution = $('#memberEducationInstitution').val(); // 학교명
+			let memberEducationStartDay = $('#startYear').val() + '-' + $('#startMonth').val() + '-' + $('#startDay').val(); //시작날
+			let memberEducationEndDay = $('#endYear').val() + '-' + $('#endMonth').val() + '-' + $('#endDay').val(); //종료날
 			let memberEducationNow = $('#memberEducationNow').val(); // 재학여부
 			let memberEducationDegree = $('#memberEducationDegree').val(); // 학위
 			let memberEducationMajor = $('#memberEducationMajor').val(); // 전공
@@ -178,11 +207,11 @@ $(document).ready(function(){ // ready 시작
 		 	let memberFilesType = $('#filesType').val(); // 파일 타입   */
 		 	
 		/*  let memberFilesInfo = $('#memberFileInfo').val();  // 뷰쪽 타이틀정보를 담음  */
-			console.log('시작날짜 값출력 '+ memberEducationStartDay);
-			console.log('종료날짜 값출력 '+ memberEducationEndDay);
-		    
+			
 			console.log('기관구분 값출력 '+$('#memberEducationInstitutionStandard').val() + ' 변수값 확인 비교 : '+ memberEducationInstitutionStandard);
 			console.log('학교명 값출력 '+$('#memberEducationInstitution').val() + ' 변수값 확인 비교 : '+ memberEducationInstitution);
+			console.log("재학 시작날짜 : " + memberEducationStartDay);
+			console.log("재학 종료날짜 : " + memberEducationEndDay);
 			console.log('재학여부 값출력 '+$('#memberEducationNow').val() + ' 변수값 확인 비교 : '+ memberEducationNow);
 			console.log('학위 값출력 '+$('#memberEducationDegree').val() + ' 변수값 확인 비교 : '+ memberEducationDegree);
 			console.log('전공 값출력 '+$('#memberEducationMajor').val() + ' 변수값 확인 비교 : '+ memberEducationMajor);
@@ -209,7 +238,7 @@ $(document).ready(function(){ // ready 시작
 				success : function(){
 					console.log('성공')
 			/* 	$('#closeBtn').trigger("click"); 닫기버튼클릭  */
-					/* location.reload();  */ // 새로고침
+					location.reload();  // 새로고침
 				},
 				error : function(error){
 					console.log(error);
@@ -371,7 +400,7 @@ $(document).ready(function(){ // ready 시작
 											<div class="card-header"><h3>학교명</h3></div>
 											<div class="card-body">
 												<div class="input-group">
-													<select style="padding: 0px 0px 0px 15px; margin: 0px 0px 0px 0px;" id="memberEducationInstitutionStandard" class="form-control col-sm-2"> <!-- 학교구분 -->
+													<select id="memberEducationInstitutionStandard" class="form-control col-sm-2"> <!-- 학교구분 -->
 														<option th:value="선택">선택</option>
 														<option th:value="고등학교">고등학교</option>
 														<option th:value="대학교">대학교</option>
@@ -403,16 +432,45 @@ $(document).ready(function(){ // ready 시작
 										<div class="card">
 											<div class="card-header"><h3 id="education" th:text="재학날"></h3></div>
 											<div class="card-body">
-												<div class="input-group">
-													<div id="startDayView" style="padding: 0px 0px 0px 0px">
-														<div id="startText" th:text="시작일"></div><input type="text" id="startDay" class="form-control ">
-													</div>
-													<div id="endDayView" style="padding: 0px 0px 0px 50px">
-													 	<div id="endText" th:text="종료일"></div><input type="text" id="endDay" class="form-control">
-													</div>
+												<div id="educationAll" >
+													시작일: <input type="text" id="startDay1" >
+												 	종료일: <input type="text" id="startDay2" >
 												</div>
 											</div>
 										</div>
+										
+										<!-- 재학 기간 시작 -->
+										<div class="card">
+											<div class="card-header"><h3 id="education" th:text="재학날"></h3></div>
+											<div class="card-body">
+
+												<div class="input-group">
+
+													<input type="text" id="startYear" class="form-control col-sm-2" > <div style="padding: 8px 10px 10px 10px;" th:text="년 "></div>
+													
+													<select id="startMonth" class="form-control col-sm-1">
+														<!-- 스크립트 반복문으로 뿌려준다 01~12까지 뿌려준다 -->
+													</select><div style="padding: 8px 10px 10px 10px" th:text="월 "></div>
+													
+													<select id="startDay" class="form-control col-sm-1">
+														<!-- 스크립트 반복문으로 뿌려준다 01~31까지 뿌려준다 -->
+													</select><div style="padding: 8px 10px 10px 10px" th:text="일 "></div>
+													
+													<h4 id="range">&nbsp; ~ &nbsp;</h4>
+													
+													<input type="text" id="endYear" class="form-control col-sm-2"> <div id="Year" style="padding: 8px 10px 10px 10px" th:text="년 "></div>
+													
+													<select id="endMonth" class="form-control col-sm-1">
+														<!-- 스크립트 반복문으로 뿌려준다 01~12까지 뿌려준다 -->
+													</select> <div id="Month" style="padding: 8px 10px 10px 10px" th:text="월 "></div>
+													
+													<select id="endDay" class="form-control col-sm-1">
+														<!-- 스크립트 반복문으로 뿌려준다 01~31까지 뿌려준다 -->
+													</select> <div id="Day" style="padding: 8px 10px 10px 10px" th:text="일 "></div>
+													
+												</div>
+											</div>
+										</div> <!-- 재학 기간  끝 -->
 										
 										<!-- 학위 카드영역 시작 -->
 										<div class="card">

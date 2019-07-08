@@ -9,7 +9,7 @@ public interface MemberMyProfileMapper {
 	
 	public Member myProfile(String memberId);
 	
-	
+	public int updateMyProfile(Member member);
 	
 	
 	

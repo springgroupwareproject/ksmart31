@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import ksmart31.team01.member.domain.Member;
 import ksmart31.team01.member.service.MemberMyProfileService;
@@ -38,6 +39,19 @@ public class MemberMyProfileController {
 		 
 				
 		return "/member/memberMyProfile/myProfile";
+	}
+	
+	@PostMapping("/member/memberMyProfile/myProfile")
+	public String modifyMyProfile(HttpSession session, Member member) {
+		System.out.println("나의 프로필 변경 매서드 실행 : " + member);
+		
+		Member memberId = (Member) session.getAttribute("loginMember"); 
+		
+		member.setMemberId(memberId.getMemberId());
+		
+		memberMyProfileService.modifyMyProfile(member);
+		
+		return "redirect:"+"/member/memberMyProfile/myProfile";
 	}
 	
 }
