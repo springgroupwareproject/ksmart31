@@ -2,8 +2,8 @@ package ksmart31.team01.member.domain;
 
 public class MemberEducation {
 
-	private String memberEducationCode;
-	private String memberId;
+	private String memberEducationCode;	// 프라이머리키
+	private String memberId; // 조직원 아이디
 	private String memberEducationInstitutionStandard; // 교육기관 구분
 	private String memberEducationInstitution; // 학교명
 	private String memberEducationStartDay; // 재학기간 시작일
@@ -16,12 +16,12 @@ public class MemberEducation {
 	private String memberEducationDesc;	// 설명
 	private String memberEducationDate; // 등록일
 	private String memberEmployeeCode;
-	private String memberName;
-	private String departmentName;
-	private String memberPositionName;
-	private String memberFileCode;
-	private String memberFilesOriginName;
-	private String memberFilesSaveName;
+	private String memberName; // 조직원 이름
+	private String departmentName; // 부서명
+	private String memberPositionName; // 직위직책
+	private String memberFileCode; // 파일코드
+	private String memberFilesOriginName; // 파일오리진이름
+	private String memberFilesSaveName; // 파일 저장이름
 	
 	
 	public String getMemberEducationCode() {
