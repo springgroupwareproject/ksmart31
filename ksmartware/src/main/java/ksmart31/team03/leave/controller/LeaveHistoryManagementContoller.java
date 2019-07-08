@@ -28,14 +28,20 @@ public class LeaveHistoryManagementContoller {
 		if(loginMember == null) {
 			return "redirect:"+"/login";
 		}else {
-			// 조직도
-			List<Department> recursiveList = leaveHistoryManagementService.getDepartmentList();	
+			// 조직도 & 특정 부서의 조직원
+
+			List<Department> recursiveList = leaveHistoryManagementService.getDepartmentList();
 			System.out.println("LeaveHistoryManagementContoller.getleaveHistoryManagement [GET] recursiveList : "+recursiveList);
+
+			Map<String,Object> returnMap = leaveHistoryManagementService.getDepartmentList(departmentName);
+			System.out.println("LeaveHistoryManagementContoller.getleaveHistoryManagement [GET] returnMap : "+returnMap);
 			// 휴가 카테고리 리스트 조회
 			List<LeaveCategory> leaveCategoryList = leaveHistoryManagementService.getLeaveCategoryList();
 			System.out.println("LeaveHistoryManagementContoller.getleaveHistoryManagement [GET] leaveCategoryList : "+leaveCategoryList);
 			
-			model.addAttribute("recursiveList", recursiveList);		
+			model.addAttribute("recursiveList", recursiveList);
+			model.addAttribute("recursiveList", returnMap.get("recursiveList"));
+			model.addAttribute("departmentJoinMemberList", returnMap.get("departmentJoinMemberList"));
 			model.addAttribute("leaveCategoryList", leaveCategoryList);
 			return "leave/leaveHistoryManagement";
 		}

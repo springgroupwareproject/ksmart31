@@ -1,19 +1,26 @@
 package ksmart31.team02.document.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ksmart31.team01.member.domain.Member;
 import ksmart31.team02.document.domain.DocumentForm;
 import ksmart31.team02.document.service.DocumentFormService;
+import ksmart31.team03.leave.domain.LeaveCategory;
+import ksmart31.team03.leave.domain.LeaveDetail;
 
 @RestController
 public class DocumentFormRestController {
 	@Autowired private DocumentFormService documentFormService;
-
+	
 	// 전체 문서양식 목록
 	@GetMapping("/member/getDocumentForm")
 	public List<DocumentForm> getDocumentFormList() {
@@ -34,5 +41,18 @@ public class DocumentFormRestController {
 		System.out.println("[DocumentFormRestController] getDocumentFormByCategory() documentFormByCategoryList:"+documentFormByCategoryList);
 		
 		return documentFormByCategoryList;
+	}
+	
+	// 휴가 종류 종류 및 잔여일 조회
+	@GetMapping("/member/getLeaveCategoryAndHistory")
+	public Map<String, Object> getLeaveCategoryAndHistory(HttpSession session){
+		Member loginMember = (Member) session.getAttribute("loginMember");
+		System.out.println("[DocumentFormRestController] getLeaveCategoryAndHistory() loginMember : "+loginMember);
+		
+		// 휴가 종류 및 잔여일 조회
+		Map<String, Object> resultMap = documentFormService.getLeaveCategoryAndHistory(loginMember.getMemberId());
+		System.out.println("[DocumentFormRestController] getLeaveCategoryAndHistory() resultMap : "+resultMap);
+		
+		return resultMap;
 	}
 }
