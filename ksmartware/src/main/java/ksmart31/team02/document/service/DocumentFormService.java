@@ -5,23 +5,29 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ksmart31.team02.document.domain.DraftDocument;
-import ksmart31.team02.document.mapper.DraftDocumentMapper;
+import ksmart31.team02.document.domain.DocumentForm;
+import ksmart31.team02.document.domain.DocumentFormCategory;
+import ksmart31.team02.document.mapper.DocumentFormMapper;
 
 @Service
 public class DocumentFormService {
-	@Autowired private DraftDocumentMapper draftDocumentMapper;
+	@Autowired private DocumentFormMapper documentFormMapper;
 	
-	// 지출결의서 작성폼
+	// 전체 문서양식 목록
+	public List<DocumentForm> getDocumentFormList() {
+		System.out.println("[DocumentFormService] getDocumentFormList() 실행");
+		return documentFormMapper.selectDocumentForm();
+	}
 	
+	// 카테고리별 문서양식 목록
+	public List<DocumentForm> getDocumentFormByCategory(String documentFormCategoryCode) {
+		System.out.println("[DocumentFormService] getDocumentFormByCategory() 실행");
+		return documentFormMapper.selectDocumentFormByCategory(documentFormCategoryCode);
+	}
 
-	// 휴가신청서 작성폼
-	public List<DraftDocument> getLeaveApplicationForm() {
-		System.out.println("[DocumentFormService] getLeaveApplicationForm() 실행");
-
-		//List<DraftDocument> list = draftDocumentMapper.selectDraftDocument();
-		//System.out.println("[DocumentFormService] list:"+list);
-		
-		return null;
+	// 공통양식 카테고리 목록
+	public List<DocumentFormCategory> getDocumentFormCategory() {
+		System.out.println("[DocumentFormService] getDocumentFormCategory() 실행");
+		return documentFormMapper.selectDocumentFormCategory();
 	}
 }
