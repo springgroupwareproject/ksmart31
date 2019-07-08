@@ -98,6 +98,7 @@
         $('#datepicker').datetimepicker({
             format: 'L'
         });
+        
         $('#timepicker').datetimepicker({
             format: 'LT'
         });
