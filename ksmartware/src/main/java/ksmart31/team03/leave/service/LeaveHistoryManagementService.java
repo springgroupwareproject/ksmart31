@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ksmart31.team01.department.domain.Department;
+import ksmart31.team01.department.domain.DepartmentJoinMember;
 import ksmart31.team03.leave.domain.LeaveCategory;
 import ksmart31.team03.leave.domain.LeaveDetail;
 import ksmart31.team03.leave.domain.LeaveGrant;
@@ -41,6 +42,23 @@ public class LeaveHistoryManagementService {
 	@Autowired
 	private LeaveDetailMapper leaveDetailMapper;
 	
+	// 특정 부서에 해당하는 조직원 조회
+	public List<DepartmentJoinMember> getDepartmentJoinMember(String departmentName){
+		// StringUtils.countMatches() -> departmentName중에 -가 포함되어있는 갯수를 보여준다
+		int departmentNumber = StringUtils.countMatches(departmentName, "-");
+		System.out.println("LeaveHistoryManagementService.getDepartmentJoinMember departmentNumber -갯수 : " + departmentNumber);
+		// replaceAll()메서드로 -가 포함된문자열을 없애준다 		
+		if(departmentName != null){	
+			departmentName = departmentName.replaceAll("-","");
+			System.out.println("LeaveHistoryManagementService.getDepartmentJoinMember departmentName -제거 확인 : " + departmentName);
+		}
+		// 2개 이상의 데이터를 하나로 넘기기 위해 HashMap 사용
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("departmentName", departmentName);
+		map.put("departmentNumber", departmentNumber);		
+		//department부서명  member조직원 기본 정보 조인	
+		return leaveHistoryMapper.selectDepartmentJoinMemberList(map);		
+	}
 	// 디테일 코드 별 세부 휴가 정보
 	public LeaveDetail getLeaveDetailByDetailCode(String detailCode) {
 		String leaveDetailCode = detailCode.substring(detailCode.lastIndexOf(",")+2);
@@ -51,7 +69,7 @@ public class LeaveHistoryManagementService {
 	public List<LeaveDetail> getLeaveDetailList(){
 		return leaveDetailMapper.selectLeaveDetailList();
 	}
-	//조직도 departmentView.html
+	// 특정 부서에 해당하는 조직원의 휴가 내역 조회
 	public List<LeaveHistory> getleaveHistoryByMemberIdList(String departmentName){	
 		// StringUtils.countMatches() -> departmentName중에 -가 포함되어있는 갯수를 보여준다
 		int departmentNumber = StringUtils.countMatches(departmentName, "-"); 
@@ -90,12 +108,38 @@ public class LeaveHistoryManagementService {
 		}
 		return leaveHistoryByMemberList;
 	}	
-	//조직도 departmentView.html
+	// 조직도 조회
 	public List<Department> getDepartmentList(){
-		//재귀쿼리 사용한 departmentName 조직도 조회 리스트
+		//재귀쿼리 사용한 조직도 조회
 		return leaveHistoryMapper.selectDepartmentList();
+	}
+	//조직도 departmentView.html
+	public Map<String, Object> getDepartmentList(String departmentName){
+		//재귀쿼리 사용한 departmentName 조직도 조회 리스트
+		List<Department> recursiveList = leaveHistoryMapper.selectDepartmentList();
+		System.out.println(recursiveList +"DepartmentService getDepartmentList recursiveList");		
+		// StringUtils.countMatches() -> departmentName중에 -가 포함되어있는 갯수를 보여준다
+		int departmentNumber = StringUtils.countMatches(departmentName, "-");
+		System.out.println("DepartmentService getDepartmentList departmentNumber -갯수 : " + departmentNumber);
+		// replaceAll()메서드로 -가 포함된문자열을 없애준다 		
+		if(departmentName != null){	
+			departmentName = departmentName.replaceAll("-","");
+			System.out.println("DepartmentService getDepartmentList departmentName -제거 확인 : " + departmentName);
+		}
+		// 2개 이상의 데이터를 하나로 넘기기 위해 HashMap 사용
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("departmentName", departmentName);
+		map.put("departmentNumber", departmentNumber);		
+		//department부서명  member조직원 기본 정보 조인	
+		List<DepartmentJoinMember> departmentJoinMemberList = leaveHistoryMapper.selectDepartmentJoinMemberList(map);		
+		System.out.println(departmentJoinMemberList + "DepartmentService getDepartmentList departmentJoinMemberList");
+			
+		// 2개 이상의 데이터를 하나로 넘기기 위해 HashMap 사용	
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("recursiveList", recursiveList);		
+		returnMap.put("departmentJoinMemberList", departmentJoinMemberList);		
+		return returnMap;
 	}	
-	
 	// 카테고리 리스트 조회
 	public List<LeaveCategory> getLeaveCategoryList(){
 		return leaveCategoryMapper.selectLeaveCategoryList();
@@ -104,7 +148,6 @@ public class LeaveHistoryManagementService {
 	public List<LeaveHistory> getLeaveHistoryByMemberId(String memberId){
 		return leaveHistoryMapper.selectLeaveHistoryByMemberId(memberId);
 	}
-	
 	// 조직원 아이디별 휴가 부여 내역 조회
 	public List<LeaveGrant> getLeaveGrantByMemberId(String memberId, String leaveCategorySort){
 		Map<String, Object> paramMap = new HashMap<String, Object>();
