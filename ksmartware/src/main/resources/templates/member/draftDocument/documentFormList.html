@@ -35,19 +35,19 @@
 					
 					if(documentFormCode == "document_form_code_1") {
 						// 휴가신청서 양식폼으로 이동
-						location.href="/leaveApplicationForm";
+						location.href="/leaveApplicationForm?documentFormCode="+documentFormCode;
 					}else if(documentFormCode == "document_form_code_2") {
 						// 지출결의서 양식폼으로 이동
-						location.href="/cashDisbursementVoucherForm";
+						location.href="/cashDisbursementVoucherForm?documentFormCode="+documentFormCode";
 					}else if(documentFormCode == "document_form_code_3") {
 						// 프로젝트 지출결의서 양식폼으로 이동
-						location.href="/projectCashDisbursementVoucherForm";
+						location.href="/projectCashDisbursementVoucherForm?documentFormCode="+documentFormCode";
 					}else if(documentFormCode == "document_form_code_4") {
 						// 프로젝트 업무보고 양식폼으로 이동
-						location.href="/projectReportForm";
+						location.href="/projectReportForm?documentFormCode="+documentFormCode";
 					}else if(documentFormCode == "document_form_code_5") {
 						// 구매요청서 양식폼으로 이동
-						location.href="/purchaseRequisitionForm";
+						location.href="/purchaseRequisitionForm?documentFormCode="+documentFormCode";
 					}
 			
 				});
