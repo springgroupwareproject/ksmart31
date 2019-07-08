@@ -2,6 +2,7 @@
 <html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
 	
 	<th:block layout:fragment="customHead">
+
 		<meta charset="UTF-8">
 		<title>문서양식</title>
 		<th:block th:include="layout/customHead"></th:block>
@@ -58,7 +59,6 @@
 					$.ajax({
 						url:'/member/getDocumentFormByCategory'
 						, type:'GET'
-						//documentFormCategoryCode값을 넘겨 documentFormCategoryCode에 해당하는 documentFormList를 불러온다.
 						, data : {documentFormCategoryCode : $(this).attr("value")}
 			            , success:function(data) {
 			            	console.log('비동기 요청 성공');
