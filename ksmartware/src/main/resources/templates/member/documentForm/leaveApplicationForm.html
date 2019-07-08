@@ -7,7 +7,8 @@
 		<th:block th:include="layout/customHead"></th:block>
 		<script>
 			$(function() {
-				// 양식폼이 로드되면 draft_document테이블에 임시저장 상태로 문서 등록
+				// 기안일
+				document.getElementById('draftDocumentDate').value= new Date().toISOString().slice(0, 16);
 				
 				// 결재선 목록
 				$.ajax({
@@ -46,33 +47,6 @@
 						});
 					}
 				})
-				
-				// 의견 목록
-				$.ajax({
-					url:'/member/approvalOpinionList'
-					, type:'GET'
-					, data : {}
-		            , success:function(data) {
-		            	console.log('비동기 요청 성공');
-		            	console.log('의견');
-		            	console.log(data);
-		            	$('#approvalOpinionList').empty();
-		            	// 요청 성공시 의견 목록 뿌려주기
-		            	$(data).each(function(i,item){
-		            		if($('#approvalOpinionList') != null) {
-			                    $('#approvalOpinionList').append('<tr>');
-			                    $('#approvalOpinionList').append('<td>'+item.memberName+'</td>');
-			                    $('#approvalOpinionList').append('<td>'+item.approvalOpinionDesc+'</td>');
-			                    $('#approvalOpinionList').append('<td>'+item.approvalOpinionDate+'</td>');
-			                    $('#approvalOpinionList').append('</tr>');
-		            		}else {
-			                    $('#approvalOpinionList').append('<tr>');
-			                    $('#approvalOpinionList').append('<td>의견이 없습니다.</td>');
-			                    $('#approvalOpinionList').append('</tr>');
-		            		}
-		        	   	});
-		            }
-				});
 				
 				// 의견 목록
 				$('#opinion').click(function() {
@@ -115,7 +89,7 @@
 			            	console.log('파일');
 			            	console.log(data);
 			            	$('#approvalFileList').empty();
-			            	// 요청 성공시 의견 목록 뿌려주기
+			            	// 요청 성공시 첨부파일 목록 뿌려주기
 			            	$(data).each(function(i,item){
 			            		if($('#approvalFileList') != null) {
 				                    $('#approvalFileList').append('<tr>');
@@ -136,6 +110,19 @@
 	</th:block>
 	
 	<th:block layout:fragment="customBody">
+		<div class="page-header">
+		    <div class="row align-items-end">
+		        <div class="col-lg-8">
+		            <div class="page-header-title">
+		                <i class="ik ik-box bg-blue"></i>
+		                <div class="d-inline">
+		                    <h5>휴가신청서</h5>
+		                    <span>휴가 신청을 위하여 사용하는 문서 양식입니다. 연차유급휴가 신청시 반드시 본 휴가신청서를 이용해야 합니다.</span>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
 		<div class="row">
 			<!-- 왼쪽 칸 시작 -->
 			<div class="col-md-8">
@@ -165,7 +152,7 @@
 		                    <div class="form-group row">
 		                        <label for="draftDocumentDate" class="col-sm-3 col-form-label">기안일</label>
 		                        <div class="col-sm-9">
-		                            <input type="text" class="form-control" id="draftDocumentDate">
+		                            <input type="datetime-local" class="form-control" id="draftDocumentDate">
 		                        </div>
 		                    </div>
 		                    <div class="form-group row">
@@ -265,12 +252,10 @@
 						<div class="tab-content">
 							<!-- 결재선 설정 탭 -->
 							<div class="tab-pane fade show active" id="approvalProcess">
-							     <form class="sample-form">
 							          <div class="form-group">
 							               <select class="form-control select2" id="approvalProcessList">
 										   </select>
 							          </div>
-							     </form>
 							</div>
 							<!-- 의견 탭 -->
 							<div class="tab-pane fade" id="opinionList">

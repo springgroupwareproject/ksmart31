@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import ksmart31.team01.member.domain.Member;
 import ksmart31.team02.document.domain.DocumentFormCategory;
-import ksmart31.team02.document.mapper.DocumentFormMapper;
+import ksmart31.team02.document.service.DocumentFormService;
 
 @Controller
 public class DocumentFormController {
-	@Autowired private DocumentFormMapper documentFormMapper;
+	@Autowired private DocumentFormService documentFormService;
 	
 	// 구매요청서 작성폼
 	@GetMapping("/purchaseRequisitionForm")
@@ -103,7 +103,7 @@ public class DocumentFormController {
 	@GetMapping("/member/draftDocument/documentFormList")
 	public String getDocumentFormCategory(Model model) {
 		System.out.println("[DocumentFormController] getDocumentFormCategory() 실행");
-		List<DocumentFormCategory> list = documentFormMapper.selectDocumentFormCategory();
+		List<DocumentFormCategory> list = documentFormService.getDocumentFormCategory();
 		System.out.println("[DocumentFormController] getDocumentFormCategory() list : "+list);
 		model.addAttribute("list",list);
 		return "/member/draftDocument/documentFormList";
