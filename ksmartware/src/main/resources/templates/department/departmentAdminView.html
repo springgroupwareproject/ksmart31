@@ -368,6 +368,13 @@
 				location.href='/department/departmentAdminView?departmentName='+$(this).attr('value');
 			});			
 			
+			//확인
+			$('.check').click(function(){
+				console.log('check 확인');
+				location.reload();  // 새로고침
+			});
+			
+			
 			// member 추가
 			$('#saveButton').click(function(){				
 				console.log('조직원 insert 입력 ');
@@ -465,7 +472,10 @@
 	<div class="col-9">		
 		<div class="card" >
 			<div class="card-header justify-content-between" style="padding: 10px;">				
-				<div> </div>
+				<div>    						                                           
+									
+								
+				</div>
 				<div class="icon-list-wrap">
 					<div class="icon-list-item">																							
 						<!-- 조직원 추가 modal-->
@@ -600,7 +610,9 @@
 						<!-- 오른쪽 카드 시작 -->
 						<div class="col-10" style="min-width: 600px">
 							<div class="card" >								
-								<div class="card-header"></div>
+								<div class="card-header">
+								
+								</div>
 								<div class="card-body">								
 									<div id="personnel" hidden="hidden">
 										<div>전화번호</div>											
@@ -624,13 +636,15 @@
 											<option value="남">남</option>
 											<option value="여">여</option>
 										</select>
-									</div>									
-									
+										<div class="card-footer">
+											<button type="button" class="check btn btn-primary">확인</button>									
+										</div>
+									</div>	
+																										
 									<div id="info" hidden="hidden">
 										<div>이메일</div>
 											<p style="padding: 10px 0px 0px 10px" id="infoMemberId"></p>																				
-										<hr>									
-										
+										<hr>										
 										<div>소속 부서</div>
 											<span style="padding: 10px 0px 0px 10px" id="infoDepartmentCategoryName"></span>
 											<span style="padding: 10px 0px 0px 10px" id="infoDepartmentDivisionName"></span>
@@ -654,9 +668,12 @@
 										<hr>										
 										
 										<div>입사일</div>
-										<p style="padding: 10px 0px 0px 10px" id="infoMemberJoinDay"></p>								
+										<p style="padding: 10px 0px 0px 10px" id="infoMemberJoinDay"></p>
 										
-									</div>
+										<div class="modal-footer">
+											<button type="button" class="check btn btn-primary">확인</button>									
+										</div>									
+									</div>									
 									
 									<div id="education" hidden="hidden">
 										<div id="memberEducation">
