@@ -51,34 +51,8 @@
 				})
 				
 				// 의견 목록
-				$.ajax({
-					url:'/member/approvalOpinionList'
-					, type:'GET'
-					, data : {}
-		            , success:function(data) {
-		            	console.log('비동기 요청 성공');
-		            	console.log('의견');
-		            	console.log(data);
-		            	$('#approvalOpinionList').empty();
-		            	// 요청 성공시 의견 목록 뿌려주기
-		            	$(data).each(function(i,item){
-		            		if($('#approvalOpinionList') != null) {
-			                    $('#approvalOpinionList').append('<tr>');
-			                    $('#approvalOpinionList').append('<td>'+item.memberName+'</td>');
-			                    $('#approvalOpinionList').append('<td>'+item.approvalOpinionDesc+'</td>');
-			                    $('#approvalOpinionList').append('<td>'+item.approvalOpinionDate+'</td>');
-			                    $('#approvalOpinionList').append('</tr>');
-		            		}else {
-			                    $('#approvalOpinionList').append('<tr>');
-			                    $('#approvalOpinionList').append('<td>의견이 없습니다.</td>');
-			                    $('#approvalOpinionList').append('</tr>');
-		            		}
-		        	   	});
-		            }
-				});
-				
-				// 의견 목록
 				$('#opinion').click(function() {
+					console.log('#opinion click!');
 					$.ajax({
 						url:'/member/approvalOpinionList'
 						, type:'GET'
@@ -118,7 +92,7 @@
 			            	console.log('파일');
 			            	console.log(data);
 			            	$('#approvalFileList').empty();
-			            	// 요청 성공시 의견 목록 뿌려주기
+			            	// 요청 성공시 첨부파일 목록 뿌려주기
 			            	$(data).each(function(i,item){
 			            		if($('#approvalFileList') != null) {
 				                    $('#approvalFileList').append('<tr>');
@@ -167,6 +141,7 @@
 						});
 		            }
 				});
+				
 				$('#categoryButton').click(function(){
 					$('#leaveCategoryList').empty();
 					console.log('휴가 종류 확인 버튼 테스트');
@@ -181,9 +156,11 @@
 					$('#leaveCategoryList').append('<option value="'+categorySort+'" selected="selected">'+detailSort[1]+'</option>');
 					$('#leaveCategoryListModal').modal('hide');
 				});
+				
 				// 달력 api 호출 함수
 				$('#usedStartDay').datepicker();
 				$('#usedEndDay').datepicker();
+				
 				// 달력 입력 값 형식 설정 
 				$.datepicker.setDefaults({
 					dateFormat: 'yy-mm-dd'   
@@ -334,8 +311,7 @@
 								<div class="card-block">
 									<div class="table-responsive">
 										<table style="width:100%">
-											<tbody id="approvalOpinion`
-											List">
+											<tbody id="approvalOpinionList">
 									        </tbody>
 										</table>
 									</div>
@@ -371,6 +347,7 @@
 			</div>
 			<!-- 오른쪽 칸 끝-->
 		</div>
+		
 		<!-- 휴가 선택 팝업 -->
 		<div class="modal" id="leaveCategoryListModal">
 			<div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">

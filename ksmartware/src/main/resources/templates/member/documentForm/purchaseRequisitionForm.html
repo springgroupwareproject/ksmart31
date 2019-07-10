@@ -5,14 +5,11 @@
 		<meta charset="UTF-8">
 		<title>구매요청서</title>
 		<th:block th:include="layout/customHead"></th:block>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" type="text/css" />
+		<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 		<script type="text/javascript">
 			$(function() {
-				// 작성일
-				document.getElementById('purchaseRequisitionDate').value= new Date().toISOString().slice(0, 16);
-				
-				// 지급요청일
-				document.getElementById('purchaseRequisitionPayDay').value= new Date().toISOString().slice(0, 16);
-				
 				// 결재선 목록
 				$.ajax({
 					url:'/member/getApprovalProcess'
@@ -87,6 +84,84 @@
 			            }
 					});
 				})
+				
+				// 작성일
+				document.getElementById('purchaseRequisitionDate').value= new Date().toISOString().slice(0, 16);
+				
+				// 지급요청일
+				// 달력 api 호출 함수
+				$('#purchaseRequisitionPayDay').datepicker();
+				
+				// 달력 입력 값 형식 설정 
+				$.datepicker.setDefaults({
+					dateFormat: 'yy-mm-dd'   
+				});
+				
+				
+				
+				$('#addAccountBtn').click(function() {
+					console.log('addAccountBtn 클릭!!');
+					let contents = '';
+					contents += '<div data-repeater-item class="d-flex mb-2">';
+					contents += '<div class="form-group mb-2 mr-sm-2 mb-sm-0" style="width:150px">';
+					contents += '<div style="text-align: center;">';
+					contents += '<label for="purchaseRequisitionItemCategory">품목</label>';
+					contents += '</div>';
+					contents += '<div id="ttt">';
+					contents += '<select class="form-control" id="purchaseRequisitionItemCategory" >';
+					contents += '<option></option>';
+					contents += '<option>사무용품</option>';
+					contents += '<option>비품</option>';
+					contents += '<option>도서</option>';
+					contents += '<option>자재</option>';
+					contents += '</select>';
+					contents += '</div>';
+					contents += '</div>';
+					
+					contents += '<div class="form-group mb-2 mr-sm-2 mb-sm-0">';
+					contents += '<div style="text-align: center;">';
+					contents += '<label for="purchaseRequisitionItem">품명</label>';
+					contents += '</div>';
+					contents += '<input type="text" class="form-control">';
+					contents += '</div>';
+					
+					contents += '<div class="form-group mb-2 mr-sm-2 mb-sm-0">';
+					contents += '<div style="text-align: center;">';
+					contents += '<label for="purchaseRequisitionItemUnit">단위</label>';
+					contents += '</div>';
+					contents += '<input type="text" class="form-control">';
+					contents += '</div>';
+					
+					contents += '<div class="form-group mb-2 mr-sm-2 mb-sm-0">';
+					contents += '<div style="text-align: center;">';
+					contents += '<label for="purchaseRequisitionItemCount">수량</label>';
+					contents += '</div>';
+					contents += '<input type="text" class="form-control">';
+					contents += '</div>';
+					
+					contents += '<div class="form-group mb-2 mr-sm-2 mb-sm-0">';
+					contents += '<div style="text-align: center;">';
+					contents += '<label for="purchaseRequisitionItemPrice">단가</label>';
+					contents += '</div>';
+					contents += '<input type="text" class="form-control">';
+					contents += '</div>';
+					
+					contents += '<div class="form-group mb-2 mr-sm-2 mb-sm-0">';
+					contents += '<div style="text-align: center;">';
+					contents += '<label for="purchaseRequisitionTotalPrice">금액</label>';
+					contents += '</div>';
+					contents += '<input type="text" class="form-control">';
+					contents += '</div>';
+					
+					contents += '<div class="form-group mb-2 mr-sm-2 mb-sm-0">';
+					contents += '<div style="text-align: center;">';
+					contents += '<label for="purchaseRequisitionEtc">비고</label>';
+					contents += '</div>';
+					contents += '<input type="text" class="form-control">';
+					contents += '</div>';
+					$('#form').append(contents);
+				});
+				
 			});
 		</script>
 	</th:block>
@@ -112,7 +187,7 @@
 			        <div class="card-header"><h3>구매요청서</h3></div>
 		            <div class="card-body">
 			            <form class="forms-sample">
-				            <!-- 첫번째 테이블 시작 -->
+				            <!-- 첫번째 표 시작 -->
 				            <div class="form-control form-txt-inverse" style="padding:10px;">
 			                	<div class="row">
 		                            <div class="col-md-4">
@@ -144,7 +219,7 @@
 		                            <div class="col-md-4">
 		                                <div class="form-group">
 		                                    <label for="purchaseRequisitionPayDay">지급요청일</label>
-		                                    <input type="datetime-local" class="form-control" id="purchaseRequisitionPayDay">
+		                                    <input type="text" class="form-control" id="purchaseRequisitionPayDay">
 		                                </div>
 		                            </div>
 		                            <div class="col-md-4">
@@ -156,71 +231,131 @@
 	                            </div>
 	                        </div>
 	                        <br>
-			                <!-- 첫번째 테이블 끝 -->
+			                <!-- 첫번째 표 끝 -->
 	        				
-							<!-- 두 번째 테이블 시작-->
+							<!-- 두 번째 표 시작-->
 							<div class="form-control form-txt-inverse" style="padding:10px;">							
 								<div data-repeater-list="group-a">
-								    <div data-repeater-item class="d-flex mb-2">
-								       <div class="form-group mb-2 mr-sm-2 mb-sm-0" style="width:150px">
-											<div style="text-align: center;">
-											     <label for="purchaseRequisitionItemCategory">품목</label>
+									<div id="form">
+								    	<div data-repeater-item class="d-flex mb-2">
+											<div class="form-group mb-2 mr-sm-2 mb-sm-0" style="width:150px">
+												<div style="text-align: center;">
+													<label for="purchaseRequisitionItemCategory">품목</label>
+												</div>
+												<div id="ttt">
+													<select class="form-control" id="purchaseRequisitionItemCategory" >
+														<option></option>
+														<option>사무용품</option>
+														<option>소모품</option>
+														<option>비품</option>
+														<option>도서</option>
+														<option>자재</option>
+													</select>
+												</div>
+									     	</div>
+											<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+												<div style="text-align: center;">
+													<label for="purchaseRequisitionItem">품명</label>
+												</div>
+												<input type="text" class="form-control">
 											</div>
-											<select class="form-control" id="purchaseRequisitionItemCategory" >
-												<option></option>
-												<option>사무용품</option>
-												<option>소모품</option>
-												<option>비품</option>
-												<option>도서</option>
-												<option>자재</option>
-											</select>
-								       	</div>
-										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
-											<div style="text-align: center;">
-												<label for="purchaseRequisitionItem">품명</label>
+											<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+											    <div style="text-align: center;">
+											 		<label for="purchaseRequisitionItemUnit">단위</label>
+												</div>
+											    <input type="text" class="form-control">
 											</div>
-											<input type="text" class="form-control">
-										</div>
-										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
-										    <div style="text-align: center;">
-										 		<label for="purchaseRequisitionItemUnit">단위</label>
+											<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+											    <div style="text-align: center;">
+											 		<label for="purchaseRequisitionItemCount">수량</label>
+												</div>
+											    <input type="text" class="form-control">
 											</div>
-										    <input type="text" class="form-control">
-										</div>
-										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
-										    <div style="text-align: center;">
-										 		<label for="purchaseRequisitionItemCount">수량</label>
+											<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+											    <div style="text-align: center;">
+													<label for="purchaseRequisitionItemPrice">단가</label>
+												 </div>
+											    <input type="text" class="form-control">
 											</div>
-										    <input type="text" class="form-control">
-										</div>
-										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
-										    <div style="text-align: center;">
-												<label for="purchaseRequisitionItemPrice">단가</label>
-											 </div>
-										    <input type="text" class="form-control">
-										</div>
-										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
-										    <div style="text-align: center;">
-												<label for="purchaseRequisitionTotalPrice">금액</label>
-											 </div>
-										    <input type="text" class="form-control">
-										</div>
-										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
-										    <div style="text-align: center;">
-												<label for="purchaseRequisitionEtc">비고</label>
-											 </div>
-										    <input type="text" class="form-control">
-										</div>
-<!-- 										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
-										    <div style="text-align: center;">
-												<label for="deletePurchaseRequisition">삭제</label>
+											<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+											    <div style="text-align: center;">
+													<label for="purchaseRequisitionTotalPrice">금액</label>
+												 </div>
+											    <input type="text" class="form-control">
 											</div>
-											<input type="text" class="form-control">
-										</div> -->
-							         </div>
+											<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+											    <div style="text-align: center;">
+													<label for="purchaseRequisitionEtc">비고</label>
+												 </div>
+											    <input type="text" class="form-control">
+											</div>
+										</div>
+									</div>
+							         
+							        
 							     </div>
 							</div>
-					    	<!-- 두번째 테이블 끝 -->
+					    	<!-- 두번째 표 끝 -->
+					    	
+					    	<!-- test2 시작 -->
+					    	<div class="card table-card">
+								<div class="card-header">
+									<div class="card-header-right">
+										<button type="button"  class="btn btn-primary">추가</button>
+									</div>
+								</div>
+								<div class="card-block p-b-0">
+									<div class="table-responsive">
+									    <table class="table table-hover table-borderless mb-0">
+									        <thead>
+									            <tr>
+												   <th class="nosort" width="10">
+												        <label class="custom-control custom-checkbox m-0">
+												            <input type="checkbox" class="custom-control-input" id="selectall" name="" value="option2">
+												            <span class="custom-control-label">&nbsp;</span>
+												        </label>
+												    </th>
+												    <th class="nosort">품목</th>
+												    <th>품명</th>
+												    <th>단위</th>
+												    <th>수량</th>
+												    <th>단가</th>
+												    <th>금액</th>
+												    <th>비고</th>
+									            </tr>
+									        </thead>
+									        <tbody>
+									            <tr>
+									                <td>
+												        <label class="custom-control custom-checkbox">
+												            <input type="checkbox" class="custom-control-input select_all_child" id="" name="" value="option2">
+												            <span class="custom-control-label">&nbsp;</span>
+												        </label>
+												    </td>
+												    <td>
+													    <select class="form-control" id="purchaseRequisitionItemCategory" >
+															<option></option>
+															<option>사무용품</option>
+															<option>소모품</option>
+															<option>비품</option>
+															<option>도서</option>
+															<option>자재</option>
+														</select>
+													</td>
+												    <td><input type="text" class="form-control"></td>
+												    <td><input type="text" class="form-control"></td>
+												    <td><input type="text" class="form-control"></td>
+												    <td><input type="text" class="form-control"></td>
+												    <td><input type="text" class="form-control"></td>
+												    <td><input type="text" class="form-control"></td>
+									            </tr>
+									        </tbody>
+									    </table>
+									</div>
+								</div>
+                            </div>
+					    	<!-- test2 끝 -->
+					    	
 				    	</form>
 				    </div>
 				</div>

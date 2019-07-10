@@ -50,22 +50,6 @@
 		<!-- WHERE document_code='DOC_0001' -->
 	</select>
 	
-	<!-- 문서양식폼을 불러오면 임시저장상태로 draft_document테이블로 insert -->
-	<insert id="insertApprovalOpinion"
-			parameterType="ksmart31.team02.document.domain.DraftDocument">
-	
-	</insert>
-	
-	<!-- 문서양식폼에 보여줄 정보 -->
-<!-- 	<select id="selectDraftDocument"
-			resultType="ksmart31.team02.document.domain.DraftDocument">
-		SELECT draft_document_code AS draftDocumentCode
-			, document_form_code AS documentFormCode
-			, document_form_category_code AS documentFormCategoryCode
-			, draft_document_date AS draftDocumentDate
-		FROM draft_document
-	</select> -->
-	
 	<!-- 최근 승인 문서 목록-->
 	<select id="selectLastestApprovalDocumentList"
 			parameterType="Integer"
