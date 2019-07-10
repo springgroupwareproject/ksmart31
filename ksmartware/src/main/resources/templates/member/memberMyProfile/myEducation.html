@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
+
 <style> /* 추가버튼 스타일 */
     .icon-list-wrap .icon-list-item i {
         float: left;
@@ -42,38 +42,22 @@
 
 $(document).ready(function(){ // ready 시작
 	
-	$('#File').click(function(){
-		console.log("file 클릭");
-		let file = $('#file').val(); // 설명
-		$.ajax({
-			url: "Upload/file",
-			type: "POST",
-			data: file,
-			processData: false, 
-			contentType: false , 
-/* 			$.ajax의 default Content-Type은 application/x-www-form-urlencoded 이며 이를 통해 
-			데이터를 전송할 경우 serialize 된 형태로 데이터가 전송됩니다. 
-			FormData로 전송하기 위해서는 아래와 같이 
-			processData : false, contentType : false로 세팅하여야 합니다.
-			
-			contentType을 false를 해줌으로 써 브라우저로 하여금 FormData를 사용하여 전송 시 
-			자동으로 content-Type을 multipart/formdata로 세팅하고
-			correct boundary를 붙여 데이터를 보낼 수 있게 해줍니다.
-			
-			ProcessData의 경우도 마찬가지로 data를 serialize를 하여 Query String으로 변경하기 때문에 
-			이를 막기 위해 false로 세팅해 줍니다.
-			(ProcessData : data를 query string의 형태로 변경시키는 옵션. default 값은 true)
- */
-			success : function(data){
-			console.log("doit"+data);
-			
-			} 
-    	}); 
-	});	
 	
 	$('#addBtn').click(function(){	// 입력버튼 클릭시
 		console.log('추가 버튼 테스트 : '+$(this).attr('value'));
  		
+/* 		 $("#FILE_TAG").change(function(e){
+			alert($('input[type=file]')[0].files[0].name); //파일이름
+			alert($("#FILE_TAG")[0].files[0].type); // 파일 타임
+			alert($("#FILE_TAG")[0].files[0].size); // 파일 크기 
+			$('input[type=file]')[0].files[0].name;
+			$("#imgUpload")[0].files[0].type;
+			$("#imgUpload")[0].files[0].size;
+			console.log($('input[type=file]')[0].files[0].name);
+			console.log($("#imgUpload")[0].files[0].type);
+			console.log($("#imgUpload")[0].files[0].size);
+		});
+	 */
 		$.datepicker.setDefaults({ // 캘린더 함수
 			dateFormat: 'yy-mm-dd',
 			prevText: '이전 달',
@@ -223,8 +207,8 @@ $(document).ready(function(){ // ready 시작
 			console.log('학점 값출력 '+$('#memberEducationGrade').val() + ' 변수값 확인 비교 : '+ memberEducationGrade);
 			console.log('총점 값출력 '+$('#memberEducationTotalScore').val() + ' 변수값 확인 비교 : '+ memberEducationTotalScore);
 			console.log('설명 값출력 '+$('#memberEducationDesc').val() + ' 변수값 확인 비교 : '+ memberEducationDesc);
-
-		
+			
+			
 			$.ajax({
 				url : '/member/memberMyProfile/addmyEducation',
 				type : 'get',
@@ -240,9 +224,24 @@ $(document).ready(function(){ // ready 시작
 					memberEducationTotalScore:memberEducationTotalScore,
 					memberEducationDesc:memberEducationDesc
 				},
+	/* 			processData: false, 
+				contentType: false ,
+				$.ajax의 default Content-Type은 application/x-www-form-urlencoded 이며 이를 통해 
+				데이터를 전송할 경우 serialize 된 형태로 데이터가 전송됩니다. 
+				FormData로 전송하기 위해서는 아래와 같이 
+				processData : false, contentType : false로 세팅하여야 합니다.
+				
+				contentType을 false를 해줌으로 써 브라우저로 하여금 FormData를 사용하여 전송 시 
+				자동으로 content-Type을 multipart/formdata로 세팅하고
+				correct boundary를 붙여 데이터를 보낼 수 있게 해줍니다.
+				
+				ProcessData의 경우도 마찬가지로 data를 serialize를 하여 Query String으로 변경하기 때문에 
+				이를 막기 위해 false로 세팅해 줍니다.
+				(ProcessData : data를 query string의 형태로 변경시키는 옵션. default 값은 true)
+	 */
 				success : function(){
 					console.log('성공')
-			/* 	$('#closeBtn').trigger("click"); 닫기버튼클릭  */
+				/* 	$('#closeBtn').trigger("click"); 닫기버튼클릭  */
 					location.reload();   // 새로고침
 				},
 				error : function(error){
@@ -254,6 +253,7 @@ $(document).ready(function(){ // ready 시작
 		}); // 저장버튼 클릭 끝
 		    
 	}); // 추가버튼 클릭끝
+	
 	
 	$('.deleteButton').click(function(){	// 입력버튼 클릭시
 		console.log('삭제 버튼 테스트');
@@ -440,7 +440,7 @@ $(document).ready(function(){ // ready 시작
 								
 								<!-- Modal body -->
 								<div class="modal-body">
-									<form class="BodyForm">
+									<form class="BodyForm" >
 										
 										<!-- 학교명 카드영역 시작 -->
 										<div class="card">
@@ -525,18 +525,6 @@ $(document).ready(function(){ // ready 시작
 																									<!-- rows높이/cols넓이 -->
 												<textarea id="memberEducationDesc" class="form-control" rows="4" cols="">
 												</textarea>
-											</div>
-										</div> <!-- 설명 끝 -->
-										
-										<div class="card">
-											<div class="card-header"><h3>파일첨부</h3></div>
-											<div class="card-body">
-											<div class="form-group">
-									            <label>등록파일 :</label>
-									            
-									            <input class="form-control" name="File" id="File" type="file"/>
-									            									            
-									        </div>
 											</div>
 										</div> <!-- 설명 끝 -->
 										
