@@ -197,10 +197,15 @@
 			$('#grantAndUsed').change(function(){
 				console.log('부여or차감 선택 : '+$('#grantAndUsed').val());
 				// 휴가 종류 선택 박스 초기화
-				$('#leaveCategorySortList').empty();
-				$('#leaveCategorySortList').append('<option value="">선택</option>');
+				$('#categorySortBox').empty();
 				// 부여 선택 
 				if($('#grantAndUsed').val() == '부여'){
+					let contents = '';
+					contents += '<select class="form-control" id="leaveCategorySortForGrant">';
+					contents += '<option value="">선택</option>';
+					contents += '</select>';
+					// 부여 선택 박스
+					$('#categorySortBox').append(contents);
 					// 부여 그룹 숨김 해제
 					$('#부여').attr('hidden', false);
 					// 차감 그룹 숨김
@@ -213,7 +218,7 @@
 							console.log(data);
 							// 휴가 종류 선택 박스에 리턴 값 추가
 							$(data).each(function(i, item){
-								$('#leaveCategorySortList').append('<option value="'+item.leaveCategorySort+'">'+item.leaveCategorySort+'</option>');
+								$('#leaveCategorySortForGrant').append('<option value="'+item.leaveCategorySort+'">'+item.leaveCategorySort+'</option>');
 							});
 						},	
 						error : function(error){
@@ -222,6 +227,12 @@
 					});
 				// 차감 선택
 				}else{
+					let contents = '';
+					contents += '<select class="form-control" id="leaveCategorySortForUsed">';
+					contents += '<option value="">선택</option>';
+					contents += '</select>';
+					// 부여 선택 박스
+					$('#categorySortBox').append(contents);
 					// 차감 그룹 숨김 해제
 					$('#차감').attr('hidden', false);
 					// 부여 그룹 숨김
@@ -238,11 +249,11 @@
 								nextCategory = item.leaveCategorySort;
 								// 휴가 종류 값 비교 
 								if(preCategory != nextCategory){ // 휴가 종류 값이 같지 않을 때 비활성화된 채로 목록에 추가
-									$('#leaveCategorySortList').append('<optgroup label="'+item.leaveCategorySort+'">');
+									$('#leaveCategorySortForUsed').append('<optgroup label="'+item.leaveCategorySort+'">');
 									preCategory = nextCategory;
 								}
 								// 휴가 종류 선택 박스에 상세 휴가 종류 추가
-								$('#leaveCategorySortList').append('<option value="'+item.leaveCategorySort+', '+item.leaveDetailSort+', '+item.leaveDetailCode+'">&nbsp;&nbsp;&nbsp;&nbsp;'+item.leaveDetailSort+'</option>');
+								$('#leaveCategorySortForUsed').append('<option value="'+item.leaveCategorySort+', '+item.leaveDetailSort+', '+item.leaveDetailCode+'">&nbsp;&nbsp;&nbsp;&nbsp;'+item.leaveDetailSort+'</option>');
 							});
 						},	
 						error : function(error){
@@ -281,6 +292,8 @@
 				console.log('모달 조직도 버튼 테스트 value : '+$(this).attr('value'));
 				// 조직원 정보 초기화
 				$('#member').empty();
+				// 유효성 값 초기화
+				$('#memberCheck').empty();
 				// departmentName 별로 조직원을 조회하기 위해 이름 값을 담는 변수  
 				let departmentName = $(this).attr('value');
 				// 비동기 요청 성공 시 조직원 리스트를 #member 위치에 생성할 내용을 담을 변수
@@ -302,18 +315,108 @@
 							// 변수 내용 초기화
 							contents = '';
 						});
+						// 유효성 경고 태그
+						$('#member').append('<span class="text-danger" id="memberCheck"></span>');
 					},	
 					error : function(error){
 						console.log(error);
 					}
 				});
 			});
+			// 부여 및 차감 유효성 검사
+			// 부여
+			let leaveCategorySortForGrantCheck = false;
+			let grantReasonCheck = false;
+			let grantDateCheck = false;
+			let grantDayAndHourCheck = false;
+			// 차감
+			let leaveCategorySortForUsedCheck = false;
+			let usedReasonCheck = false;
+			let usedStartDayCheck = false;
+			let usedEndDayCheck = false;
+			let usedDayAndHourCheck = false;
+			
+			// 부여 - 휴가 종류 선택
+			$(document).on('click','#leaveCategorySortForGrant',function(){
+				console.log('나와라');
+				$('#leaveCategorySortForGrantCheck').empty();
+				if($('#leaveCategorySortForGrant').val() == ''){
+					$('#leaveCategorySortForGrantCheck').text('종류를 선택하세요.');
+					leaveCategorySortForGrantCheck = false;
+				}else{
+					leaveCategorySortForGrantCheck = true;
+				}
+			});
+			// 차감 - 휴가 종류 선택
+			$(document).on('click','#leaveCategorySortForUsed',function(){
+				$('#leaveCategorySortForUsedCheck').empty();
+				if($('#leaveCategorySortForUsed').val() == ''){
+					$('#leaveCategorySortForUsedCheck').text('종류를 선택하세요.');
+					leaveCategorySortForUsedCheck = false;
+				}else{
+					leaveCategorySortForUsedCheck = true;
+				}
+			});
+			// 사유 입력
+			$("#reason").on("propertychange change keyup paste input", function() {
+				$('#reasonCheck').empty();
+				if($('#reason').val() == ''){
+					$('#reasonCheck').text('부여 또는 차감 사유를 입력하세요.');
+					grantReasonCheck = false;
+					usedReasonCheck = false;
+				}else{
+					grantReasonCheck = true;
+					usedReasonCheck = true;
+				}
+			});
+			// 부여일 선택
+			$("#grantDate").on("propertychange change keyup paste input", function() {
+				$('#grantDateCheck').empty();
+				if($('#grantDate').val() != ''){
+					grantDateCheck = true;
+				}
+			});
+			// 부여 일  입력
+			$("#grantDay").on("propertychange change keyup paste input", function() {
+				$('#grantDayAndHourCheck').empty();
+				grantDayAndHourCheck = true;
+			});
+			// 부여 시간 선택
+			$("#grantHour").change(function(){
+				$('#grantDayAndHourCheck').empty();
+				grantDayAndHourCheck = true;
+			});
+			// 조직원 선택
+			$(document).on('click','.member',function(){
+				$('#memberCheck').empty();
+			});
+			// 차감 시작일 선택
+			$("#usedStartDay").on("propertychange change keyup paste input", function() {
+				$('#usedStartDayCheck').empty();
+				if($('#usedStartDay').val() != ''){
+					usedStartDayCheck = true;
+				}
+			});
+			// 차감 종료일 선택
+			$("#usedEndDay").on("propertychange change keyup paste input", function() {
+				$('#usedEndDayCheck').empty();
+				if($('#usedEndDay').val() != ''){
+					usedEndDayCheck = true;
+				}
+			});
+			// 차감 일  입력
+			$("#usedDay").on("propertychange change keyup paste input", function() {
+				$('#usedDayAndHourCheck').empty();
+				usedDayAndHourCheck = true;
+			});
+			// 차감 시간 선택
+			$("#usedHour").change(function(){
+				$('#usedDayAndHourCheck').empty();
+				usedDayAndHourCheck = true;
+			});
 			// 부여 및 차감 확인 버튼 이벤트 (입력)
 			$('#leaveGrantAndUsedButton').click(function(){
 				console.log('부여 및 차감 확인 버튼 테스트');
-				// 카테고리 값
-				let leaveCategorySort = $('#leaveCategorySortList option:selected').val();
-				console.log('카테고리 : '+leaveCategorySort);
 				// 부여 및 차감 사유
 				let reason = $('#reason').val();
 				console.log('사유 : '+reason);
@@ -326,41 +429,147 @@
 				
 				// 부여인 경우
 				if($('#grantAndUsed').val() == '부여'){
+					// 카테고리 값
+					let leaveCategorySort = $('#leaveCategorySortForGrant option:selected').val();
 					let leaveGrantDate = $('#grantDate').val();
 					let leaveGrantDay = $('#grantDay').val();
 					let leaveGrantHour = $('#grantHour').val();
+					console.log('leaveCategorySort : '+leaveCategorySort);
 					console.log('leaveGrantDate : '+leaveGrantDate);
 					console.log('leaveGrantDay : '+leaveGrantDay);
 					console.log('leaveGrantHour : '+leaveGrantHour);
-					// 비동기 요청
-					$.ajax({
-						url : '/leave/leaveGrant',
-						type : 'post',
-						data : {
-							memberId : memberId,
-							leaveCategorySort : leaveCategorySort,
-							leaveGrantHour : leaveGrantHour,
-							leaveGrantDay : leaveGrantDay,
-							leaveGrantReason : reason,
-							leaveGrantDate : leaveGrantDate
-						},
-						success : function(data){
-							
-						},	
-						error : function(error){
-							console.log(error);
-						}
-					});
+					// 유효성 검사
+					// 휴가 종류 확인
+					if(leaveCategorySortForGrantCheck == false){
+						$('#leaveCategorySortForGrantCheck').text("종류를 선택하세요.");
+						$('#leaveCategorySortForGrant').focus();
+					// 부여일 확인
+					}else if(grantDateCheck == false){
+						$('#grantDateCheck').text("부여일을 선택하세요.");
+						$('#grantDate').focus();
+					// 부여 일, 시간이 0이 아닌지 확인
+					}else if($('#grantDay').val() == '0' && $('#grantHour').val() == '0'){
+						$('#grantDayAndHourCheck').text("부여 시간을 확인하세요.");
+						$('#grantDay').focus();
+					// 사유 확인
+					}else if(grantReasonCheck == false){
+						$('#reasonCheck').text("부여 사유를 입력하세요.");
+						$('#reason').focus();
+					// 조직원 선택 확인
+					}else if(memberId == ''){
+						$('#memberCheck').text("조직원을 선택하세요.");
+						
+					}else{
+						console.log('유효성 검사 완료');
+						// 비동기 요청
+						$.ajax({
+							url : '/leave/leaveGrant',
+							type : 'post',
+							data : {
+								memberId : memberId,
+								leaveCategorySort : categorySort,
+								leaveGrantHour : leaveGrantHour,
+								leaveGrantDay : leaveGrantDay,
+								leaveGrantReason : reason,
+								leaveGrantDate : leaveGrantDate
+							},
+							success : function(data){
+								// 성공 시 새로고침
+								location.reload();
+							},	
+							error : function(error){
+								console.log(error);
+							}
+						});
+					}
 				// 차감인 경우
 				}else{
+					let categorySort = $('#leaveCategorySortForUsed option:selected').val();
 					let leaveUsedStartDay = $('#usedStartDay').val();
 					let leaveUsedEndDay = $('#usedEndDay').val();
 					let leaveUsedDay = $('#usedDay').val();
 					let leaveUsedHour = $('#usedHour').val();
+					console.log('categorySort : '+categorySort);
 					console.log('leaveUsedStartDay : '+leaveUsedStartDay);
 					console.log('leaveUsedEndDay : '+leaveUsedEndDay);
 					console.log('leaveUsedDay : '+leaveUsedDay);
 					console.log('leaveUsedHour : '+leaveUsedHour);
+					// ', ' 두 번째 구분자 전까지 문자열을 자른다 
+					let sort = categorySort.split(', ', 2);	// 기존 : '연차 유급 휴가, 연차 휴가, leave_detail_code_3'
+					// 변수 초기화								// 변경 : '연차 유급 휴가', '연차 휴가'
+					let leaveCategorySort;
+					let leaveDetailSort;
+					for (var i = 0; i < sort.length; i++) {
+						leaveCategorySort = sort[0];
+						leaveDetailSort = sort[1];
+					}
+					console.log('leaveCategorySort : '+leaveCategorySort);
+					console.log('leaveDetailSort : '+leaveDetailSort);
+					let startDay = $('#usedStartDay').val();
+					let endDay = $('#usedEndDay').val();
+					// 정규식 표현을 활용한 replaceAll 기능
+					let usedStartDay = startDay.replace(/-/gi, '');
+					let usedEndDay = endDay.replace(/-/gi, '');
+					console.log('usedStartDay : '+usedStartDay);
+					console.log('usedEndDay : '+usedEndDay);
+					
+					// 유효성 검사
+					// 휴가 종류
+					if(leaveCategorySortForUsedCheck == false){
+						$('#leaveCategorySortForUsedCheck').text("종류를 선택하세요.");
+						$('#leaveCategorySortForUsed').focus();
+					// 시작일 선택 확인
+					}else if(usedStartDayCheck == false){
+						$('#usedStartDayCheck').text("차감 시작일을 선택하세요.");
+						$('#usedStartDay').focus();
+					// 종료일 선택 확인
+					}else if(usedEndDayCheck == false){
+						$('#usedEndDayCheck').text("차감 종료일을 선택하세요.");
+						$('#usedEndDay').focus();
+					// 시작일이 종료일보다 늦는지 확인
+					}else if(usedStartDay > usedEndDay){
+						$('#usedStartDayCheck').text("차감 시작일을 확인하세요.");
+						$('#usedStartDay').focus();
+					// 차감일수와 시작일, 종료일이 일치하는지 확인 
+					}else if(usedEndDay-usedStartDay != $('#usedDay').val()){
+						$('#usedDayAndHourCheck').text("차감일과 차감일수를 확인하세요.");
+						$('#usedDay').focus();
+					// 차감 일과 시간이 모두 0이 아닌지 확인 
+					}else if($('#usedDay').val() == '0' && $('#usedHour').val() == '0'){
+						$('#usedDayAndHourCheck').text("차감 시간을 확인하세요.");
+						$('#usedDay').focus();
+					// 사유 확인
+					}else if(usedReasonCheck == false){
+						$('#reasonCheck').text("차감 사유를 입력하세요.");
+						$('#reason').focus();
+					// 조직원 선택 확인
+					}else if(memberId == ''){
+						$('#memberCheck').text("조직원을 선택하세요.");
+					}else{
+						console.log('유효성 검사 완료');
+						// 비동기 요청
+						$.ajax({
+							url : '/leave/leaveUsed',
+							type : 'post',
+							data : {
+								memberId : memberId,
+								leaveCategorySort : leaveCategorySort,
+								leaveDetailSort : leaveDetailSort,
+								leaveUsedHour : leaveUsedHour,
+								leaveUsedDay : leaveUsedDay,
+								leaveUsedReason : reason,
+								leaveUsedStartDay : leaveUsedStartDay,
+								leaveUsedEndDay : leaveUsedEndDay
+							},
+							success : function(data){
+								// 성공 시 새로고침
+								//location.reload();
+							},	
+							error : function(error){
+								console.log(error);
+							}
+						});
+					}
 				}
 			});
 			
@@ -572,17 +781,17 @@
 								<option value="차감">차감</option>
 							</select>
 							<label for="exampleInputUsername2" class="col-1 col-form-label"></label>
-							<select class="form-control" id="leaveCategorySortList">
-								<option value="">선택</option>
-							</select>
+							<div id="categorySortBox"></div>
+							<span class="text-danger" id="leaveCategorySortForGrantCheck"></span>
+							<span class="text-danger" id="leaveCategorySortForUsedCheck"></span>
 						</div>
 						<!-- 기간 - 부여 -->
 						<div class="input-group" id="부여" hidden="hidden">
-							
 							<label for="exampleInputUsername2" class="col-2 col-form-label">부여일</label>
-							<input type="text" class="col-2" id="grantDate">
+							<input type="text" class="col-2" id="grantDate" readonly>
+							<span class="text-danger" id="grantDateCheck"></span>
 							<div class="col-1"></div>
-							<input type="text" class="form-control col-1" value="1" id="grantDay">
+							<input type="number" class="form-control col-1" value="1" id="grantDay">
 							<label for="exampleInputUsername2" class="col-1 col-form-label">일</label>
 							<select class="form-control col-1" id="grantHour">
 								<option value="0">0</option>
@@ -595,13 +804,16 @@
 								<option value="7">7</option>
 							</select>
 							<label for="exampleInputUsername2" class="col-2 col-form-label">시간으로 지정</label>
+							<span class="text-danger" id="grantDayAndHourCheck"></span>
 						</div>
 						<!-- 기간 - 차감 -->
 						<div class="input-group" id="차감" hidden="hidden">
 							<label for="exampleInputUsername2" class="col-2 col-form-label">휴가 기간</label>
-							<input type="text" class="col-2" id="usedStartDay">
+							<input type="text" class="col-2" id="usedStartDay" readonly>
+							<span class="text-danger" id="usedStartDayCheck"></span>
 							&nbsp;&nbsp;~&nbsp;&nbsp; 
-							<input type="text" class="col-2" id="usedEndDay">
+							<input type="text" class="col-2" id="usedEndDay" readonly>
+							<span class="text-danger" id="usedEndDayCheck"></span>
 							<div class="col-1"></div>
 							<input type="text" class="form-control col-1" value="0" id="usedDay">
 							<label for="exampleInputUsername2" class="col-1 col-form-label">일</label>
@@ -616,11 +828,13 @@
 								<option value="7">7</option>
 							</select>
 							<label for="exampleInputUsername2" class="col-2 col-form-label">시간으로 지정</label>
+							<span class="text-danger" id="usedDayAndHourCheck"></span>
 						</div>
 						<!-- 사유 -->
 						<div class="input-group">
 							<label for="exampleInputUsername2" class="col-2 col-form-label">사유 입력</label>
 							<input type="text" class="form-control" placeholder="부여 및 차감 사유 (필수입력)" id="reason">
+							<span class="text-danger" id="reasonCheck"></span>
 						</div>
 					</div>
 				</div>
@@ -637,6 +851,7 @@
 								</ul>
 							</div>
 							<div class="col-8" id="member">
+								<span class="text-danger" id="memberCheck"></span>
 							</div>
 						</div>
 					</div>

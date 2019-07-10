@@ -12,8 +12,10 @@ import ksmart31.team03.leave.domain.LeaveHistory;
 
 @Mapper
 public interface LeaveHistoryMapper {
-	// 관리자 - 휴가 부여
-	public void insertLeaveGrant(Map<String, Object> memberMap);
+	// 휴가 차감 시 조직원 휴가 내역에 반영(수정)
+	public void updateLeaveHistoryForUsed(Map<String, Object> map);
+	// 휴가 부여 시 조직원 휴가 내역에 반영(수정)
+	public void updateLeaveHistoryForGrant(Map<String, Object> map);
 	// leave_grant_code 최대값+1 조회
 	public int selecMaxOfLeaveGrantCode();
 	// 부여 및 차감에서 선택된 조직원들의 기본 정보(사번, 이름, 부서명, 직위/직책)를 조회

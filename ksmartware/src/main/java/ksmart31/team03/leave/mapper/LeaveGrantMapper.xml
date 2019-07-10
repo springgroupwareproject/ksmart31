@@ -1,5 +1,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ksmart31.team03.leave.mapper.LeaveGrantMapper">
+	<!-- 관리자 - 휴가 부여 --> 
+	<insert id="insertLeaveGrant" parameterType="java.util.Map">
+		<foreach collection="memberInfoList" item="item" separator=";">
+			INSERT INTO 
+				leave_grant
+			SELECT CONCAT('leave_grant_code','_', (SELECT MAX(SUBSTRING_INDEX(leave_grant_code,'_',-1)+1) FROM leave_grant)),
+			#{item.memberId},
+			#{leaveGrant.leaveCategorySort},
+			#{leaveGrant.leaveGrantHour},
+			#{leaveGrant.leaveGrantDay},
+			#{leaveGrant.leaveGrantReason},
+			#{leaveGrant.leaveGrantDate},
+			#{item.memberEmployeeCode},
+			#{item.memberName},
+			#{item.departmentName},
+			#{item.memberPositionName}
+		</foreach>
+	</insert>
 	<!-- 조직원 아이디별 휴가 부여 내역 조회 -->
 	<resultMap type="ksmart31.team03.leave.domain.LeaveGrant" id="selectLeaveGrantByMemeberId">
 		<result column="leave_category_sort" property="leaveCategorySort"/>

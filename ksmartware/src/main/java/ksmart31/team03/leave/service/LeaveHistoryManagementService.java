@@ -43,6 +43,32 @@ public class LeaveHistoryManagementService {
 	@Autowired
 	private LeaveDetailMapper leaveDetailMapper;
 	
+	// 관리자 - 휴가 차감
+	public void addLeaveUsed(LeaveUsed leaveUsed) {
+		// 선택된 조직원의 아이디를 ',' 구분자로 분리해서 배열에 담는다
+		String[] memberIdList = leaveUsed.getMemberId().split(", ");
+		System.out.println("LeaveHistoryManagementService.addLeaveUsed memberIdList : "+memberIdList);
+		// memberIdList 배열을 HashMap에 담는다
+		Map<String, Object> memberIdMap = new HashMap<String, Object>();
+		memberIdMap.put("memberIdList", memberIdList);
+		// 부여 및 차감에서 선택된 조직원들의 기본 정보(사번, 이름, 부서명, 직위/직책)를 조회
+		List<Member> memberInfoList = leaveHistoryMapper.selectMemberInfoList(memberIdMap);
+		System.out.println("LeaveHistoryManagementService.addLeaveUsed memberInfoList : "+memberInfoList);
+		// memberId 셋팅
+		for (int i = 0; i < memberIdList.length; i++) {
+			memberInfoList.get(i).setMemberId(memberIdList[i]);
+		}
+		System.out.println("LeaveHistoryManagementService.addLeaveUsed memberInfoList memberId 셋팅 후 : "+memberInfoList);
+		// leave_used 테이블에 입력될 최종 값
+		Map<String, Object> memberMap = new HashMap<String, Object>();
+		memberMap.put("leaveUsed", leaveUsed);
+		memberMap.put("memberInfoList", memberInfoList);
+		// leave_used 테이블에 데이터 입력
+		leaveUsedMapper.insertLeaveUsed(memberMap);
+		// leave_history 테이블에 데이터 수정
+		leaveHistoryMapper.updateLeaveHistoryForUsed(memberMap);
+	}
+	
 	// 관리자 - 휴가 부여
 	public void addLeaveGrant(LeaveGrant leaveGrant) {
 		// 선택된 조직원의 아이디를 ',' 구분자로 분리해서 배열에 담는다
@@ -52,7 +78,7 @@ public class LeaveHistoryManagementService {
 		for (int i = 0; i < memberIdList.length; i++) {
 			System.out.println("LeaveHistoryManagementService.addLeaveGrant memberIdList : "+memberIdList[i]);
 		}
-		// 배열을 HashMap에 담는다
+		// memberIdList 배열을 HashMap에 담는다
 		Map<String, Object> memberIdMap = new HashMap<String, Object>();
 		memberIdMap.put("memberIdList", memberIdList);
 		// 부여 및 차감에서 선택된 조직원들의 기본 정보(사번, 이름, 부서명, 직위/직책)를 조회
@@ -63,24 +89,14 @@ public class LeaveHistoryManagementService {
 			memberInfoList.get(i).setMemberId(memberIdList[i]);
 		}
 		System.out.println("LeaveHistoryManagementService.addLeaveGrant memberInfoList memberId 셋팅 후 : "+memberInfoList);
-		// leave_grant_code 최대값+1 조회
-		int max = leaveHistoryMapper.selecMaxOfLeaveGrantCode();
-		System.out.println("LeaveHistoryManagementService.addLeaveGrant max : "+max);
-		// leave_grant_code 값 셋팅
-		List<List<String>> codeList = new ArrayList<>();
-		for (int i = 0; i < memberIdList.length; i++) {
-			List<String> code = new ArrayList<String>();
-			code.add("leave_grant_code_"+(max+i));
-			codeList.add(code);
-		}
-		System.out.println("LeaveHistoryManagementService.addLeaveGrant code : "+codeList);
 		// leave_grant 테이블에 입력될 최종 값
 		Map<String, Object> memberMap = new HashMap<String, Object>();
 		memberMap.put("leaveGrant", leaveGrant);
 		memberMap.put("memberInfoList", memberInfoList);
-		memberMap.put("max", max);
-		memberMap.put("code", codeList);
-		leaveHistoryMapper.insertLeaveGrant(memberMap);
+		// leave_grant 테이블에 데이터 입력
+		leaveGrantMapper.insertLeaveGrant(memberMap);
+		// leave_history 테이블에 데이터 수정
+		leaveHistoryMapper.updateLeaveHistoryForGrant(memberMap);
 	}
 			
 	// 특정 부서에 해당하는 조직원 조회

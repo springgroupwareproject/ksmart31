@@ -10,6 +10,8 @@ import ksmart31.team03.leave.domain.LeaveUsed;
 
 @Mapper
 public interface LeaveUsedMapper {
+	// 관리자 - 휴가 차감
+	public void insertLeaveUsed(Map<String, Object> memberMap);
 	// 조직원 아이디별 휴가 사용 내역 조회
 	public List<LeaveUsed> selectLeaveUsedByMemberId(Map<String, Object> paramMap);
 	// 조직원 아이디별 휴가 부여일 합산 조회

@@ -1,26 +1,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ksmart31.team03.leave.mapper.LeaveHistoryMapper">
-	<!-- 관리자 - 휴가 부여 --> 
-	<insert id="insertLeaveGrant" parameterType="java.util.Map">
-		INSERT INTO 
-			leave_grant
-		VALUES
-		<foreach collection="memberInfoList" item="item" index="index" separator=",">
-				(	
-			#{code},
-			#{item.memberId},
-			#{leaveGrant.leaveCategorySort},
-			#{leaveGrant.leaveGrantHour},
-			#{leaveGrant.leaveGrantDay},
-			#{leaveGrant.leaveGrantReason},
-			#{leaveGrant.leaveGrantDate},
-			#{item.memberEmployeeCode},
-			#{item.memberName},
-			#{item.departmentName},
-			#{item.memberPositionName}
-		)
-		</foreach>
-	</insert>
+	<!-- 휴가 차감 시 조직원 휴가 내역에 반영(수정) -->
+	<update id="updateLeaveHistoryForUsed" parameterType="java.util.Map">
+		UPDATE leave_history 
+		SET 
+			leave_history_used_hour = leave_history_used_hour+${leaveUsed.leaveUsedHour},
+			leave_history_used_day = leave_history_used_day+${leaveUsed.leaveUsedDay},
+			leave_history_remaining_hour = leave_history_remaining_hour-${leaveUsed.leaveUsedHour},
+			leave_history_remaining_day = leave_history_remaining_day-${leaveUsed.leaveUsedDay}
+			WHERE member_id IN
+			<foreach collection="memberInfoList" item="item" open="(" close=")" separator=",">
+				 #{item.memberId}
+			</foreach>	
+			AND leave_category_sort = #{leaveUsed.leaveCategorySort}
+	</update>
+	<!-- 휴가 부여 시 조직원 휴가 내역에 반영(수정) -->
+	<update id="updateLeaveHistoryForGrant" parameterType="java.util.Map">
+		UPDATE leave_history 
+		SET 
+			leave_history_grant_hour = leave_history_grant_hour+${leaveGrant.leaveGrantHour},
+			leave_history_grant_day = leave_history_grant_day+${leaveGrant.leaveGrantDay},
+			leave_history_remaining_hour = leave_history_remaining_hour+${leaveGrant.leaveGrantHour},
+			leave_history_remaining_day = leave_history_remaining_day+${leaveGrant.leaveGrantDay}
+			WHERE member_id IN
+			<foreach collection="memberInfoList" item="item" open="(" close=")" separator=",">
+				 #{item.memberId}
+			</foreach>	
+			AND leave_category_sort = #{leaveGrant.leaveCategorySort}
+	</update>
 	<!-- leave_grant_code 최대값+1 조회 -->
 	<select id="selecMaxOfLeaveGrantCode" resultType="Integer">
 		SELECT MAX(SUBSTRING_INDEX(leave_grant_code,'_',-1)+1) FROM leave_grant
