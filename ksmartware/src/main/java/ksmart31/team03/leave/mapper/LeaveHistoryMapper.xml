@@ -1,5 +1,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ksmart31.team03.leave.mapper.LeaveHistoryMapper">
+	<!-- 관리자 - 휴가 부여 --> 
+	<insert id="insertLeaveGrant" parameterType="java.util.Map">
+		INSERT INTO 
+			leave_grant
+		VALUES
+		<foreach collection="memberInfoList" item="item" index="index" separator=",">
+				(	
+			#{code},
+			#{item.memberId},
+			#{leaveGrant.leaveCategorySort},
+			#{leaveGrant.leaveGrantHour},
+			#{leaveGrant.leaveGrantDay},
+			#{leaveGrant.leaveGrantReason},
+			#{leaveGrant.leaveGrantDate},
+			#{item.memberEmployeeCode},
+			#{item.memberName},
+			#{item.departmentName},
+			#{item.memberPositionName}
+		)
+		</foreach>
+	</insert>
+	<!-- leave_grant_code 최대값+1 조회 -->
+	<select id="selecMaxOfLeaveGrantCode" resultType="Integer">
+		SELECT MAX(SUBSTRING_INDEX(leave_grant_code,'_',-1)+1) FROM leave_grant
+	</select>
+	<!-- 부여 및 차감에서 선택된 조직원들의 기본 정보(사번, 이름, 부서명, 직위/직책)를 조회 -->
+	<resultMap type="ksmart31.team01.member.domain.Member" id="selectMemberInfoList">
+		<result column="member_employee_code" property="memberEmployeeCode"/>
+		<result column="member_name" property="memberName"/>
+		<result column="department_name" property="departmentName"/>
+		<result column="member_position_name" property="memberPositionName"/>
+	</resultMap>
+	<select id="selectMemberInfoList" parameterType="java.util.Map" resultMap="selectMemberInfoList">
+		SELECT
+			member_employee_code,
+			member_name,
+			department_name,
+			member_position_name
+		FROM member
+		WHERE member_id IN
+			<foreach collection="memberIdList" item="item" index="index" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+	</select>
 	<!-- 특정 부서에 해당하는 조직원 정보 -->	
 	<resultMap type="ksmart31.team01.department.domain.DepartmentJoinMember" id="selectDepartmentJoinMemberList">
 		<result column="member_name" property="memberName"/>

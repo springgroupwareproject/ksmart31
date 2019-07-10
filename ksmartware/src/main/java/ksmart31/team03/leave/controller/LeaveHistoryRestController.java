@@ -28,6 +28,7 @@ public class LeaveHistoryRestController {
 	@PostMapping("/leave/leaveGrant")
 	public void addLeaveGrant(LeaveGrant leaveGrant) {
 		System.out.println("LeaveHistoryRestController.addLeaveGrant leaveGrant : "+leaveGrant);
+		leaveHistoryManagementService.addLeaveGrant(leaveGrant);
 	}
 	// 특정 부서에 해당하는 조직원 정보 조회
 	@GetMapping("/leave/departmentJoinMember")
