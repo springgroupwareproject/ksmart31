@@ -71,22 +71,30 @@
 					console.log('계정과목 insert 테스트');
 					let accountName = $('#accountName').val();      		
             		let memberId = $('#memberId').val();
-	            	           		
-            		$.ajax({
-	               		url : '/addAccount'
-	               		,type : 'post'
-	               		,data : {'accountName':accountName,'memberId':memberId}   	
-	               		,success : function(){
-	               			console.log('#accountAddButton click');
-	               			$('#accountListButton').trigger('click');	               			
-       					}                 
-					});	
+					
+            		 if($('#accountName').val()=='') {
+         				$('#helper').text('계정과목을 입력하세요');                     	                
+                     }else if($('#memberId').val()=='') {
+                     	$('#helper').text('아이디를 입력하세요');                
+                     }else {            		
+            		
+	            		$.ajax({
+		               		url : '/addAccount'
+		               		,type : 'post'
+		               		,data : {'accountName':accountName,'memberId':memberId}   	
+		               		,success : function(){
+		               			console.log('#accountAddButton click');
+		               			$('#accountListButton').trigger('click');	               			
+	       					}                 
+						});
+                     }
 				});				
 			});				
 		</script>
 	</th:block>
 	
-	<th:block layout:fragment="customBody">				
+	<th:block layout:fragment="customBody">
+						
 		<div class="card-body p-0 table-border-style">
 			<div class="table-responsive">
 				<h3>계정과목
@@ -105,7 +113,7 @@
 						</thead>
 				        <tbody>
 							<tr>								
-							 	<td><input type="text" id="accountName"></td>							
+							 	<td><input type="text" id="accountName"><br><span id="helper"></span></td>							 								
 								<td><input type="text" id="memberId"></td>			                
 				            </tr>
 						</tbody>

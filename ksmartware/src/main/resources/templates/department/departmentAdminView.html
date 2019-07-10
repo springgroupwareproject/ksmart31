@@ -378,7 +378,34 @@
 			// member 추가
 			$('#saveButton').click(function(){				
 				console.log('조직원 insert 입력 ');
-												
+				 if($('#memberId').val()=='') {
+		            	$('#helper').text('조직원 아이디를 입력하세요');
+		                
+		            } else if($('#memberName').val()=='') {
+		            	$('#helper').text('조직원 이름을 입력하세요');
+		                
+		            } else if($('#memberEmployeeCode').val()=='') {
+		            	$('#helper').text('조직원 사번을 입력하세요');
+		                
+		            } else if($('#departmentName').val()=='') {
+		            	$('#helper').text('부서명을 입력하세요');
+		                
+		            }else if($('#departmentCategoryName').val()=='') {
+		            	$('#helper').text('입력하세요');
+		                
+		            }else if($('#memberPositionName').val()=='') {
+		            	$('#helper').text('직위/직책을 입력하세요');
+		                
+		            }else if($('#memberLevelTitle').val()=='') {
+		            	$('#helper').text('조직원 권한을 입력하세요');
+		                
+		            }else if($('#memberStatus').val()=='') {
+		            	$('#helper').text('조직원 상태를 입력하세요');
+		                
+		            }else if($('#memberPw').val()=='') {
+		            	$('#helper').text('조직원 비밀번호를 입력하세요');
+		                
+		            } else {								
 				let memberId = $('#memberId').val(); 
 				let memberName = $('#memberName').val();  
 				let memberEmployeeCode = $('#memberEmployeeCode').val(); 
@@ -423,7 +450,8 @@
 								console.log('성공')					
 								location.reload();  // 새로고침
 							}							
-				});
+					});
+				}
 			});			
 		});
 	</script>
@@ -531,9 +559,10 @@
 				<div class="modal-body">							
 					<form class="leavePolicyForm">
 					<!-- 첫 번째 카드 영역 시작 -  -->
-					<div class="card">								
+					<div class="card">
+						<span id="helper"></span>								
 						<div class="card-body">														
-							조직원 아이디 :  <div><input type="text" id="memberId" class="form-control"></div>
+							조직원 아이디 :  <div><input type="text" id="memberId" class="form-control"></div>							
 							조직원 이름 :  <div><input type="text" id="memberName" class="form-control"></div>
 							조직원 사번 :  <div><input type="text" id="memberEmployeeCode" class="form-control"></div>																			
 							부서명 :  <div><select id="departmentName" class="form-control"></select></div>							

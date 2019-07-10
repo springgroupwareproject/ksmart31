@@ -41,6 +41,31 @@
 			// memberAccount insert
 			$('#memberAccountAddButton').click(function(){
 				console.log('조직원계좌 insert 버튼 테스트');
+				if($('#memberName').val()=='') {
+	            	$('#helper').text('조직원 명을 입력하세요');
+	                
+	            } else if($('#memberAccountMemberId').val()=='') {
+	            	$('#helper').text('조직원 아이디를 입력하세요');
+	                
+	            } else if($('#memberAccountBank').val()=='') {
+	            	$('#helper').text('은행 명을 입력하세요');
+	                
+	            } else if($('#memberAccountNumber').val()=='') {
+	            	$('#helper').text('계좌번호를 입력하세요');
+	                
+	            }else if($('#registrationMemberId').val()=='') {
+	            	$('#helper').text('등록자 아이디를 입력하세요');
+	                
+	            }else if($('#memberEmployeeCode').val()=='') {
+	            	$('#helper').text('사번을 입력하세요');
+	                
+	            }else if($('#departmentName').val()=='') {
+	            	$('#helper').text('부서명을 입력하세요');
+	                
+	            }else if($('#memberPositionName').val()=='') {
+	            	$('#helper').text('직위/직책을 입력하세요');
+	                
+	            } else {
 				let memberName = $('#memberName').val();      		
             	let memberId = $('#memberAccountMemberId').val();
             	let memberAccountBank = $('#memberAccountBank').val();
@@ -50,21 +75,22 @@
             	let departmentName = $('#departmentName').val();
             	let memberPositionName = $('#memberPositionName').val();
 				
-				$.ajax({
-					url : '/addMemberAccount'
-					,type : 'post'
-					,data : {'memberName':memberName,'memberId':memberId,
-						'memberAccountBank':memberAccountBank,
-						'memberAccountNumber':memberAccountNumber,'registrationMemberId':registrationMemberId,
-						'memberEmployeeCode':memberEmployeeCode,
-						'departmentName':departmentName,
-						'memberPositionName':memberPositionName}
-					,success : function(data){
-						console.log('#memberAccountAddButton click');
-						$('#memberAccountListButton').trigger('click');
-	               		
-					}	
-				});
+					$.ajax({
+						url : '/addMemberAccount'
+						,type : 'post'
+						,data : {'memberName':memberName,'memberId':memberId,
+							'memberAccountBank':memberAccountBank,
+							'memberAccountNumber':memberAccountNumber,'registrationMemberId':registrationMemberId,
+							'memberEmployeeCode':memberEmployeeCode,
+							'departmentName':departmentName,
+							'memberPositionName':memberPositionName}
+						,success : function(data){
+							console.log('#memberAccountAddButton click');
+							$('#memberAccountListButton').trigger('click');
+		               		
+						}	
+					});
+	            }	
 			});
 			
 			
@@ -123,7 +149,7 @@
 						</thead>
 				        <tbody>
 							<tr>
-								<td><input type="text" id="memberName"></td>								
+								<td><input type="text" id="memberName"><br><span id="helper"></span></td>								
 								<td>
 								<select id="memberAccountMemberId"></select>
 								</td>
