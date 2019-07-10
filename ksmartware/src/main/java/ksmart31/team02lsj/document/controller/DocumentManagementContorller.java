@@ -29,15 +29,24 @@ public class DocumentManagementContorller {
 	}
 	//문서관리 상세보기(구매요청서)
 	@GetMapping(value = "/documentManagement/detail")
-	public String documentManagementList(Model model, @RequestParam(value = "draftDocumentCode")String draftDocumentCode
-											, @RequestParam(value = "documentForm") String documentForm) {
+	public String documentManagementList(Model model, @RequestParam(value = "draftDocumentCode")String draftDocumentCode) {
 		String path = null;
 		System.out.println("(C)documentApprovalManagement");
 		 Map<String, Object> documentDetailMap = documentManagementService.documentManagementDetail(draftDocumentCode);
 		 model.addAttribute("approvalDocumentDetailMap", documentDetailMap);
-		/* 맵에서 리스트 꺼내서 리스트별로 포워딩 주소(리턴값) 다르게 만들기 */
-		 if(documentDetailMap != null) {  
-			 path= "admin/documentManagement/documentManagement";
+		/* 맵에서 문서양식 꺼내서 리스트별로 포워딩 주소(리턴값) 다르게 만들기 */
+		 String documentFormTitle = documentDetailMap.get("documentFormTitle").toString();
+		 System.out.println("documentFormTitle : " + documentFormTitle);
+		 if(documentFormTitle.contains("구매요청서")) {
+			 path= "documentDetail/purchaseRequisitionDetail";
+		 }else if(documentFormTitle.contains("지출결의서")){
+			 path= "documentDetail/disbursementDocumentDetail";
+		 }else if(documentFormTitle.contains("휴가신청서")){
+			 path= "documentDetail/leaveApplicationDetail";
+		 }else if(documentFormTitle.contains("프로젝트 업무보고")){
+			 path= "documentDetail/projectReportDetail";
+		 }else if(documentFormTitle.contains("프로젝트 지출결의서")){
+			 path= "documentDetail/projectDisbursementDetail";
 		 }
 		return path;
 	}

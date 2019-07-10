@@ -1,16 +1,15 @@
 package ksmart31.team02lsj.document.domain;
 
 public class DocumentOpinion {
-
-	private String documentOpinion;
+	private String approvalOpinionCode;
 	private String approvalOpinionDesc;
 	private String approvalRegistrantName;
 	private String documentOpinionDate;
-	public String getDocumentOpinion() {
-		return documentOpinion;
+	public String getApprovalOpinionCode() {
+		return approvalOpinionCode;
 	}
-	public void setDocumentOpinion(String documentOpinion) {
-		this.documentOpinion = documentOpinion;
+	public void setApprovalOpinionCode(String approvalOpinionCode) {
+		this.approvalOpinionCode = approvalOpinionCode;
 	}
 	public String getApprovalOpinionDesc() {
 		return approvalOpinionDesc;
@@ -32,9 +31,9 @@ public class DocumentOpinion {
 	}
 	@Override
 	public String toString() {
-		return "DocumentOpinion [documentOpinion=" + documentOpinion + ", approvalOpinionDesc=" + approvalOpinionDesc
-				+ ", approvalRegistrantName=" + approvalRegistrantName + ", documentOpinionDate=" + documentOpinionDate
-				+ "]";
+		return "DocumentOpinion [approvalOpinionCode=" + approvalOpinionCode + ", approvalOpinionDesc="
+				+ approvalOpinionDesc + ", approvalRegistrantName=" + approvalRegistrantName + ", documentOpinionDate="
+				+ documentOpinionDate + "]";
 	}
 	
 	

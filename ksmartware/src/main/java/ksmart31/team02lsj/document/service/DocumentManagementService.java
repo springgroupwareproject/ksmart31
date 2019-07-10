@@ -46,6 +46,7 @@ public class DocumentManagementService {
 			Map<String, Object> approvalDocumentDetailMap = new HashMap<String, Object>();
 			
 			String documentForm = documentManagementMapper.selectDocumentFormTitleByApprovalDocumentCode(approvalDocumentCode);
+			System.out.println("documentForm : " + documentForm);
 			if(documentForm.contains("구매요청서")) {
 				List<PurchaseRequisition> purchaseRequisitionList = documentManagementMapper.selectPurchaseRequisitionDetail(approvalDocumentCode);
 				approvalDocumentDetailMap.put("purchaseRequisitionList", purchaseRequisitionList);
@@ -63,13 +64,13 @@ public class DocumentManagementService {
 				approvalDocumentDetailMap.put("projectDisbursementList", projectDisbursementList);
 			}
 			//문서별 프로세스 정보	
-			List<ApprovalMember> approvalMemberList = documentManagementMapper.selectApprovalDocumentApprovalProcess(approvalDocumentCode);
+			List<ApprovalMember> approvalMemberList = documentManagementMapper.selectDocumentApprovalProcess(approvalDocumentCode);
 			
 			//문서별 첨부파일 정보
-			List<DocumentAttachedFile> documentAttachedFile = documentManagementMapper.selectApprovalDocumentAttachedFile(approvalDocumentCode);
+			List<DocumentAttachedFile> documentAttachedFile = documentManagementMapper.selectDocumentAttachedFile(approvalDocumentCode);
 						
 			//문서별 의견 정보
-			List<DocumentOpinion> documentOpinion = documentManagementMapper.selectApprovalDocumentOpinion(approvalDocumentCode);
+			List<DocumentOpinion> documentOpinion = documentManagementMapper.selectDocumentOpinion(approvalDocumentCode);
 			
 			approvalDocumentDetailMap.put("approvalMemberList", approvalMemberList); //문서상세  결재 프로세스
 			approvalDocumentDetailMap.put("documentAttachedFile", documentAttachedFile); //문서상세 첨부파일

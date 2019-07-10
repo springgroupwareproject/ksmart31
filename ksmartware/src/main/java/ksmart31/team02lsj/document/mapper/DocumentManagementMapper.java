@@ -33,9 +33,9 @@ public interface DocumentManagementMapper {
 	//프로젝트 지출결의서 입력데이터 
 	public List<ProjectDisbursement> selectProjectDisbursementDetail(String draftDocumentCode);
 	//문서상세 결재자정보(프로세스) 데이터
-	public List<ApprovalMember> selectApprovalDocumentApprovalProcess(String draftDocumentCode);
+	public List<ApprovalMember> selectDocumentApprovalProcess(String draftDocumentCode);
 	//문서상세 의견 데이터
-	public List<DocumentOpinion> selectApprovalDocumentOpinion(String draftDocumentCode);
+	public List<DocumentOpinion> selectDocumentOpinion(String draftDocumentCode);
 	//문서상세 첨부파일 데이터
-	public List<DocumentAttachedFile> selectApprovalDocumentAttachedFile(String draftDocumentCode);
+	public List<DocumentAttachedFile> selectDocumentAttachedFile(String draftDocumentCode);
 }
