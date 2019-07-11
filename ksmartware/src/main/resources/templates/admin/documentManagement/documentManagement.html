@@ -2,18 +2,18 @@
 <html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
 
 <th:block layout:fragment="customHead">
-<meta charset="UTF-8">
-<title>Ksmartware</title>
-<th:block th:include="layout/customHead"></th:block>
-<link rel="stylesheet" th:href="@{//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css}">
-<script th:src="@{https://code.jquery.com/jquery-1.12.4.js}"></script>
-<script th:src="@{https://code.jquery.com/ui/1.12.1/jquery-ui.js}"></script>
+    <meta charset="UTF-8">
+    <title>Ksmartware</title>
+    <th:block th:include="layout/customHead"></th:block>
+    <link rel="stylesheet" th:href="@{//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css}">
+    <script th:src="@{https://code.jquery.com/jquery-1.12.4.js}"></script>
+    <script th:src="@{https://code.jquery.com/ui/1.12.1/jquery-ui.js}"></script>
 
     <script>
-    $( function() {
-        $( "#fromDate" ).datepicker();
-        $( "#toDate" ).datepicker();
-      } );
+        $(function() {
+            $("#fromDate").datepicker();
+            $("#toDate").datepicker();
+        });
         $(document).ready(function() {
             $('#btnDelete').click(function() { // 체크박스 삭제시
                 /* 유효성 검사 */
@@ -57,9 +57,8 @@
                     $("input[type=checkbox]").prop(
                         "checked", false);
                 }
-            });            
+            });
         });
-    
     </script>
 </th:block>
 
@@ -100,7 +99,7 @@
                                             </div>
                                             ~
                                             <div class="col-sm-5">
-                                                <input type="text"class="form-control" id="toDate" name = "documentDateEnd">
+                                                <input type="text" class="form-control" id="toDate" name="documentDateEnd">
                                             </div>
                                         </div>
                                     </div>
@@ -167,7 +166,18 @@
                                 </td>
                                 <td>
                                     <div th:switch="${list.draftDocumentStatus}">
-                                        <label th:case="'결재중'" class="badge badge-primary"> <span th:text="${list.draftDocumentStatus}"></span></label> <label th:case="'승인'" class="badge badge-success"> <span th:text="${list.draftDocumentStatus}"></span></label> <label th:case="'반려'" class="badge badge-danger"> <span th:text="${list.draftDocumentStatus}"></span></label> <label th:case="'임시저장'" class="badge badge-secondary"> <span th:text="${list.draftDocumentStatus}"></span></label>
+                                        <label th:case="'결재중'" class="badge badge-primary"> 
+                                        	<span th:text="${list.draftDocumentStatus}"></span>
+                                        </label>
+                                        	<label th:case="'승인'" class="badge badge-success">
+                                        	<span th:text="${list.draftDocumentStatus}"></span>
+                                        </label>
+                                        	<label th:case="'반려'" class="badge badge-danger">
+                                        	<span th:text="${list.draftDocumentStatus}"></span>
+                                        </label> 
+                                        <label th:case="'임시저장'" class="badge badge-secondary"> 
+                                        	<span th:text="${list.draftDocumentStatus}"></span>
+                                        </label>
                                     </div>
                                 </td>
                                 <td><a th:href="@{/documentManagement/detail(draftDocumentCode=${list.draftDocumentCode})}"><span th:text="${list.draftDocumentFileSaveName}"></span></a></td>

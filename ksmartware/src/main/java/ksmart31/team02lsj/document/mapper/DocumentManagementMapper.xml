@@ -105,7 +105,7 @@
 		dd.draft_document_member_department_name AS departmentName,
 		dd.draft_document_member_position_name AS memberPositionName,
 		dd.draft_document_member_name AS memberName,
-		la.leave_application_date AS leaveApplicationDate,
+		dd.draft_document_date AS draftDocumentDate,
 		la.leave_category_sort AS leaveCategorySort,
 		la.leave_application_start_day AS leaveApplicationStartDay,
 		la.leave_application_end_day AS leaveApplicationEndDay,
@@ -135,14 +135,15 @@
 		parameterType="String"
 		resultType="ksmart31.team02lsj.document.domain.DocumentOpinion">
 		SELECT
-		ddo.approval_opinion_code AS approvalOpinionCode
+		ddo.approval_opinion_code AS approvalOpinionCode,
 		ddo.approval_opinion_desc AS approvalOpinionDesc,
-		ddo.approval_registrant_name AS approvalOpinionDesc,
-		ddo.document_opinion_date AS approvalOpinionDesc
-		FROM document_opinion AS ddo
+		ddo.member_name AS memberName,
+		ddo.approval_opinion_date AS documentOpinionDate
+		FROM draft_document_opinion AS ddo
 		JOIN draft_document AS dd
-		ON do.draft_document_code = dd.draft_document_code
+		ON ddo.draft_document_code = dd.draft_document_code
 		WHERE dd.draft_document_code = #{draftDocumentCode}
+		ORDER BY ddo.approval_opinion_date DESC
 	</select>
 	
 	<!-- 문서 상세별 첨부파일 select 쿼리 -->
@@ -156,7 +157,8 @@
 		FROM document_attached_file AS daf
 		JOIN draft_document AS dd
 		ON daf.draft_document_code = dd.draft_document_code
-		WHERE dd.draft_document_code = #{draftDocumentCode}		
+		WHERE dd.draft_document_code = #{draftDocumentCode}
+		ORDER BY daf.document_attached_file_date DESC	
 	</select>
 	
 	<!-- 문서상세별 결재순서(프로세스) select 쿼리 -->
@@ -176,5 +178,6 @@
 		JOIN draft_document AS dd
 		ON am.draft_document_code = dd.draft_document_code
 		WHERE dd.draft_document_code = #{draftDocumentCode}		
+		ORDER BY am.approval_turn_number ASC
 	</select>
 </mapper>

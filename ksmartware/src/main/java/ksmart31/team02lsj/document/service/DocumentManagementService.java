@@ -49,28 +49,35 @@ public class DocumentManagementService {
 			System.out.println("documentForm : " + documentForm);
 			if(documentForm.contains("구매요청서")) {
 				List<PurchaseRequisition> purchaseRequisitionList = documentManagementMapper.selectPurchaseRequisitionDetail(approvalDocumentCode);
+				System.out.println("purchaseRequisitionList : "+purchaseRequisitionList);
 				approvalDocumentDetailMap.put("purchaseRequisitionList", purchaseRequisitionList);
 			}else if(documentForm.contains("지출결의서")) {
 				List<DisbursementDocument> disbursementDocumentList = documentManagementMapper.selectDisbursementDocumentDetail(approvalDocumentCode);
+				System.out.println("disbursementDocumentList : "+disbursementDocumentList);
 				approvalDocumentDetailMap.put("disbursementDocumentList", disbursementDocumentList);
 			}else if(documentForm.contains("휴가신청서")) {
 				List<LeaveApplication> leaveApplicationList= documentManagementMapper.selectLeaveApplicationDetail(approvalDocumentCode);
+				System.out.println("leaveApplicationList : " + leaveApplicationList);
 				approvalDocumentDetailMap.put("leaveApplicationList", leaveApplicationList);
 			}else if(documentForm.contains("프로젝트 업무보고")) {	
 				List<ProjectReport> projectReportList = documentManagementMapper.selectProjectReportDetail(approvalDocumentCode);
+				System.out.println("projectReportList : "+projectReportList);
 				approvalDocumentDetailMap.put("projectReportList", projectReportList);
 			}else if(documentForm.contains("프로젝트 지출결의서")) {
 				List<ProjectDisbursement> projectDisbursementList = documentManagementMapper.selectProjectDisbursementDetail(approvalDocumentCode);
+				System.out.println("projectDisbursementList : " +projectDisbursementList);
 				approvalDocumentDetailMap.put("projectDisbursementList", projectDisbursementList);
 			}
 			//문서별 프로세스 정보	
 			List<ApprovalMember> approvalMemberList = documentManagementMapper.selectDocumentApprovalProcess(approvalDocumentCode);
+			System.out.println("approvalMemberList : "+approvalMemberList);
 			
 			//문서별 첨부파일 정보
 			List<DocumentAttachedFile> documentAttachedFile = documentManagementMapper.selectDocumentAttachedFile(approvalDocumentCode);
-						
+			System.out.println("documentAttachedFile : "+documentAttachedFile);
 			//문서별 의견 정보
 			List<DocumentOpinion> documentOpinion = documentManagementMapper.selectDocumentOpinion(approvalDocumentCode);
+			System.out.println("documentOpinion : "+documentOpinion);
 			
 			approvalDocumentDetailMap.put("approvalMemberList", approvalMemberList); //문서상세  결재 프로세스
 			approvalDocumentDetailMap.put("documentAttachedFile", documentAttachedFile); //문서상세 첨부파일

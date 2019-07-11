@@ -3,7 +3,7 @@ package ksmart31.team02lsj.document.domain;
 public class DocumentOpinion {
 	private String approvalOpinionCode;
 	private String approvalOpinionDesc;
-	private String approvalRegistrantName;
+	private String memberName;
 	private String documentOpinionDate;
 	public String getApprovalOpinionCode() {
 		return approvalOpinionCode;
@@ -18,10 +18,10 @@ public class DocumentOpinion {
 		this.approvalOpinionDesc = approvalOpinionDesc;
 	}
 	public String getApprovalRegistrantName() {
-		return approvalRegistrantName;
+		return memberName;
 	}
 	public void setApprovalRegistrantName(String approvalRegistrantName) {
-		this.approvalRegistrantName = approvalRegistrantName;
+		this.memberName = approvalRegistrantName;
 	}
 	public String getDocumentOpinionDate() {
 		return documentOpinionDate;
@@ -32,7 +32,7 @@ public class DocumentOpinion {
 	@Override
 	public String toString() {
 		return "DocumentOpinion [approvalOpinionCode=" + approvalOpinionCode + ", approvalOpinionDesc="
-				+ approvalOpinionDesc + ", approvalRegistrantName=" + approvalRegistrantName + ", documentOpinionDate="
+				+ approvalOpinionDesc + ", memberName=" + memberName + ", documentOpinionDate="
 				+ documentOpinionDate + "]";
 	}
 	
