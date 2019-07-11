@@ -308,7 +308,7 @@
 						console.log(data);
 						$(data).each(function(i, item){
 							// 조직원 리스트 생성
-							contents += '<div class="input-group-text">';
+							contents += '<div class="input-group-text" style="height: 35px;">';
 							contents += '<label for="'+item.memberId+'"><input type="checkbox" class="member" id="'+item.memberId+'" name="member" value="'+item.memberId+'"> '+item.memberName+'('+item.memberId+')</label>';
 							contents += '</div>';
 							$('#member').append(contents);
@@ -575,7 +575,7 @@
 			
 			$('#categoryList').val('').trigger('change');
 			$('#grantAndUsed').val('부여').trigger('change');
-			
+			$('#fullView').trigger('click');			
 			// 달력 api 호출 함수
 			$('#grantDate').datepicker();
 			$('#usedStartDay').datepicker();
@@ -593,9 +593,23 @@
 		    min-width: 150px;
 		    position: relative;
 		}
-	</style>	
+	</style>
 </th:block>
 <th:block layout:fragment="customBody">
+<div class="page-header">
+	<div class="page-header row align-items-end">
+		<div class="col-lg-8">
+			<div class="page-header-title">
+				<i class="ik ik-layers bg-blue"></i>
+				<div class="d-inline">
+					<!-- 증명서 발급 - 증명서 신청 -->
+					<h5>인사관리 - 휴가 내역 관리</h5>
+					<span>조직원의 휴가 내역을 관리합니다.</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="row">
 	<!-- 왼쪽 카드 영역 시작 -->
 	<div class="col-3">
@@ -605,6 +619,9 @@
 			<!-- 왼쪽 카드 내용 -->
 			<div class="card-body">
 				<ul class="nav flex-column">
+					<li>
+						<a class="nav-link departmentNameButton" id="fullView" href="#" value="fullView">전체</a>
+					</li>
 					<li class="nav-item" th:each="recursiveList: ${recursiveList}">
 						<a class="nav-link departmentNameButton" href="#" th:text="${recursiveList.departmentName}" th:value="${recursiveList.departmentName}"></a>
 					</li>	
@@ -845,6 +862,9 @@
 						<div class="input-group">
 							<div class="col-4">
 								<ul class="nav flex-column">
+									<li class="nav-item">
+										<a class="nav-link addDepartmentNameButton" href="#" value="fullView">전체</a>
+									</li>
 									<li class="nav-item" th:each="recursiveList: ${recursiveList}">
 										<a class="nav-link addDepartmentNameButton" href="#" th:text="${recursiveList.departmentName}" th:value="${recursiveList.departmentName}"></a>
 									</li>

@@ -456,8 +456,21 @@
 	<th:block layout:fragment="customBody">
 		<!-- 세부 휴가, 정책 입력 시 휴가 종류 코드를 가져가기 위한 코드 -->
 		<input type="hidden" th:value="${leaveCategoryCode}" id="leaveCategoryCode">
-		
-		<h2>인사관리 - 휴가 종류 관리</h2>	<br/>
+		<!-- 최상단 헤더 -->
+		<div class="page-header">
+			<div class="page-header row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="ik ik-layers bg-blue"></i>
+						<div class="d-inline">
+							<!-- 증명서 발급 - 증명서 신청 -->
+							<h5>인사관리 - 휴가 종류 관리</h5>
+							<span>휴가 종류의 상세 휴가와 정책 정보를 관리합니다.</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div>
 			<div class="row">
 				<div class="col-3">
