@@ -5,10 +5,7 @@
 		<meta charset="UTF-8">
 		<title>Sample</title>
 		<th:block th:include="layout/customHead"></th:block>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		
 		<script>
 		$(document).ready(function(){
 			//session에 있는 memberLogin의 값으로 바꿔준다
@@ -124,7 +121,19 @@
 	</th:block>
 	
 	<th:block layout:fragment="customBody">		
-		
+		<div class="page-header">
+			<div class="page-header row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="ik ik-layers bg-blue"></i>
+						<div class="d-inline">						
+							<h5>회계관리 - 조직원 계좌</h5>
+							<span>조직원 계좌를 추가합니다</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="card-body p-0 table-border-style">
 			<div class="table-responsive">
 					<h3>조직원 계좌

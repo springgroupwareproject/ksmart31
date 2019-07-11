@@ -7,7 +7,7 @@
 	<meta charset="UTF-8">
 	<title>Sample</title>
 	<th:block th:include="layout/customHead"></th:block>	
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">	
+		
 	<style>
     .icon-list-wrap .icon-list-item i {
         float: left;
@@ -459,6 +459,19 @@
 </th:block>
 
 <th:block layout:fragment="customBody">
+<div class="page-header">
+	<div class="page-header row align-items-end">
+		<div class="col-lg-8">
+			<div class="page-header-title">
+				<i class="ik ik-layers bg-blue"></i>
+				<div class="d-inline">						
+					<h5>인사관리 - 조직도/조직원 관리</h5>
+					<span>조직도를 보여줍니다</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="row">
 	<div class="col-3">
 		<div class="card" style="min-height: 100%;">
