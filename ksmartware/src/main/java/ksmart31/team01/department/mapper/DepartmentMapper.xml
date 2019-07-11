@@ -375,7 +375,55 @@
 		WHERE
 			member_id = #{memberId}
 	</select>
+	<!-- memberId memberName departmentName select -->
+	<resultMap type="ksmart31.team01.member.domain.Member" id="selectMemberId">
+		<result column="member_id" property="memberId"/>
+		<result column="member_name" property="memberName"/>
+		<result column="department_name" property="departmentName"/>
+	</resultMap>
+	<select id="selectMemberId" resultMap="selectMemberId">
+		select
+			member_id
+			,member_name
+			,department_name
+		from member
+	</select>
+	<!-- memberId에 맞는 select -->
+	<resultMap type="ksmart31.team01.member.domain.Member" id="selectMemberIdMemberNameDepartmentName">
+		<result column="member_name" property="memberName"/>
+		<result column="member_level_title" property="memberLevelTitle"/>
+		<result column="department_name" property="departmentName"/>
+		<result column="department_category_name" property="departmentCategoryName"/>
+		<result column="department_division_name" property="departmentDivisionName"/>
+		<result column="department_section_name" property="departmentSectionName"/>
+		<result column="member_position_name" property="memberPositionName"/>
+		<result column="member_id" property="memberId"/>
+		<result column="member_phone" property="memberPhone"/>
+		<result column="member_mobile" property="memberMobile"/>
+		<result column="member_join_day" property="memberJoinDay"/>
+		<result column="member_address" property="memberAddress"/>	
+	</resultMap>
+	<select id="selectMemberIdMemberNameDepartmentName" resultMap="selectMemberIdMemberNameDepartmentName">
+		SELECT
+			 m.member_name
+			,m.member_level_title
+			,m.department_name
+			,m.department_category_name
+			,m.department_division_name
+			,m.department_section_name
+			,m.member_position_name
+			,m.member_id
+			,m.member_phone
+			,m.member_mobile
+			,m.member_join_day
+			,m.member_address
+		FROM member m
+		WHERE m.department_name = #{departmentName}
+		AND m.member_name = #{memberName}
+		AND m.member_id = #{memberId}
+					
+	</select>
 	
-	
+		
 </mapper>			
 		

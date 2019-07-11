@@ -116,4 +116,5 @@ public class RestDepartmentAdminController {
 		System.out.println(list + "RestDepartmentAdminController getMemberMyAwards list");
 		return list;
 	}
+	
 }
