@@ -9,10 +9,9 @@
 				
 		<meta http-equiv="Content-Type" content="text/html</td> charset=UTF-8" />
 		<title>leaveCategoryList.html</title>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 		<style> /* 추가버튼 스타일 */
 		    .icon-list-wrap .icon-list-item i {
 		        float: left;
@@ -146,48 +145,59 @@
 	
 	<!-- 본문 -->
 	<th:block layout:fragment="customBody">
-		<h2>나의 정보 - 나의 인사 정보</h2>
-		<br/>
-		
-		<div class="row">
-			<div class="col-3" style="padding-left:50px; border-right: 1px solid #ccc;">
-				<div class="card">
-					<div class="card-header">MyProfile</div>
-					<div class="card-body">
-						<div>
-							<a href="/member/memberMyProfile/myProfile">개인 정보</a>
-						</div>
-						<hr>
-						<div>
-							<a href="/member/memberMyProfile/myInfo">인사 정보</a>
-						</div>
-						<hr>
-						<div>
-							<a href="/member/memberMyProfile/myEducation">학력 정보</a>
-						</div>
-						<hr>
-						<div>
-							<a href="/member/memberMyProfile/myProject">프로젝트 정보</a>
-						</div>
-						<hr>
-						<div>
-							<a href="/member/memberMyProfile/myLicense">자격증 정보</a>
-						</div>
-						<hr>
-						<div>
-							<a href="/member/memberMyProfile/myAcademy">교육 이력 정보</a>
-						</div>
-						<hr>
-						<div>
-							<a href="/member/memberMyProfile/myCareer">경력 정보</a>
-						</div>
-						<hr>
-						<div>
-							<a href="/member/memberMyProfile/myAwards">수상 이력 정보</a>
+		<div class="page-header">
+			<div class="page-header row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="ik ik-layers bg-blue"></i>
+						<div class="d-inline">
+							<!-- 증명서 발급 - 증명서 신청 -->
+							<h5>증명서 발급 - 증명서 신청</h5>
+							<span>재직 증명서와 경력 증명서를 신청합니다.</span>
 						</div>
 					</div>
 				</div>
-			</div>	
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<!-- 왼쪽 카드 영역 시작 -->
+			<div class="col-3">
+				<div class="card" style="height: 100%">
+					<!-- 왼쪽 카드 제목 -->
+					<div class="card-header">MyProfile</div>
+					<!-- 왼쪽 카드 내용 -->
+					<div class="card-body">
+						<ul class="nav flex-column">
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myProfile">개인 정보</a>
+							</li>
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myInfo">인사 정보</a>
+							</li>
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myEducation">학력 정보</a>
+							</li>
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myProject">프로젝트 정보</a>
+							</li>
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myLicense">자격증 정보</a>
+							</li>
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myAcademy">교육 이력 정보</a>
+							</li>
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myCareer">경력 정보</a>
+							</li>
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myAwards">수상 이력 정보</a>
+							</li>	
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- 왼쪽 카드 영역 종료 -->
 
 			
 			<div class="col-9" style="padding-right:20px; border-right: 1px solid #ccc;">

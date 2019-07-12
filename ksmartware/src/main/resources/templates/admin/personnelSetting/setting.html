@@ -14,11 +14,85 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 		
+		<style> /* 추가버튼 스타일 */
+		    .icon-list-wrap .icon-list-item i {
+		        float: left;
+		        text-align: center;
+		        border-radius: .1875rem;
+		        margin-right: 1rem;
+		        margin-bottom: 1.5rem;
+		        font-size: 2rem;
+		        -webkit-transition: all .2s ease-in-out;
+		        -o-transition: all .2s ease-in-out;
+		        -moz-transition: all .2s ease-in-out;
+		        transition: all .2s ease-in-out;
+		    }
+		    .fileDrop { /* 파일드롭 css */
+		    	width: 100%;
+		    	height: 200px;
+				border : 1px dotted blue;    
+		    }
+		</style>
+		
+		<script>
+		$(document).ready(function(){
+
+			
+			
+			$('#memberPositionBtn').click(function(){
+				console.log('입력 버튼 테스트');
+				
+				let memberPositionName = $('#memberPositionName').val();
+				console.log('입력된 직위/직책이름 값 : ' + memberPositionName);
+				let memberPositionRank = $('#memberPositionRank').val();
+				console.log('입력된 Rank 값 : ' + memberPositionRank);
+				
+				if(!memberPositionName){ // javascript에서는 빈값 그리고 null값을 NOT 연산자로 처리합니다.
+					alert('값을 입력하십시오.');
+					return false;
+				}
+				
+				$.ajax({
+					url : '/admin/personnelSetting/addsetting',
+					type : 'get',
+					data : {
+						memberPositionName:memberPositionName,
+						memberPositionRank:memberPositionRank
+					},
+					success : function(){
+						console.log('성공')
+						location.reload();   // 새로고침
+					},
+					error : function(error){
+						alert(error);
+						console.log(error);
+						//alert('실패 : '+error);
+					}
+				}); // ajax 끝
+			
+			});
+			
+		});
+		</script>
+		
 	</th:block>
 	
 	<!-- 본문 -->
-	<th:block layout:fragment="customBody">	
-		<h2>인사 관리 - 인사 설정</h2>
+	<th:block layout:fragment="customBody">
+		<div class="page-header">
+			<div class="page-header row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="ik ik-layers bg-blue"></i>
+						<div class="d-inline">
+							<!-- 증명서 발급 - 증명서 신청 -->
+							<h5>인사 관리 - 인사 설정</h5>
+							<span>인사정보 설정이 가능합니다.</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<br/>
 		
 		<div class="row">
@@ -31,70 +105,119 @@
 						<br>
 						<div>
 							<input th:type="checkbox"> 퇴사자 노출 설정
-						</div>
+						</div><br>
+						<button>저장</button>
 					</div>
 				</div>
 				<div class="card">
-					<div class="card-header">인사 기준 설정</div>
+					<div class="card-header">
+						<div class="input-group col-xl-12">
+							<div class="col-xl-5">인사 기준 설정</div>
+							<div class="col-xl-5" style="text-align: right">최근수정자:최정환</div>
+							<div class="col-xl-2" ></div>
+						</div>
+						<div ></div>
+					</div>
 					<div class="card-body">
-						<div>근로 기준 설정</div>
-						<div>(근로시간을 설정하여 휴가일수 등에 근로 기준으로 사용합니다.)</div>
-						<br>
-						<div>주간 근무일</div>
-						<input th:type="checkbox">월요일
-						<input th:type="checkbox">화요일
-						<input th:type="checkbox">수요일
-						<input th:type="checkbox">목요일
-						<input th:type="checkbox">금요일
-						<input th:type="checkbox">토요일
-						<input th:type="checkbox">일요일
-						<br><br>
-						
+					<table class="table table-hover" >
+						<tr>
+							<td>
+								<div>근로 기준 설정</div>
+								<p>(근로시간을 설정하여 휴가일수 등에 근로 기준으로 사용합니다.)</p><br>
+								<div class="col-xl-5" style="padding: 0px 0px 0px 0px">주간 근무일</div>
+								<input class="col-xl-1" style="width: 25px" th:type="checkbox">월요일 
+								<input class="col-xl-1" style="width: 25px" th:type="checkbox">화요일 
+								<input class="col-xl-1" style="width: 25px" th:type="checkbox">수요일 
+								<input class="col-xl-1" style="width: 25px" th:type="checkbox">목요일 
+								<input class="col-xl-1" style="width: 25px" th:type="checkbox">금요일 
+								<input class="col-xl-1" style="width: 25px" th:type="checkbox">토요일 
+								<input class="col-xl-1" style="width: 25px" th:type="checkbox">일요일 
+							</td>
+				        </tr>
+						<tr>
+							<td scope="row">
+								<div class="input-group col-xl-3" style="margin: 0px 0px 0px 0px">
+									<div style="margin: 5px 0px 0px 0px">1일 기준 근로 시간 :</div>
+									<input type="text" class="form-control col-xl-2" style="margin: 0px 0px 0px 10px; width:50px;" value="8">
+									<div style="margin: 5px 0px 0px 0px">&nbsp;시간 </div>
+								</div>	
+				            </td>
+				        </tr>
+				        <tr>
+							<td scope="row" >
+				            	<div class="input-group col-xl-3" style="margin: 0px 0px 0px 0px">
+									<div style="margin: 5px 0px 0px 0px">주당 근로 시간  : </div>
+									<input type="text" class="form-control col-xl-2" style="margin: 0px 0px 0px 10px; width:50px;" value="4">
+									<div style="margin: 5px 0px 0px 0px">&nbsp;시간 </div>
+								</div>	
+				            </td>
+				        </tr>
+				        <tr>
+							<td scope="row" >
+				            	<div class="input-group col-xl-3" style="margin: 0px 0px 0px 0px">
+									<div style="margin: 5px 0px 0px 0px">주당 연장 근로 시간 : </div>
+									<input type="text" class="form-control col-xl-2" style="margin: 0px 0px 0px 10px; width:50px;" value="12">
+									<div style="margin: 5px 0px 0px 0px">&nbsp;시간 </div>
+								</div>	
+				            </td>
+				        </tr>
+					</table>
 					
-						<table class="table table-hover" >
-							<tbody>
-								<tr>
-									<td scope="row" >1일 기준 근로 시간 :
-										<input type="text" class="col-xl-2" style="margin: 0px 0px 0px 10px; width:50px;"> 시간
-						            </td>
-						        </tr>
-						        <tr>
-									<td scope="row" >주당 근로 시간  : 
-										<input type="text" class="col-xl-1" style="margin: 0px 0px 0px 10px; width:50px;"> 시간
-						            </td>
-						        </tr>
-						        <tr>
-									<td scope="row" >주당 연장 근로 시간 : 
-										<input type="text" class="col-xl-1" style="margin: 0px 0px 0px 10px; width:50px;"> 시간
-						            </td>
-						        </tr>
-							</tbody>
-						</table>
-						
-						
 					</div>
 				</div>
 				<div class="card">
 					<div class="card-header">인사 항목 설정</div>
-					<div class="card-body">
-					
-					test
-					
+					<div style="margin: 10px 0px 0px 20px">
+					<p>직위/직책 항목 설정</p>
+					<div>접근 권한 등급을 입력하실 수 있습니다.<p>※ 최고등급(0) - 최하등급(5)</p></div>
+					<div>조직 내에서 사용하는 직위/직책을 자유롭게 입력하실 수 있습니다.<p>※ 관리 이사 및 팀장</p></div>
 					</div>
-					
-				</div>
-				<div class="card">
-					<div class="card-header">고용 형태 항목 설정</div>
 					<div class="card-body">
-					
-					test
-					
-					</div>
-					
-				</div>
+						<div class="input-group">
+							<select id="memberPositionRank" style="width: 90px" class="form-control col-xl-2">
+								<option value="5">LEVEL_5</option>
+								<option value="4">LEVEL_4</option>
+								<option value="3">LEVEL_3</option>
+								<option value="2">LEVEL_2</option>
+								<option value="1">LEVEL_1</option>
+								<option value="0">LEVEL_0</option>
+							</select>
+							<input id="memberPositionName" type="text" class="form-control col-xl-9" placeholder="직위 /직책 입력" >
+					       
+					    <!-- 입력버튼 -->    
+					    <div class="icon-list-wrap">
+					        <div class="icon-list-item">
+					            <a id="memberPositionBtn" class="btn pull-right" href="#" style="padding: 2px 0px 0px 10px; margin: 0px 0px 0px 5px" >
+					                <i class="ik ik-plus-square"></i>
+					            </a>
+					        </div>
+					    </div>
+					        
+						</div>
+						<div style="margin: 20px 0px 0px 0px">
+							<div id="memberPositionInsert" style="margin: 3px 0px 0px 0px">
+							
+								<div class="row layout-wrap" id="layout-wrap">
+									<div class="col-12 list-item" th:each="MemberPosition : ${MemberPosition}">
+										<div class="d-flex flex-grow-1 min-width-zero text-black-50">
+						               		
+						               		<span class="form-control col-11" style="margin: 5px 0px 0px 0px;" th:text="${MemberPosition.memberPositionName}"></span>
+							        		<div class="list-actions col-1" >
+							        			<a href="layout-edit-item.html"><i class="ik ik-edit-2"></i></a>
+							               		<a href="#" class="list-delete"><i class="ik ik-trash-2"></i></a>
+							        		</div>
+							        		
+									    </div>
+									</div>		
+								</div>		
+								
+							</div>
+						</div>
+					</div> <!-- /card-body 끝 -->
+				</div> <!-- /card 끝 -->
 			</div>	
-		</div>			
-		
+		</div> <!-- /class="row" 끝 -->	
+		 
 	</th:block>
 	
 	<th:block layout:fragment="customJquery">
