@@ -11,46 +11,202 @@
 		/* $("input:checkbox:checked").length; 체크된 갯수 확인 */
 		$(document).ready(function() {
 			
+			$.ajax({
+				url : '/admin/adminSecurity/getAdminSecurity',
+				type : 'get',
+				success:function(data) {
+					console.log('성공');
+					console.log(data);
+					
+					$(data).each(function(i, item){
+						$('#resultTable tbody').append('<tr class="tBodyClass">');
+						
+						$('#resultTable tbody').append('<td>'+item.memberLevelTitle+'</td>');
+						$('#resultTable tbody').append('<td>'+item.adminName+'</td>');
+						$('#resultTable tbody').append('<td>'+item.departmentName+'</td>');
+
+						if(item.adminLevelManagement == 'Y') {
+							$('#resultTable tbody').append('<td><input id="checkbox1'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+						} else {
+							$('#resultTable tbody').append('<td><input id="checkbox1'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+						}
+						
+						if(item.adminLevelPersonnel == 'Y') {
+							$('#resultTable tbody').append('<td><input id="checkbox2'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+						} else {
+							$('#resultTable tbody').append('<td><input id="checkbox2'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+						}
+						
+						if(item.adminLevelFinance == 'Y') {
+							$('#resultTable tbody').append('<td><input id="checkbox3'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+						} else {
+							$('#resultTable tbody').append('<td><input id="checkbox3'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+						}
+						if(item.adminLevelWorkflow == 'Y') {
+							$('#resultTable tbody').append('<td><input id="checkbox4'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+						} else {
+							$('#resultTable tbody').append('<td><input id="checkbox4'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+						}
+						if(item.adminLevelData == 'Y') {
+							$('#resultTable tbody').append('<td><input id="checkbox5'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+						} else {
+							$('#resultTable tbody').append('<td><input id="checkbox5'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+						}
+						if(item.adminLevelCooperation == 'Y') {
+							$('#resultTable tbody').append('<td><input id="checkbox6'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+						} else {
+							$('#resultTable tbody').append('<td><input id="checkbox6'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+						}
+						if(item.adminLevelSecurity == 'Y') {
+							$('#resultTable tbody').append('<td><input id="checkbox7'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+						} else {
+							$('#resultTable tbody').append('<td><input id="checkbox7'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+						}
+						if(item.adminLevelApprovalProcess == 'Y') {
+							$('#resultTable tbody').append('<td><input id="checkbox8'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+						} else {
+							$('#resultTable tbody').append('<td><input id="checkbox8'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+						}
+
+						$('#resultTable').append('</tr>');
+					});
+				}
+			});	
 			
+			
+				
 			$('#saveBtn').click(function() { // 저장 버튼 클릭시 
 				console.log('저장버튼 클릭');
-				let count = $('.ttt').length;
+			
+				let count = $('.tBodyClass').length;
 				console.log('count : ' + count);
 				
-				let send_array = new Array();
-				let send_cnt = {};
-				let a = new Array();
-				let b = new Array();
-				let c = new Array();
-				let d = new Array();
-				
-				for (var i = 0; i < count; i++) {
-					let td = $('.ttt['+i+']').children();
-					
-					console.log('a : ' + td.eq(0).val());
-					console.log('b : ' + td.eq(1).val());
-					console.log('c : ' + td.eq(2).val());
-					console.log('d : ' + td.eq(3).val());	
-					
-					a[i] = td.eq(0).val();
-					b[i] = td.eq(1).val();
-					c[i] = td.eq(2).val();
-					d[i] = td.eq(3).val();
-					
-				
-				}
-				console.log('a : ' + a);
-				console.log('b : ' + b);
-				console.log('c : ' + c);
-				console.log('d : ' + d);
-				
-				for (let i = 0; i < count; i++) {
-			        send_cnt = {a:a[i] , b:b[i] , c:c[i] , d:d[i]}
-			        send_array[i] = send_cnt;
-				}
-				console.log('send_array : '+send_array);
-			});
+				let chkbox = new Array();
+				let level = {};
 			
+				for(let i = 0; i<count ; i++){
+					
+					let adminLevelApprovalProcess = $('#checkbox1'+i+'').is(":checked");
+					let adminLevelCooperation = $('#checkbox2'+i+'').is(":checked");
+					let adminLevelData = $('#checkbox3'+i+'').is(":checked");
+					let adminLevelFinance = $('#checkbox4'+i+'').is(":checked");
+					let adminLevelManagement = $('#checkbox5'+i+'').is(":checked");
+					let adminLevelPersonnel = $('#checkbox6'+i+'').is(":checked");
+					let adminLevelSecurity = $('#checkbox7'+i+'').is(":checked");
+					let adminLevelWorkflow = $('#checkbox8'+i+'').is(":checked");
+					
+					if(!adminLevelApprovalProcess) { 
+						adminLevelApprovalProcess = 'N'; 
+					} else { 
+						adminLevelApprovalProcess = 'Y'; 
+					}
+					if(!adminLevelCooperation) { 
+						adminLevelCooperation = 'N'; 
+					} else { 
+						adminLevelCooperation = 'Y'; 
+					}
+					if(!adminLevelData) { 
+						adminLevelData = 'N'; 
+					} else { 
+						adminLevelData = 'Y'; 
+					}
+					if(!adminLevelFinance) { 
+						adminLevelFinance = 'N'; 
+					} else { 
+						adminLevelFinance = 'Y'; 
+					}
+					if(!adminLevelManagement) { 
+						adminLevelManagement = 'N'; 
+					} else { 
+						adminLevelManagement = 'Y'; 
+					}
+					if(!adminLevelPersonnel) { 
+						adminLevelPersonnel = 'N'; 
+					} else { 
+						adminLevelPersonnel = 'Y'; 
+					}
+					if(!adminLevelSecurity) { 
+						adminLevelSecurity = 'N'; 
+					} else { 
+						adminLevelSecurity = 'Y'; 
+					}
+					if(!adminLevelWorkflow) { 
+						adminLevelWorkflow = 'N'; 
+					} else { 
+						adminLevelWorkflow = 'Y'; 
+					}
+					console.log('adminLevelApprovalProcess : '+adminLevelApprovalProcess);
+					console.log('adminLevelCooperation : '+adminLevelCooperation);
+					console.log('adminLevelData : '+adminLevelData);
+					console.log('adminLevelFinance : '+adminLevelFinance);
+					console.log('adminLevelManagement : '+adminLevelManagement);
+					console.log('adminLevelPersonnel : '+adminLevelPersonnel);
+					console.log('adminLevelSecurity : '+adminLevelSecurity);
+					console.log('adminLevelWorkflow : '+adminLevelWorkflow);
+					
+					
+					level = {
+						adminLevelApprovalProcess : adminLevelApprovalProcess,
+						adminLevelCooperation : adminLevelCooperation,
+						adminLevelData :adminLevelData,
+						adminLevelFinance : adminLevelFinance,
+						adminLevelManagement : adminLevelManagement,
+						adminLevelPersonnel : adminLevelPersonnel,
+						adminLevelSecurity : adminLevelSecurity,
+						adminLevelWorkflow : adminLevelWorkflow
+					};
+					console.log('level : '+level.adminLevelApprovalProcess);
+					chkbox[i] = level;
+					console.log('chkbox : '+chkbox);
+					
+				}	//  /for문 끝
+				var jsonData = JSON.stringify(chkbox);
+				jQeury.ajaxSettings.traditional=true;
+				
+				$.ajax({
+					url : '/admin/adminSecurity/addAdminSecurity',
+					type : 'get',
+					data : {jsonData : jsonData},
+					success:function(data) {
+						console.log('성공');
+						console.log(data);
+					}
+					
+				});
+				
+			}); //  /save버튼  닫힘
+				
+		/* 	
+			for(let i = 0; i<count ; i++){
+					let adminLevelApprovalProcess = $('#checkbox'+i+'');
+					let adminLevelCooperation = $('#checkbox'+i+'');
+					let adminLevelData = $('#checkbox'+i+'');
+					let adminLevelFinance = $('#checkbox'+i+'');
+					let adminLevelManagement = $('#checkbox'+i+'');
+					let adminLevelPersonnel = $('#checkbox'+i+'');
+					let adminLevelSecurity = $('#checkbox'+i+'');
+					let adminLevelWorkflow = $('#checkbox'+i+'');
+					
+					for(let i = 0; i<)
+				
+				
+				}
+			
+				let adminLevel = {adminLevelApprovalProcess:adminLevelApprovalProcess,
+								  adminLevelCooperation:adminLevelCooperation,
+								  adminLevelData:adminLevelData,
+								  adminLevelFinance:adminLevelFinance,
+								  adminLevelManagement:adminLevelManagement,
+								  adminLevelPersonnel:adminLevelPersonnel,
+								  adminLevelSecurity:adminLevelSecurity,
+								  adminLevelWorkflow:adminLevelWorkflow
+				}
+				
+				levelList[i] = adminLevel;
+				
+			});
+			 */
+				
 			
 		});
 		</script>
@@ -72,6 +228,8 @@
 				</div>
 			</div>
 		</div>
+		
+		
 		
 	<!-- test -->
 	<!--<div class="border-checkbox-section">
@@ -95,7 +253,8 @@
 	        </div>
 	        <div class="card-body p-0 table-border-style">
 	            <div class="table-responsive">
-	                <table class="table table-hover">
+	                <table class="table table-hover" id="resultTable">
+	                
 	                    <thead>
 	                        <tr>
 				   				<td>분류</td>	
@@ -111,105 +270,18 @@
 				   				<td>보안 관리</td>	
 				   			</tr>
 	                    </thead>
-	                    <tbody th:with="count=1">
-							<th:block ></th:block>
-							<tr th:each="adminLevel : ${adminLevel}" class="ttt">
-								<!-- 관리자계급 -->
-								<td th:text="${adminLevel.memberLevelTitle}"></td>
-								<!-- 관리자이름 -->
-								<td th:text="${adminLevel.adminName}"></td> 
-								<!-- 조직원부서 -->
-								<td th:text="${adminLevel.departmentName}"></td>
-							<!-- <td> 조직 관리 체크박스						
-									<div class="border-checkbox-section">
-			                		<div class="border-checkbox-group border-checkbox-group-primary">
-										<input class="border-checkbox" th:if="${adminLevel.adminLevelManagement == 'Y'}" type="checkbox" id="checkbox1" checked="checked">
-										<input class="border-checkbox" th:if="${adminLevel.adminLevelManagement == 'N'}" type="checkbox" id="checkbox1">
-				                    	<label class="border-checkbox-label" for="checkbox1">Disabled</label>
-			                    	</div> 
-			                    	</div>
-								</td> -->
-								
-								<!-- 조직 관리 체크박스 -->
-								<td>
-									<label class="container">
-										<input th:if="${adminLevel.adminLevelManagement == 'Y'}" type="checkbox" th:id="|checkbox${count}|" checked="checked" th:value="${adminLevel.adminLevelManagement}" name="box[]" th:class="checkSelect">
-										<input th:if="${adminLevel.adminLevelManagement == 'N'}" type="checkbox" th:id="|checkbox${count}|" th:value="${adminLevel.adminLevelManagement}" name="box[]" th:class="checkSelect">
-										<span class="checkmark"></span>
-									</label>				
-								</td>
-								
-								<!-- 인사 관리 체크박스 -->	
-								<td>
-									<label class="container">
-										<input th:if="${adminLevel.adminLevelPersonnel == 'Y'}" type="checkbox" th:id="|checkbox${count}|" checked="checked" th:value="${adminLevel.adminLevelPersonnel}" name="box[]" th:class="checkSelect">
-										<input th:if="${adminLevel.adminLevelPersonnel == 'N'}" type="checkbox" th:id="|checkbox${count}|" th:value="${adminLevel.adminLevelPersonnel}" name="box[]" th:class="checkSelect">
-										<span class="checkmark"></span>
-									</label>									
-								</td>
-								
-								<!-- 재무 관리 체크박스 -->	
-								<td>	
-			                    	<label class="container">
-										<input th:if="${adminLevel.adminLevelFinance == 'Y'}" type="checkbox" id="checkbox3" checked="checked" th:value="${adminLevel.adminLevelFinance}" name="box[]" th:class="checkSelect">
-										<input th:if="${adminLevel.adminLevelFinance == 'N'}" type="checkbox" id="checkbox3" th:value="${adminLevel.adminLevelFinance}" name="box[]" th:class="checkSelect">
-										<span class="checkmark"></span>
-									</label>
-								</td>
-								
-								<!-- 워크플로우 관리 체크박스 -->	
-								<td>
-			                    	 <label class="container">
-										<input th:if="${adminLevel.adminLevelWorkflow == 'Y'}" type="checkbox" id="checkbox4" checked="checked" th:value="${adminLevel.adminLevelWorkflow}" name="box[]" th:class="checkSelect">
-										<input th:if="${adminLevel.adminLevelWorkflow == 'N'}" type="checkbox" id="checkbox4" th:value="${adminLevel.adminLevelWorkflow}" name="box[]" th:class="checkSelect">
-										<span class="checkmark"></span>
-									</label>
-								</td>
-								
-								<!-- 데이터 관리 체크박스 -->	
-								<td>	
-			                    	 <label class="container">
-										<input th:if="${adminLevel.adminLevelData == 'Y'}" type="checkbox" id="checkbox5" checked="checked" th:value="${adminLevel.adminLevelData}" name="box[]" th:class="checkSelect">
-										<input th:if="${adminLevel.adminLevelData == 'N'}" type="checkbox" id="checkbox5" th:value="${adminLevel.adminLevelData}" name="box[]" th:class="checkSelect">
-										<span class="checkmark"></span>
-									</label>
-								</td>
-								
-								<!-- 협업 관리 체크박스 -->	
-								<td>	
-			                    	 <label class="container">
-										<input th:if="${adminLevel.adminLevelCooperation == 'Y'}" type="checkbox" id="checkbox6" checked="checked" th:value="${adminLevel.adminLevelCooperation}" name="box[]" th:class="checkSelect">
-										<input th:if="${adminLevel.adminLevelCooperation == 'N'}" type="checkbox" id="checkbox6" th:value="${adminLevel.adminLevelCooperation}" name="box[]" th:class="checkSelect">
-										<span class="checkmark"></span>
-									</label>
-								</td>
-								
-								<!-- 요금 결제관리 체크박스 -->	
-								<td>
-									<label class="container">
-										<input class="border-checkbox" th:if="${adminLevel.adminLevelSecurity == 'Y'}" type="checkbox" id="checkbox7" checked="checked" th:value="${adminLevel.adminLevelSecurity}" name="box[]" th:class="checkSelect">
-									<input class="border-checkbox" th:if="${adminLevel.adminLevelSecurity == 'N'}" type="checkbox" id="checkbox7" th:value="${adminLevel.adminLevelSecurity}" name="box[]" th:class="checkSelect">
-										<span class="checkmark"></span>
-									</label>
-								</td>
-								
-								<!-- 보안 관리 체크박스 -->	
-								<td>
-									<label class="container">
-										<input class="border-checkbox" th:if="${adminLevel.adminLevelApprovalProcess == 'Y'}" type="checkbox" id="checkbox8" checked="checked" th:value="${adminLevel.adminLevelApprovalProcess}" name="box[]" th:class="checkSelect">
-										<input class="border-checkbox" th:if="${adminLevel.adminLevelApprovalProcess == 'N'}" type="checkbox" id="checkbox8" th:value="${adminLevel.adminLevelApprovalProcess}" name="box[]" th:class="checkSelect">
-										<span class="checkmark"></span>
-									</label>
-								</td>
-								<p th:with="${count}=${count+count}"></p>							
-							</tr>
+	                    
+	                    <tbody>
+							<!-- 값이 뿌려지는 곳 -->
 	                    </tbody>
+	                    
 	                </table>
 	            </div>
 	        </div>
 	    </div>
 		</div>
 	</div>
+	
 		
 	</th:block>
 	
