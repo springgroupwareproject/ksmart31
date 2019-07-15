@@ -1,6 +1,5 @@
 package ksmart31.team02.document.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ksmart31.team01.member.domain.Member;
 import ksmart31.team02.document.domain.DocumentForm;
 import ksmart31.team02.document.service.DocumentFormService;
-import ksmart31.team03.leave.domain.LeaveCategory;
-import ksmart31.team03.leave.domain.LeaveDetail;
 
 @RestController
 public class DocumentFormRestController {

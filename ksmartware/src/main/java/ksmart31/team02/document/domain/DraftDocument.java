@@ -20,6 +20,8 @@ public class DraftDocument {
 	private String draftDocumentFileExt;
 	private String draftDocumentFileType;
 	private String draftDocumentFileUrl;
+	private int documentOpinionCount;
+	private int documentAttatchFileCount;
 	public String getDraftDocumentCode() {
 		return draftDocumentCode;
 	}
@@ -134,6 +136,18 @@ public class DraftDocument {
 	public void setDraftDocumentFileUrl(String draftDocumentFileUrl) {
 		this.draftDocumentFileUrl = draftDocumentFileUrl;
 	}
+	public int getDocumentOpinionCount() {
+		return documentOpinionCount;
+	}
+	public void setDocumentOpinionCount(int documentOpinionCount) {
+		this.documentOpinionCount = documentOpinionCount;
+	}
+	public int getDocumentAttachFileCount() {
+		return documentAttatchFileCount;
+	}
+	public void setDocumentAttachFileCount(int documentAttachFileCount) {
+		this.documentAttatchFileCount = documentAttachFileCount;
+	}
 	@Override
 	public String toString() {
 		return "DraftDocument [draftDocumentCode=" + draftDocumentCode + ", documentFormCode=" + documentFormCode
@@ -148,7 +162,8 @@ public class DraftDocument {
 				+ draftDocumentMemberPositionName + ", draftDocumentFileOriginName=" + draftDocumentFileOriginName
 				+ ", draftDocumentFileSaveName=" + draftDocumentFileSaveName + ", draftDocumentFileSize="
 				+ draftDocumentFileSize + ", draftDocumentFileExt=" + draftDocumentFileExt + ", draftDocumentFileType="
-				+ draftDocumentFileType + ", draftDocumentFileUrl=" + draftDocumentFileUrl + "]";
+				+ draftDocumentFileType + ", draftDocumentFileUrl=" + draftDocumentFileUrl + ", documentOpinionCount="
+				+ documentOpinionCount + ", documentAttachFileCount=" + documentAttatchFileCount + "]";
 	}
-	
+
 }
