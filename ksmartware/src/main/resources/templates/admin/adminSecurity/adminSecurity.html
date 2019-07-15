@@ -10,7 +10,10 @@
 		<script>
 		/* $("input:checkbox:checked").length; 체크된 갯수 확인 */
 		$(document).ready(function() {
-			$('#checkBoxBtn').click(function() {
+			
+			
+			$('#saveBtn').click(function() { // 저장 버튼 클릭시 
+				console.log('저장버튼 클릭');
 				let count = $('.ttt').length;
 				console.log('count : ' + count);
 				
@@ -23,10 +26,18 @@
 				
 				for (var i = 0; i < count; i++) {
 					let td = $('.ttt['+i+']').children();
+					
+					console.log('a : ' + td.eq(0).val());
+					console.log('b : ' + td.eq(1).val());
+					console.log('c : ' + td.eq(2).val());
+					console.log('d : ' + td.eq(3).val());	
+					
 					a[i] = td.eq(0).val();
 					b[i] = td.eq(1).val();
 					c[i] = td.eq(2).val();
 					d[i] = td.eq(3).val();
+					
+				
 				}
 				console.log('a : ' + a);
 				console.log('b : ' + b);
@@ -39,6 +50,8 @@
 				}
 				console.log('send_array : '+send_array);
 			});
+			
+			
 		});
 		</script>
 	</th:block>
@@ -77,7 +90,7 @@
 	            <h3>관리자 권한 관리</h3>
 	       		<span>이곳은 <code>관리자권한</code>을 부여관리 하는곳입니다.</span>
 	            <div align="right">
-					<button id="checkBoxBtn" style="padding: 5px 10px 5px 10px; margin: 0px 0px 0px 0px;">저장</button>
+					<button id="saveBtn" style="padding: 5px 10px 5px 10px; margin: 0px 0px 0px 0px;">저장</button>
 		        </div>    
 	        </div>
 	        <div class="card-body p-0 table-border-style">
@@ -98,7 +111,8 @@
 				   				<td>보안 관리</td>	
 				   			</tr>
 	                    </thead>
-	                    <tbody>
+	                    <tbody th:with="count=1">
+							<th:block ></th:block>
 							<tr th:each="adminLevel : ${adminLevel}" class="ttt">
 								<!-- 관리자계급 -->
 								<td th:text="${adminLevel.memberLevelTitle}"></td>
@@ -119,8 +133,8 @@
 								<!-- 조직 관리 체크박스 -->
 								<td>
 									<label class="container">
-										<input th:if="${adminLevel.adminLevelManagement == 'Y'}" type="checkbox" id="checkbox1" checked="checked" th:value="${adminLevel.adminLevelManagement}" name="box[]" th:class="checkSelect">
-										<input th:if="${adminLevel.adminLevelManagement == 'N'}" type="checkbox" id="checkbox1" th:value="${adminLevel.adminLevelManagement}" name="box[]" th:class="checkSelect">
+										<input th:if="${adminLevel.adminLevelManagement == 'Y'}" type="checkbox" th:id="|checkbox${count}|" checked="checked" th:value="${adminLevel.adminLevelManagement}" name="box[]" th:class="checkSelect">
+										<input th:if="${adminLevel.adminLevelManagement == 'N'}" type="checkbox" th:id="|checkbox${count}|" th:value="${adminLevel.adminLevelManagement}" name="box[]" th:class="checkSelect">
 										<span class="checkmark"></span>
 									</label>				
 								</td>
@@ -128,8 +142,8 @@
 								<!-- 인사 관리 체크박스 -->	
 								<td>
 									<label class="container">
-										<input th:if="${adminLevel.adminLevelPersonnel == 'Y'}" type="checkbox" id="checkbox2" checked="checked" th:value="${adminLevel.adminLevelPersonnel}" name="box[]" th:class="checkSelect">
-										<input th:if="${adminLevel.adminLevelPersonnel == 'N'}" type="checkbox" id="checkbox2" th:value="${adminLevel.adminLevelPersonnel}" name="box[]" th:class="checkSelect">
+										<input th:if="${adminLevel.adminLevelPersonnel == 'Y'}" type="checkbox" th:id="|checkbox${count}|" checked="checked" th:value="${adminLevel.adminLevelPersonnel}" name="box[]" th:class="checkSelect">
+										<input th:if="${adminLevel.adminLevelPersonnel == 'N'}" type="checkbox" th:id="|checkbox${count}|" th:value="${adminLevel.adminLevelPersonnel}" name="box[]" th:class="checkSelect">
 										<span class="checkmark"></span>
 									</label>									
 								</td>
@@ -186,7 +200,8 @@
 										<input class="border-checkbox" th:if="${adminLevel.adminLevelApprovalProcess == 'N'}" type="checkbox" id="checkbox8" th:value="${adminLevel.adminLevelApprovalProcess}" name="box[]" th:class="checkSelect">
 										<span class="checkmark"></span>
 									</label>
-								</td>							
+								</td>
+								<p th:with="${count}=${count+count}"></p>							
 							</tr>
 	                    </tbody>
 	                </table>
