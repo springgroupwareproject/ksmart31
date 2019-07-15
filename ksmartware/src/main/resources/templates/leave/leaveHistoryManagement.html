@@ -248,7 +248,7 @@
 							$(data).each(function(i, item){
 								nextCategory = item.leaveCategorySort;
 								// 휴가 종류 값 비교 
-								if(preCategory != nextCategory){ // 휴가 종류 값이 같지 않을 때 비활성화된 채로 목록에 추가
+								if(preCategory != nextCategory){ // 휴가 종류 값이 같지 않을 때 라벨 값으로 목록에 추가
 									$('#leaveCategorySortForUsed').append('<optgroup label="'+item.leaveCategorySort+'">');
 									preCategory = nextCategory;
 								}
@@ -337,9 +337,9 @@
 			let usedDayAndHourCheck = false;
 			
 			// 부여 - 휴가 종류 선택
-			$(document).on('click','#leaveCategorySortForGrant',function(){
-				console.log('나와라');
+			$(document).on('change','#leaveCategorySortForGrant',function(){
 				$('#leaveCategorySortForGrantCheck').empty();
+				$('#leaveCategorySortForUsedCheck').empty();
 				if($('#leaveCategorySortForGrant').val() == ''){
 					$('#leaveCategorySortForGrantCheck').text('종류를 선택하세요.');
 					leaveCategorySortForGrantCheck = false;
@@ -348,8 +348,9 @@
 				}
 			});
 			// 차감 - 휴가 종류 선택
-			$(document).on('click','#leaveCategorySortForUsed',function(){
+			$(document).on('change','#leaveCategorySortForUsed',function(){
 				$('#leaveCategorySortForUsedCheck').empty();
+				$('#leaveCategorySortForGrantCheck').empty();
 				if($('#leaveCategorySortForUsed').val() == ''){
 					$('#leaveCategorySortForUsedCheck').text('종류를 선택하세요.');
 					leaveCategorySortForUsedCheck = false;
@@ -458,7 +459,6 @@
 					// 조직원 선택 확인
 					}else if(memberId == ''){
 						$('#memberCheck').text("조직원을 선택하세요.");
-						
 					}else{
 						console.log('유효성 검사 완료');
 						// 비동기 요청
@@ -494,7 +494,7 @@
 					console.log('leaveUsedEndDay : '+leaveUsedEndDay);
 					console.log('leaveUsedDay : '+leaveUsedDay);
 					console.log('leaveUsedHour : '+leaveUsedHour);
-					// ', ' 두 번째 구분자 전까지 문자열을 자른다 
+					// ', ' 두 번째 구분자 전까지 문자열을 구분자 단위로 자른다 
 					let sort = categorySort.split(', ', 2);	// 기존 : '연차 유급 휴가, 연차 휴가, leave_detail_code_3'
 					// 변수 초기화								// 변경 : '연차 유급 휴가', '연차 휴가'
 					let leaveCategorySort;
@@ -505,9 +505,11 @@
 					}
 					console.log('leaveCategorySort : '+leaveCategorySort);
 					console.log('leaveDetailSort : '+leaveDetailSort);
+					// 예) 2019-07-11
 					let startDay = $('#usedStartDay').val();
 					let endDay = $('#usedEndDay').val();
-					// 정규식 표현을 활용한 replaceAll 기능
+					// 정규식 표현을 활용한 replaceAll 기능으로 대소문자 구분 없이 모든 문자열에 '-' -> '' 변경
+					// 예) 20190711
 					let usedStartDay = startDay.replace(/-/gi, '');
 					let usedEndDay = endDay.replace(/-/gi, '');
 					console.log('usedStartDay : '+usedStartDay);
@@ -572,14 +574,18 @@
 					}
 				}
 			});
-			
+			// 상세 휴가 모달에서 휴가 종류 전체 선택 트리거
 			$('#categoryList').val('').trigger('change');
+			// 부여 및 차감 모달에서 부여 선택 트리거
 			$('#grantAndUsed').val('부여').trigger('change');
-			$('#fullView').trigger('click');			
+			// 조직도에서 전체 클릭 트리거
+			$('#fullView').trigger('click');
+			
 			// 달력 api 호출 함수
 			$('#grantDate').datepicker();
 			$('#usedStartDay').datepicker();
 			$('#usedEndDay').datepicker();
+			
 			// 달력 입력 값 형식 설정 
 			$.datepicker.setDefaults({
 				dateFormat: 'yy-mm-dd'   
@@ -624,7 +630,7 @@
 					</li>
 					<li class="nav-item" th:each="recursiveList: ${recursiveList}">
 						<a class="nav-link departmentNameButton" href="#" th:text="${recursiveList.departmentName}" th:value="${recursiveList.departmentName}"></a>
-					</li>	
+					</li>
 				</ul>
 			</div>
 		</div>
