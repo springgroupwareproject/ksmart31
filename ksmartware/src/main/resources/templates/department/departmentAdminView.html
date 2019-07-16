@@ -538,7 +538,6 @@
 						<span class="card-body" th:each="departmentJoinMemberList:${departmentJoinMemberList}">
 							<!-- 클릭시 각 조직원 인사 정보로 넘어간다(예정) -->
 							<a class="departmentJoinMemberByMemberIdButton" href="#" th:value="${departmentJoinMemberList.memberId}"><span th:text="${departmentJoinMemberList.memberName}" data-toggle="modal" data-target="#personnelModal"></span></a>								
-							<span th:text="${departmentJoinMemberList.memberName}"></span>
 							<span th:text="${departmentJoinMemberList.memberLevelTitle}"></span> 
 							<br>
 							<span th:text="${departmentJoinMemberList.departmentCategoryName}"></span>

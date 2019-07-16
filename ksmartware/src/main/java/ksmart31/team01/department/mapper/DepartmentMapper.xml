@@ -24,6 +24,7 @@
 	<resultMap type="ksmart31.team01.department.domain.DepartmentJoinMember" id="selectDepartmentJoinMemberList">
 		<result column="member_name" property="memberName"/>
 		<result column="member_level_title" property="memberLevelTitle"/>
+		<result column="department_name" property="departmentName"/>
 		<result column="department_category_name" property="departmentCategoryName"/>
 		<result column="department_division_name" property="departmentDivisionName"/>
 		<result column="department_section_name" property="departmentSectionName"/>
@@ -42,6 +43,7 @@
 		</if>
 			m.member_name
 			,m.member_level_title
+			,m.department_name
 			,m.department_category_name
 			,m.department_division_name
 			,m.department_section_name

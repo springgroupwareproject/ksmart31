@@ -4,6 +4,7 @@ public class DepartmentJoinMember {
 
 	private String memberName;
 	private String memberLevelTitle;
+	private String departmentName;
 	private String departmentCategoryName;
 	private String departmentDivisionName;
 	private String departmentSectionName;
@@ -25,6 +26,12 @@ public class DepartmentJoinMember {
 	}
 	public void setMemberLevelTitle(String memberLevelTitle) {
 		this.memberLevelTitle = memberLevelTitle;
+	}
+	public String getDepartmentName() {
+		return departmentName;
+	}
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
 	}
 	public String getDepartmentCategoryName() {
 		return departmentCategoryName;
@@ -89,12 +96,13 @@ public class DepartmentJoinMember {
 	@Override
 	public String toString() {
 		return "DepartmentJoinMember [memberName=" + memberName + ", memberLevelTitle=" + memberLevelTitle
-				+ ", departmentCategoryName=" + departmentCategoryName + ", departmentDivisionName="
-				+ departmentDivisionName + ", departmentSectionName=" + departmentSectionName + ", memberPositionName="
-				+ memberPositionName + ", memberId=" + memberId + ", memberPhone=" + memberPhone + ", memberMobile="
-				+ memberMobile + ", memberJoinDay=" + memberJoinDay + ", memberAddress=" + memberAddress
-				+ ", departmentNumber=" + departmentNumber + "]";
+				+ ", departmentName=" + departmentName + ", departmentCategoryName=" + departmentCategoryName
+				+ ", departmentDivisionName=" + departmentDivisionName + ", departmentSectionName="
+				+ departmentSectionName + ", memberPositionName=" + memberPositionName + ", memberId=" + memberId
+				+ ", memberPhone=" + memberPhone + ", memberMobile=" + memberMobile + ", memberJoinDay=" + memberJoinDay
+				+ ", memberAddress=" + memberAddress + ", departmentNumber=" + departmentNumber + "]";
 	}
+	
 	
 	
 	
