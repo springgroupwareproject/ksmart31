@@ -2,6 +2,33 @@
  
 <mapper namespace="ksmart31.team01.admin.mapper.AdminSecurityMapper">
 
+	<update id="updateAdminLevel" parameterType="java.util.Map">
+		
+		<foreach collection="adminLevelList" item="item">
+		
+			UPDATE
+				admin_level		
+			SET
+				admin_level_management = #{item.adminLevelManagement},
+				admin_level_personnel = #{item.adminLevelPersonnel},
+				admin_level_finance = #{item.adminLevelFinance},
+				admin_level_workflow = #{item.adminLevelWorkflow},
+				admin_level_data = #{item.adminLevelData},
+				admin_level_cooperation = #{item.adminLevelCooperation},
+				admin_level_security = #{item.adminLevelSecurity},
+				admin_level_approval_process = #{item.adminLevelApprovalProcess},
+				personnel_standard_final_modifier_id = #{member.memberId},
+				personnel_standard_final_modifier_name = #{member.memberName},
+				personnel_standard_final_modify_date = NOW()
+			WHERE
+				admin_id = #{item.adminId};
+				
+		</foreach>		
+	</update>
+
+
+
+	<!-- 로그인시 세션에 담기는 값 -->
 	<resultMap type="ksmart31.team01.member.domain.AdminLevel" id="loginSecurity">
 				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
 		<result column="admin_level_management" property="adminLevelManagement"/>	<!-- 조직관리 -->
@@ -29,8 +56,12 @@
 			admin_id = #{memberId}
 	</select>
 	
+	
+	
+	<!-- 보안관리 권한부여 페이지 출력값 -->
 	<resultMap type="ksmart31.team01.member.domain.AdminLevel" id="adminLevel">
 				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+		<result column="admin_id" property="adminId"/>
 		<result column="member_level_title" property="memberLevelTitle"/>
 		<result column="admin_name" property="adminName"/>
 		<result column="department_name" property="departmentName"/>
@@ -45,6 +76,7 @@
 	</resultMap>
 	<select id="adminLevel" resultMap="adminLevel" >
 		SELECT 
+			admin_id,
 			member_level_title,
 			admin_name,
 			department_name,

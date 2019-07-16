@@ -19,56 +19,56 @@
 					console.log(data);
 					
 					$(data).each(function(i, item){
-						$('#resultTable tbody').append('<tr class="tBodyClass">');
+						let contents = "";
 						
-						$('#resultTable tbody').append('<td>'+item.memberLevelTitle+'</td>');
-						$('#resultTable tbody').append('<td>'+item.adminName+'</td>');
-						$('#resultTable tbody').append('<td>'+item.departmentName+'</td>');
-
+						contents += '<tr class="tBodyClass">';
+						contents += '<input type="hidden" id="adminId' + i + '" value="' + item.adminId + '">';
+						contents += '<td> <input type="hidden" id="memberLevelTitle' + i + '" value="' + item.memberLevelTitle + '">'+item.memberLevelTitle + '</td>';
+						contents += '<td> <input type="hidden" id="adminName' + i + '" value="' + item.adminName+'">' + item.adminName + '</td>';
+						contents += '<td> <input type="hidden" id="departmentName' + i + '" value="' + item.departmentName + '">'+item.departmentName + '</td>';
+						
 						if(item.adminLevelManagement == 'Y') {
-							$('#resultTable tbody').append('<td><input id="checkbox1'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+							contents += '<td><input id="adminLevelManagement'+i+'" name="'+i+'" type="checkbox" checked="checked"> </td>';
 						} else {
-							$('#resultTable tbody').append('<td><input id="checkbox1'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+							contents += '<td><input id="adminLevelManagement'+i+'" name="'+i+'" type="checkbox"></td>';
 						}
-						
 						if(item.adminLevelPersonnel == 'Y') {
-							$('#resultTable tbody').append('<td><input id="checkbox2'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+							contents += '<td><input id="adminLevelPersonnel'+i+'" name="'+i+'" type="checkbox" checked="checked"> </td>';
 						} else {
-							$('#resultTable tbody').append('<td><input id="checkbox2'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+							contents += '<td><input id="adminLevelPersonnel'+i+'" name="'+i+'" type="checkbox"></td>';
 						}
-						
 						if(item.adminLevelFinance == 'Y') {
-							$('#resultTable tbody').append('<td><input id="checkbox3'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+							contents += '<td><input id="adminLevelFinance'+i+'" name="'+i+'" type="checkbox" checked="checked"> </td>';
 						} else {
-							$('#resultTable tbody').append('<td><input id="checkbox3'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+							contents += '<td><input id="adminLevelFinance'+i+'" name="'+i+'" type="checkbox"></td>';
 						}
 						if(item.adminLevelWorkflow == 'Y') {
-							$('#resultTable tbody').append('<td><input id="checkbox4'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+							contents += '<td><input id="adminLevelWorkflow'+i+'" name="'+i+'" type="checkbox" checked="checked"> </td>';
 						} else {
-							$('#resultTable tbody').append('<td><input id="checkbox4'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+							contents += '<td><input id="adminLevelWorkflow'+i+'" name="'+i+'" type="checkbox"></td>';
 						}
 						if(item.adminLevelData == 'Y') {
-							$('#resultTable tbody').append('<td><input id="checkbox5'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+							contents += '<td><input id="adminLevelData'+i+'" name="'+i+'" type="checkbox" checked="checked"> </td>';
 						} else {
-							$('#resultTable tbody').append('<td><input id="checkbox5'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+							contents += '<td><input id="adminLevelData'+i+'" name="'+i+'" type="checkbox"></td>';
 						}
 						if(item.adminLevelCooperation == 'Y') {
-							$('#resultTable tbody').append('<td><input id="checkbox6'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+							contents += '<td><input id="adminLevelCooperation'+i+'" name="'+i+'" type="checkbox" checked="checked"> </td>';
 						} else {
-							$('#resultTable tbody').append('<td><input id="checkbox6'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+							contents += '<td><input id="adminLevelCooperation'+i+'" name="'+i+'" type="checkbox"></td>';
 						}
 						if(item.adminLevelSecurity == 'Y') {
-							$('#resultTable tbody').append('<td><input id="checkbox7'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+							contents += '<td><input id="adminLevelSecurity'+i+'" name="'+i+'" type="checkbox" checked="checked"> </td>';
 						} else {
-							$('#resultTable tbody').append('<td><input id="checkbox7'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+							contents += '<td><input id="adminLevelSecurity'+i+'" name="'+i+'" type="checkbox"></td>';
 						}
 						if(item.adminLevelApprovalProcess == 'Y') {
-							$('#resultTable tbody').append('<td><input id="checkbox8'+i+'" name="checkname'+i+'" type="checkbox" checked="checked" </td>');
+							contents += '<td><input id="adminLevelApprovalProcess'+i+'" name="'+i+'" type="checkbox" checked="checked"> </td>';
 						} else {
-							$('#resultTable tbody').append('<td><input id="checkbox8'+i+'" name="checkname'+i+'" type="checkbox"</td>');
+							contents += '<td><input id="adminLevelApprovalProcess'+i+'" name="'+i+'" type="checkbox"></td>';
 						}
-
-						$('#resultTable').append('</tr>');
+						contents += '</tr>';
+						$('#resultTable').append(contents);
 					});
 				}
 			});	
@@ -78,43 +78,29 @@
 			$('#saveBtn').click(function() { // 저장 버튼 클릭시 
 				console.log('저장버튼 클릭');
 			
-				let count = $('.tBodyClass').length;
+				let count = $('.tBodyClass').length;  // 뿌려준 데이터의 개수  반복횟수를 정하기위해
 				console.log('count : ' + count);
 				
-				let chkbox = new Array();
-				let level = {};
+				let chkbox = new Array(); // [];
+				let level = new Object(); // {};
 			
 				for(let i = 0; i<count ; i++){
 					
-					let adminLevelApprovalProcess = $('#checkbox1'+i+'').is(":checked");
-					let adminLevelCooperation = $('#checkbox2'+i+'').is(":checked");
-					let adminLevelData = $('#checkbox3'+i+'').is(":checked");
-					let adminLevelFinance = $('#checkbox4'+i+'').is(":checked");
-					let adminLevelManagement = $('#checkbox5'+i+'').is(":checked");
-					let adminLevelPersonnel = $('#checkbox6'+i+'').is(":checked");
-					let adminLevelSecurity = $('#checkbox7'+i+'').is(":checked");
-					let adminLevelWorkflow = $('#checkbox8'+i+'').is(":checked");
+					let adminId = $('#adminId' + i + '').val();
 					
-					if(!adminLevelApprovalProcess) { 
-						adminLevelApprovalProcess = 'N'; 
-					} else { 
-						adminLevelApprovalProcess = 'Y'; 
-					}
-					if(!adminLevelCooperation) { 
-						adminLevelCooperation = 'N'; 
-					} else { 
-						adminLevelCooperation = 'Y'; 
-					}
-					if(!adminLevelData) { 
-						adminLevelData = 'N'; 
-					} else { 
-						adminLevelData = 'Y'; 
-					}
-					if(!adminLevelFinance) { 
-						adminLevelFinance = 'N'; 
-					} else { 
-						adminLevelFinance = 'Y'; 
-					}
+					let departmentName = $('#departmentName' + i + '').val();
+					let	adminName = $('#adminName' + i + '').val();
+					let	memberLevelTitle = $('#memberLevelTitle' + i + '').val();
+					
+					let adminLevelManagement = $('#adminLevelManagement'+i+'').is(":checked");
+					let adminLevelPersonnel = $('#adminLevelPersonnel'+i+'').is(":checked");
+					let adminLevelFinance = $('#adminLevelFinance'+i+'').is(":checked");
+					let adminLevelWorkflow = $('#adminLevelWorkflow'+i+'').is(":checked");
+					let adminLevelData = $('#adminLevelData'+i+'').is(":checked");
+					let adminLevelCooperation = $('#adminLevelCooperation'+i+'').is(":checked");
+					let adminLevelSecurity = $('#adminLevelSecurity'+i+'').is(":checked");
+					let adminLevelApprovalProcess = $('#adminLevelApprovalProcess'+i+'').is(":checked");
+					
 					if(!adminLevelManagement) { 
 						adminLevelManagement = 'N'; 
 					} else { 
@@ -125,55 +111,86 @@
 					} else { 
 						adminLevelPersonnel = 'Y'; 
 					}
-					if(!adminLevelSecurity) { 
-						adminLevelSecurity = 'N'; 
+					if(!adminLevelFinance) { 
+						adminLevelFinance = 'N'; 
 					} else { 
-						adminLevelSecurity = 'Y'; 
+						adminLevelFinance = 'Y'; 
 					}
 					if(!adminLevelWorkflow) { 
 						adminLevelWorkflow = 'N'; 
 					} else { 
 						adminLevelWorkflow = 'Y'; 
 					}
-					console.log('adminLevelApprovalProcess : '+adminLevelApprovalProcess);
-					console.log('adminLevelCooperation : '+adminLevelCooperation);
-					console.log('adminLevelData : '+adminLevelData);
-					console.log('adminLevelFinance : '+adminLevelFinance);
+					if(!adminLevelData) { 
+						adminLevelData = 'N'; 
+					} else { 
+						adminLevelData = 'Y'; 
+					}
+					if(!adminLevelCooperation) { 
+						adminLevelCooperation = 'N'; 
+					} else { 
+						adminLevelCooperation = 'Y'; 
+					}
+					if(!adminLevelSecurity) { 
+						adminLevelSecurity = 'N'; 
+					} else { 
+						adminLevelSecurity = 'Y'; 
+					}
+					if(!adminLevelApprovalProcess) { 
+						adminLevelApprovalProcess = 'N'; 
+					} else { 
+						adminLevelApprovalProcess = 'Y'; 
+					}
+	
+					console.log('adminId : '+adminId);
+					console.log('departmentName : '+departmentName);
+					console.log('adminName : '+adminName);
+					console.log('memberLevelTitle : '+memberLevelTitle);
+					
 					console.log('adminLevelManagement : '+adminLevelManagement);
 					console.log('adminLevelPersonnel : '+adminLevelPersonnel);
-					console.log('adminLevelSecurity : '+adminLevelSecurity);
+					console.log('adminLevelFinance : '+adminLevelFinance);
 					console.log('adminLevelWorkflow : '+adminLevelWorkflow);
+					console.log('adminLevelData : '+adminLevelData);
+					console.log('adminLevelCooperation : '+adminLevelCooperation);
+					console.log('adminLevelSecurity : '+adminLevelSecurity);
+					console.log('adminLevelApprovalProcess : '+adminLevelApprovalProcess);
 					
-					
-					level = {
-						adminLevelApprovalProcess : adminLevelApprovalProcess,
-						adminLevelCooperation : adminLevelCooperation,
-						adminLevelData :adminLevelData,
-						adminLevelFinance : adminLevelFinance,
+					adminLevel = {
+						adminId : adminId,
+						departmentName : departmentName,
+						adminName : adminName,
+						memberLevelTitle : memberLevelTitle,
 						adminLevelManagement : adminLevelManagement,
 						adminLevelPersonnel : adminLevelPersonnel,
+						adminLevelFinance :adminLevelFinance,
+						adminLevelWorkflow : adminLevelWorkflow,
+						adminLevelData : adminLevelData,
+						adminLevelCooperation : adminLevelCooperation,
 						adminLevelSecurity : adminLevelSecurity,
-						adminLevelWorkflow : adminLevelWorkflow
+						adminLevelApprovalProcess : adminLevelApprovalProcess
 					};
-					console.log('level : '+level.adminLevelApprovalProcess);
-					chkbox[i] = level;
+
+					
+					chkbox.push(adminLevel);
 					console.log('chkbox : '+chkbox);
 					
 				}	//  /for문 끝
-				var jsonData = JSON.stringify(chkbox);
-				jQeury.ajaxSettings.traditional=true;
 				
+				
+			 	
 				$.ajax({
-					url : '/admin/adminSecurity/addAdminSecurity',
-					type : 'get',
-					data : {jsonData : jsonData},
+					url : '/admin/adminSecurity/modifyAdminSecurity',
+					type : 'post',
+					data : {json : JSON.stringify(chkbox)},
 					success:function(data) {
 						console.log('성공');
 						console.log(data);
+						location.reload(); // 새로고침
 					}
 					
 				});
-				
+ 				
 			}); //  /save버튼  닫힘
 				
 		/* 	
@@ -222,7 +239,7 @@
 						<div class="d-inline">
 							<!-- 증명서 발급 - 증명서 신청 -->
 							<h5>보안 관리 - 권한 설정</h5>
-							<span>관리자에게 접근 권한을 부여합니다.</span>
+							<span>관리자에게 랜덤 권한을 부여합니다.</span>
 						</div>
 					</div>
 				</div>
