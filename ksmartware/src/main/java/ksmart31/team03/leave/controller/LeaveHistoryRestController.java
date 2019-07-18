@@ -24,10 +24,17 @@ public class LeaveHistoryRestController {
 	@Autowired
 	private LeaveHistoryManagementService leaveHistoryManagementService;
 	
+	// 휴가 차감
+	@PostMapping("/leave/leaveUsed")
+	public void addLeaveUsed(LeaveUsed leaveUsed) {
+		System.out.println("LeaveHistoryRestController.addLeaveGrant leaveUsed : "+leaveUsed);
+		leaveHistoryManagementService.addLeaveUsed(leaveUsed);
+	}
 	// 휴가 부여
 	@PostMapping("/leave/leaveGrant")
 	public void addLeaveGrant(LeaveGrant leaveGrant) {
 		System.out.println("LeaveHistoryRestController.addLeaveGrant leaveGrant : "+leaveGrant);
+		leaveHistoryManagementService.addLeaveGrant(leaveGrant);
 	}
 	// 특정 부서에 해당하는 조직원 정보 조회
 	@GetMapping("/leave/departmentJoinMember")
