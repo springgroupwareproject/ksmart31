@@ -1,26 +1,22 @@
 package ksmart31.team01.admin.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import ksmart31.team01.admin.service.AdminSecurityService;
-import ksmart31.team01.member.domain.AdminLevel;
 import ksmart31.team01.member.domain.Member;
 
 @Controller
 public class AdminSecurityController {
 		
-	@Autowired AdminSecurityService AdminSecurityService;
+	@Autowired AdminSecurityService adminSecurityService;
 	
 	/* 관리자 권한부여 매서드 */
 	@GetMapping("/admin/adminSecurity/adminSecurity")
-	public String adminLevel(HttpSession session, Model model) {
+	public String adminLevel(HttpSession session) {
 		System.out.println("관리자별 권한부여 실행");
 		
 		System.out.println("맴버객체생성시작");
@@ -39,10 +35,6 @@ public class AdminSecurityController {
 			if(memberLevelTitle.equals("슈퍼관리자")){
 				System.out.println("슈퍼관리자님을 확인하였습니다. 어서오세요.");
 			}
-			
-			List<AdminLevel> adminLevel = AdminSecurityService.adminLevel();
-			model.addAttribute("adminLevel", adminLevel);
-			
 				return "admin/adminSecurity/adminSecurity";
 		}			
 		

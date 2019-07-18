@@ -1,6 +1,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ksmart31.team01.member.mapper.MemberMyEducationMapper">
 
+	<delete id="deleteMyEducation" parameterType="String">
+		DELETE 
+		FROM 
+			member_education
+		WHERE 
+			member_education_code = #{codeNo}
+	</delete>
+
 	<insert id="addmyEducation" parameterType="java.util.Map">
 		INSERT INTO member_education (
 			member_education_code,
@@ -47,6 +55,8 @@
 	<!-- myProfile 개인정보 -->
 	<resultMap type="ksmart31.team01.member.domain.MemberEducation" id="myEducation">	
 				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+		<result column="member_education_code" property="memberEducationCode"/>
+		<result column="member_education_institution_standard" property="memberEducationInstitutionStandard"/>
 		<result column="member_education_start_day" property="memberEducationStartDay"/>
 		<result column="member_education_end_day" property="memberEducationEndDay"/>
 		<result column="member_education_institution" property="memberEducationInstitution"/>
@@ -56,11 +66,14 @@
 		<result column="member_education_major" property="memberEducationMajor"/>
 		<result column="member_education_grade" property="memberEducationGrade"/>
 		<result column="member_education_total_score" property="memberEducationTotalScore"/>
+		<result column="member_education_desc" property="memberEducationDesc"/>
 		<result column="member_files_origin_name" property="memberFilesOriginName"/>
 		<result column="member_files_save_name" property="memberFilesSaveName"/>
 	</resultMap>
 	<select id="myEducation" resultMap="myEducation" parameterType="java.util.Map">
 		SELECT 
+			member_education_code,
+			member_education_institution_standard,
 			member_education_start_day,
 			member_education_end_day,
 			member_education_institution,
@@ -70,6 +83,7 @@
 			member_education_major,
 			member_education_grade,
 			member_education_total_score,
+			member_education_desc,
 			member_files_origin_name,
 			member_files_save_name
 		FROM 
