@@ -11,7 +11,7 @@ import ksmart31.team02lsj.document.service.DocumentManagementService;
 public class DocumentMangementRestController {
 	@Autowired
 	private DocumentManagementService documentManagementService;
-	//관리자 문서삭제(비동기) - 기안문서 삭제시 FK로 연결되어있는 테이블이 많아 수정중
+	//관리자 문서삭제(비동기)
 	@PostMapping("/documentManagement/delete")
 	public  void removeDocument(@RequestParam(value = "ck[]")String[] ckDocument) {
 		System.out.println("(C) removeDocument");

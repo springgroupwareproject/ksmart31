@@ -8,6 +8,7 @@ public class MemberPosition {
 	private String personnelStandardFinalModifierId;
 	private String personnelStandardFinalModifierName;
 	private String personnelStandardFinalModifyDate;
+	
 	public String getMemberPositionCode() {
 		return memberPositionCode;
 	}
@@ -44,6 +45,8 @@ public class MemberPosition {
 	public void setPersonnelStandardFinalModifyDate(String personnelStandardFinalModifyDate) {
 		this.personnelStandardFinalModifyDate = personnelStandardFinalModifyDate;
 	}
+	
+	
 	@Override
 	public String toString() {
 		return "MemberPosition [memberPositionCode=" + memberPositionCode + ", memberPositionName=" + memberPositionName
@@ -53,7 +56,7 @@ public class MemberPosition {
 				+ personnelStandardFinalModifyDate + "]";
 	}
 	
-	
+
 	
 	
 	

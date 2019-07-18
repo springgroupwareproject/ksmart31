@@ -19,6 +19,7 @@ public class PersonnelStandard {
 	private String personnelStandardFinalModifierId;
 	private String personnelStandardFinalModifierName;
 	private String personnelStandardFinalModifyDate;
+	
 	public String getPersonnelStandardCode() {
 		return personnelStandardCode;
 	}

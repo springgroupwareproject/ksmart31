@@ -19,8 +19,12 @@ public class MemberMyEducationService {
 
 	@Autowired private MemberMyEducationMapper memberMyEducationMapper;
 	
+	public void removeMyEducation(String codeNo) { //학력 삭제
+		System.out.println("MemberMyEducationService codeNo : " + codeNo);
+		memberMyEducationMapper.deleteMyEducation(codeNo);
+	}
 	
-	public void addmyEducation(MemberEducation memberEducation, Member member) {
+	public void addmyEducation(MemberEducation memberEducation, Member member) { // 학력 입력
 		System.out.println("MemberMyEducationService.memberEducation : " + memberEducation);
 		
 		
@@ -36,11 +40,12 @@ public class MemberMyEducationService {
 		}
 	}
 	
-	public List<MemberEducation> myEducation(String memberId) {
+	public List<MemberEducation> myEducation(String memberId) { // 학력 출력
 	
 		List<MemberEducation> myEducation = memberMyEducationMapper.myEducation(memberId);
 		System.out.println("MemberMyEducationService - myEducation : " + myEducation);
 		
 		return myEducation;
 	}
+
 }

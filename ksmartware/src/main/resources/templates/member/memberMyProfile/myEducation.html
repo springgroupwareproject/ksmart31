@@ -9,11 +9,10 @@
 		
 <meta http-equiv="Content-Type" content="text/html</td> charset=UTF-8" />
 <title>leaveCategoryList.html</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
+
 <style> /* 추가버튼 스타일 */
     .icon-list-wrap .icon-list-item i {
         float: left;
@@ -27,6 +26,11 @@
         -moz-transition: all .2s ease-in-out;
         transition: all .2s ease-in-out;
     }
+    .fileDrop { /* 파일드롭 css */
+    	width: 100%;
+    	height: 200px;
+		border : 1px dotted blue;    
+    }
 </style>
 
 
@@ -37,9 +41,22 @@
 
 $(document).ready(function(){ // ready 시작
 	
+	
 	$('#addBtn').click(function(){	// 입력버튼 클릭시
 		console.log('추가 버튼 테스트 : '+$(this).attr('value'));
-		
+ 		
+/* 		 $("#FILE_TAG").change(function(e){
+			alert($('input[type=file]')[0].files[0].name); //파일이름
+			alert($("#FILE_TAG")[0].files[0].type); // 파일 타임
+			alert($("#FILE_TAG")[0].files[0].size); // 파일 크기 
+			$('input[type=file]')[0].files[0].name;
+			$("#imgUpload")[0].files[0].type;
+			$("#imgUpload")[0].files[0].size;
+			console.log($('input[type=file]')[0].files[0].name);
+			console.log($("#imgUpload")[0].files[0].type);
+			console.log($("#imgUpload")[0].files[0].size);
+		});
+	 */
 		$.datepicker.setDefaults({ // 캘린더 함수
 			dateFormat: 'yy-mm-dd',
 			prevText: '이전 달',
@@ -189,8 +206,8 @@ $(document).ready(function(){ // ready 시작
 			console.log('학점 값출력 '+$('#memberEducationGrade').val() + ' 변수값 확인 비교 : '+ memberEducationGrade);
 			console.log('총점 값출력 '+$('#memberEducationTotalScore').val() + ' 변수값 확인 비교 : '+ memberEducationTotalScore);
 			console.log('설명 값출력 '+$('#memberEducationDesc').val() + ' 변수값 확인 비교 : '+ memberEducationDesc);
-
-		
+			
+			
 			$.ajax({
 				url : '/member/memberMyProfile/addmyEducation',
 				type : 'get',
@@ -206,10 +223,25 @@ $(document).ready(function(){ // ready 시작
 					memberEducationTotalScore:memberEducationTotalScore,
 					memberEducationDesc:memberEducationDesc
 				},
+	/* 			processData: false, 
+				contentType: false ,
+				$.ajax의 default Content-Type은 application/x-www-form-urlencoded 이며 이를 통해 
+				데이터를 전송할 경우 serialize 된 형태로 데이터가 전송됩니다. 
+				FormData로 전송하기 위해서는 아래와 같이 
+				processData : false, contentType : false로 세팅하여야 합니다.
+				
+				contentType을 false를 해줌으로 써 브라우저로 하여금 FormData를 사용하여 전송 시 
+				자동으로 content-Type을 multipart/formdata로 세팅하고
+				correct boundary를 붙여 데이터를 보낼 수 있게 해줍니다.
+				
+				ProcessData의 경우도 마찬가지로 data를 serialize를 하여 Query String으로 변경하기 때문에 
+				이를 막기 위해 false로 세팅해 줍니다.
+				(ProcessData : data를 query string의 형태로 변경시키는 옵션. default 값은 true)
+	 */
 				success : function(){
 					console.log('성공')
-			/* 	$('#closeBtn').trigger("click"); 닫기버튼클릭  */
-					/* location.reload();  */ // 새로고침
+				/* 	$('#closeBtn').trigger("click"); 닫기버튼클릭  */
+					location.reload();   // 새로고침
 				},
 				error : function(error){
 					console.log(error);
@@ -219,7 +251,43 @@ $(document).ready(function(){ // ready 시작
 		
 		}); // 저장버튼 클릭 끝
 		    
-	}); // 입력버튼 클릭끝
+	}); // 추가버튼 클릭끝
+	
+	
+	$('.deleteButton').click(function(){	// 입력버튼 클릭시
+		console.log('삭제 버튼 테스트');
+		console.log('값 : ' + $(this).attr('id'));
+		let codeNo = $(this).attr('id');
+		console.log('codeNo 값출력 '+ codeNo);
+		
+		var con_test = confirm("정말로 삭제 하시겠습니까?");
+		
+		if(con_test == true){
+			console.log('확인');
+			
+			$.ajax({
+				url : '/member/memberMyProfile/removeMyEducation',
+				type : 'get',
+				data : {
+					codeNo:codeNo
+				},
+				success : function(){
+					console.log('성공')
+					location.reload();   // 새로고침
+				},
+				error : function(error){
+					console.log(error);
+					//alert('실패 : '+error);
+				}
+			}); // ajax 끝
+		
+		}
+		else if(con_test == false){
+			console.log('취소');
+		  false
+		}
+	});
+	
 	
 });  // ready 끝
 
@@ -229,48 +297,60 @@ $(document).ready(function(){ // ready 시작
 	
 	<!-- 본문 -->
 	<th:block layout:fragment="customBody">
-		<h2>나의 정보 - 나의 인사 정보</h2>
-		<br/>
-		
-		<div class="row">
-			<div class="col-3" style="padding-left:50px; border-right: 1px solid #ccc;">
-				<div class="card">
-					<div class="card-header">MyProfile</div>
-					<div class="card-body">
-						<div>
-							<a href="/member/memberMyProfile/myProfile">개인 정보</a>
-						</div>
-						<hr>
-						<div>
-							<a href="/member/memberMyProfile/myInfo">인사 정보</a>
-						</div>
-						<hr>
-						<div>
-							<a href="/member/memberMyProfile/myEducation">학력 정보</a>
-						</div>
-						<hr>
-						<div>
-							<a href="/member/memberMyProfile/myProject">프로젝트 정보</a>
-						</div>
-						<hr>
-						<div>
-							<a href="/member/memberMyProfile/myLicense">자격증 정보</a>
-						</div>
-						<hr>
-						<div>
-							<a href="/member/memberMyProfile/myAcademy">교육 이력 정보</a>
-						</div>
-						<hr>
-						<div>
-							<a href="/member/memberMyProfile/myCareer">경력 정보</a>
-						</div>
-						<hr>
-						<div>
-							<a href="/member/memberMyProfile/myAwards">수상 이력 정보</a>
+		<div class="page-header">
+			<div class="page-header row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="ik ik-layers bg-blue"></i>
+						<div class="d-inline">
+							<!-- 증명서 발급 - 증명서 신청 -->
+							<h5>나의 정보 - 나의 인사 정보</h5>
+							<span>자신의 개인정보를 볼 수 있습니다.</span>
 						</div>
 					</div>
 				</div>
-			</div>	
+			</div>
+		</div>
+		<br/>
+		
+		<div class="row">
+			<!-- 왼쪽 카드 영역 시작 -->
+			<div class="col-3">
+				<div class="card" style="height: 100%">
+					<!-- 왼쪽 카드 제목 -->
+					<div class="card-header">MyProfile</div>
+					<!-- 왼쪽 카드 내용 -->
+					<div class="card-body">
+						<ul class="nav flex-column">
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myProfile">개인 정보</a>
+							</li>
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myInfo">인사 정보</a>
+							</li>
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myEducation">학력 정보</a>
+							</li>
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myProject">프로젝트 정보</a>
+							</li>
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myLicense">자격증 정보</a>
+							</li>
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myAcademy">교육 이력 정보</a>
+							</li>
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myCareer">경력 정보</a>
+							</li>
+							<li>
+								<a class="nav-link departmentNameButton text-info" href="/member/memberMyProfile/myAwards">수상 이력 정보</a>
+							</li>	
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- 왼쪽 카드 영역 종료 -->
 
                       			
 			<div class="col-9" style="padding-right:20px; border-right: 1px solid #ccc;">
@@ -290,11 +370,13 @@ $(document).ready(function(){ // ready 시작
 						<div  th:each="myEducation : ${myEducation}" class="card">
 						    <div class="card-body p-0 table-border-style">
 						        <div class="table-responsive">
-						            <table class="table table-hover">
+						            <table class="table table-hover" >
 						                <thead>
 						                    <tr>
 						                        <td>
-						                       		<h5>학력 정보</h5>
+						                        	<h5>
+							                        	<span th:text="${myEducation.memberEducationInstitutionStandard}"></span> 학력 정보
+						                       		</h5>
 						                        </td>
 						                        <td style="text-align: right;">
 						                        	<!-- 수정 버튼 -->
@@ -305,7 +387,7 @@ $(document).ready(function(){ // ready 시작
 								                    </span>
 								                    <!-- 삭제 버튼 -->
 											        <span class="icon-list-item">
-											            <a id="deleteBtn" class="btn pull-right" href="#" style="padding: 0;" >
+											            <a th:id="${myEducation.memberEducationCode}" class="btn pull-right deleteButton" href="#" style="padding: 0;" >
 											                <i class="ik ik-trash-2"></i>
 											            </a>
 											        </span>
@@ -314,36 +396,41 @@ $(document).ready(function(){ // ready 시작
 						                </thead>	
 						                <tbody>
 						                	<tr>
-						                        <td scope="row">학교명 :
+						                        <td scope="row" colspan="2">학교명 :
 						                        	<span th:text="${myEducation.memberEducationInstitution}"></span>
-						                       	</td><td></td>
+						                       	</td>
 						                    </tr>
 						                	<tr>
-						                        <td scope="row">기간 :
+						                        <td scope="row" colspan="2">기간 :
 													<span th:text="${myEducation.memberEducationStartDay}"></span>
-													<span th:if="${myEducation.memberEducationEndDay != ''}" th:text="|&nbsp; ~ ${myEducation.memberEducationEndDay}|"></span>
-						                        </td><td></td>
+													<span th:if="${myEducation.memberEducationEndDay != null}" th:text="|&nbsp; ~ ${myEducation.memberEducationEndDay}|"></span>
+						                        </td>
 						                    </tr>
 						                    <tr>
-						                        <td scope="row">재학여부 :
+						                        <td scope="row" colspan="2">재학여부 :
 						                        	<span th:text="${myEducation.memberEducationNow}"></span>
-						                        </td><td></td>
+						                        </td>
 						                    </tr>
 						                    <tr>
-						                        <td scope="row">학위 : 
+						                        <td scope="row" colspan="2">학위 : 
 						                       		<span th:text="${myEducation.memberEducationDegree}"></span>
-						                        </td><td></td>
+						                        </td>
 						                    </tr>
 						                    <tr>
-						                        <td scope="row">전공 : 
+						                        <td scope="row" colspan="2">전공 : 
 						                       		<span th:text="${myEducation.memberEducationMajor}"></span>
-						                        </td><td></td>
+						                        </td>
 						                    </tr>
 						                    <tr th:if="${myEducation.memberEducationInstitutionStandard != '고등학교'}">
-						                        <td scope="row">학점/총점 : 
+						                        <td scope="row" colspan="2">학점/총점 : 
 						                      		<span th:text="|${myEducation.memberEducationGrade} / ${myEducation.memberEducationTotalScore}|"></span>
-						                        </td><td></td>
+						                        </td>
 						                    </tr>
+						                    <tr>
+												<td scope="row" colspan="2">내용 : 
+													<span th:text="${myEducation.memberEducationDesc}"></span>
+												</td>						                    
+						                    <tr>
 						                </tbody>
 						            </table>
 						        </div>
@@ -364,7 +451,7 @@ $(document).ready(function(){ // ready 시작
 								
 								<!-- Modal body -->
 								<div class="modal-body">
-									<form class="BodyForm">
+									<form class="BodyForm" >
 										
 										<!-- 학교명 카드영역 시작 -->
 										<div class="card">
@@ -405,10 +492,10 @@ $(document).ready(function(){ // ready 시작
 											<div class="card-body">
 												<div class="input-group">
 													<div id="startDayView" style="padding: 0px 0px 0px 0px">
-														<div id="startText" th:text="시작일"></div><input type="text" id="startDay" class="form-control ">
+														<div id="startText" th:text="시작일"></div><input type="text" id="startDay" class="form-control" readonly="readonly" >
 													</div>
 													<div id="endDayView" style="padding: 0px 0px 0px 50px">
-													 	<div id="endText" th:text="종료일"></div><input type="text" id="endDay" class="form-control">
+													 	<div id="endText" th:text="종료일"></div><input type="text" id="endDay" class="form-control" readonly="readonly" >
 													</div>
 												</div>
 											</div>
@@ -451,7 +538,7 @@ $(document).ready(function(){ // ready 시작
 												</textarea>
 											</div>
 										</div> <!-- 설명 끝 -->
-
+										
 									</form>
 								</div>	
 								
