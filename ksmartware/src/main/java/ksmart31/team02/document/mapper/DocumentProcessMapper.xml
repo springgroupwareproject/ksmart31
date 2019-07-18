@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ksmart31.team02.document.mapper.DocumentProcessMapper">
+	<!-- 관리자 결재선 관리, 사용자 결재선 목록 불러오기 -->
+	<select id="selectApprovalProcess"
+			resultType="ksmart31.team02.document.domain.ApprovalProcess">
+		SELECT approval_process_code AS approvalProcessCode
+			, approval_process_name AS approvalProcessName
+		FROM approval_process
+	</select>
+</mapper>

@@ -8,7 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ksmart31.team01.department.mapper.DepartmentMapper;
 import ksmart31.team01.member.domain.Member;
+import ksmart31.team01.member.domain.MemberAcademy;
+import ksmart31.team01.member.domain.MemberAwards;
+import ksmart31.team01.member.domain.MemberCareer;
+import ksmart31.team01.member.domain.MemberEducation;
+import ksmart31.team01.member.domain.MemberLicense;
 import ksmart31.team01.member.domain.MemberPosition;
+import ksmart31.team01.member.domain.MemberProject;
 import ksmart31.team01.department.domain.Department;
 import ksmart31.team01.department.domain.DepartmentJoinMember;
 
@@ -83,6 +89,44 @@ public class DepartmentService {
 	public List<MemberPosition> getMemberPositon(){
 		List<MemberPosition> list = departmentMapper.selectMemberPositon();
 		System.out.println(list + "DepartmentService getMemberPositon list");
+		return list;
+	}
+	//memberMyProfile
+	public Member getMemberMyProfile(String memberId) {
+		return departmentMapper.selectMemberMyProfile(memberId);
+	}
+	//memberMyInfo
+	public Member getMemberMyInfo(String memberId) {
+		return departmentMapper.selectMemberMyInfo(memberId);
+	}
+	//memberEducation
+	public List<MemberEducation> getMemberMyEducation(String memberId){
+		List<MemberEducation> list = departmentMapper.selectMemberMyEducation(memberId);
+		return list;
+	}
+	//memberProject
+	public List<MemberProject> getMemberMyProject(String memberId){
+		List<MemberProject> list = departmentMapper.selectMemberMyProject(memberId);
+		return list;
+	}
+	//memberLicense
+	public List<MemberLicense> getMemberMyLicense(String memberId){
+		List<MemberLicense> list = departmentMapper.selectMemberMyLicense(memberId);
+		return list;
+	}
+	//selectMemberMyAcademy
+	public List<MemberAcademy> getMemberMyAcademy(String memberId){
+		List<MemberAcademy> list = departmentMapper.selectMemberMyAcademy(memberId);
+		return list;
+	}
+	//selectMemberMyCareer
+	public List<MemberCareer> getMemberMyCareer(String memberId){
+		List<MemberCareer> list = departmentMapper.selectMemberMyCareer(memberId);
+		return list;
+	}
+	//selectMemberMyAwards
+	public List<MemberAwards> getMemberMyAwards(String memberId){
+		List<MemberAwards> list = departmentMapper.selectMemberMyAwards(memberId);
 		return list;
 	}
 }	

@@ -7,10 +7,7 @@
 	<meta charset="UTF-8">
 	<title>Sample</title>
 	<th:block th:include="layout/customHead"></th:block>	
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">	
 	<style>
     .icon-list-wrap .icon-list-item i {
         float: left;
@@ -26,8 +23,281 @@
 	</style>
 		
 	<script>
-		$(document).ready(function(){
+		let memberId;
+		$(document).ready(function(){			
 			
+			$('.departmentJoinMemberByMemberIdButton').click(function(){
+				console.log('상세 정보 버튼 value : '+$(this).attr('value'));				
+				memberId = $(this).attr('value');
+				console.log("memberId 확인");
+				$('#personnel').trigger('click');
+			});
+			
+			$('.profile').click(function(){				
+				console.log('카테고리 클릭 테스트');
+				console.log('선택한 조직원 아이디 : '+memberId);
+				let category = $(this).attr('id');
+				console.log($(this).attr('id'));
+				
+				if(category == 'categoryPersonnel'){
+ 					console.log('개인 정보 클릭 확인');
+ 					$('#personnel').attr('hidden', false);
+ 					$('#info').attr('hidden', true);
+ 					$('#education').attr('hidden',true);
+ 					$('#project').attr('hidden',true);
+ 					$('#license').attr('hidden',true);
+ 					$('#academy').attr('hidden',true);
+ 					$('#career').attr('hidden',true);
+ 					$('#awards').attr('hidden',true);
+ 					
+ 					// 비동기 요청
+ 					$.ajax({
+ 						url : '/getMemberMyProfile'
+ 						,type : 'get'
+ 						,data : {
+ 							memberId : memberId
+ 						}
+ 						,success : function(data){
+ 							console.log(data); 							
+ 							$('#memberPhone').text(data.memberPhone);
+ 							$('#memberMobile').text(data.memberMobile);
+ 							$('#memberAddress').text(data.memberAddress);
+ 							$('#memberBirth').text(data.memberBirth);
+ 							$('#memberGender').val(data.memberGender).prop('selected');
+ 						}                 
+ 					});
+ 					
+				}else if(category == 'categoryInfo'){
+					console.log('인사 정보 클릭 확인');
+					$('#personnel').attr('hidden', true);
+ 					$('#info').attr('hidden', false);
+ 					$('#education').attr('hidden',true);
+ 					$('#project').attr('hidden',true);
+ 					$('#license').attr('hidden',true);
+ 					$('#academy').attr('hidden',true);
+ 					$('#career').attr('hidden',true);
+ 					$('#awards').attr('hidden',true);
+					
+					//비동기 요청
+					$.ajax({
+ 						url : '/getMemberMyInfo'
+ 						,type : 'get'
+ 						,data : {
+ 							memberId : memberId
+ 						}
+ 						,success : function(data){
+ 							console.log(data);
+ 							$('#infoMemberId').text(data.memberId);
+ 							$('#infoDepartmentCategoryName').text(data.departmentCategoryName);
+ 							if(data.departmentDivisionName != "") {
+ 								$('#infoDepartmentDivisionName').text(" > "+data.departmentDivisionName);
+ 							}
+ 							if(data.departmentSectionName != "") {
+ 							$('#infoDepartmentSectionName').text(" > "+data.departmentSectionName);
+ 							}
+ 							$('#infoMemberPositionName').text(data.memberPositionName);
+ 							$('#infoMemberStatus').text(data.memberStatus);
+ 							$('#infoMemberLevelTitle').text(data.memberLevelTitle);
+ 							$('#infoMemberEmployeeCode').text(data.memberEmployeeCode);
+ 							$('#infoMemberJoinDay').text(data.memberJoinDay);
+ 							
+ 						}                 
+ 					});
+				}else if(category == 'categoryEducation'){
+					console.log('학력 정보 클릭 확인');
+					$('#personnel').attr('hidden', true);
+ 					$('#info').attr('hidden', true);
+ 					$('#education').attr('hidden',false);
+ 					$('#project').attr('hidden',true);
+ 					$('#license').attr('hidden',true);
+ 					$('#academy').attr('hidden',true);
+ 					$('#career').attr('hidden',true);
+ 					$('#awards').attr('hidden',true);
+					
+					//비동기 요청
+					$.ajax({
+ 						url : '/getMemberMyEducation'
+ 						,type : 'get'
+ 						,data : {
+ 							memberId : memberId
+ 						}
+ 						,success : function(data){
+ 							$('#memberEducation').empty();
+ 							console.log(data);
+ 							$(data).each(function(index,item){							
+ 							$('#memberEducation').append('<div>'+item.memberEducationStartDay+'</div>');
+							$('#memberEducation').append('<div>'+item.memberEducationEndDay+'</div>');
+							$('#memberEducation').append('<div>'+item.memberEducationInstitution+'</div>');
+							$('#memberEducation').append('<div>'+item.memberEducationNow+'</div>');
+							$('#memberEducation').append('<div>'+item.memberEducationDegree+'</div>');
+							$('#memberEducation').append('<div>'+item.memberEducationMajor+'</div>');
+							$('#memberEducation').append('<hr>');	 										
+ 							});
+ 						}                 
+ 					});								
+				}else if(category == 'categoryProject'){
+					console.log('프로젝트정보 클릭 확인');
+					$('#personnel').attr('hidden', true);
+ 					$('#info').attr('hidden', true);
+ 					$('#education').attr('hidden',true);
+ 					$('#project').attr('hidden',false);
+ 					$('#license').attr('hidden',true);
+ 					$('#academy').attr('hidden',true);
+ 					$('#career').attr('hidden',true);
+ 					$('#awards').attr('hidden',true);
+					
+					//비동기 요청
+					$.ajax({
+ 						url : '/getMemberMyProject'
+ 						,type : 'get'
+ 						,data : {
+ 							memberId : memberId
+ 						}
+ 						,success : function(data){
+ 							$('#memberProject').empty();
+ 							console.log(data);
+ 							$(data).each(function(index,item){							
+ 							$('#memberProject').append('<div>'+item.memberProjectStartDay+'</div>');
+							$('#memberProject').append('<div>'+item.memberProjectEndDay+'</div>');
+							$('#memberProject').append('<div>'+item.memberProjectName+'</div>');
+							$('#memberProject').append('<div>'+item.memberProjectPlace+'</div>');
+							$('#memberProject').append('<div>'+item.memberProjectDesc+'</div>');
+							$('#memberProject').append('<div>'+item.memberProjectUrl+'</div>');
+							$('#memberProject').append('<hr>');	 										
+ 							});
+ 						}                 
+ 					});
+				}else if(category == 'categoryLicense'){
+					console.log('자격증정보 클릭 확인');
+					$('#personnel').attr('hidden', true);
+ 					$('#info').attr('hidden', true);
+ 					$('#education').attr('hidden',true);
+ 					$('#project').attr('hidden',true);
+ 					$('#license').attr('hidden',false);
+ 					$('#academy').attr('hidden',true);
+ 					$('#career').attr('hidden',true);
+ 					$('#awards').attr('hidden',true);
+					
+					//비동기 요청
+					$.ajax({
+ 						url : '/getMemberMyLicense'
+ 						,type : 'get'
+ 						,data : {
+ 							memberId : memberId
+ 						}
+ 						,success : function(data){
+ 							$('#memberLicense').empty();
+ 							console.log(data);
+ 							$(data).each(function(index,item){								
+ 							$('#memberLicense').append('<div>'+item.memberLicenseStartDay+'</div>');
+							$('#memberLicense').append('<div>'+item.memberLicenseEndDay+'</div>');
+							$('#memberLicense').append('<div>'+item.memberLicenseName+'</div>');
+							$('#memberLicense').append('<div>'+item.memberLicenseNumber+'</div>');
+							$('#memberLicense').append('<div>'+item.memberLicenseUrl+'</div>');
+							$('#memberLicense').append('<div>'+item.memberLicenseAuthentication+'</div>');
+							$('#memberLicense').append('<hr>');	 										
+ 							});
+ 						}                 
+ 					});
+				}else if(category == 'categoryAcademy'){
+					console.log('교육이력정보 클릭 확인');
+					$('#personnel').attr('hidden', true);
+ 					$('#info').attr('hidden', true);
+ 					$('#education').attr('hidden',true);
+ 					$('#project').attr('hidden',true);
+ 					$('#license').attr('hidden',true);
+ 					$('#academy').attr('hidden',false);
+ 					$('#career').attr('hidden',true);
+ 					$('#awards').attr('hidden',true);
+					
+					//비동기 요청
+					$.ajax({
+ 						url : '/getMemberMyAcademy'
+ 						,type : 'get'
+ 						,data : {
+ 							memberId : memberId
+ 						}
+ 						,success : function(data){
+ 							$('#memberAcademy').empty();
+ 							console.log(data);
+ 							$(data).each(function(index,item){							
+ 							$('#memberAcademy').append('<div>'+item.memberAcademyStartDay+'</div>');
+							$('#memberAcademy').append('<div>'+item.memberAcademyEndDay+'</div>');
+							$('#memberAcademy').append('<div>'+item.memberAcademyName+'</div>');
+							$('#memberAcademy').append('<div>'+item.memberAcademyComplete+'</div>');
+							$('#memberAcademy').append('<div>'+item.memberAcademyInstitution+'</div>');
+							$('#memberAcademy').append('<div>'+item.memberAcademyPlace+'</div>');
+							$('#memberAcademy').append('<div>'+item.memberAcademyPurpose+'</div>');
+							$('#memberAcademy').append('<div>'+item.memberAcademyCost+'</div>');
+							$('#memberAcademy').append('<div>'+item.memberAcademyDesc+'</div>');
+							$('#memberAcademy').append('<hr>');
+ 							});
+ 						}                 
+ 					});
+				}else if(category == 'categoryCareer'){
+					console.log('경력정보 클릭 확인');
+					$('#personnel').attr('hidden', true);
+ 					$('#info').attr('hidden', true);
+ 					$('#education').attr('hidden',true);
+ 					$('#project').attr('hidden',true);
+ 					$('#license').attr('hidden',true);
+ 					$('#academy').attr('hidden',true);
+ 					$('#career').attr('hidden',false);
+ 					$('#awards').attr('hidden',true);
+					
+					//비동기 요청
+					$.ajax({
+ 						url : '/getMemberMyCareer'
+ 						,type : 'get'
+ 						,data : {
+ 							memberId : memberId
+ 						}
+ 						,success : function(data){
+ 							$('#memberCareer').empty();
+ 							console.log(data);
+ 							$(data).each(function(index,item){								
+ 							$('#memberCareer').append('<div>'+item.memberCareerStartDay+'</div>');
+							$('#memberCareer').append('<div>'+item.memberCareerEndDay+'</div>');
+							$('#memberCareer').append('<div>'+item.memberCareerCompany+'</div>');
+							$('#memberCareer').append('<div>'+item.memberPositionName+'</div>');
+							$('#memberCareer').append('<div>'+item.memberCareerOutReason+'</div>');
+							$('#memberCareer').append('<hr>');
+ 							});
+ 						}                 
+ 					});					
+				}else if(category == 'categoryAwards'){
+					console.log('수상이력정보 클릭 확인');
+					$('#personnel').attr('hidden', true);
+ 					$('#info').attr('hidden', true);
+ 					$('#education').attr('hidden',true);
+ 					$('#project').attr('hidden',true);
+ 					$('#license').attr('hidden',true);
+ 					$('#academy').attr('hidden',true);
+ 					$('#career').attr('hidden',true);
+ 					$('#awards').attr('hidden',false);
+					
+					//비동기 요청
+					$.ajax({
+ 						url : '/getMemberMyAwards'
+ 						,type : 'get'
+ 						,data : {
+ 							memberId : memberId
+ 						}
+ 						,success : function(data){
+ 							$('#memberAwards').empty();
+ 							console.log(data);
+ 							$(data).each(function(index,item){							
+ 							$('#memberAwards').append('<div>'+item.memberAwardsDay+'</div>');
+							$('#memberAwards').append('<div>'+item.memberAwardsName+'</div>');
+							$('#memberAwards').append('<div>'+item.memberAwardsInstitution+'</div>');
+							$('#memberAwards').append('<div>'+item.memberAwardsDesc+'</div>');	
+							$('#memberAwards').append('<hr>');
+ 							});
+ 						}                 
+ 					});	
+				}
+			});
+		
 			//getMemberPosition 리스트
 			$.ajax({
 				url : '/getMemberPositon'
@@ -97,10 +367,11 @@
 				console.log('departmentName 확인');	
 				location.href='/department/departmentAdminView?departmentName='+$(this).attr('value');
 			});			
+			
 			// member 추가
-			$('#saveButton').click(function(){
+			$('#saveButton').click(function(){				
 				console.log('조직원 insert 입력 ');
-				
+												
 				let memberId = $('#memberId').val(); 
 				let memberName = $('#memberName').val();  
 				let memberEmployeeCode = $('#memberEmployeeCode').val(); 
@@ -144,11 +415,7 @@
 							success : function(){
 								console.log('성공')					
 								location.reload();  // 새로고침
-							},
-							error : function(error){
-								console.log(error);
-								//alert('실패 : '+error);
-							}
+							}							
 				});
 			});			
 		});
@@ -202,7 +469,7 @@
 				<div class="icon-list-wrap">
 					<div class="icon-list-item">																							
 						<!-- 조직원 추가 modal-->
-						<a class="memberAddButton btn pull-right" href="#" data-toggle="modal" data-target="#detailModal" style="width: 30px; padding: 0;">
+						<a class="memberAddButton btn pull-right" href="#" data-toggle="modal" data-target="#memberInsertModal" style="width: 30px; padding: 0;">
 							<i class="ik ik-plus-square"></i>
 						</a>
 					</div>
@@ -218,8 +485,8 @@
 				<div class="container">						  
 					<div class="card">							
 						<span class="card-body" th:each="departmentJoinMemberList:${departmentJoinMemberList}">
-							<!-- 클릭시 각 조직원 인사 정보로 넘어간다 -->
-							<a class="departmentJoinMemberByMemberIdButton" href="#" th:value="${departmentJoinMemberList.memberId}"><span th:text="${departmentJoinMemberList.memberName}"></span></a>								
+							<!-- 클릭시 각 조직원 인사 정보로 넘어간다(예정) -->
+							<a class="departmentJoinMemberByMemberIdButton" href="#" th:value="${departmentJoinMemberList.memberId}"><span th:text="${departmentJoinMemberList.memberName}" data-toggle="modal" data-target="#personnelModal"></span></a>								
 							<span th:text="${departmentJoinMemberList.memberName}"></span>
 							<span th:text="${departmentJoinMemberList.memberLevelTitle}"></span> 
 							<br>
@@ -242,7 +509,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal" id="detailModal">
+	<div class="modal" id="memberInsertModal">
 		 <div class="modal-dialog mt-0 mb-0" role="document">
 			<div class="modal-content">
 				<!-- Modal Header -->
@@ -276,6 +543,163 @@
 					<button id="saveButton" type="button" class="btn btn-primary">확인</button>
 					<button type="button" class="btn btn-primary" data-dismiss="modal">취소</button>
 				</div>	
+			</div>
+		</div>
+	</div>
+	<div class="modal" id="personnelModal">
+		 <div class="modal-dialog modal-lg mt-0 mb-0" role="document" style="max-width: 100%; width: auto; display: table;">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h2 class="modal-title">조직원 정보 편집</h2>
+					<button type="button" class="close" data-dismiss="modal">×</button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body">							
+					<div class="input-group">
+						<!-- 왼쪽 카드 시작 -->
+						<div class="col-2">
+							<div class="card">								
+								<div class="card-header">MyProfile</div>
+								<div class="card-body">
+									<div>
+										<a href="#" class="profile" id="categoryPersonnel">개인 정보</a>
+									</div>
+									<hr>
+									<div>
+										<a href="#" class="profile" id="categoryInfo">인사 정보</a>
+									</div>
+									<hr>
+									<div>
+										<a href="#" class="profile" id="categoryEducation">학력 정보</a>
+									</div>
+									<hr>
+									<div>
+										<a href="#" class="profile" id="categoryProject">프로젝트 정보</a>
+									</div>
+									<hr>
+									<div>
+										<a href="#" class="profile" id="categoryLicense">자격증 정보</a>
+									</div>
+									<hr>
+									<div>
+										<a href="#" class="profile" id="categoryAcademy">교육 이력 정보</a>
+									</div>
+									<hr>
+									<div>
+										<a href="#" class="profile" id="categoryCareer">경력 정보</a>
+									</div>
+									<hr>
+									<div>
+										<a href="#" class="profile" id="categoryAwards">수상 이력 정보</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- 왼쪽 카드 종료 -->
+						<!-- 오른쪽 카드 시작 -->
+						<div class="col-10" style="min-width: 600px">
+							<div class="card" >								
+								<div class="card-header"></div>
+								<div class="card-body">								
+									<div id="personnel" hidden="hidden">
+										<div>전화번호</div>											
+											<p style="padding: 10px 0px 0px 10px" id="memberPhone"></p>																																								
+										<hr>
+										
+										<div>휴대전화</div>
+											<p style="padding: 10px 0px 0px 10px" id="memberMobile"></p>										
+										<hr>
+										
+										<div>주소</div>
+											<p style="padding: 10px 0px 0px 10px" id="memberAddress"></p>										
+										<hr>
+				
+										<div>생년월일</div>
+											<p style="padding: 10px 0px 0px 10px" id="memberBirth"></p>																	
+										<hr>
+										
+										<div>성별</div>
+										<select style="width:65px" class="form-control" id="memberGender">
+											<option value="남">남</option>
+											<option value="여">여</option>
+										</select>
+									</div>									
+									
+									<div id="info" hidden="hidden">
+										<div>이메일</div>
+											<p style="padding: 10px 0px 0px 10px" id="infoMemberId"></p>																				
+										<hr>									
+										
+										<div>소속 부서</div>
+											<span style="padding: 10px 0px 0px 10px" id="infoDepartmentCategoryName"></span>
+											<span style="padding: 10px 0px 0px 10px" id="infoDepartmentDivisionName"></span>
+											<span style="padding: 10px 0px 0px 10px" id="infoDepartmentSectionName"></span>																															
+										<hr>										
+										
+										<div>직위/직책</div>
+										<p style="padding: 10px 0px 0px 10px" id="infoMemberPositionName"></p>										
+										<hr>										
+										
+										<div>조직원 상태</div>
+										<p style="padding: 10px 0px 0px 10px" id="infoMemberStatus"></p>																				
+										<hr>										
+										
+										<div>권한</div>
+										<p style="padding: 10px 0px 0px 10px" id="infoMemberLevelTitle"></p>										
+										<hr>										
+										
+										<div>사번</div>
+										<p style="padding: 10px 0px 0px 10px" id="infoMemberEmployeeCode"></p>									
+										<hr>										
+										
+										<div>입사일</div>
+										<p style="padding: 10px 0px 0px 10px" id="infoMemberJoinDay"></p>								
+										
+									</div>
+									
+									<div id="education" hidden="hidden">
+										<div id="memberEducation">
+											
+										</div>										
+									</div>																	
+									
+									<div id="project" hidden="hidden">
+										<div id="memberProject">
+											
+										</div>
+									</div>
+									
+									<div id="license" hidden="hidden">
+										<div id="memberLicense">
+											
+										</div>
+									</div>
+									
+									<div id="academy" hidden="hidden">
+										<div id="memberAcademy">
+											
+										</div>
+									</div>
+									
+									<div id="career" hidden="hidden">
+										<div id="memberCareer">
+											
+										</div>
+									</div>
+									
+									<div id="awards" hidden="hidden">
+										<div id="memberAwards">
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- 오른쪽 카드 종료 -->
+					</div>
+				</div>
+					
 			</div>
 		</div>
 	</div>	

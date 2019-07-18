@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+	
+	<th:block layout:fragment="customHead">
+		<meta charset="UTF-8">
+		<title>공통 결재선 목록</title>
+		<th:block th:include="layout/customHead"></th:block>
+	</th:block>
+	
+	<th:block layout:fragment="customBody">
+		<div class="col-xl-8 col-md-6">
+			<div class="card table-card">
+				<div class="card-header">
+					<h3>공통 결재선 목록</h3>
+					<button type="button" class="btn btn-outline-primary btn-rounded">추가</button>
+				</div>
+				<div class="card-block">
+					<div class="table-responsive">
+						<table class="table table-hover mb-0">
+							<tbody>
+								<tr th:each="list : ${list}">
+									<td>
+										<a th:href="@{/removeDraftDocument(approvalProcessCode = ${list.approvalProcessCode})}">
+											<th:block th:text="${list.approvalProcessName}"></th:block>
+										</a>
+									</td>
+									<td>
+										<div class="list-actions col-5" >
+											<div class="row layout-wrap" id="layout-wrap">
+												<div class="col-12 list-item">
+													<div class="d-flex flex-grow-1 min-width-zero text-black-50">
+												    	<div class="list-actions" >
+											    			<a href="layout-edit-item.html"><i class="ik ik-edit-2"></i></a>
+												       		<a href="#" class="list-delete"><i class="ik ik-trash-2"></i></a>
+												     	</div>
+												    </div>
+												</div>
+											</div>
+						            	</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="customJquery">
+		<th:block th:include="layout/customJquery"></th:block>
+	</th:block>
+	
+</html>
