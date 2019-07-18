@@ -7,7 +7,7 @@
 	<meta charset="UTF-8">
 	<title>Sample</title>
 	<th:block th:include="layout/customHead"></th:block>	
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">	
+		
 	<style>
     .icon-list-wrap .icon-list-item i {
         float: left;
@@ -368,10 +368,44 @@
 				location.href='/department/departmentAdminView?departmentName='+$(this).attr('value');
 			});			
 			
+			//확인
+			$('.check').click(function(){
+				console.log('check 확인');
+				location.reload();  // 새로고침
+			});
+			
+			
 			// member 추가
 			$('#saveButton').click(function(){				
 				console.log('조직원 insert 입력 ');
-												
+				 if($('#memberId').val()=='') {
+		            	$('#helper').text('조직원 아이디를 입력하세요');
+		                
+		            } else if($('#memberName').val()=='') {
+		            	$('#helper').text('조직원 이름을 입력하세요');
+		                
+		            } else if($('#memberEmployeeCode').val()=='') {
+		            	$('#helper').text('조직원 사번을 입력하세요');
+		                
+		            } else if($('#departmentName').val()=='') {
+		            	$('#helper').text('부서명을 입력하세요');
+		                
+		            }else if($('#departmentCategoryName').val()=='') {
+		            	$('#helper').text('입력하세요');
+		                
+		            }else if($('#memberPositionName').val()=='') {
+		            	$('#helper').text('직위/직책을 입력하세요');
+		                
+		            }else if($('#memberLevelTitle').val()=='') {
+		            	$('#helper').text('조직원 권한을 입력하세요');
+		                
+		            }else if($('#memberStatus').val()=='') {
+		            	$('#helper').text('조직원 상태를 입력하세요');
+		                
+		            }else if($('#memberPw').val()=='') {
+		            	$('#helper').text('조직원 비밀번호를 입력하세요');
+		                
+		            } else {								
 				let memberId = $('#memberId').val(); 
 				let memberName = $('#memberName').val();  
 				let memberEmployeeCode = $('#memberEmployeeCode').val(); 
@@ -416,7 +450,8 @@
 								console.log('성공')					
 								location.reload();  // 새로고침
 							}							
-				});
+					});
+				}
 			});			
 		});
 	</script>
@@ -424,6 +459,19 @@
 </th:block>
 
 <th:block layout:fragment="customBody">
+<div class="page-header">
+	<div class="page-header row align-items-end">
+		<div class="col-lg-8">
+			<div class="page-header-title">
+				<i class="ik ik-layers bg-blue"></i>
+				<div class="d-inline">						
+					<h5>인사관리 - 조직도/조직원 관리</h5>
+					<span>조직도를 보여줍니다</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="row">
 	<div class="col-3">
 		<div class="card" style="min-height: 100%;">
@@ -438,7 +486,7 @@
 						</a>																		
 						<!-- 전체 조직원 리스트 -->
 						<a class="departmentNameButton btn pull-right" href="#" th:value="fullView" style="width: 30px; padding: 0;">
-							<i class="ik ik-clipboard"></i>
+							<i class="ik ik-list"></i>
 						</a>
 					</div>
 				</div>						
@@ -465,7 +513,10 @@
 	<div class="col-9">		
 		<div class="card" >
 			<div class="card-header justify-content-between" style="padding: 10px;">				
-				<div> </div>
+				<div>    						                                           
+									
+								
+				</div>
 				<div class="icon-list-wrap">
 					<div class="icon-list-item">																							
 						<!-- 조직원 추가 modal-->
@@ -487,7 +538,6 @@
 						<span class="card-body" th:each="departmentJoinMemberList:${departmentJoinMemberList}">
 							<!-- 클릭시 각 조직원 인사 정보로 넘어간다(예정) -->
 							<a class="departmentJoinMemberByMemberIdButton" href="#" th:value="${departmentJoinMemberList.memberId}"><span th:text="${departmentJoinMemberList.memberName}" data-toggle="modal" data-target="#personnelModal"></span></a>								
-							<span th:text="${departmentJoinMemberList.memberName}"></span>
 							<span th:text="${departmentJoinMemberList.memberLevelTitle}"></span> 
 							<br>
 							<span th:text="${departmentJoinMemberList.departmentCategoryName}"></span>
@@ -521,9 +571,10 @@
 				<div class="modal-body">							
 					<form class="leavePolicyForm">
 					<!-- 첫 번째 카드 영역 시작 -  -->
-					<div class="card">								
+					<div class="card">
+						<span id="helper"></span>								
 						<div class="card-body">														
-							조직원 아이디 :  <div><input type="text" id="memberId" class="form-control"></div>
+							조직원 아이디 :  <div><input type="text" id="memberId" class="form-control"></div>							
 							조직원 이름 :  <div><input type="text" id="memberName" class="form-control"></div>
 							조직원 사번 :  <div><input type="text" id="memberEmployeeCode" class="form-control"></div>																			
 							부서명 :  <div><select id="departmentName" class="form-control"></select></div>							
@@ -600,7 +651,9 @@
 						<!-- 오른쪽 카드 시작 -->
 						<div class="col-10" style="min-width: 600px">
 							<div class="card" >								
-								<div class="card-header"></div>
+								<div class="card-header">
+								
+								</div>
 								<div class="card-body">								
 									<div id="personnel" hidden="hidden">
 										<div>전화번호</div>											
@@ -624,13 +677,15 @@
 											<option value="남">남</option>
 											<option value="여">여</option>
 										</select>
-									</div>									
-									
+										<div class="card-footer">
+											<button type="button" class="check btn btn-primary">확인</button>									
+										</div>
+									</div>	
+																										
 									<div id="info" hidden="hidden">
 										<div>이메일</div>
 											<p style="padding: 10px 0px 0px 10px" id="infoMemberId"></p>																				
-										<hr>									
-										
+										<hr>										
 										<div>소속 부서</div>
 											<span style="padding: 10px 0px 0px 10px" id="infoDepartmentCategoryName"></span>
 											<span style="padding: 10px 0px 0px 10px" id="infoDepartmentDivisionName"></span>
@@ -654,9 +709,12 @@
 										<hr>										
 										
 										<div>입사일</div>
-										<p style="padding: 10px 0px 0px 10px" id="infoMemberJoinDay"></p>								
+										<p style="padding: 10px 0px 0px 10px" id="infoMemberJoinDay"></p>
 										
-									</div>
+										<div class="modal-footer">
+											<button type="button" class="check btn btn-primary">확인</button>									
+										</div>									
+									</div>									
 									
 									<div id="education" hidden="hidden">
 										<div id="memberEducation">

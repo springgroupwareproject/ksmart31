@@ -53,4 +53,8 @@ public interface DepartmentMapper {
 	public List<MemberCareer> selectMemberMyCareer(String memberId);
 	//memberAwards select
 	public List<MemberAwards> selectMemberMyAwards(String memberId);
+	//selectMemberId
+	public List<Member> selectMemberId();
+	//memberId에 맞는 select
+	public Member selectMemberIdMemberNameDepartmentName(String memberId, String memberName, String departmentName);
 }	

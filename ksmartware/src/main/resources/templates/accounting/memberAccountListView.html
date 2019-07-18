@@ -5,10 +5,7 @@
 		<meta charset="UTF-8">
 		<title>Sample</title>
 		<th:block th:include="layout/customHead"></th:block>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		
 		<script>
 		$(document).ready(function(){
 			//session에 있는 memberLogin의 값으로 바꿔준다
@@ -41,6 +38,31 @@
 			// memberAccount insert
 			$('#memberAccountAddButton').click(function(){
 				console.log('조직원계좌 insert 버튼 테스트');
+				if($('#memberName').val()=='') {
+	            	$('#helper').text('조직원 명을 입력하세요');
+	                
+	            } else if($('#memberAccountMemberId').val()=='') {
+	            	$('#helper').text('조직원 아이디를 입력하세요');
+	                
+	            } else if($('#memberAccountBank').val()=='') {
+	            	$('#helper').text('은행 명을 입력하세요');
+	                
+	            } else if($('#memberAccountNumber').val()=='') {
+	            	$('#helper').text('계좌번호를 입력하세요');
+	                
+	            }else if($('#registrationMemberId').val()=='') {
+	            	$('#helper').text('등록자 아이디를 입력하세요');
+	                
+	            }else if($('#memberEmployeeCode').val()=='') {
+	            	$('#helper').text('사번을 입력하세요');
+	                
+	            }else if($('#departmentName').val()=='') {
+	            	$('#helper').text('부서명을 입력하세요');
+	                
+	            }else if($('#memberPositionName').val()=='') {
+	            	$('#helper').text('직위/직책을 입력하세요');
+	                
+	            } else {
 				let memberName = $('#memberName').val();      		
             	let memberId = $('#memberAccountMemberId').val();
             	let memberAccountBank = $('#memberAccountBank').val();
@@ -50,21 +72,22 @@
             	let departmentName = $('#departmentName').val();
             	let memberPositionName = $('#memberPositionName').val();
 				
-				$.ajax({
-					url : '/addMemberAccount'
-					,type : 'post'
-					,data : {'memberName':memberName,'memberId':memberId,
-						'memberAccountBank':memberAccountBank,
-						'memberAccountNumber':memberAccountNumber,'registrationMemberId':registrationMemberId,
-						'memberEmployeeCode':memberEmployeeCode,
-						'departmentName':departmentName,
-						'memberPositionName':memberPositionName}
-					,success : function(data){
-						console.log('#memberAccountAddButton click');
-						$('#memberAccountListButton').trigger('click');
-	               		
-					}	
-				});
+					$.ajax({
+						url : '/addMemberAccount'
+						,type : 'post'
+						,data : {'memberName':memberName,'memberId':memberId,
+							'memberAccountBank':memberAccountBank,
+							'memberAccountNumber':memberAccountNumber,'registrationMemberId':registrationMemberId,
+							'memberEmployeeCode':memberEmployeeCode,
+							'departmentName':departmentName,
+							'memberPositionName':memberPositionName}
+						,success : function(data){
+							console.log('#memberAccountAddButton click');
+							$('#memberAccountListButton').trigger('click');
+		               		
+						}	
+					});
+	            }	
 			});
 			
 			
@@ -98,14 +121,26 @@
 	</th:block>
 	
 	<th:block layout:fragment="customBody">		
-		
+		<div class="page-header">
+			<div class="page-header row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="ik ik-layers bg-blue"></i>
+						<div class="d-inline">						
+							<h5>회계관리 - 조직원 계좌</h5>
+							<span>조직원 계좌를 추가합니다</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="card-body p-0 table-border-style">
 			<div class="table-responsive">
 					<h3>조직원 계좌
 						<!-- insertButton -->
 						<a class="ik ik-plus-square" href="#" id="memberAccountAddButton"></a>											
 						<!-- listButton -->
-						<a class="ik ik-clipboard" href="#" id="memberAccountListButton"></a>
+						<a class="ik ik-list" href="#" id="memberAccountListButton"></a>
 					</h3>
 					<!-- insert테이블 -->
 					<table class="table table-hover" id="customerAddList">			
@@ -123,7 +158,7 @@
 						</thead>
 				        <tbody>
 							<tr>
-								<td><input type="text" id="memberName"></td>								
+								<td><input type="text" id="memberName"><br><span id="helper"></span></td>								
 								<td>
 								<select id="memberAccountMemberId"></select>
 								</td>

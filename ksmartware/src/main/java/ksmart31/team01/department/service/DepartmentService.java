@@ -43,11 +43,12 @@ public class DepartmentService {
 		//department부서명  member조직원 기본 정보 조인	
 		List<DepartmentJoinMember> departmentJoinMemberList = departmentMapper.selectDepartmentJoinMemberList(map);		
 		System.out.println(departmentJoinMemberList + "DepartmentService getDepartmentList departmentJoinMemberList");
-			
+	
 		// 2개 이상의 데이터를 하나로 넘기기 위해 HashMap 사용	
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("recursiveList", recursiveList);		
-		returnMap.put("departmentJoinMemberList", departmentJoinMemberList);		
+		returnMap.put("departmentJoinMemberList", departmentJoinMemberList);
+		
 		return returnMap;
 
 	}
@@ -128,5 +129,14 @@ public class DepartmentService {
 	public List<MemberAwards> getMemberMyAwards(String memberId){
 		List<MemberAwards> list = departmentMapper.selectMemberMyAwards(memberId);
 		return list;
+	}
+	//selectMemberId
+	public List<Member> getMemberId(){
+		List<Member> list = departmentMapper.selectMemberId();
+		return list;
+	}
+	//
+	public Member getMemberIdMemberNameDepartmentName(String memberId, String memberName, String departmentName) {
+		return departmentMapper.selectMemberIdMemberNameDepartmentName(memberId, memberName, departmentName);
 	}
 }	
