@@ -101,8 +101,6 @@ public class LeaveApplication {
 				+ ", leaveApplicationEndDay=" + leaveApplicationEndDay + ", leaveApplicationDay=" + leaveApplicationDay
 				+ ", leaveApplicationHour=" + leaveApplicationHour + ", leaveApplicationReason="
 				+ leaveApplicationReason + ", leaveDetailSort=" + leaveDetailSort + "]";
-	}
-	
-	
+	}	
 
 }
