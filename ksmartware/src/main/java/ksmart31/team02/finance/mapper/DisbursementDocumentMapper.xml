@@ -1,0 +1,52 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ksmart31.team02.finance.mapper.DisbursementDocumentMapper">
+	
+	<!-- 지출결의서 리스트 -->
+	<resultMap type="ksmart31.team02.finance.domain.DisbursementDocument" id="selectDisbursementDocumentList">
+		<result column="member_name" property="memberName"/>
+		<result column="disbursement_document_date" property="disbursementDocumentDate"/>
+		<result column="disbursement_document_expense_date" property="disbursementDocumentExpenseDate"/>
+		<result column="account_name" property="accountName"/>
+		<result column="disbursement_document_contents" property="disbursementDocumentContents"/>
+		<result column="disbursement_document_customer" property="disbursementDocumentCustomer"/>
+		<result column="disbursement_document_price" property="disbursementDocumentPrice"/>
+		<result column="draft_document_final_approval_date" property="draftDocumentFinalApprovalDate"/>
+	</resultMap>
+	<select id="selectDisbursementDocumentList" parameterType="java.util.Map" resultMap="selectDisbursementDocumentList">
+		SELECT
+			a.member_name
+			,a.disbursement_document_date
+			,a.disbursement_document_expense_date
+			,a.account_name
+			,a.disbursement_document_contents
+			,a.disbursement_document_customer
+			,a.disbursement_document_price
+			,b.draft_document_final_approval_date
+		FROM disbursement_document a
+		JOIN draft_document b
+		ON a.draft_document_code = b.draft_document_code
+		WHERE b.draft_document_status = '승인'
+				
+	</select>
+	
+	
+	
+	<!-- 지출 금액  > 계정과목별 합산금액 -->
+	<resultMap type="ksmart31.team02.finance.domain.DisbursementDocument" id="selectDisbursementDocumentPriceSort">
+		<result column="account_name" property="accountName"/>
+		<result column="sumDisbursementDocumentPrice" property="sumDisbursementDocumentPrice"/>
+		<result column="totalPrice" property="totalPrice"/>
+	</resultMap>
+	<select id="selectDisbursementDocumentPrice" parameterType="java.util.Map" resultMap="selectDisbursementDocumentPriceSort">
+		SELECT 
+			account_name,
+			SUM(disbursement_document_price) AS sumDisbursementDocumentPrice
+		FROM disbursement_document
+		GROUP BY account_name ASC
+	</select>
+	<!-- 지출 금액  > 총 금액 합계 -->
+	<select id="selectDisbursementDocumentTotalPrice" parameterType="java.util.Map" resultType="int">
+		SELECT SUM(disbursement_document_price) AS totalPrice
+		FROM disbursement_document
+	</select>
+</mapper>

@@ -1,0 +1,63 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ksmart31.team02.finance.mapper.PurchaseRequisitionMapper">
+	
+	<!-- 구매요청서 리스트 -->
+	<resultMap type="ksmart31.team02.finance.domain.PurchaseRequisition" id="selectPurchaseRequisitionList">
+		<result column="department_name" property="memberName"/>
+		<result column="member_name" property="memberName"/>
+		<result column="member_id" property="memberId"/>
+		<result column="member_employee_code" property="memberEmployeeCode"/>
+		<result column="member_position_name" property="memberPositionName"/>
+		<result column="purchase_requisition_date" property="purchaseRequisitionDate"/>
+		<result column="purchase_requisition_pay_day" property="purchaseRequisitionPayDay"/>
+		<result column="purchase_requisition_item_category" property="purchaseRequisitionItemCategory"/>
+		<result column="purchase_requisition_item" property="purchaseRequisitionItem"/>
+		<result column="purchase_requisition_item_unit" property="purchaseRequisitionItemUnit"/>
+		<result column="purchase_requisition_item_count" property="purchaseRequisitionItemCount"/>
+		<result column="purchase_requisition_item_price" property="purchaseRequisitionItemPrice"/>
+		<result column="purchase_requisition_total_price" property="purchaseRequisitionTotalPrice"/>
+		<result column="purchase_requisition_etc" property="purchaseRequisitionEtc"/>
+	</resultMap>
+	<select id="selectPurchaseRequisitionList" parameterType="java.util.Map" resultMap="selectPurchaseRequisitionList">
+		SELECT
+			a.draft_document_code
+			,a.department_name
+			,a.member_name
+			,a.member_id
+			,a.member_employee_code
+			,a.member_position_name
+			,a.purchase_requisition_date
+			,a.purchase_requisition_pay_day
+			,a.purchase_requisition_item_category
+			,a.purchase_requisition_item
+			,a.purchase_requisition_item_unit
+			,a.purchase_requisition_item_count
+			,a.purchase_requisition_item_price
+			,a.purchase_requisition_total_price
+			,a.purchase_requisition_etc
+		FROM purchase_requisition a
+		JOIN draft_document b
+		ON a.draft_document_code = b.draft_document_code
+		WHERE b.draft_document_status = '승인'
+	</select>
+	
+	<!-- 구매 요청 금액  > 품목별 합산금액 -->
+	<resultMap type="ksmart31.team02.finance.domain.PurchaseRequisition" id="selectPurchaseRequisitionPriceSort">
+		<result column="purchase_requisition_item_category" property="purchaseRequisitionItemCategory"/>
+		<result column="sumPurchaseRequisitionPrice" property="sumPurchaseRequisitionPrice"/>
+		<result column="totalPrice" property="totalPrice"/>
+	</resultMap>
+	<select id="selectPurchaseRequisitionPrice" parameterType="java.util.Map" resultMap="selectPurchaseRequisitionPriceSort">
+		SELECT 
+			purchase_requisition_item_category,
+			SUM(purchase_requisition_total_price) AS sumPurchaseRequisitionPrice
+		FROM purchase_requisition
+		GROUP BY purchase_requisition_item_category ASC
+	</select>
+	<!-- 구매 요청 금액  > 총 금액 합계 -->
+	<select id="selectPurchaseRequisitionTotalPrice" parameterType="java.util.Map" resultType="int">
+		SELECT
+			SUM(purchase_requisition_total_price) AS totalPrice
+		FROM purchase_requisition;
+	</select>
+</mapper>
