@@ -1,0 +1,131 @@
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ksmart31.team02.certification.mapper.CertificationMapper">
+
+	<!-- <resultMap type="ksmart31.team02.certification.domain.CertificationCommon" id="CertificationCommonMap">
+			
+			<result column="member_id" property="memberId"/>
+			<result column="member_name" property="memberName"/>
+			<result column="department_name" property="departmentName"/>
+			<result column="member_position_name" property="memberPositionName"/>
+			<result column="member_level_title" property="memberLevelTitle"/>
+			<result column="member_address" property="memberAddress"/>
+			<result column="member_join_day" property="memberJoinDay"/>
+			<result column="member_phone" property="memberPhone"/>
+			<result column="member_mobile" property="memberMobile"/>
+			<result column="member_employee_code" property="memberEmployeeCode"/>
+			
+			<collection property="certificationList" ofType="ksmart31.team02.certification.domain.Certification">
+			<id column="document_form_category_name" property="documentFormCategoryName"/>		
+			<result column="document_form_category_code" property="documentFormCategoryCode"/>
+			<result column="document_form_category_name" property="documentFormCategoryName"/>
+			<result column="document_form_title" property="documentFormTitle"/>
+			<result column="document_form_form_code" property="documentFormCode"/>	
+			</collection>
+		
+	</resultMap> -->
+	
+	<!-- 1. 증명서 신청  : 증명서 리스트 --> 
+	<select id="selectCertificationList" parameterType="String" resultType="ksmart31.team02.certification.domain.Certification">
+		SELECT
+			document_form_code AS documentFormCode		
+			,document_form_name AS documentFormName
+			,document_form_category_code AS documentFormCategoryCode
+			,document_form_category_name AS documentFormCategoryName
+			,document_form_date AS documentFormDate
+		FROM
+			document_form
+		WHERE
+			document_form_category_name = #{documentFormCategoryName};
+	</select>
+	<!-- 증명서 신청 : 회원 정보  -->
+	<select id="getMemberInfo" parameterType="String" resultType="ksmart31.team01.member.domain.Member">
+		SELECT 
+			member_id AS memberId
+			,member_name AS memberName
+			,department_name AS departmentName
+			,member_position_name AS memberPositionName
+			,member_level_title AS memberLevelTitle
+			,member_address AS memberAddress
+			,member_join_day AS memberJoinDay
+			,member_phone AS memberPhone
+			,member_mobile AS memberMobile
+			,member_employee_code AS memberEmployeeCode
+		FROM
+			member
+		WHERE
+			member_id = #{member_id};
+	</select>
+	
+	<!-- 증명서 신청 : 증명서 신청 -->
+	<insert id="insertCertification" parameterType="ksmart31.team02.certification.domain.CertificationCommon">
+		INSERT INTO 
+			certificate_application
+			(
+				certificate_application_code
+				,member_id
+				,member_name
+				,department_name
+				,member_position_name
+				,member_address
+				,member_join_day
+				,member_phone
+				,member_employee_code
+				,document_form_code
+				,document_form_name
+				,document_form_category_code
+				,document_form_category_name
+				,certificate_application_day
+				,certification_application_state
+				,certificate_application_usage
+				,certificate_application_file_name
+				,certificate_application_file_url
+			)
+				SELECT CONCAT('certificate_application_code','_', (SELECT MAX(substring(certificate_application_code, 30)+1) FROM certificate_application))
+				,#{memberId}
+				,#{memberName}
+				,#{departmentName}
+				,#{memberPositionName}
+				,#{memberAddress}
+				,#{memberJoinDay}
+				,#{memberPhone}
+				,#{memberEmployeeCode}
+				,#{documentFormCode}
+				,#{documentFormName}	
+				,#{documentFormCategoryCode}
+				,#{documentFormCategoryName}
+				,now()
+				,'대기'
+				,#{certificateApplicationUsage}
+				,#{certificateApplicationFileName}
+				,#{certificateApplicationFileUrl}
+	</insert>
+
+	<!-- 증명서 조회 : 신청 내역 -->
+	<select id="selectCertificationHistoryList" parameterType="String" resultType="ksmart31.team02.certification.domain.CertificationCommon">
+		SELECT
+			certificate_application_code AS certificateApplicationCode
+			,member_id AS memberId
+			,member_name AS memberName
+			,department_name AS departmentName
+			,member_position_name AS memberPositionName
+			,member_address AS memberAddress
+			,member_join_day AS memberJoinDay
+			,member_phone AS memberPhone
+			,member_employee_code AS memberEmployeeCode
+			,document_form_code AS documentFormCode
+			,document_form_name AS documentFormName
+			,document_form_category_code AS documentFormCategoryCode
+			,document_form_category_name AS documentFormCategoryName
+			,certificate_application_day AS certificateApplicationDay
+			,certification_application_state AS certificationApplicationState
+			,certificate_application_usage AS certificateApplicationUsage
+			,certificate_application_file_name AS certificateApplicationFileName
+			,certificate_application_file_url AS certificateApplicationFileUrl
+			,certificate_application_file_url AS certificateApplicationFileUrl
+			,certificate_application_approver AS certificateApplicationApprover
+		FROM certificate_application
+		WHERE member_id = #{memberId}
+	</select>
+</mapper>
