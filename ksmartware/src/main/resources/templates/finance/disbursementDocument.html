@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+
+<th:block layout:fragment="customHead">
+    <meta charset="UTF-8">
+    <title>Ksmartware</title>
+    <th:block th:include="layout/customHead"></th:block>
+    <link rel="stylesheet" th:href="@{//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css}">
+    <script th:src="@{https://code.jquery.com/jquery-1.12.4.js}"></script>
+    <script th:src="@{https://code.jquery.com/ui/1.12.1/jquery-ui.js}"></script>
+
+    <script>
+        $(function() {
+            $("#fromDate").datepicker();
+            $("#toDate").datepicker();
+        });
+        $(document).ready(function() {
+            
+            //문서 상세검색 창
+            $('#searchDoc').click(function() {
+                console.log('#kh click...');
+                $('#selectBox').toggle();
+            });
+            $('#searchDocIco').click(function() {
+                console.log('#kh click...');
+                $('#selectBox').toggle();
+            });
+
+            $("#checkAll").click(function() {
+                if ($("#checkAll").is(':checked')) {
+                    $("input[type=checkbox]").prop(
+                        "checked", true);
+                } else {
+                    $("input[type=checkbox]").prop(
+                        "checked", false);
+                }
+            });
+        });
+    </script>
+</th:block>
+
+<th:block layout:fragment="customBody">
+    <div class="page-header">
+		<div class="page-header row align-items-end">
+			<div class="col-lg-8">
+				<div class="page-header-title">
+					<i class="ik ik-layers bg-blue"></i>
+					<div class="d-inline">
+						<!-- 증명서 발급 - 신청 내역 -->
+						<h5>재무관리-지출 내역 관리</h5>
+						<span>지출 내역을 조회합니다.</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    
+    <div class="col-md-12">
+        <div class="card table-card">
+            <div class="card-header">
+                <div class="col-md-12">
+                    <div class="collapse d-md-block display-options" id="displayOptions">
+                        <div class="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
+                            <form action="">
+                                <button type="button" class="adv-btn ik ik-chevron-down dropdown-toggle" id="searchDoc"></button>
+                                <button type="button" class="btn btn-icon" id="searchDocIco">
+                                    <i class="ik ik-search"></i>
+                                </button>
+                                <div class="adv-search-wrap dropdown-menu dropdown-menu-right" id="selectBox" style="width: 440px; height: 500px;">
+                                    
+                                    <div class="form-group">
+                                        <label for="documentDateCategory">검색기간</label>
+                                        <select class="form-control" id="documentDateCategory" name="documentDateCategory">
+                                            <option value="">선택</option>
+                                            <option value="disbursementDocumentExpenseDate">지출일</option>
+                                            <option value="disbursementDocumentDate">기안일</option>
+                                            <option value="disbursementDocumentRequestDate">지급요청일</option>
+                                            <option value="draftDocumentFinalApprovalDate">최종결재일</option>
+                                        </select>
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <input type="text" class="form-control" id="fromDate" name="documentDateStart">
+                                            </div>
+                                            ~
+                                            <div class="col-sm-5">
+                                                <input type="text" class="form-control" id="toDate" name="documentDateEnd">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="documentSearchKey">검색어(직접입력)</label>
+                                        <select class="form-control" id="documentSearchKey" name="documentSearchKey">
+                                            <option value="" selected="selected">선택</option>
+                                            <option value="결재중">지출내용</option>
+                                            <option value="승인">거래처</option>
+                                        </select>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="documentSearchWord" name="documentSearchWord">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="documentStatus">결재수단</label>
+                                        <select class="form-control" id="documentStatus" name="documentStatus">
+                                            <option value="" selected="selected">선택</option>
+                                            <option value="신용카드">신용카드</option>
+                                            <option value="계좌이체">계좌이체</option>
+                                            <option value="현금">현금</option>
+                                            <option value="개인신용카드">개인신용카드</option>
+                                            <option value="법인신용카드">법인신용카드</option>
+                                            <option value="어음">어음</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="documentName">문서명</label>
+                                        <input type="text" class="form-control" placeholder="문서명">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="documentMemberName">기안자</label>
+                                        <input type="text" class="form-control" placeholder="기안자">
+                                    </div>
+                                    <button class="btn btn-theme">검색</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="float-md-right">
+                            <button type="submit" class="btn btn-secondary" id="btnDelete">
+                                <i class="ik" id="btnDelete"></i>선택
+                            </button>
+
+                        </div>
+                    </div>
+                    <div class="card-header-right"></div>
+                </div>
+            </div>
+            <div class="card-block">
+            	<h5>지출금액  (*최종승인 된 지출결의서만 집계)</h5>
+                <div class="table-responsive">
+
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>계정과목</th>
+                                <th:block th:each="list : ${sumPriceList}">
+                                	<th><th:block th:text="${list.accountName}"/></th>
+                                </th:block>
+                                <th>합계</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        	<tr>
+                        		<td>금액</td>
+                        		<th:block th:each="list : ${sumPriceList}">
+                                	<td><th:block th:text="${list.sumDisbursementDocumentPrice}"/></td>
+                                </th:block>	
+                        		<td><th:block th:text="${totalPrice}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-block">
+            	<h5>지출결의서 리스트</h5>
+                <div class="table-responsive">
+
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>기안자</th>
+                                <th>기안일</th>
+                                <th>지출일</th>
+                                <th>계정과목</th>
+                                <th>지출내용</th>
+                                <th>거래처</th>
+                                <th>금액</th>
+                                <th>최종 결재 일</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="list : ${disbursementDocumentList}">
+                                <td><span th:text="${list.memberName}"></span></td>
+                                <td><span th:text="${list.disbursementDocumentDate}"></span></td>
+                                <td><span th:text="${list.disbursementDocumentExpenseDate}"></span></td>
+                                <td><span th:text="${list.accountName}"></span></td>
+                                <td><span th:text="${list.disbursementDocumentContents}"></span></td>
+                                <td><span th:text="${list.disbursementDocumentCustomer}"></span></td>
+                                <td><span th:text="${list.disbursementDocumentPrice}"></span></td>
+                                <td><span th:text="${list.draftDocumentFinalApprovalDate}"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</th:block>
+
+<th:block layout:fragment="customJquery">
+    <th:block th:include="layout/customJquery"></th:block>
+
+</th:block>
+
+</html>

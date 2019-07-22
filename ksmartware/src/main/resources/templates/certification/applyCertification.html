@@ -1,0 +1,191 @@
+<!-- 증명서 신청 -->
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+	
+<th:block layout:fragment="customHead">
+	<meta charset="UTF-8">
+	<title>증명서 발급</title>
+	<th:block th:include="layout/customHead"></th:block>
+<script>
+$(document).ready(function() {
+	$(".documentFormName").click(function() {
+		//모달 박스 옵션
+		$("#applyCertModal").modal({backdrop : "static"});
+		//클릭 시 모달 박스로 값 전달
+		$("#documentFormName").val($(this).text());
+		$("#documentFormCode").val($(this).parent().find('.documentFormCode').text());
+		$("#documentFormCategoryName").val($(this).parent().find('.documentFormCategoryName').text());
+		$("#documentFormCategoryCode").val($(this).parent().find('.documentFormCategoryCode').text());		
+	});
+	
+});
+</script>
+</th:block>
+
+<th:block layout:fragment="customBody">
+	<div class="page-header">
+		<div class="page-header row align-items-end">
+			<div class="col-lg-8">
+				<div class="page-header-title">
+					<i class="ik ik-layers bg-blue"></i>
+					<div class="d-inline">
+						<!-- 증명서 발급 - 증명서 신청 -->
+						<h5>증명서 발급 - 증명서 신청</h5>
+						<span>재직 증명서와 경력 증명서를 신청합니다.</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">	
+		<div class="col-md-9">
+			<div class="card table-card">
+				<div class="card-block template-demo">
+					<div class="table-responsive">
+						<table class="table table-hover mb-0">
+							<thead>
+								<tr>
+									<th>제목</th>
+									<th>등록일</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="certList : ${certificationList}">
+									<td>
+										<button th:text="${certList.documentFormName}" type="button" class="documentFormName btn btn-secondary" data-toggle="modal" data-target="#applyCertModal"></button>
+										<button th:text="${certList.documentFormCode}" class="documentFormCode" hidden="hidden"></button>
+										<button th:text="${certList.documentFormCategoryName}" class="documentFormCategoryName" hidden="hidden"></button>
+										<button th:text="${certList.documentFormCategoryCode}" class="documentFormCategoryCode" hidden="hidden"></button>
+									</td>
+									<td th:text="${certList.documentFormDate}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 증명서 발급 모달 박스 -->
+	<div class="modal fade" id="applyCertModal" tabindex="-1" role="dialog"
+		aria-labelledby="demoModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="demoModalLabel">입력 데이터 생성</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="table-responsive">
+						<div class="col-md-12">
+                            <div class="card" style="min-height: 484px;">
+                                <div class="card-header"><h3>Horizontal Form</h3></div>
+                                <div class="card-body">
+                                    <form class="forms-sample" action="/apply/addApplyCertification" method="post">
+                                    	<!-- 회원 정보 -->
+                                        <div class="form-group row">
+                                            <label for="memberName" class="col-sm-3 col-form-label">이름</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="memberName" id="memberName" th:value="${memberInfo.memberName}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" style ="display:none">
+                                            <label for="memberId" class="col-sm-3 col-form-label">ID</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="memberId" id="memberId" th:value="${memberInfo.memberId}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="departmentName" class="col-sm-3 col-form-label">소속</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="departmentName" id="departmentName" th:value="${memberInfo.departmentName}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="memberPositionName" class="col-sm-3 col-form-label">직급/직책</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="memberPositionName" id="memberPositionName" th:value="${memberInfo.memberPositionName}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="memberAddress" class="col-sm-3 col-form-label">주소</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="memberAddress" id="memberAddress" th:value="${memberInfo.memberAddress}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="memberJoinDay" class="col-sm-3 col-form-label">입사일</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="memberJoinDay" id="memberJoinDay" th:value="${memberInfo.memberJoinDay}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="exampleInputMobile" class="col-sm-3 col-form-label">핸드폰번호</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="memberMobile" id="memberMobile" th:value="${memberInfo.memberMobile}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="memberEmployeeCode" class="col-sm-3 col-form-label">사번</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="memberEmployeeCode" id="memberEmployeeCode" th:value="${memberInfo.memberEmployeeCode}">
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- 증명서에 대한 정보 -->
+                                        <div class="form-group row">
+                                            <label for="documentFormName" class="col-sm-3 col-form-label">증명서 이름</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="documentFormName" id="documentFormName" readonly="readonly">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" hidden="hidden" >
+                                            <label for="documentFormCode" class="col-sm-3 col-form-label">documentFormCode</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="documentFormCode" id="documentFormCode">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" hidden="hidden" >
+                                            <label for="documentFormCategoryName" class="col-sm-3 col-form-label">documentFormCategoryName</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="documentFormCategoryName" id="documentFormCategoryName">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" hidden="hidden" >
+                                            <label for="documentFormCategoryCode" class="col-sm-3 col-form-label">documentFormCategoryCode</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="documentFormCategoryCode" id="documentFormCategoryCode">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" >
+                                            <label for="certificateApplicationUsage" class="col-sm-3 col-form-label">용도</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="certificateApplicationUsage" id="certificateApplicationUsage">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+											<button type="submit" class="btn btn-primary mr-2">증명서 신청</button>
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+										</div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+	<!-- / 증명서 발급 모달 박스 -->
+</th:block>
+	
+	
+
+<th:block layout:fragment="customJquery">
+	<th:block th:include="layout/customJquery"></th:block>
+</th:block>
+</html>

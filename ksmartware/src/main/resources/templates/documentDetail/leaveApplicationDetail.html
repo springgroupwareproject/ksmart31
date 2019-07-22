@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+
+<th:block layout:fragment="customHead">
+    <meta charset="UTF-8">
+    <title>휴가신청서</title>
+    <th:block th:include="layout/customHead"></th:block>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" type="text/css" />
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(function() {
+            // 양식폼이 로드되면 draft_document테이블에 임시저장 상태로 문서 등록
+
+            // 결재선 목록
+            $.ajax({
+                url: '/member/getApprovalProcess',
+                type: 'POST',
+                data: {},
+                success: function(data) {
+                    console.log('비동기 요청 성공');
+                    console.log('결재선');
+                    console.log(data);
+                    $('#approvalProcessList').empty();
+                    // 요청 성공시 결재선목록 뿌려주기
+                    $(data).each(function(i, item) {
+                        $('#approvalProcessList').append('<option value="' + item.approvalProcessCode + '">' + item.approvalProcessName + '</option>');
+                    });
+                }
+            });
+
+            // 의견 등록
+            $('#insertOpinion').click(function() {
+                console.log('#insertOpinion click!!');
+
+                var insertOpinionBox = $('#insertOpinionBox').val();
+
+                if (insertOpinionBox.length == 0) {
+                    $('#helper').text('내용을 입력하세요.').hide(3000);
+                } else {
+                    $.ajax({
+                        url: '/member/addApprovalOpinion',
+                        type: 'POST',
+                        data: {
+                            'approvalOpinionDesc': approvalOpinionDesc
+                        },
+                        success: function() {
+                            console.log('의견 등록 성공');
+                            $('#opinion').trigger('click');
+                        }
+                    });
+                }
+            })
+
+            // 의견 목록
+            $('#opinion').click(function() {
+                console.log('#opinion click!');
+                $.ajax({
+                    url: '/member/approvalOpinionList',
+                    type: 'GET',
+                    data: {},
+                    success: function(data) {
+                        console.log('비동기 요청 성공');
+                        console.log('의견');
+                        console.log(data);
+                        $('#approvalOpinionList').empty();
+                        // 요청 성공시 의견 목록 뿌려주기
+                        $(data).each(function(i, item) {
+                            if ($('#approvalOpinionList') != null) {
+                                $('#approvalOpinionList').append('<tr>');
+                                $('#approvalOpinionList').append('<td>' + item.memberName + '</td>');
+                                $('#approvalOpinionList').append('<td>' + item.approvalOpinionDesc + '</td>');
+                                $('#approvalOpinionList').append('<td>' + item.approvalOpinionDate + '</td>');
+                                $('#approvalOpinionList').append('</tr>');
+                            } else {
+                                $('#approvalOpinionList').append('<tr>');
+                                $('#approvalOpinionList').append('<td>의견이 없습니다.</td>');
+                                $('#approvalOpinionList').append('</tr>');
+                            }
+                        });
+                    }
+                });
+            });
+
+            // 첨부파일 목록
+            $('#file').click(function() {
+                console.log('#file click!!');
+                $.ajax({
+                    url: '/member/approvalFileList',
+                    type: 'GET',
+                    data: {},
+                    success: function(data) {
+                        console.log('비동기 요청 성공');
+                        console.log('파일');
+                        console.log(data);
+                        $('#approvalFileList').empty();
+                        // 요청 성공시 첨부파일 목록 뿌려주기
+                        $(data).each(function(i, item) {
+                            if ($('#approvalFileList') != null) {
+                                $('#approvalFileList').append('<tr>');
+                                $('#approvalFileList').append('<td>' + item.approvalFileSaveName + '</td>');
+                                $('#approvalFileList').append('<td>' + item.approvalFileExt + '</td>');
+                                $('#approvalFileList').append('</tr>');
+                            } else {
+                                $('#approvalFileList').append('<tr>');
+                                $('#approvalFileList').append('<td>파일이 없습니다.</td>');
+                                $('#approvalFileList').append('</tr>');
+                            }
+                        });
+                    }
+                });
+            });
+
+            // 휴가 리스트 및 잔여일
+            $.ajax({
+                url: '/member/getLeaveCategoryAndHistory',
+                type: 'GET',
+                success: function(data) {
+                    console.log('비동기 요청 성공');
+                    console.log('휴가 리스트');
+                    console.log(data);
+                    $('#approvalFileList').empty();
+                    let preCategory = ''; // 이전 휴가 종류 
+                    let nextCategory = ''; // 다음 휴가 종류
+                    let remainingDateCount = 0;
+                    $(data.leaveDetail).each(function(i, item) {
+                        nextCategory = item.leaveCategorySort;
+                        if (preCategory != nextCategory) { // 휴가 종류 값이 같지 않을 때 비활성화된 채로 목록에 추가
+                            $('#leaveCategoryAndRemaining').append('<div class="col-6" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;">' + item.leaveCategorySort + '</div>');
+                            $('#leaveCategoryAndRemaining').append('<div class="col-2" id="remainingDate' + remainingDateCount + '" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;"></div>');
+                            $('#leaveCategoryAndRemaining').append('<div class="col-2" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;"></div>');
+                            $('#leaveCategoryAndRemaining').append('<div class="col-2" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;"></div>');
+                            preCategory = nextCategory;
+                            remainingDateCount++;
+                        }
+                        $('#leaveCategoryAndRemaining').append('<div class="col-6" style="height: 40px; padding-top: 10px;"><input type="radio" name="categorySort" value="' + item.leaveCategorySort + ', ' + item.leaveDetailSort + '">' + item.leaveDetailSort + '</div>');
+                        $('#leaveCategoryAndRemaining').append('<div class="col-2" style="height: 40px; padding-top: 10px;"></div>');
+                        $('#leaveCategoryAndRemaining').append('<div class="col-2" style="height: 40px; padding-top: 10px;">' + item.leaveDetailMinimumDay + '일 ' + item.leaveDetailMinimumHour + '시간</div>');
+                        $('#leaveCategoryAndRemaining').append('<div class="col-2" style="height: 40px; padding-top: 10px;">' + item.leaveDetailMaximumDay + '일 ' + item.leaveDetailMaximumHour + '시간</div>');
+                    });
+                    $(data.leaveHistory).each(function(i, item) {
+                        $('#remainingDate' + i + '').append('<div>' + item.leaveHistoryRemainingDay + '일 ' + item.leaveHistoryRemainingHour + '시간<div>')
+                    });
+                }
+            });
+
+            $('#categoryButton').click(function() {
+                $('#leaveCategoryList').empty();
+                console.log('휴가 종류 확인 버튼 테스트');
+                // 선택된 휴가 종류
+                let categorySort = $('input[name="categorySort"]:checked').val();
+                console.log('categorySort : ' + categorySort);
+                // ', '를 제거하고 나머지 텍스트를 배열로 저장
+                // 기존 : '연차 유급 휴가, 오전 반차 휴가' -> 변경 : ['연차 유급 휴가', '오전 반차 휴가']
+                let detailSort = categorySort.split(', ');
+                // 1번째 담긴 값을 출력(상세 휴가 종류)
+                console.log('detailSort : ' + detailSort[1]);
+                $('#leaveCategoryList').append('<option value="' + categorySort + '" selected="selected">' + detailSort[1] + '</option>');
+                $('#leaveCategoryListModal').modal('hide');
+            });
+
+            // 달력 api 호출 함수
+            $('#usedStartDay').datepicker();
+            $('#usedEndDay').datepicker();
+
+            // 달력 입력 값 형식 설정 
+            $.datepicker.setDefaults({
+                dateFormat: 'yy-mm-dd'
+            });
+        });
+    </script>
+</th:block>
+<th:block layout:fragment="customBody">
+    <div class="page-header">
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                <div class="page-header-title">
+                    <i class="ik ik-box bg-blue"></i>
+                    <div class="d-inline">
+                        <h5>휴가신청서</h5>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- 왼쪽 칸 시작 -->
+        <div class="col-md-8">
+            <div class="card" style="min-height: 484px;">
+                <div class="card-header">
+                    <h3>휴가신청서</h3>
+                </div>
+                <div class="card-body">
+                    <form class="forms-sample" th:each="list : ${leaveApplicationList}">
+                        <!-- 첫번째 테이블 시작 -->
+                        <div class="form-group row">
+                            <label for="departmentName" class="col-sm-3 col-form-label">부서</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="departmentName" th:value="${list.departmentName}" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="memberPositionName" class="col-sm-3 col-form-label">직위/직책</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="memberPositionName" th:value="${list.memberPositionName}" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="memberName" class="col-sm-3 col-form-label">신청자명</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="memberName" th:value="${list.memberName}" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="draftDocumentDate" class="col-sm-3 col-form-label">기안일</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="draftDocumentDate" th:value="${list.draftDocumentDate}" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="exampleInputMobile" class="col-sm-3 col-form-label">휴가일수 합계</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="leaveCount" id="leaveStartDay" th:value="${list.leaveApplicationStartDay}" hidden="hidden">
+                                <input type="text" class="leaveCount" id="leaveEndDay" th:value="${list.leaveApplicationEndDay}" hidden="hidden">
+
+                                <input type="text" class="form-control" id="exampleInputMobile" placeholder="구현중">
+                            </div>
+                        </div>
+                        <!-- 첫번째 테이블 끝 -->
+
+                        <!-- 두 번째 테이블 시작-->
+                        <div class="form-control form-txt-inverse" style="padding:10px;">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>휴가종류</th>
+                                        <th>휴가기간</th>
+                                        <th>휴가일수</th>
+                                        <th>휴가사유</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span th:text="${list.leaveCategorySort}"></span></td>
+                                        <td><span th:text="${list.leaveApplicationStartDay}"></span>~<span th:text="${list.leaveApplicationEndDay}"></span></td>
+                                        <td><span th:text="${list.leaveApplicationDay}"></span></td>
+                                        <td><span th:text="${list.leaveApplicationReason}"></span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 두번째 테이블 끝 -->
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 왼쪽 칸 끝 -->
+
+        <!-- 오른쪽 칸 시작-->
+        <div class="col-4">
+            <div class="card" style="min-height: 484px;">
+                <div class="card-body">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="approvalProcessLine" data-toggle="tab" href="#approvalProcess">결재선 설정</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="opinion" data-toggle="tab" href="#opinionList">의견</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="file" data-toggle="tab" href="#fileList">첨부파일</a>
+                        </li>
+                    </ul>
+                    <br>
+                    <div class="tab-content">
+                        <!-- 결재선 설정 탭 -->
+                        <div class="tab-pane fade show active" id="approvalProcess">
+                            <div class="form-group">
+                                <table class="table table-hover mb-0" th:each="processList:${approvalMemberList}">
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span th:text="${processList.approvalTurnNumber}"></span></td>
+                                            <td><span th:text="${processList.approvalMemberName}"></span></td>
+                                            <td>
+                                                <div th:switch="${processList.approvalMemberStatus}">
+                                                    <label th:case="'결재중'" class="badge badge-primary">
+                                                        <span th:text="${processList.approvalMemberStatus}"></span>
+                                                    </label>
+                                                    <label th:case="'승인'" class="badge badge-success">
+                                                        <span th:text="${processList.approvalMemberStatus}"></span>
+                                                    </label>
+                                                    <label th:case="'반려'" class="badge badge-danger">
+                                                        <span th:text="${processList.approvalMemberStatus}"></span>
+                                                    </label>
+                                                    <label th:case="'임시저장'" class="badge badge-secondary">
+                                                        <span th:text="${processList.approvalMemberStatus}"></span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td><span th:text="${processList.approvalDate}"></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- 의견 탭 -->
+<div class="tab-pane fade" id="opinionList">
+    <div class="card-block">
+        <div class="table-responsive">
+            <table style="width:100%">
+                <tbody id="approvalOpinionList">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="right-icon-control m-t-15">
+        <div class="input-group input-group-button">
+            <input type="text" class="form-control" placeholder="의견을 등록해주세요.">
+            <div class="input-group-append">
+                <button id="insertOpinion" class="btn btn-primary" type="button"><i class="ik ik-plus"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 첨부파일 탭 -->
+<div class="tab-pane fade" id="fileList">
+    <div class="card-block">
+        <div class="table-responsive">
+            <table style="width:100%">
+                <tbody id="approvalFileList">
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-outline-secondary btn-rounded"><i class="ik ik-share"></i>Upload</button>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <!--                         <button type="button" class="btn btn-primary">기안하기</button>
+                        <button type="button" class="btn btn-secondary">임시저장</button> -->
+
+
+</div><!-- 오른쪽 칸 끝-->
+
+<!-- 휴가 선택 팝업 -->
+<div class="modal" id="leaveCategoryListModal">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">휴가 목록</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="card" style="margin: 0">
+                    <div class="card-body" style="padding: 15px;">
+                        <div class="row" id="leaveCategoryAndRemaining">
+                            <div class="col-6" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;">
+                                휴가 종류
+                            </div>
+                            <div class="col-2" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;">
+                                잔여 일수
+                            </div>
+                            <div class="col-2" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;">
+                                최소 일수
+                            </div>
+                            <div class="col-2" style="border: 1px solid #ccc; height: 40px; padding-top: 10px;">
+                                최대 일수
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="categoryButton">확인</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal" id="categoryCancleButton">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+</th:block>
+
+<th:block layout:fragment="customJquery">
+    <th:block th:include="layout/customJquery"></th:block>
+</th:block>
+
+</html>

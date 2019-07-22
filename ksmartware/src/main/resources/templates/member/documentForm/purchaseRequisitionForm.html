@@ -5,15 +5,48 @@
 		<meta charset="UTF-8">
 		<title>구매요청서</title>
 		<th:block th:include="layout/customHead"></th:block>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" type="text/css" />
+		<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 		<script type="text/javascript">
 			$(function() {
-				// 작성일
-				document.getElementById('purchaseRequisitionDate').value= new Date().toISOString().slice(0, 16);
+				// 양식목록에서 넘겨준 데이터 확인
+				function getQuerystring(paramCode){ 
+					var _tempUrl = window.location.search.substring(1); //url에서 처음부터 '?'까지 삭제 
+					var _tempArray = _tempUrl.split('&'); // '&'을 기준으로 분리하기 
+					for(var i = 0; _tempArray.length; i++) { 
+						var _keyValuePair = _tempArray[i].split('='); // '=' 을 기준으로 분리하기 
+						if(_keyValuePair[0] == paramCode){
+							// _keyValuePair[0] : 파라미터 명 
+							// _keyValuePair[1] : 파라미터 값 
+							return _keyValuePair[1]; 
+						} 
+					} 
+				} 
 				
-				// 지급요청일
-				document.getElementById('purchaseRequisitionPayDay').value= new Date().toISOString().slice(0, 16);
+				console.log('documentFormCode:'+getQuerystring('documentFormCode'));
+				console.log('documentFormCategoryCode:'+getQuerystring('documentFormCategoryCode'));
 				
-				// 결재선 목록
+				let documentFormCode = getQuerystring('documentFormCode');
+				let documentFormCategoryCode = getQuerystring('documentFormCategoryCode');
+				
+				// 문서 기안
+				$('#addDraftDocument').click(function() {
+					console.log('#addDraftDocument click!!');
+					$.ajax({
+						url:'/member/addDraftDocument'
+						, type:'POST'
+						, data : {'documentFormCode':documentFormCode, 'documentFormCategoryCode':documentFormCategoryCode}
+						, success : function() {
+							console.log('성공');
+						} 
+					});
+					
+					// 기안 후 내 기안 목록으로 이동
+					location.href="/documentBox/draftDocument";
+				});
+				
+				// 페이지 로드시 결재선 목록
 				$.ajax({
 					url:'/member/getApprovalProcess'
 					, type:'POST'
@@ -30,8 +63,18 @@
 		            }
 				});
 				
+				// 의견 추가
+				$('#insertOpinion').click(function(){
+					let optionIndex = 1;
+					console.log('insertOpinion click...');
+					let opinion = $('#ttt').val()
+					$('#approvalOpinionList').append('<input type="text" class="form-control" name="approvalOpinionDesc['+optionIndex+']" value='+opinion+'>');
+					opinion = "";
+				});
+								
 				// 의견 목록
 				$('#opinion').click(function() {
+					console.log('#opinion click!!');
 					$.ajax({
 						url:'/member/approvalOpinionList'
 						, type:'GET'
@@ -87,6 +130,103 @@
 			            }
 					});
 				})
+				
+				// 작성일
+				document.getElementById('purchaseRequisitionDate').value= new Date().toISOString().slice(0, 16);
+				
+				// 지급요청일
+				// 달력 api 호출 함수
+				$('#purchaseRequisitionPayDay').datepicker();
+				
+				// 달력 입력 값 형식 설정 
+				$.datepicker.setDefaults({
+					dateFormat: 'yy-mm-dd'   
+				});
+				
+				// 두번째 칸 필드 추가
+				let count = 1;
+				$('#addAccountBtn').click(function() {
+					console.log('addAccountBtn 클릭!!');
+					let contents = '';
+					
+					contents += '<div id="account['+count+']">';
+					contents += '<div data-repeater-item class="d-flex mb-2">';
+					contents += '<div class="form-group mb-2 mr-sm-2 mb-sm-0" style="width:150px">';
+					contents += '<div style="text-align: center;">';
+					contents += '<label for="purchaseRequisitionItemCategory">품목</label>';
+					contents += '</div>';
+					/* contents += '<div id="account['+count+']">'; */
+					// 데이터 시작
+					contents += '<select class="form-control" id="purchaseRequisitionItemCategory" >';
+					contents += '<option></option>';
+					contents += '<option>사무용품</option>';
+					contents += '<option>비품</option>';
+					contents += '<option>도서</option>';
+					contents += '<option>자재</option>';
+					contents += '</select>';
+					// 데이터 끝
+					/* contents += '</div>'; */
+					contents += '</div>';
+					
+					contents += '<div class="form-group mb-2 mr-sm-2 mb-sm-0">';
+					contents += '<div style="text-align: center;">';
+					contents += '<label for="purchaseRequisitionItem">품명</label>';
+					contents += '</div>';
+					// 데이터 시작
+					contents += '<input type="text" class="form-control" name="purchaseRequisitionItem" id="purchaseRequisitionItem">';
+					// 데이터 끝
+					contents += '</div>';
+					
+					contents += '<div class="form-group mb-2 mr-sm-2 mb-sm-0">';
+					contents += '<div style="text-align: center;">';
+					contents += '<label for="purchaseRequisitionItemUnit">단위</label>';
+					contents += '</div>';
+					// 데이터 시작
+					contents += '<input type="text" class="form-control" name="purchaseRequisitionItemUnit" id="purchaseRequisitionItemUnit">';
+					// 데이터 끝
+					contents += '</div>';
+					
+					contents += '<div class="form-group mb-2 mr-sm-2 mb-sm-0">';
+					contents += '<div style="text-align: center;">';
+					contents += '<label for="purchaseRequisitionItemCount">수량</label>';
+					contents += '</div>';
+					// 데이터 시작
+					contents += '<input type="text" class="form-control" name="purchaseRequisitionItemCount" id="purchaseRequisitionItemCount">';
+					// 데이터 끝
+					contents += '</div>';
+					
+					contents += '<div class="form-group mb-2 mr-sm-2 mb-sm-0">';
+					contents += '<div style="text-align: center;">';
+					contents += '<label for="purchaseRequisitionItemPrice">단가</label>';
+					contents += '</div>';
+					// 데이터 시작
+					contents += '<input type="text" class="form-control" name="purchaseRequisitionItemPrice" id="purchaseRequisitionItemPrice">';
+					// 데이터 끝
+					contents += '</div>';
+					
+					contents += '<div class="form-group mb-2 mr-sm-2 mb-sm-0">';
+					contents += '<div style="text-align: center;">';
+					contents += '<label for="purchaseRequisitionTotalPrice">금액</label>';
+					contents += '</div>';
+					// 데이터 시작
+					contents += '<input type="text" class="form-control" name="purchaseRequisitionTotalPrice" id="purchaseRequisitionTotalPrice">';
+					// 데이터 끝
+					contents += '</div>';
+					
+					contents += '<div class="form-group mb-2 mr-sm-2 mb-sm-0">';
+					contents += '<div style="text-align: center;">';
+					contents += '<label for="purchaseRequisitionEtc">비고</label>';
+					contents += '</div>';
+					// 데이터 시작
+					contents += '<input type="text" class="form-control" name="purchaseRequisitionEtc" id="purchaseRequisitionEtc">';
+					// 데이터 끝
+					contents += '</div>';
+					contents += '</div>';
+					
+					$('#form').append(contents);
+					
+					count++;
+				});
 			});
 		</script>
 	</th:block>
@@ -112,7 +252,7 @@
 			        <div class="card-header"><h3>구매요청서</h3></div>
 		            <div class="card-body">
 			            <form class="forms-sample">
-				            <!-- 첫번째 테이블 시작 -->
+				            <!-- 첫번째 표 시작 -->
 				            <div class="form-control form-txt-inverse" style="padding:10px;">
 			                	<div class="row">
 		                            <div class="col-md-4">
@@ -144,7 +284,7 @@
 		                            <div class="col-md-4">
 		                                <div class="form-group">
 		                                    <label for="purchaseRequisitionPayDay">지급요청일</label>
-		                                    <input type="datetime-local" class="form-control" id="purchaseRequisitionPayDay">
+		                                    <input type="text" class="form-control" id="purchaseRequisitionPayDay">
 		                                </div>
 		                            </div>
 		                            <div class="col-md-4">
@@ -156,71 +296,130 @@
 	                            </div>
 	                        </div>
 	                        <br>
-			                <!-- 첫번째 테이블 끝 -->
+			                <!-- 첫번째 표 끝 -->
+	        				<button id="addAccountBtn" type="button"  class="btn btn-primary">추가</button>
 	        				
-							<!-- 두 번째 테이블 시작-->
+							<!-- 두 번째 표 시작-->
 							<div class="form-control form-txt-inverse" style="padding:10px;">							
 								<div data-repeater-list="group-a">
-								    <div data-repeater-item class="d-flex mb-2">
-								       <div class="form-group mb-2 mr-sm-2 mb-sm-0" style="width:150px">
-											<div style="text-align: center;">
-											     <label for="purchaseRequisitionItemCategory">품목</label>
+									<div id="form">
+										<div id="account[0]"> <!-- 한 줄 시작-->
+									    	<div data-repeater-item class="d-flex mb-2">
+												<div class="form-group mb-2 mr-sm-2 mb-sm-0" style="width:150px">
+													<div style="text-align: center;">
+														<label for="purchaseRequisitionItemCategory">품목</label>
+													</div>
+														<select class="form-control" id="purchaseRequisitionItemCategory" >
+															<option></option>
+															<option>사무용품</option>
+															<option>소모품</option>
+															<option>비품</option>
+															<option>도서</option>
+															<option>자재</option>
+														</select>
+										     	</div>
+												<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+													<div style="text-align: center;">
+														<label for="purchaseRequisitionItem">품명</label>
+													</div>
+													<input type="text" class="form-control" name="purchaseRequisitionItem" id="purchaseRequisitionItem">
+												</div>
+												<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+												    <div style="text-align: center;">
+												 		<label for="purchaseRequisitionItemUnit">단위</label>
+													</div>
+												    <input type="text" class="form-control" name="purchaseRequisitionItemUnit" id="purchaseRequisitionItemUnit">
+												</div>
+												<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+												    <div style="text-align: center;">
+												 		<label for="purchaseRequisitionItemCount">수량</label>
+													</div>
+												    <input type="text" class="form-control" name="purchaseRequisitionItemCount" id="purchaseRequisitionItemCount">
+												</div>
+												<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+												    <div style="text-align: center;">
+														<label for="purchaseRequisitionItemPrice">단가</label>
+													 </div>
+												    <input type="text" class="form-control" name="purchaseRequisitionItemPrice" id="purchaseRequisitionItemPrice">
+												</div>
+												<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+												    <div style="text-align: center;">
+														<label for="purchaseRequisitionTotalPrice">금액</label>
+													 </div>
+												    <input type="text" class="form-control" name="purchaseRequisitionTotalPrice" id="purchaseRequisitionTotalPrice">
+												</div>
+												<div class="form-group mb-2 mr-sm-2 mb-sm-0">
+												    <div style="text-align: center;">
+														<label for="purchaseRequisitionEtc">비고</label>
+													 </div>
+												    <input type="text" class="form-control" name="purchaseRequisitionEtc" id="purchaseRequisitionEtc">
+												</div>
 											</div>
-											<select class="form-control" id="purchaseRequisitionItemCategory" >
-												<option></option>
-												<option>사무용품</option>
-												<option>소모품</option>
-												<option>비품</option>
-												<option>도서</option>
-												<option>자재</option>
-											</select>
-								       	</div>
-										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
-											<div style="text-align: center;">
-												<label for="purchaseRequisitionItem">품명</label>
-											</div>
-											<input type="text" class="form-control">
-										</div>
-										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
-										    <div style="text-align: center;">
-										 		<label for="purchaseRequisitionItemUnit">단위</label>
-											</div>
-										    <input type="text" class="form-control">
-										</div>
-										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
-										    <div style="text-align: center;">
-										 		<label for="purchaseRequisitionItemCount">수량</label>
-											</div>
-										    <input type="text" class="form-control">
-										</div>
-										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
-										    <div style="text-align: center;">
-												<label for="purchaseRequisitionItemPrice">단가</label>
-											 </div>
-										    <input type="text" class="form-control">
-										</div>
-										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
-										    <div style="text-align: center;">
-												<label for="purchaseRequisitionTotalPrice">금액</label>
-											 </div>
-										    <input type="text" class="form-control">
-										</div>
-										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
-										    <div style="text-align: center;">
-												<label for="purchaseRequisitionEtc">비고</label>
-											 </div>
-										    <input type="text" class="form-control">
-										</div>
-<!-- 										<div class="form-group mb-2 mr-sm-2 mb-sm-0">
-										    <div style="text-align: center;">
-												<label for="deletePurchaseRequisition">삭제</label>
-											</div>
-											<input type="text" class="form-control">
-										</div> -->
-							         </div>
+										</div> <!-- 한 줄 끝 -->
+									</div>
 							     </div>
 							</div>
-					    	<!-- 두번째 테이블 끝 -->
+					    	<!-- 두번째 표 끝 -->
+					    	
+					    	<!-- test2 시작 -->
+<!-- 					    	<div class="card table-card">
+								<div class="card-header">
+									<div class="card-header-right">
+										<button type="button"  class="btn btn-primary">추가</button>
+									</div>
+								</div>
+								<div class="card-block p-b-0">
+									<div class="table-responsive">
+									    <table class="table table-hover table-borderless mb-0">
+									        <thead>
+									            <tr>
+												   <th class="nosort" width="10">
+												        <label class="custom-control custom-checkbox m-0">
+												            <input type="checkbox" class="custom-control-input" id="selectall" name="" value="option2">
+												            <span class="custom-control-label">&nbsp;</span>
+												        </label>
+												    </th>
+												    <th class="nosort">품목</th>
+												    <th>품명</th>
+												    <th>단위</th>
+												    <th>수량</th>
+												    <th>단가</th>
+												    <th>금액</th>
+												    <th>비고</th>
+									            </tr>
+									        </thead>
+									        <tbody>
+									            <tr>
+									                <td>
+												        <label class="custom-control custom-checkbox">
+												            <input type="checkbox" class="custom-control-input select_all_child" id="" name="" value="option2">
+												            <span class="custom-control-label">&nbsp;</span>
+												        </label>
+												    </td>
+												    <td>
+													    <select class="form-control" id="purchaseRequisitionItemCategory" >
+															<option></option>
+															<option>사무용품</option>
+															<option>소모품</option>
+															<option>비품</option>
+															<option>도서</option>
+															<option>자재</option>
+														</select>
+													</td>
+												    <td><input type="text" class="form-control"></td>
+												    <td><input type="text" class="form-control"></td>
+												    <td><input type="text" class="form-control"></td>
+												    <td><input type="text" class="form-control"></td>
+												    <td><input type="text" class="form-control"></td>
+												    <td><input type="text" class="form-control"></td>
+									            </tr>
+									        </tbody>
+									    </table>
+									</div>
+								</div>
+                            </div> -->
+					    	<!-- test2 끝 -->
+					    	
 				    	</form>
 				    </div>
 				</div>
@@ -259,13 +458,14 @@
 									<div class="table-responsive">
 										<table style="width:100%">
 											<tbody id="approvalOpinionList">
+												
 									        </tbody>
 										</table>
 									</div>
 								</div>
 						  		<div class="right-icon-control m-t-15">
                                     <div class="input-group input-group-button">
-                                        <input type="text" class="form-control" placeholder="의견을 등록해주세요.">
+                                        <input type="text" class="form-control" placeholder="의견을 등록해주세요." id="ttt">
                                         <div class="input-group-append">
                                             <button id="insertOpinion" class="btn btn-primary" type="button"><i class="ik ik-plus"></i></button>
                                         </div>
@@ -287,7 +487,7 @@
 						</div>
 		            </div>
 		            <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">기안하기</button>
+                        <button type="button" class="btn btn-primary" id="addDraftDocument">기안하기</button>
                         <button type="button" class="btn btn-secondary">임시저장</button>
                     </div>
 				</div>

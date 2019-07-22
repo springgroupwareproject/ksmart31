@@ -1,0 +1,48 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="ksmart31.team01.admin.mapper.PersonnelSettingMapper">
+
+	<insert id="insertAdminSetting" parameterType="ksmart31.team01.member.domain.MemberPosition" >
+		INSERT INTO member_position (
+			member_position_code,
+			member_position_name,
+			member_position_rank,
+			personnel_standard_final_modifier_id,
+			personnel_standard_final_modifier_name,
+			personnel_standard_final_modify_date
+		)
+			SELECT CONCAT('MBPST','_', (SELECT MAX(SUBSTRING_INDEX(member_position_code,'_',-1)+1) FROM member_position)),
+			#{memberPositionName},
+			#{memberPositionRank},
+			#{personnelStandardFinalModifierId},
+			#{personnelStandardFinalModifierName},
+			NOW()
+	</insert>		
+	
+	
+	<resultMap type="ksmart31.team01.member.domain.MemberPosition" id="adminSetting">
+				<!-- db컬럼 -->		<!-- domain 데이터변수명 -->
+		<result column="member_position_code" property="memberPositionCode"/>	<!-- 코드 -->
+		<result column="member_position_name" property="memberPositionName"/>	<!-- 직위/직책 -->
+		<result column="member_position_rank" property="memberPositionRank"/>	<!-- 접근권한랭크 -->
+		<result column="personnel_standard_final_modifier_id" property="personnelStandardFinalModifierId"/>	<!-- 권한생성자 아이디-->
+		<result column="personnel_standard_final_modifier_name" property="personnelStandardFinalModifierName"/>	<!-- 권한생성자 계급 -->
+		<result column="personnel_standard_final_modify_date" property="personnelStandardFinalModifyDate"/>	<!-- 권한생성 날짜 -->
+	</resultMap>
+	
+	<select id="adminSetting" resultMap="adminSetting" >
+		SELECT
+			member_position_code,
+			member_position_name,
+			member_position_rank,
+			personnel_standard_final_modifier_id,
+			personnel_standard_final_modifier_name,
+			personnel_standard_final_modify_date
+		FROM 
+			member_position
+		ORDER BY
+			member_position_rank
+	</select>	
+	
+</mapper> 
+	

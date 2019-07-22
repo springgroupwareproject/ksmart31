@@ -40,9 +40,11 @@
 	<select id="selectDocumentFormTitleByApprovalDocumentCode"
 		parameterType="String" resultType="String">
 		SELECT
-		document_form_title
-		FROM approval_document
-		WHERE approval_document_code = #{approvalDocumentCode}
+		df.document_form_name AS documentFormName
+		FROM draft_document AS dd
+		JOIN document_form AS df
+		ON dd.document_form_category_code = df.document_form_category_code
+		WHERE dd.draft_document_code= #{draftDocumentCode}
 	</select>
 	
 	<!-- 구매요청서 입력데이터 select 쿼리문 -->
@@ -50,8 +52,9 @@
 		parameterType="String"
 		resultType="ksmart31.team02lsj.document.domain.PurchaseRequisition">
 		SELECT 
-		pr.member_name AS memberName,
-		pr.member_position_name AS memberPositionName,
+		dd.draft_document_member_name AS memberName,
+		dd.draft_document_member_position_name AS memberPositionName, 
+		dd.draft_document_member_department_name AS departmentName
 		pr.purchase_requisition_date AS purchaseRequisitionDate, 
 		pr.purchase_requisition_pay_day AS purchaseRequisitionPayDay,
 		pr.purchase_requisition_total_price AS purchaseRequisitionTotalPrice,
@@ -62,8 +65,9 @@
 		pr.purchase_requisition_item_price AS purchaseRequisitionItemPrice,
 		pr.purchase_requisition_etc AS purchaseRequisitionEtc
 		FROM purchase_requisition AS pr
-		JOIN  approval_document AS ad
-		ON pr.draft_document_code = ad.draft_document_code;
+		JOIN  draft_document AS dd
+		ON pr.draft_document_code = dd.draft_document_code;
+		WHERE dd.draft_document_code = #{draftDocumentCode}
 	</select>
 	
 	<!-- 지출결의서 입력데이터 select 쿼리 -->
@@ -71,37 +75,37 @@
 		parameterType="String"
 		resultType="ksmart31.team02lsj.document.domain.DisbursementDocument">
 		SELECT
-		dd.disbursement_document_name AS disbursementDocumentName,
-		dd.department_name AS departmentName,
-		dd.member_name AS memberName,
-		dd.member_employee_code AS memberEmployeeCode,
-		dd.disbursement_document_account AS disbursementDocumentAccount,
-		dd.disbursement_document_terms_of_payment AS disbursementDocumentTermsOfPayment,
-		dd.disbursement_document_date AS disbursementDocumentDate,
-		dd.disbursement_document_request_date AS disbursementDocumentRequestDate,
-		dd.disbursement_document_account AS disbursementDocumentAccount,
-		dd.disbursement_document_expense_date AS disbursementDocumentExpenseDate,
-		dd.disbursement_document_subject AS disbursementDocumentSubject
-		dd.disbursement_document_contents AS disbursementDocumentContents,
-		dd.disbursement_document_customer AS disbursementDocumentCustomer,
-		dd.disbursement_document_price AS disbursementDocumentPrice,
-		dd.disbursement_document_methods_of_payment AS disbursementDocumentMethodsOfPayment,
-		dd.disbursement_document_etc AS disbursementDocumentEtc,
-		dd.disbursement_document_evidence AS disbursementDocumentEvidence
-		FROM disbursement_document AS dd
-		JOIN  approval_document AS ad
-		ON dd.draft_document_code = ad.draft_document_code
-		WHERE ad.approval_document_code = #{approvalDocumentCode}
+		dd.draft_document_member_name AS memberName,
+		dd.draft_document_member_position_name AS memberPositionName, <!-- 직위 -->
+		dd.draft_document_member_department_name AS departmentName,
+		dd.draft_document_member_employee_code AS memberEmployeeCode,
+		dbd.disbursement_document_account AS disbursementDocumentAccount,
+		dbd.disbursement_document_terms_of_payment AS disbursementDocumentTermsOfPayment,
+		dbd.disbursement_document_date AS disbursementDocumentDate,
+		dbd.disbursement_document_request_date AS disbursementDocumentRequestDate,
+		dbd.disbursement_document_account AS disbursementDocumentAccount,
+		dbd.disbursement_document_expense_date AS disbursementDocumentExpenseDate,
+		dbd.disbursement_document_subject AS disbursementDocumentSubject
+		dbd.disbursement_document_contents AS disbursementDocumentContents,
+		dbd.disbursement_document_customer AS disbursementDocumentCustomer,
+		dbd.disbursement_document_price AS disbursementDocumentPrice,
+		dbd.disbursement_document_methods_of_payment AS disbursementDocumentMethodsOfPayment,
+		dbd.disbursement_document_etc AS disbursementDocumentEtc,
+		dbd.disbursement_document_evidence AS disbursementDocumentEvidence
+		FROM disbursement_document AS dbd
+		JOIN  draft_document AS dd
+		ON dbd.draft_document_code = dd.draft_document_code
+		WHERE dd.draft_document_code = #{draftDocumentCode}
 	</select>
 	
 	<!-- 휴가보고서 입력데이터 select 쿼리 -->
 	<select id="selectLeaveApplicationDetail" parameterType="String"
 		resultType="ksmart31.team02lsj.document.domain.LeaveApplication">
 		SELECT
-		ad.department_name AS departmentName,
-		ad.member_position_name AS memberPositionName,
-		ad.member_name AS memberName,
-		la.leave_application_date AS leaveApplicationDate,
+		dd.draft_document_member_department_name AS departmentName,
+		dd.draft_document_member_position_name AS memberPositionName,
+		dd.draft_document_member_name AS memberName,
+		dd.draft_document_date AS draftDocumentDate,
 		la.leave_category_sort AS leaveCategorySort,
 		la.leave_application_start_day AS leaveApplicationStartDay,
 		la.leave_application_end_day AS leaveApplicationEndDay,
@@ -110,9 +114,9 @@
 		la.leave_application_reason AS leaveApplicationReason,
 		la.leave_detail_sort AS leaveDetailSort
 		FROM leave_application AS la 
-		JOIN approval_document AS ad
-		ON la.draft_document_code = ad.draft_document_code
-		WHERE approval_document_code = #{approvalDocumentCode}
+		JOIN draft_document AS dd
+		ON la.draft_document_code = dd.draft_document_code
+		WHERE dd.draft_document_code = #{draftDocumentCode}
 	</select>
 	
 	<!-- 프로젝트 업무보고 입력데이터 selelct 쿼리 -->
@@ -127,44 +131,53 @@
 	</select>
 	
 	<!-- 문서 상세별 의견 데이터 select 쿼리 -->
-	<select id="selectApprovalDocumentOpinion"
+	<select id="selectDocumentOpinion"
 		parameterType="String"
 		resultType="ksmart31.team02lsj.document.domain.DocumentOpinion">
 		SELECT
-		do.approval_opinion_desc AS approvalOpinionDesc,
-		do.approval_registrant_name AS approvalOpinionDesc,
-		do.document_opinion_date AS approvalOpinionDesc
-		FROM document_opinion AS do
-		JOIN approval_document AS ad
-		ON do.draft_document_code = ad.draft_document_code
-		WHERE approval_document_code = #{approvalDocumentCode}
+		ddo.approval_opinion_code AS approvalOpinionCode,
+		ddo.approval_opinion_desc AS approvalOpinionDesc,
+		ddo.member_name AS memberName,
+		ddo.approval_opinion_date AS documentOpinionDate
+		FROM draft_document_opinion AS ddo
+		JOIN draft_document AS dd
+		ON ddo.draft_document_code = dd.draft_document_code
+		WHERE dd.draft_document_code = #{draftDocumentCode}
+		ORDER BY ddo.approval_opinion_date DESC
 	</select>
 	
 	<!-- 문서 상세별 첨부파일 select 쿼리 -->
-	<select id="selelctApprovalDocumentAttachedFile"
+	<select id="selectDocumentAttachedFile"
 		parameterType="String"
 		resultType="ksmart31.team02lsj.document.domain.DocumentAttachedFile">
 		SELECT
-		do.approval_opinion_desc AS approvalOpinionDesc,
-		do.approval_registrant_name AS approvalOpinionDesc,
-		do.document_opinion_date AS approvalOpinionDesc
-		FROM document_opinion AS do
-		JOIN approval_document AS ad
-		ON do.draft_document_code = ad.draft_document_code
-		WHERE approval_document_code = #{approvalDocumentCode}		
+		daf.document_attached_file_code AS documentAttachedFileCode,
+		daf.document_attached_file_origin_name AS documentAttachedFileOriginName,
+		daf.document_attached_file_date AS approvalFileDate
+		FROM document_attached_file AS daf
+		JOIN draft_document AS dd
+		ON daf.draft_document_code = dd.draft_document_code
+		WHERE dd.draft_document_code = #{draftDocumentCode}
+		ORDER BY daf.document_attached_file_date DESC	
 	</select>
 	
 	<!-- 문서상세별 결재순서(프로세스) select 쿼리 -->
-	<select id="selelctApprovalDocumentApprovalProcess"
+	<select id="selectDocumentApprovalProcess"
 		parameterType="String"
 		resultType="ksmart31.team02lsj.document.domain.ApprovalMember">
 		SELECT
-		do.approval_opinion_desc AS approvalOpinionDesc,
-		do.approval_registrant_name AS approvalOpinionDesc,
-		do.document_opinion_date AS approvalOpinionDesc
-		FROM document_opinion AS do
-		JOIN approval_document AS ad
-		ON do.draft_document_code = ad.draft_document_code
-		WHERE approval_document_code = #{approvalDocumentCode}		
+		am.approval_member_code AS approvalMemberCode,
+		am.approval_member_name AS approvalMemberName,
+		am.approval_turn_number AS approvalTurnNumber,
+		am.approval_date AS approvalDate,
+		am.approval_member_status AS approvalMemberStatus,
+		am.approval_final_approver_case AS approvalFinalApproverCase,
+		am.approval_modify_right AS approvalModifyRight,
+		am.approval_final_approval_right AS approvalFinalApprovalRight
+		FROM approval_member AS am
+		JOIN draft_document AS dd
+		ON am.draft_document_code = dd.draft_document_code
+		WHERE dd.draft_document_code = #{draftDocumentCode}		
+		ORDER BY am.approval_turn_number ASC
 	</select>
 </mapper>

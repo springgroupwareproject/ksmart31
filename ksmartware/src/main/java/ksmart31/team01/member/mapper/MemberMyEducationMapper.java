@@ -13,5 +13,7 @@ public interface MemberMyEducationMapper {
 	public int addmyEducation(Map<String, Object> map);	// 모달창으로 비동기 입력
 	
 	public List<MemberEducation> myEducation(String memberId); // 출력
+
+	public int deleteMyEducation(String codeNo); // 삭제
 	
 }

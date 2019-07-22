@@ -1,5 +1,7 @@
 package ksmart31.team01.common.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import ksmart31.team01.common.service.MemberLoginService;
+import ksmart31.team01.member.domain.AdminLevel;
 import ksmart31.team01.member.domain.Member;
 
 @Controller
@@ -27,12 +30,19 @@ public class MemberLoginController {
 		System.out.println("MemberController.getMember POST 메소드 호출");
 		System.out.println("MemberController.getMember POST memberId :"+member);
 		
-		Member loginMember = memberLoginService.getMemberForLogin(member);
-		System.out.println("MemberController.getMember POST loginMember :"+loginMember);
-		if(loginMember == null){
+		Map<String, Object> map = memberLoginService.getMemberForLogin(member);
+		System.out.println("MemberController.getMember POST loginMember :"+ map);
+		Member resultmember = (Member) map.get("resultmember");
+		AdminLevel adminSecurity = (AdminLevel) map.get("adminLevel");
+		System.out.println("resultmember : " + resultmember);
+		System.out.println("adminSecurity : " + adminSecurity);
+		
+		if(resultmember == null){
 			return "member/login";
 		} else {
-			session.setAttribute("loginMember", loginMember);
+			session.setAttribute("loginMember", resultmember);
+			session.setAttribute("adminSecurity", adminSecurity);
+			
 			System.out.println("MemberController.getMember POST session :"+session);
 			return "redirect:"+"/";
 		}

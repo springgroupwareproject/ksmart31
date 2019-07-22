@@ -4,10 +4,17 @@ public class DocumentAttachedFile {
 
 	private String documentAttachedFileCode;
 	private String documentAttachedFileOriginName;
-	private String approvalFileSaveName;
-	private String memberId;
 	private String documentAttachedFileMemberId;
+	private String approvalFileSaveName;
 	private String approvalFileDate;
+	@Override
+	public String toString() {
+		return "DocumentAttachedFile [documentAttachedFileCode=" + documentAttachedFileCode
+				+ ", documentAttachedFileOriginName=" + documentAttachedFileOriginName
+				+ ", documentAttachedFileMemberId=" + documentAttachedFileMemberId + ", approvalFileSaveName="
+				+ approvalFileSaveName + ", approvalFileDate=" + approvalFileDate + ", getClass()=" + getClass()
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+	}
 	public String getDocumentAttachedFileCode() {
 		return documentAttachedFileCode;
 	}
@@ -20,23 +27,17 @@ public class DocumentAttachedFile {
 	public void setDocumentAttachedFileOriginName(String documentAttachedFileOriginName) {
 		this.documentAttachedFileOriginName = documentAttachedFileOriginName;
 	}
-	public String getApprovalFileSaveName() {
-		return approvalFileSaveName;
-	}
-	public void setApprovalFileSaveName(String approvalFileSaveName) {
-		this.approvalFileSaveName = approvalFileSaveName;
-	}
-	public String getMemberId() {
-		return memberId;
-	}
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
-	}
 	public String getDocumentAttachedFileMemberId() {
 		return documentAttachedFileMemberId;
 	}
 	public void setDocumentAttachedFileMemberId(String documentAttachedFileMemberId) {
 		this.documentAttachedFileMemberId = documentAttachedFileMemberId;
+	}
+	public String getApprovalFileSaveName() {
+		return approvalFileSaveName;
+	}
+	public void setApprovalFileSaveName(String approvalFileSaveName) {
+		this.approvalFileSaveName = approvalFileSaveName;
 	}
 	public String getApprovalFileDate() {
 		return approvalFileDate;
@@ -44,14 +45,6 @@ public class DocumentAttachedFile {
 	public void setApprovalFileDate(String approvalFileDate) {
 		this.approvalFileDate = approvalFileDate;
 	}
-	@Override
-	public String toString() {
-		return "DocumentAttachedFile [documentAttachedFileCode=" + documentAttachedFileCode
-				+ ", documentAttachedFileOriginName=" + documentAttachedFileOriginName + ", approvalFileSaveName="
-				+ approvalFileSaveName + ", memberId=" + memberId + ", documentAttachedFileMemberId="
-				+ documentAttachedFileMemberId + ", approvalFileDate=" + approvalFileDate + "]";
-	}
 	
-
 	
 }

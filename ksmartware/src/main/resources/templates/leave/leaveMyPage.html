@@ -61,8 +61,21 @@
 	</th:block>
 	
 	<th:block layout:fragment="customBody">
-		<h2>나의 정보 - 나의 휴가 정보</h2>	<br/>
-			<!-- 휴가 정보 첫 번째 카드 영역 - 조직원 이름, 검색 조건 -->
+		<div class="page-header">
+			<div class="page-header row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="ik ik-layers bg-blue"></i>
+						<div class="d-inline">
+							<!-- 증명서 발급 - 증명서 신청 -->
+							<h5>나의 정보 - 나의 휴가 정보</h5>
+							<span>나의 휴가 정보를 확인합니다.</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 휴가 정보 첫 번째 카드 영역 - 조직원 이름, 검색 조건 -->
 		<div class="card">
 			<div class="card-header" th:text="${loginMember.memberName}"></div>
 		</div>

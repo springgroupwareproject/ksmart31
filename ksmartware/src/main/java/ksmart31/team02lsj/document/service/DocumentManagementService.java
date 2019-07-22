@@ -45,36 +45,44 @@ public class DocumentManagementService {
 			//문서입력 데이터
 			Map<String, Object> approvalDocumentDetailMap = new HashMap<String, Object>();
 			
-			String documentFormTitle = documentManagementMapper.selectDocumentFormTitleByApprovalDocumentCode(approvalDocumentCode);
-			if(documentFormTitle.contains("구매요청서")) {
+			String documentForm = documentManagementMapper.selectDocumentFormTitleByApprovalDocumentCode(approvalDocumentCode);
+			System.out.println("documentForm : " + documentForm);
+			if(documentForm.contains("구매요청서")) {
 				List<PurchaseRequisition> purchaseRequisitionList = documentManagementMapper.selectPurchaseRequisitionDetail(approvalDocumentCode);
+				System.out.println("purchaseRequisitionList : "+purchaseRequisitionList);
 				approvalDocumentDetailMap.put("purchaseRequisitionList", purchaseRequisitionList);
-			}else if(documentFormTitle.contains("지출결의서")) {
+			}else if(documentForm.contains("지출결의서")) {
 				List<DisbursementDocument> disbursementDocumentList = documentManagementMapper.selectDisbursementDocumentDetail(approvalDocumentCode);
+				System.out.println("disbursementDocumentList : "+disbursementDocumentList);
 				approvalDocumentDetailMap.put("disbursementDocumentList", disbursementDocumentList);
-			}else if(documentFormTitle.contains("휴가신청서")) {
+			}else if(documentForm.contains("휴가신청서")) {
 				List<LeaveApplication> leaveApplicationList= documentManagementMapper.selectLeaveApplicationDetail(approvalDocumentCode);
+				System.out.println("leaveApplicationList : " + leaveApplicationList);
 				approvalDocumentDetailMap.put("leaveApplicationList", leaveApplicationList);
-			}else if(documentFormTitle.contains("프로젝트 업무보고")) {	
+			}else if(documentForm.contains("프로젝트 업무보고")) {	
 				List<ProjectReport> projectReportList = documentManagementMapper.selectProjectReportDetail(approvalDocumentCode);
+				System.out.println("projectReportList : "+projectReportList);
 				approvalDocumentDetailMap.put("projectReportList", projectReportList);
-			}else if(documentFormTitle.contains("프로젝트 지출결의서")) {
+			}else if(documentForm.contains("프로젝트 지출결의서")) {
 				List<ProjectDisbursement> projectDisbursementList = documentManagementMapper.selectProjectDisbursementDetail(approvalDocumentCode);
+				System.out.println("projectDisbursementList : " +projectDisbursementList);
 				approvalDocumentDetailMap.put("projectDisbursementList", projectDisbursementList);
 			}
 			//문서별 프로세스 정보	
-			List<ApprovalMember> approvalMemberList = documentManagementMapper.selectApprovalDocumentApprovalProcess(approvalDocumentCode);
+			List<ApprovalMember> approvalMemberList = documentManagementMapper.selectDocumentApprovalProcess(approvalDocumentCode);
+			System.out.println("approvalMemberList : "+approvalMemberList);
 			
 			//문서별 첨부파일 정보
-			List<DocumentAttachedFile> documentAttachedFile = documentManagementMapper.selectApprovalDocumentAttachedFile(approvalDocumentCode);
-						
+			List<DocumentAttachedFile> documentAttachedFile = documentManagementMapper.selectDocumentAttachedFile(approvalDocumentCode);
+			System.out.println("documentAttachedFile : "+documentAttachedFile);
 			//문서별 의견 정보
-			List<DocumentOpinion> documentOpinion = documentManagementMapper.selectApprovalDocumentOpinion(approvalDocumentCode);
+			List<DocumentOpinion> documentOpinion = documentManagementMapper.selectDocumentOpinion(approvalDocumentCode);
+			System.out.println("documentOpinion : "+documentOpinion);
 			
 			approvalDocumentDetailMap.put("approvalMemberList", approvalMemberList); //문서상세  결재 프로세스
 			approvalDocumentDetailMap.put("documentAttachedFile", documentAttachedFile); //문서상세 첨부파일
 			approvalDocumentDetailMap.put("documentOpinion", documentOpinion); // 문서상세 의견
-			approvalDocumentDetailMap.put("documentFormTitle", documentFormTitle); //문서양식
+			approvalDocumentDetailMap.put("documentFormTitle", documentForm); //문서양식
 			
 			return approvalDocumentDetailMap;
 		}

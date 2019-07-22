@@ -1,0 +1,63 @@
+<!-- 증명서 신청내역 -->
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main">
+	
+<th:block layout:fragment="customHead">
+	<meta charset="UTF-8">
+	<title>증명서 신청내역</title>
+	<th:block th:include="layout/customHead"></th:block>
+</th:block>
+
+<th:block layout:fragment="customBody">
+ 	<div class="page-header">
+		<div class="page-header row align-items-end">
+			<div class="col-lg-8">
+				<div class="page-header-title">
+					<i class="ik ik-layers bg-blue"></i>
+					<div class="d-inline">
+						<!-- 증명서 발급 - 신청 내역 -->
+						<h5>증명서 발급 - 신청 내역</h5>
+						<span>증명서 신청 내역을 조회합니다.</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">	
+		<div class="col-md-9">
+			<div class="card table-card">
+				<div class="card-block template-demo">
+					<div class="table-responsive">
+						<table class="table table-hover mb-0">
+							<thead>
+								<tr>
+									<th>제목</th>
+									<th>접수번호</th>
+									<th>승인자</th>
+									<th>처리현황</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="certHiList : ${certificationHistoryList}">
+									<td>
+										<button th:text="${certHiList.documentFormName}" type="button" class="documentFormName btn btn-secondary" data-toggle="modal" data-target="#applyCertModal"></button>
+									</td>
+									<td th:text="${certHiList.certificateApplicationCode}"></td>
+									<td th:text="${certHiList.certificateApplicationApprover}"></td>
+									<td th:text="${certHiList.certificationApplicationState}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</th:block>
+
+<th:block layout:fragment="customJquery">
+	<th:block th:include="layout/customJquery"></th:block>
+</th:block>
+	
+</html>
